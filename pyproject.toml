@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diffusion-state"
+version = "0.1.0"
+description = "Empirical pipeline for measuring China AI industrial diffusion."
+requires-python = ">=3.10"
+dependencies = [
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+  "pandas>=2.2",
+  "numpy>=1.26",
+  "pyyaml>=6.0",
+  "requests>=2.31",
+  "rapidfuzz>=3.6",
+  "openpyxl>=3.1",
+  "statsmodels>=0.14",
+  "linearmodels>=5.4",
+  "pyarrow>=15.0"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.8", "ipykernel>=6.29"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100

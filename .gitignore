@@ -1,0 +1,44 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.*
+
+# Planning spreadsheets and proprietary workbooks (not for public repo)
+diffusion_state_data_spine.xlsx
+*.xlsx
+*.xls
+
+# Editor and tool-local state
+.cursor/
+.vscode/settings.json
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Generated pipeline outputs (rebuild with make seed / make build)
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+outputs/*
+!outputs/.gitkeep
+!outputs/tables/
+outputs/tables/*
+!outputs/tables/.gitkeep
+!outputs/figures/
+outputs/figures/*
+!outputs/figures/.gitkeep

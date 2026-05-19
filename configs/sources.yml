@@ -1,0 +1,83 @@
+# Diffusion State research source registry
+# Each entry: name, source_type, url, accessed_at, expected_format, license_or_terms, local_path, notes
+
+sources:
+  ai_pilot_zones_cset:
+    name: "CSET — China AI Innovation and Development Pilot Zones"
+    source_type: academic
+    url: "https://cset.georgetown.edu/publication/china-creates-national-new-generation-artificial-intelligence-innovation-and-development-pilot-zones/"
+    accessed_at: "2026-05-19"
+    expected_format: html
+    license_or_terms: "Public web page; cite CSET and underlying MOST sources"
+    local_path: "data/seed/pilot_zones_seed.csv"
+    notes: "First 11 zones with creation/announcement dates. Feeds treatment seed."
+
+  ai_pilot_zones_xinhua_17:
+    name: "Xinhua — 17 national AI pilot zones (Dec 2021)"
+    source_type: official
+    url: "https://www.news.cn/2021-12/06/c_1128137133.htm"
+    accessed_at: "2026-05-19"
+    expected_format: html
+    license_or_terms: "Public news report"
+    local_path: "data/seed/pilot_zones_seed.csv"
+    notes: "Validates full 17-zone list. Seed uses jjckb mirror for Guangzhou–Shenyang rows."
+
+  miit_smart_factory_2024_first_batch_notice:
+    name: "MIIT 2024 excellence smart-factory notice (NCSTI mirror)"
+    source_type: official
+    url: "https://www.ncsti.gov.cn/kjdt/tzgg/202501/t20250103_191636.html"
+    accessed_at: null
+    expected_format: html
+    license_or_terms: "Government publication"
+    local_path: "data/raw/smart_factories/2024_notice.html"
+    notes: "Official notice; target N=235 first batch. May require attachment parsing."
+
+  miit_smart_factory_2024_first_batch_mirror:
+    name: "Solarbe mirror — 2024 smart-factory list"
+    source_type: mirror
+    url: "https://cn.solarbe.com/news/20250103/92225.html"
+    accessed_at: null
+    expected_format: html
+    license_or_terms: "Third-party mirror; reconcile to official count"
+    local_path: "data/raw/smart_factories/2024_mirror.html"
+    notes: "Often more parseable than primary notice."
+
+  miit_smart_factory_2025_notice_mirror:
+    name: "Sina Finance — 2025 smart-factory notice"
+    source_type: mirror
+    url: "https://finance.sina.com.cn/jjxw/2025-09-05/doc-infpkxsn6100890.shtml"
+    accessed_at: null
+    expected_format: html
+    license_or_terms: "Third-party mirror"
+    local_path: "data/raw/smart_factories/2025_notice.html"
+    notes: "Target N=274; verify against MIIT attachment when available."
+
+  baci_cepii:
+    name: "CEPII BACI"
+    source_type: academic
+    url: "https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37"
+    accessed_at: null
+    expected_format: csv
+    license_or_terms: "CEPII terms; manual download"
+    local_path: "data/raw/baci/"
+    notes: "Use HS17 for 2017–2024. Place yearly BACI_HS17_Y*_V*.csv files in local_path."
+
+  eps_city_statistics:
+    name: "EPS China City Statistics"
+    source_type: commercial
+    url: "https://epschinastats.com/db_city.html"
+    accessed_at: null
+    expected_format: xlsx
+    license_or_terms: "Institutional subscription required"
+    local_path: "data/raw/city_controls/"
+    notes: "Preferred city-year controls; substitute NBS yearbooks if unavailable."
+
+  deepinnovation_ai:
+    name: "DeepInnovationAI patent dataset"
+    source_type: academic
+    url: "https://figshare.com/articles/dataset/_/28578947"
+    accessed_at: null
+    expected_format: zip
+    license_or_terms: "Figshare dataset terms"
+    local_path: "data/raw/deepinnovationai/"
+    notes: "Tier 2 validation only."
