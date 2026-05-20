@@ -1,0 +1,20 @@
+# Maps smart_factory_industry_label to paper sector groups for export descriptives.
+sector_groups:
+  autos_and_nev:
+    labels: [automotive]
+  batteries:
+    labels: [batteries]
+  semiconductors_and_electronics:
+    labels: [semiconductors, electronics, ai_servers]
+  industrial_machinery:
+    labels: [general_equipment, special_equipment, electrical_machinery, instruments]
+  steel_and_metals:
+    labels: [metals]
+  shipbuilding:
+    labels: [railway_shipbuilding_aerospace]
+  petrochemicals:
+    labels: [chemicals]
+  pharmaceuticals:
+    labels: [pharma]
+  ai_servers_and_computing_equipment:
+    labels: [ai_servers, electronics]

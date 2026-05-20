@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 
+from diffusion_state.panel_controls import TIMING_DIAGNOSTIC_NOTE
 from diffusion_state.utils import PROJECT_ROOT, write_csv
 
 OUTPUT_TABLES = PROJECT_ROOT / "outputs" / "tables"
@@ -110,8 +112,8 @@ def _event_time_bin(years_since: float) -> str | None:
     return None
 
 
-def run_event_study(panel_path: Path | None = None) -> tuple[pd.DataFrame, Path | None]:
-    """Event-study on pilot cities; pre-2024 outcomes are zero by construction."""
+def run_timing_diagnostic(panel_path: Path | None = None) -> tuple[pd.DataFrame, Path | None]:
+    """Timing diagnostic on pilot cities; pre-2024 outcomes are zero by construction."""
     panel_path = panel_path or PROJECT_ROOT / "data" / "processed" / "analysis_city_year_panel.csv"
     panel = pd.read_csv(panel_path)
     treated = panel[panel["pilot_zone"] == 1].copy()
@@ -120,13 +122,15 @@ def run_event_study(panel_path: Path | None = None) -> tuple[pd.DataFrame, Path 
 
     formula = "smart_factory_projects ~ C(event_bin) + C(city) + C(year)"
     coef_table = _fit_ols(formula, treated)
-    coef_table["model"] = "event_study_pilot_cities"
+    coef_table["model"] = "timing_diagnostic_pilot_cities"
     coef_table["reference_bin"] = "m1_omitted"
-    coef_table["note"] = "Outcomes before 2024 are zero-filled; interpret pre-trends accordingly."
+    coef_table["note"] = TIMING_DIAGNOSTIC_NOTE
 
     OUTPUT_TABLES.mkdir(parents=True, exist_ok=True)
-    table_path = OUTPUT_TABLES / "table_event_study_coefficients.csv"
+    table_path = OUTPUT_TABLES / "table_timing_diagnostic_coefficients.csv"
     write_csv(coef_table, table_path)
+    legacy_path = OUTPUT_TABLES / "table_event_study_coefficients.csv"
+    write_csv(coef_table, legacy_path)
 
     fig_path = None
     event_coefs = coef_table[
@@ -149,13 +153,16 @@ def run_event_study(panel_path: Path | None = None) -> tuple[pd.DataFrame, Path 
                 capsize=4,
             )
             ax.axhline(0, color="gray", linewidth=0.8)
-            ax.set_title("Smart-factory projects around AI pilot-zone designation")
+            ax.set_title("Timing diagnostic: smart-factory projects around pilot-zone year")
             ax.set_xlabel("Years since pilot year (ref: -1 omitted)")
             ax.set_ylabel("Coefficient (city and year FE)")
+            fig.text(0.01, -0.02, TIMING_DIAGNOSTIC_NOTE, fontsize=7, wrap=True)
             fig.tight_layout()
             OUTPUT_FIGURES.mkdir(parents=True, exist_ok=True)
-            fig_path = OUTPUT_FIGURES / "fig_event_study_pilot_zones.png"
+            fig_path = OUTPUT_FIGURES / "fig_timing_diagnostic_pilot_zones.png"
             fig.savefig(fig_path, dpi=150)
+            legacy_fig = OUTPUT_FIGURES / "fig_event_study_pilot_zones.png"
+            shutil.copy(fig_path, legacy_fig)
             plt.close(fig)
         except ImportError:
             fig_path = None
@@ -163,13 +170,44 @@ def run_event_study(panel_path: Path | None = None) -> tuple[pd.DataFrame, Path 
     return coef_table, fig_path
 
 
+def run_event_study(panel_path: Path | None = None) -> tuple[pd.DataFrame, Path | None]:
+    """Backward-compatible alias for timing diagnostic."""
+    return run_timing_diagnostic(panel_path)
+
+
 def run_baseline_models(panel_path: Path | None = None) -> None:
     run_adoption_models(panel_path)
-    coefs, fig = run_event_study(panel_path)
+    coefs, fig = run_timing_diagnostic(panel_path)
     print(f"Wrote {OUTPUT_TABLES / 'table_3_pilot_zone_adoption_models.csv'}")
-    print(f"Wrote {OUTPUT_TABLES / 'table_event_study_coefficients.csv'}")
+    print(f"Wrote {OUTPUT_TABLES / 'table_timing_diagnostic_coefficients.csv'}")
     if fig:
         print(f"Wrote {fig}")
+
+
+def run_sprint_analysis(panel_path: Path | None = None) -> None:
+    """Baseline plus credibility sprint tables (Steps 3-9)."""
+    from diffusion_state.build_export_revised import build_all_export_revised
+    from diffusion_state.build_unknown_city_queue import (
+        build_city_resolution_audit,
+        build_unknown_city_queue,
+    )
+    from diffusion_state.run_balance_matching import run_balance_and_matching
+    from diffusion_state.run_city_industry_models import run_city_industry_adoption_models
+    from diffusion_state.run_controlled_models import run_controlled_adoption_models
+    from diffusion_state.run_hub_robustness import run_hub_exclusion_robustness
+
+    run_baseline_models(panel_path)
+    run_controlled_adoption_models(panel_path)
+    run_hub_exclusion_robustness(panel_path)
+    run_balance_and_matching(panel_path)
+    build_unknown_city_queue()
+    build_city_resolution_audit()
+    if (PROJECT_ROOT / "data" / "processed" / "export_outcomes_sector_year.csv").exists():
+        try:
+            build_all_export_revised()
+        except Exception as exc:  # noqa: BLE001
+            print(f"Export revised tables skipped: {exc}")
+    run_city_industry_adoption_models()
 
 
 if __name__ == "__main__":

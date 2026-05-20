@@ -12,6 +12,9 @@ BACI_DIR = ROOT / "data" / "raw" / "baci"
 
 @pytest.fixture(scope="session")
 def baci_hs6():
+    processed = ROOT / "data" / "processed" / "export_outcomes_hs6_year.csv"
+    if processed.exists():
+        return pd.read_csv(processed)
     if not list(BACI_DIR.glob("BACI_HS17_Y*_V*.csv")):
         pytest.skip("BACI HS17 raw files not present; run scripts/03_build_baci_outcomes.py")
     from diffusion_state.build_baci_outcomes import build_china_export_outcomes

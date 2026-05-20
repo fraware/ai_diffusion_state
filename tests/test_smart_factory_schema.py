@@ -13,6 +13,7 @@ CLEAN_REQUIRED = {
     "batch",
     "firm_name_zh",
     "project_name_zh",
+    "location_raw",
     "province",
     "city",
     "city_confidence",

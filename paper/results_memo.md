@@ -1,6 +1,8 @@
-# Results memo (pipeline v1)
+# Results memo (pipeline v2 — credibility sprint)
 
 **Generated from:** `make analysis` on the current processed data. Numbers below are taken from `outputs/tables/*.csv` in this repository build. This memo is descriptive and associational, not causal.
+
+**Sprint focus:** Are pilot-zone patterns visible after accounting for city size, industrial base, and hub selection? **Controlled models (Table 5) and balance (Tables 7–8) are blocked until EPS/NBS files are placed in `data/raw/city_controls/`.** Hub-exclusion results (Table 6) are available now.
 
 ## 1. Measurement summary
 
@@ -57,9 +59,34 @@ From `table_3_pilot_zone_adoption_models.csv`, N = 82 city-years, 41 cities.
 
 Standard errors are clustered by city. Positive coefficients indicate higher **listed** smart-factory recognition in post-pilot years or pilot-zone cities; they do not identify the effect of designation.
 
-## 5. Event study (pilot cities only)
+## 5. Hub-exclusion robustness (Table 6, baseline specs)
 
-From `table_event_study_coefficients.csv` and `fig_event_study_pilot_zones.png`:
+Without city economic controls, `pilot_zone` coefficient on 2024–2025 listed project counts:
+
+| Exclusion rule | Cities | Projects | pilot_zone coef | p-value |
+|----------------|-------:|---------:|----------------:|--------:|
+| Full sample | 41 | 193 | 2.26 | 0.044 |
+| Drop Beijing, Shanghai, Shenzhen, Hangzhou | 37 | 139 | 1.31 | 0.174 |
+| Drop above + Guangzhou | 36 | 136 | 1.42 | 0.170 |
+| Drop direct-admin municipalities | 37 | 105 | **0.01** | **0.988** |
+| Drop top 5 smart-factory cities | 36 | 91 | 0.25 | 0.492 |
+| Drop top 10 GDP cities | — | — | skipped (no GDP controls) |
+
+**Interim conclusion:** The baseline association **weakens outside mega-hubs** and **disappears when direct-admin municipalities are excluded**. This is consistent with a **hub-selection pattern** until controlled models are estimated.
+
+Controlled hub exclusions will re-run automatically after `make city-controls`.
+
+## 6. Controlled adoption models (Table 5)
+
+**Status:** Skipped — `city_controls_year.csv` not built (no files in `data/raw/city_controls/`). See `data/raw/city_controls/README.md`.
+
+After ingestion, re-run `make city-controls && make panel && make analysis` and update this section with whether `pilot_zone` remains positive under Models 4–7.
+
+## 7. Timing diagnostic (pilot cities only)
+
+From `table_timing_diagnostic_coefficients.csv` and `fig_timing_diagnostic_pilot_zones.png`:
+
+**Label:** Timing diagnostic only — not pre-trend validation.
 
 - Reference bin: year −1 relative to `pilot_year` (omitted).
 - Pre-2024 bins (`m2`, `m3`, `m4`, `le_m4`) are dominated by zeros because the outcome did not exist in source lists.
@@ -67,14 +94,18 @@ From `table_event_study_coefficients.csv` and `fig_event_study_pilot_zones.png`:
 
 **Do not** interpret pre-2024 coefficients as parallel pre-trends in adoption.
 
-## 6. Export upgrading (descriptive)
+## 8. Export upgrading (descriptive)
 
 From `table_4_export_upgrading_models.csv` (requires `make baci`):
 
 - `mean_province_sf_share` on `export_value_growth`: coef = 0.11, p = 0.82, N = 9 sector-years.
 - Insufficient sector-year variation for strong inference; labeled non-causal in the table `note` column.
 
-## 7. What is not in this memo
+## 9. City-industry models (Table 13, exploratory)
+
+`industry_ai_exposure.csv` scores industries by smart-factory tags and high-exposure sector flags. Table 13 tests whether `pilot_zone` associations differ by AI exposure (city + industry + year FE). Treat as exploratory given small city-industry cell counts.
+
+## 10. What is not in this memo
 
 - City economic controls (GDP, manufacturing share, etc.) — pipeline ready, data not supplied.
 - Propensity-score matching or synthetic controls.

@@ -1,2 +1,0 @@
-project_id,list_year,batch,firm_name_zh,firm_name_en,project_name_zh,project_name_en,province,city,city_confidence,industry_code,industry_label,industry_confidence,ai_scenario_tags,technology_tags,source_url,source_file,row_number_original,parse_method,manual_override_flag,notes
-2024_2024_first_batch_0106,2024,2024_first_batch,福建省晋江市华宇织造有限公司,,经编织造精益管理智能工厂,,Fujian,Jinjiang,high,C34,general_equipment,low,,,https://cn.solarbe.com/news/20250103/92225.html,2024_mirror.html,106,html_p_tag_rtl_location,0,city from firm text: 福建省晋江市

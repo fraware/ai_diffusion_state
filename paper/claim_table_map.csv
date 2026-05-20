@@ -1,7 +1,12 @@
-﻿claim_id,claim_summary,artifact,script
-measurement_pilot_zones,National AI pilot zones are coded at city/county level with designation years 2019-2021.,data/processed/pilot_zones.csv,scripts/00_build_seed_tables.py
-measurement_smart_factories,MIIT excellence-level smart-factory projects are parsed from 2024 and 2025 public lists.,data/processed/smart_factories_clean.csv,scripts/02_parse_smart_factories.py
-descriptive_pilot_overlap,Pilot-zone cities have higher listed smart-factory counts than non-pilot cities (resolved cities only).,outputs/tables/table_pilot_zone_overlap.csv,scripts/05_run_baseline_models.py
-associational_adoption,Post-pilot indicator correlates with higher listed adoption in city-year FE models (not causal).,outputs/tables/table_3_pilot_zone_adoption_models.csv,src/diffusion_state/run_models.py
-event_study_limits,Event-study bins before 2024 are zero-filled; they do not validate parallel pre-trends.,outputs/tables/table_event_study_coefficients.csv,src/diffusion_state/run_models.py
-export_upgrading_descriptive,Sector-year export growth vs smart-factory exposure is descriptive only (optional BACI build).,outputs/tables/table_4_export_upgrading_models.csv,src/diffusion_state/build_export_upgrading_tables.py
+﻿claim_id,claim_tier,claim_summary,artifact,script
+measurement_pilot_zones,measured,National AI pilot zones are coded at city/county level with designation years 2019-2021.,data/processed/pilot_zones.csv,scripts/00_build_seed_tables.py
+measurement_smart_factories,measured,MIIT excellence-level smart-factory projects are parsed from 2024 and 2025 public lists.,data/processed/smart_factories_clean.csv,scripts/02_parse_smart_factories.py
+descriptive_pilot_overlap,validated_descriptive,Listed smart-factory recognition is concentrated in pilot-zone cities (resolved cities only).,outputs/tables/table_pilot_zone_overlap.csv,scripts/05_run_baseline_models.py
+associational_adoption,controlled_association,Positive pilot/post-pilot association in baseline models; controlled specs require city_controls_year.csv.,outputs/tables/table_3_pilot_zone_adoption_models.csv,src/diffusion_state/run_models.py
+controlled_adoption,controlled_association,Model 4-7 with city economic controls (blocked until EPS/NBS ingestion).,outputs/tables/table_5_controlled_adoption_models.csv,src/diffusion_state/run_controlled_models.py
+hub_robustness,robust_association,Pilot-zone coefficient under mega-city and top-city exclusions.,outputs/tables/table_6_hub_exclusion_robustness.csv,src/diffusion_state/run_hub_robustness.py
+timing_diagnostic,not_supported,"Pre-2024 bins are mechanical; figure is timing diagnostic only, not pre-trend validation.",outputs/tables/table_timing_diagnostic_coefficients.csv,src/diffusion_state/run_models.py
+balance_matching,robust_association,Pre-treatment balance and matched-sample adoption (requires city controls).,outputs/tables/table_7_pilot_city_balance.csv,src/diffusion_state/run_balance_matching.py
+city_industry_exposure,suggestive_mechanism,Pilot association heterogeneity by industry AI exposure (exploratory).,outputs/tables/table_13_city_industry_adoption_models.csv,src/diffusion_state/run_city_industry_models.py
+export_upgrading_descriptive,not_supported,Export linkage descriptive only; revised models in table_12.,outputs/tables/table_12_export_models_revised.csv,src/diffusion_state/build_export_revised.py
+causal_pilot_effect,not_supported,Do not claim pilot zones caused adoption until controls and balance justify it.,,

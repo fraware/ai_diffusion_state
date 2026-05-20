@@ -43,12 +43,16 @@ python -m venv .venv
 # macOS/Linux
 source .venv/bin/activate
 
-pip install -e .[dev]
+make setup
 make seed
 make test
 ```
 
-On Windows without GNU Make: `python scripts/00_build_seed_tables.py` then `pytest -q`.
+`make setup` installs the package and dependencies (including `beautifulsoup4` for HTML parsing). Run it once per environment before `make build` or `make test`.
+
+On Windows without GNU Make: `pip install -e .[dev]` then `python scripts/00_build_seed_tables.py` and `pytest -q`.
+
+Git Bash path note: use `cd ~/ai_diffusion_state` or `cd /c/Users/mateo/ai_diffusion_state`, not `cd c:\Users\...` (backslashes are stripped).
 
 ## Pipeline commands
 

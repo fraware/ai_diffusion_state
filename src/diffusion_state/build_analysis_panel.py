@@ -5,6 +5,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from diffusion_state.panel_controls import add_derived_controls
 from diffusion_state.utils import PROJECT_ROOT, write_csv
 
 LIST_YEARS = (2024, 2025)
@@ -16,9 +17,11 @@ CONTROL_COLUMNS = [
     "industrial_output",
     "secondary_value_added",
     "population",
+    "employment",
     "average_wage",
     "fdi",
     "fixed_asset_investment",
+    "education_proxy",
     "telecom_or_internet_proxy",
     "foreign_trade",
 ]
@@ -111,6 +114,7 @@ def build_analysis_city_year_panel(
             df[col] = np.nan
 
     df = df.drop(columns=["pilot_year_treatment"])
+    df = add_derived_controls(df)
     df = df.sort_values(["city", "year"]).reset_index(drop=True)
     write_csv(df, out_path)
     return df

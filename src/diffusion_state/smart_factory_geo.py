@@ -308,6 +308,50 @@ def _city_from_firm_prefix(firm_name_zh: str) -> GeoResult | None:
     return None
 
 
+def suggest_city_from_source_text(
+    location_raw: str,
+    firm_name_zh: str,
+    project_name_zh: str,
+) -> dict[str, str]:
+    """Non-mutating hint for manual review queue; does not assign city to clean rows."""
+    firm_name_zh = normalize_firm_name_zh(firm_name_zh)
+    cfg = _load_geo_config()
+    candidates: list[tuple[str, str, str, str]] = []
+
+    def _add(hit: GeoResult | None, evidence_type: str, source_label: str) -> None:
+        if hit and hit.city != "unknown":
+            candidates.append((hit.city, hit.province, hit.city_confidence, f"{evidence_type}: {source_label}"))
+
+    _add(_city_from_location_string(location_raw, cfg), "miit_location_field", location_raw or "")
+    _add(_city_from_firm_province_county(firm_name_zh), "firm_text", firm_name_zh)
+    _add(_city_from_firm_parenthetical(firm_name_zh), "firm_parenthetical", firm_name_zh)
+    _add(_city_from_firm_prefix(firm_name_zh), "firm_prefix", firm_name_zh)
+
+    for match in CITY_IN_TEXT_RE.findall(project_name_zh or ""):
+        if match in {"中国市", "本市"}:
+            continue
+        city = _prefecture_city_en(match)
+        if city:
+            prov = _province_for_prefecture_city(match) or "unknown"
+            candidates.append((city, prov, "high", f"project_name: {match}"))
+
+    if not candidates:
+        return {
+            "candidate_city": "",
+            "candidate_evidence_type": "",
+            "confidence": "",
+            "notes": "",
+        }
+
+    city, prov, conf, note = candidates[0]
+    return {
+        "candidate_city": city,
+        "candidate_evidence_type": note.split(":")[0],
+        "confidence": conf,
+        "notes": f"Parser hint only — verify before override. {note}",
+    }
+
+
 def resolve_geo(location_raw: str, firm_name_zh: str, project_name_zh: str) -> GeoResult:
     firm_name_zh = normalize_firm_name_zh(firm_name_zh)
     cfg = _load_geo_config()
