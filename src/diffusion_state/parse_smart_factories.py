@@ -6,89 +6,160 @@ from pathlib import Path
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from diffusion_state.utils import PROJECT_ROOT, normalize_cn_text, read_yaml, write_csv
+from diffusion_state.utils import PROJECT_ROOT, read_yaml, write_csv
 
-PROVINCE_PATTERN = re.compile(
-    r"(北京市|天津市|上海市|重庆市|河北省|山西省|辽宁省|吉林省|黑龙江省|江苏省|浙江省|安徽省|福建省|江西省|山东省|河南省|湖北省|湖南省|广东省|海南省|四川省|贵州省|云南省|陕西省|甘肃省|青海省|台湾省|内蒙古自治区|广西壮族自治区|西藏自治区|宁夏回族自治区|新疆维吾尔自治区|香港特别行政区|澳门特别行政区)"
+SOURCE_2024 = "https://cn.solarbe.com/news/20250103/92225.html"
+SOURCE_2025 = "https://jlts.com.cn/i/news/detail/2571072131159669662.html"
+EXPECTED_2024 = 235
+EXPECTED_2025 = 274
+
+RANK_LINE_RE = re.compile(r"^(\d{1,3})\s+(.+)$")
+LOCATION_SUFFIX_RE = re.compile(
+    r"([\u4e00-\u9fff]{2,}(?:省|市|自治区|特别行政区))\s*$"
+)
+FIRM_SUFFIX_RE = re.compile(
+    r"^(.+?(?:股份有限公司|集团有限公司|有限公司|集团公司|公司|研究院|研究所|"
+    r"石化分公司|卷烟厂|装置部|工厂|矿务局|电厂|矿场))"
 )
 
 
-def extract_tables_from_html(path: Path) -> list[pd.DataFrame]:
+def _location_suffix_tokens() -> list[str]:
+    cfg = read_yaml(PROJECT_ROOT / "configs" / "province_normalization.yml")
+    tokens = list(cfg.get("municipalities", {}).keys()) + list(cfg.get("provinces", {}).keys())
+    return sorted(set(tokens), key=len, reverse=True)
+
+
+def parse_2024_list_line(text: str) -> dict | None:
+    """Parse one Solarbe <p> row: rank, firm, project, location.
+
+    Location is the trailing administrative unit. Firm is the prefix ending in 公司/集团/etc.
+    This avoids splitting project names that contain spaces (e.g. 'AI 大模型...').
+    """
+    text = text.strip().replace("\xa0", "")
+    m = RANK_LINE_RE.match(text)
+    if not m:
+        return None
+    rank = int(m.group(1))
+    rest = m.group(2).strip()
+
+    location = None
+    for token in _location_suffix_tokens():
+        if rest.endswith(token):
+            location = token
+            body = rest[: -len(token)].strip()
+            break
+    if location is None:
+        loc_m = LOCATION_SUFFIX_RE.search(rest)
+        if not loc_m:
+            return None
+        location = loc_m.group(1).strip()
+        body = rest[: loc_m.start()].strip()
+
+    firm_m = FIRM_SUFFIX_RE.match(body)
+    if firm_m:
+        firm = firm_m.group(1).strip()
+        project = body[firm_m.end() :].strip()
+    else:
+        parts = body.split(maxsplit=1)
+        if len(parts) < 2:
+            return None
+        firm, project = parts[0].strip(), parts[1].strip()
+
+    if not firm or not project or not location:
+        return None
+    return {
+        "rank": rank,
+        "firm_name_zh": firm,
+        "project_name_zh": project,
+        "location_raw": location,
+    }
+
+
+def parse_2024_mirror_html(path: Path) -> pd.DataFrame:
     html = path.read_text(encoding="utf-8", errors="ignore")
     soup = BeautifulSoup(html, "lxml")
-    tables = []
-    for table in soup.find_all("table"):
-        try:
-            dfs = pd.read_html(str(table))
-            tables.extend(dfs)
-        except ValueError:
-            pass
-    return tables
+    rows: list[dict] = []
+    for p in soup.find_all("p"):
+        text = p.get_text(" ", strip=True)
+        parsed = parse_2024_list_line(text)
+        if parsed:
+            rows.append(parsed)
+    if len(rows) != EXPECTED_2024:
+        raise ValueError(
+            f"2024 parser expected {EXPECTED_2024} rows from {path.name}, got {len(rows)}"
+        )
+    df = pd.DataFrame(rows)
+    df["list_year"] = 2024
+    df["batch"] = "2024_first_batch"
+    df["source_url"] = SOURCE_2024
+    df["source_file"] = path.name
+    df["parse_method"] = "html_p_tag_rtl_location"
+    return df.sort_values("rank").reset_index(drop=True)
 
 
-def parse_line_based_smart_factory_rows(text: str) -> pd.DataFrame:
-    """Fallback parser for pages where the list appears as plain text rather than an HTML table.
-
-    Expected row format is usually: serial number, firm name, project name, province/location.
-    This parser deliberately errs on the side of collecting candidate rows for manual review.
-    """
-    rows = []
-    for raw in text.splitlines():
-        line = normalize_cn_text(raw)
-        if not line:
+def parse_2025_jlts_html(path: Path) -> pd.DataFrame:
+    html = path.read_text(encoding="utf-8", errors="ignore")
+    header_idx = html.find(">序号</td>")
+    if header_idx < 0:
+        raise ValueError(f"No table header found in {path.name}")
+    table_start = html.rfind("<table", 0, header_idx)
+    table_end = html.find("</table>", table_start) + len("</table>")
+    frag = html[table_start:table_end]
+    soup = BeautifulSoup(frag, "lxml")
+    rows: list[dict] = []
+    for tr in soup.find_all("tr"):
+        tds = [td.get_text(strip=True).replace("\xa0", "") for td in tr.find_all("td")]
+        if len(tds) < 4:
             continue
-        if not any(x in line for x in ["智能工厂", "人工智能", "数字孪生", "5G", "智能制造"]):
+        if not re.fullmatch(r"\d{1,3}", tds[0]):
             continue
-        province_match = PROVINCE_PATTERN.search(line)
-        rows.append({
-            "raw_line": line,
-            "province_or_city_detected": province_match.group(1) if province_match else None,
-        })
-    return pd.DataFrame(rows)
+        rows.append(
+            {
+                "rank": int(tds[0]),
+                "firm_name_zh": tds[1],
+                "project_name_zh": tds[2],
+                "location_raw": tds[3],
+            }
+        )
+    if len(rows) != EXPECTED_2025:
+        raise ValueError(
+            f"2025 parser expected {EXPECTED_2025} rows from {path.name}, got {len(rows)}"
+        )
+    df = pd.DataFrame(rows)
+    df["list_year"] = 2025
+    df["batch"] = "2025_excellence_batch"
+    df["source_url"] = SOURCE_2025
+    df["source_file"] = path.name
+    df["parse_method"] = "embedded_html_table"
+    return df.sort_values("rank").reset_index(drop=True)
 
 
-def classify_smart_factory(df: pd.DataFrame) -> pd.DataFrame:
-    keyword_cfg = read_yaml(PROJECT_ROOT / "configs" / "keywords_zh.yml")
-    all_industrial = []
-    for group in keyword_cfg["industrial_ai_keywords"].values():
-        all_industrial.extend(group)
+def parse_smart_factory_lists(
+    raw_dir: Path | None = None,
+    interim_dir: Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    raw_dir = raw_dir or PROJECT_ROOT / "data" / "raw" / "smart_factories"
+    interim_dir = interim_dir or PROJECT_ROOT / "data" / "interim"
+    interim_dir.mkdir(parents=True, exist_ok=True)
 
-    text_cols = [c for c in df.columns if df[c].dtype == "object"]
-    joined = df[text_cols].fillna("").agg(" ".join, axis=1)
-    df = df.copy()
-    df["industrial_ai_keyword_hit"] = joined.apply(lambda x: ";".join([k for k in all_industrial if k in str(x)]))
-    df["has_industrial_ai_keyword"] = df["industrial_ai_keyword_hit"].str.len() > 0
-    return df
+    path_2024 = raw_dir / "2024_mirror.html"
+    path_2025 = raw_dir / "2025_jlts.html"
+    if not path_2024.exists():
+        raise FileNotFoundError(
+            f"Missing {path_2024}. Run: python scripts/01_fetch_source_pages.py"
+        )
+    if not path_2025.exists():
+        raise FileNotFoundError(
+            f"Missing {path_2025}. Run: python scripts/01_fetch_source_pages.py"
+        )
 
-
-def parse_smart_factories(raw_dir: Path | None = None, out_path: Path | None = None) -> pd.DataFrame:
-    raw_dir = raw_dir or PROJECT_ROOT / "data" / "raw" / "source_pages"
-    out_path = out_path or PROJECT_ROOT / "data" / "interim" / "smart_factories_candidates.csv"
-
-    candidate_frames: list[pd.DataFrame] = []
-    for path in raw_dir.glob("*smart_factory*.html"):
-        tables = extract_tables_from_html(path)
-        for i, table in enumerate(tables):
-            table = table.copy()
-            table["source_file"] = path.name
-            table["source_table_index"] = i
-            candidate_frames.append(table)
-        if not tables:
-            text = BeautifulSoup(path.read_text(encoding="utf-8", errors="ignore"), "lxml").get_text("\n")
-            cand = parse_line_based_smart_factory_rows(text)
-            if not cand.empty:
-                cand["source_file"] = path.name
-                candidate_frames.append(cand)
-
-    if not candidate_frames:
-        raise RuntimeError("No smart-factory candidate rows found. Check raw HTML or attachment parsing.")
-
-    df = pd.concat(candidate_frames, ignore_index=True, sort=False)
-    df = classify_smart_factory(df)
-    write_csv(df, out_path)
-    return df
+    df_2024 = parse_2024_mirror_html(path_2024)
+    df_2025 = parse_2025_jlts_html(path_2025)
+    write_csv(df_2024, interim_dir / "smart_factories_2024_raw.csv")
+    write_csv(df_2025, interim_dir / "smart_factories_2025_raw.csv")
+    return df_2024, df_2025
 
 
 if __name__ == "__main__":
-    out = parse_smart_factories()
-    print(out.shape)
+    y2024, y2025 = parse_smart_factory_lists()
+    print(f"2024: {len(y2024)} rows; 2025: {len(y2025)} rows")

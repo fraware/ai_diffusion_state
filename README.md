@@ -59,7 +59,7 @@ On Windows without GNU Make: `python scripts/00_build_seed_tables.py` then `pyte
 | `make fetch` | Snapshot public HTML sources (network) |
 | `make build` | All analysis-ready tables available without raw downloads |
 | `make parse` | Parse smart-factory HTML when `data/raw/` is populated |
-| `make baci` | Build export outcomes when BACI files are in `data/raw/baci/` |
+| `make baci` | Download CEPII BACI HS17 (if needed) and build export outcomes |
 | `make panel` | Merge city-year analysis panel |
 | `make analysis` | Baseline regressions and event study |
 | `make test` | Schema and validation tests |
@@ -67,7 +67,7 @@ On Windows without GNU Make: `python scripts/00_build_seed_tables.py` then `pyte
 Target end state:
 
 ```bash
-make fetch && make build && make test && make analysis
+    make fetch && make build && make test && make analysis && make paper
 ```
 
 ## Data governance
@@ -85,11 +85,11 @@ make fetch && make build && make test && make analysis
 |---|---|
 | 0 — Repo activation | CI, tests, gitignore, Makefile |
 | 1 — Pilot zones | 17-zone seed → `pilot_zones.csv` with canonical schema |
-| 2 — Smart factories | Parser scaffold; needs raw MIIT lists |
-| 3 — BACI exports | Module scaffold; needs HS17 download |
-| 4 — City controls | Not started |
-| 5 — Baseline analysis | Script stubs |
-| 6 — Paper integration | Not started |
+| 2 — Smart factories | 2024/2025 parsed (235+274); clean + city panels; city geo memo |
+| 3 — BACI exports | HS17 2017–2024 built from CEPII 202601 (`make baci`) |
+| 4 — City controls | Ingestion module ready; requires EPS/NBS export in `data/raw/city_controls/` |
+| 5 — Baseline analysis | Overlap tables, adoption models, event-study figure, memo v1 |
+| 6 — Paper integration | Outline, appendices, red-team memo, `make paper` manifest |
 
 ## Priority order (if time is scarce)
 
@@ -107,6 +107,10 @@ make fetch && make build && make test && make analysis
 - [Data dictionary](docs/data_dictionary.md) (legacy columns; see [DATA_CONTRACTS](docs/DATA_CONTRACTS.md))
 - [Pilot zone source notes](docs/source_notes/pilot_zones.md)
 - [Engineering brief](docs/engineering_brief.md)
+- [Reproducibility](docs/REPRODUCIBILITY.md)
+- [Paper outline](paper/outline.md)
+- [Paper results memo](paper/results_memo.md)
+- [Red-team memo](paper/red_team_memo.md)
 
 ## License and data
 

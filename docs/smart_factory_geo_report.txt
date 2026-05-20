@@ -1,0 +1,7 @@
+projects=509
+city_confidence:
+city_confidence
+unknown    316
+exact      102
+high        91
+exact+high+medium share=37.9%

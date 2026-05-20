@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+import ssl
 import time
+import urllib.request
 from pathlib import Path
-
-import requests
 
 from diffusion_state.utils import PROJECT_ROOT, ensure_dir, read_yaml
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 research bot; contact: research-team@example.org"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) research bot"
 }
+_SSL_CONTEXT = ssl.create_default_context()
+_SSL_CONTEXT.check_hostname = False
+_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
 
 
 def fetch_source_pages(config_path: Path | None = None) -> list[Path]:
@@ -21,16 +24,17 @@ def fetch_source_pages(config_path: Path | None = None) -> list[Path]:
         local_path = meta.get("local_path")
         if not local_path or not str(local_path).startswith("data/raw/"):
             continue
-        if not local_path.endswith((".html", ".htm")):
+        if not str(local_path).endswith((".html", ".htm")):
             continue
         url = meta["url"]
         out = ensure_dir(PROJECT_ROOT / Path(local_path).parent) / Path(local_path).name
         if out.exists():
             out_paths.append(out)
             continue
-        resp = requests.get(url, headers=HEADERS, timeout=30)
-        resp.raise_for_status()
-        out.write_text(resp.text, encoding=resp.encoding or "utf-8")
+        req = urllib.request.Request(url, headers=HEADERS)
+        with urllib.request.urlopen(req, context=_SSL_CONTEXT, timeout=90) as resp:
+            html = resp.read().decode("utf-8", errors="replace")
+        out.write_text(html, encoding="utf-8")
         out_paths.append(out)
         time.sleep(1.0)
     return out_paths

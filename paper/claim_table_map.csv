@@ -1,0 +1,7 @@
+﻿claim_id,claim_summary,artifact,script
+measurement_pilot_zones,National AI pilot zones are coded at city/county level with designation years 2019-2021.,data/processed/pilot_zones.csv,scripts/00_build_seed_tables.py
+measurement_smart_factories,MIIT excellence-level smart-factory projects are parsed from 2024 and 2025 public lists.,data/processed/smart_factories_clean.csv,scripts/02_parse_smart_factories.py
+descriptive_pilot_overlap,Pilot-zone cities have higher listed smart-factory counts than non-pilot cities (resolved cities only).,outputs/tables/table_pilot_zone_overlap.csv,scripts/05_run_baseline_models.py
+associational_adoption,Post-pilot indicator correlates with higher listed adoption in city-year FE models (not causal).,outputs/tables/table_3_pilot_zone_adoption_models.csv,src/diffusion_state/run_models.py
+event_study_limits,Event-study bins before 2024 are zero-filled; they do not validate parallel pre-trends.,outputs/tables/table_event_study_coefficients.csv,src/diffusion_state/run_models.py
+export_upgrading_descriptive,Sector-year export growth vs smart-factory exposure is descriptive only (optional BACI build).,outputs/tables/table_4_export_upgrading_models.csv,src/diffusion_state/build_export_upgrading_tables.py

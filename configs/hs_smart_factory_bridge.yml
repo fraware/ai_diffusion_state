@@ -1,0 +1,128 @@
+# Maps smart-factory industry_label (from industry_mapping.yml) to HS 2017 codes.
+# mapping_reason cites HS 2017 chapter/family descriptions; not firm-specific concordance.
+bridges:
+  - smart_factory_industry_code: C36
+    smart_factory_industry_label: automotive
+    hs_level: HS2
+    hs_code: "87"
+    hs_description: "Vehicles other than railway or tramway rolling stock"
+    mapping_confidence: high
+    mapping_reason: "Smart-factory automotive projects align to HS87 motor vehicles and parts."
+    source_or_method: "HS2017_chapter_87"
+
+  - smart_factory_industry_code: C39_battery
+    smart_factory_industry_label: batteries
+    hs_level: HS4
+    hs_code: "8507"
+    hs_description: "Electric accumulators, including separators"
+    mapping_confidence: high
+    mapping_reason: "Lithium-ion and EV battery exports concentrated in HS8507."
+    source_or_method: "HS2017_heading_8507"
+
+  - smart_factory_industry_code: C39_semi
+    smart_factory_industry_label: semiconductors
+    hs_level: HS4
+    hs_code: "8541"
+    hs_description: "Diodes, transistors, similar semiconductor devices"
+    mapping_confidence: high
+    mapping_reason: "Semiconductor devices and chips trade under HS8541-8542 family."
+    source_or_method: "HS2017_heading_8541"
+
+  - smart_factory_industry_code: C39_semi
+    smart_factory_industry_label: semiconductors
+    hs_level: HS4
+    hs_code: "8542"
+    hs_description: "Electronic integrated circuits"
+    mapping_confidence: high
+    mapping_reason: "Integrated circuits and micro assemblies in HS8542."
+    source_or_method: "HS2017_heading_8542"
+
+  - smart_factory_industry_code: C33
+    smart_factory_industry_label: metals
+    hs_level: HS2
+    hs_code: "72"
+    hs_description: "Iron and steel"
+    mapping_confidence: high
+    mapping_reason: "Steel smart-factory projects map to primary steel HS72."
+    source_or_method: "HS2017_chapter_72"
+
+  - smart_factory_industry_code: C33
+    smart_factory_industry_label: metals
+    hs_level: HS2
+    hs_code: "73"
+    hs_description: "Articles of iron or steel"
+    mapping_confidence: medium
+    mapping_reason: "Fabricated steel products often trade under HS73."
+    source_or_method: "HS2017_chapter_73"
+
+  - smart_factory_industry_code: C37
+    smart_factory_industry_label: railway_shipbuilding_aerospace
+    hs_level: HS2
+    hs_code: "89"
+    hs_description: "Ships, boats and floating structures"
+    mapping_confidence: high
+    mapping_reason: "Shipbuilding smart factories align to HS89."
+    source_or_method: "HS2017_chapter_89"
+
+  - smart_factory_industry_code: C26
+    smart_factory_industry_label: chemicals
+    hs_level: HS2
+    hs_code: "27"
+    hs_description: "Mineral fuels, oils, distillation products"
+    mapping_confidence: medium
+    mapping_reason: "Petrochemical complexes include HS27 refined products."
+    source_or_method: "HS2017_chapter_27"
+
+  - smart_factory_industry_code: C26
+    smart_factory_industry_label: chemicals
+    hs_level: HS2
+    hs_code: "29"
+    hs_description: "Organic chemicals"
+    mapping_confidence: medium
+    mapping_reason: "Chemical and pharma intermediates in HS29."
+    source_or_method: "HS2017_chapter_29"
+
+  - smart_factory_industry_code: C34
+    smart_factory_industry_label: general_equipment
+    hs_level: HS2
+    hs_code: "84"
+    hs_description: "Machinery and mechanical appliances"
+    mapping_confidence: high
+    mapping_reason: "Industrial machinery and smart equipment default to HS84."
+    source_or_method: "HS2017_chapter_84"
+
+  - smart_factory_industry_code: C39
+    smart_factory_industry_label: electronics
+    hs_level: HS2
+    hs_code: "85"
+    hs_description: "Electrical machinery and equipment"
+    mapping_confidence: high
+    mapping_reason: "Electronics and electrical equipment exports in HS85."
+    source_or_method: "HS2017_chapter_85"
+
+  - smart_factory_industry_code: C27
+    smart_factory_industry_label: pharma
+    hs_level: HS2
+    hs_code: "30"
+    hs_description: "Pharmaceutical products"
+    mapping_confidence: high
+    mapping_reason: "Pharmaceutical smart factories align to HS30."
+    source_or_method: "HS2017_chapter_30"
+
+  - smart_factory_industry_code: C39_ai_server
+    smart_factory_industry_label: ai_servers
+    hs_level: HS4
+    hs_code: "8471"
+    hs_description: "Automatic data-processing machines"
+    mapping_confidence: high
+    mapping_reason: "AI server exports map to HS8471 computers and units."
+    source_or_method: "HS2017_heading_8471"
+
+  - smart_factory_industry_code: C35
+    smart_factory_industry_label: special_equipment
+    hs_level: HS4
+    hs_code: "8479"
+    hs_description: "Machines and mechanical appliances having individual functions"
+    mapping_confidence: medium
+    mapping_reason: "Robotics and special industrial machines often in HS8479."
+    source_or_method: "HS2017_heading_8479"

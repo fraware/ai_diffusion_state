@@ -1,0 +1,70 @@
+# Maps source location strings (项目所在地) to canonical province and optional city.
+# city is set only when the location string unambiguously identifies a prefecture-level city.
+municipalities:
+  北京市: { province: Beijing, city: Beijing }
+  北京: { province: Beijing, city: Beijing }
+  天津市: { province: Tianjin, city: Tianjin }
+  天津: { province: Tianjin, city: Tianjin }
+  上海市: { province: Shanghai, city: Shanghai }
+  上海: { province: Shanghai, city: Shanghai }
+  重庆市: { province: Chongqing, city: Chongqing }
+  重庆: { province: Chongqing, city: Chongqing }
+
+provinces:
+  河北省: Hebei
+  河北: Hebei
+  山西省: Shanxi
+  山西: Shanxi
+  辽宁省: Liaoning
+  辽宁: Liaoning
+  吉林省: Jilin
+  吉林: Jilin
+  黑龙江省: Heilongjiang
+  黑龙江: Heilongjiang
+  江苏省: Jiangsu
+  江苏: Jiangsu
+  浙江省: Zhejiang
+  浙江: Zhejiang
+  安徽省: Anhui
+  安徽: Anhui
+  福建省: Fujian
+  福建: Fujian
+  江西省: Jiangxi
+  江西: Jiangxi
+  山东省: Shandong
+  山东: Shandong
+  河南省: Henan
+  河南: Henan
+  湖北省: Hubei
+  湖北: Hubei
+  湖南省: Hunan
+  湖南: Hunan
+  广东省: Guangdong
+  广东: Guangdong
+  海南省: Hainan
+  海南: Hainan
+  四川省: Sichuan
+  四川: Sichuan
+  贵州省: Guizhou
+  贵州: Guizhou
+  云南省: Yunnan
+  云南: Yunnan
+  陕西省: Shaanxi
+  陕西: Shaanxi
+  甘肃省: Gansu
+  甘肃: Gansu
+  青海省: Qinghai
+  青海: Qinghai
+  台湾省: Taiwan
+  内蒙古自治区: Inner Mongolia
+  内蒙古: Inner Mongolia
+  广西壮族自治区: Guangxi
+  广西: Guangxi
+  西藏自治区: Tibet
+  西藏: Tibet
+  宁夏回族自治区: Ningxia
+  宁夏: Ningxia
+  新疆维吾尔自治区: Xinjiang
+  新疆: Xinjiang
+  香港特别行政区: Hong Kong
+  澳门特别行政区: Macao

@@ -36,21 +36,21 @@ sources:
     name: "Solarbe mirror — 2024 smart-factory list"
     source_type: mirror
     url: "https://cn.solarbe.com/news/20250103/92225.html"
-    accessed_at: null
+    accessed_at: "2026-05-19"
     expected_format: html
     license_or_terms: "Third-party mirror; reconcile to official count"
     local_path: "data/raw/smart_factories/2024_mirror.html"
-    notes: "Often more parseable than primary notice."
+    notes: "235 <p> rows; one row per project. Primary 2024 parse source in pipeline."
 
-  miit_smart_factory_2025_notice_mirror:
-    name: "Sina Finance — 2025 smart-factory notice"
+  miit_smart_factory_2025_jlts_table:
+    name: "JLT policy — 2025 excellence smart-factory list (HTML table)"
     source_type: mirror
-    url: "https://finance.sina.com.cn/jjxw/2025-09-05/doc-infpkxsn6100890.shtml"
-    accessed_at: null
+    url: "https://jlts.com.cn/i/news/detail/2571072131159669662.html"
+    accessed_at: "2026-05-19"
     expected_format: html
-    license_or_terms: "Third-party mirror"
-    local_path: "data/raw/smart_factories/2025_notice.html"
-    notes: "Target N=274; verify against MIIT attachment when available."
+    license_or_terms: "Public mirror; cites MIIT 2025 notice"
+    local_path: "data/raw/smart_factories/2025_jlts.html"
+    notes: "Embedded HTML table; 274 projects. Primary 2025 parse source in pipeline."
 
   baci_cepii:
     name: "CEPII BACI"

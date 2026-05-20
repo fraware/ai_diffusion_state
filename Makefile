@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis outputs test all clean
+.PHONY: setup seed fetch build parse baci panel analysis paper outputs test all clean
 
 PYTHON ?= python
 
@@ -13,8 +13,8 @@ seed:
 fetch:
 	$(PYTHON) scripts/01_fetch_source_pages.py
 
-# Analysis-ready processed tables from verified seeds (extend with parse/baci when raw data exist)
-build: seed
+# Analysis-ready processed tables from seeds and parsed smart-factory HTML
+build: seed parse
 
 parse:
 	$(PYTHON) scripts/02_parse_smart_factories.py
@@ -22,7 +22,10 @@ parse:
 baci:
 	$(PYTHON) scripts/03_build_baci_outcomes.py
 
-panel:
+city-controls:
+	$(PYTHON) scripts/06_build_city_controls.py
+
+panel: build
 	$(PYTHON) scripts/04_build_city_year_panel.py
 
 analysis: panel
@@ -30,10 +33,13 @@ analysis: panel
 
 outputs: analysis
 
+paper: analysis
+	$(PYTHON) scripts/07_build_paper_bundle.py
+
 test:
 	pytest -q
 
-all: build panel analysis test
+all: build baci panel analysis paper test
 
 clean:
 	$(PYTHON) -c "import shutil; from pathlib import Path; \

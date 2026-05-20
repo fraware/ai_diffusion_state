@@ -14,4 +14,8 @@ jobs:
           python-version: "3.11"
       - run: pip install -e .[dev]
       - run: make seed
+      - run: make fetch
+      - run: make parse
+      - run: make panel
+      - run: make analysis
       - run: pytest -q

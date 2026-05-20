@@ -1,0 +1,124 @@
+{
+  "project_root": "C:\\Users\\mateo\\ai_diffusion_state",
+  "artifacts": [
+    {
+      "path": "data/processed/pilot_zones.csv",
+      "artifact_type": "processed",
+      "claim_id": "treatment_pilot_zones",
+      "required": true,
+      "exists": true,
+      "n_rows": 17,
+      "n_cols": 14
+    },
+    {
+      "path": "data/processed/smart_factories_clean.csv",
+      "artifact_type": "processed",
+      "claim_id": "outcome_smart_factories",
+      "required": true,
+      "exists": true,
+      "n_rows": 509,
+      "n_cols": 21
+    },
+    {
+      "path": "data/processed/smart_factory_city_year.csv",
+      "artifact_type": "processed",
+      "claim_id": "panel_city_year",
+      "required": true,
+      "exists": true,
+      "n_rows": 60,
+      "n_cols": 10
+    },
+    {
+      "path": "data/processed/analysis_city_year_panel.csv",
+      "artifact_type": "processed",
+      "claim_id": "panel_analysis",
+      "required": true,
+      "exists": true,
+      "n_rows": 287,
+      "n_cols": 20
+    },
+    {
+      "path": "outputs/tables/table_1_dataset_summary.csv",
+      "artifact_type": "table",
+      "claim_id": "descriptive_data_coverage",
+      "required": true,
+      "exists": true,
+      "n_rows": 5,
+      "n_cols": 5
+    },
+    {
+      "path": "outputs/tables/table_2_top_smart_factory_cities.csv",
+      "artifact_type": "table",
+      "claim_id": "descriptive_top_cities",
+      "required": true,
+      "exists": true,
+      "n_rows": 20,
+      "n_cols": 6
+    },
+    {
+      "path": "outputs/tables/table_pilot_zone_overlap.csv",
+      "artifact_type": "table",
+      "claim_id": "descriptive_pilot_overlap_city",
+      "required": true,
+      "exists": true,
+      "n_rows": 3,
+      "n_cols": 6
+    },
+    {
+      "path": "outputs/tables/table_pilot_zone_province_overlap.csv",
+      "artifact_type": "table",
+      "claim_id": "descriptive_pilot_overlap_province",
+      "required": true,
+      "exists": true,
+      "n_rows": 3,
+      "n_cols": 4
+    },
+    {
+      "path": "outputs/tables/table_3_pilot_zone_adoption_models.csv",
+      "artifact_type": "table",
+      "claim_id": "models_adoption",
+      "required": true,
+      "exists": true,
+      "n_rows": 89,
+      "n_cols": 11
+    },
+    {
+      "path": "outputs/tables/table_event_study_coefficients.csv",
+      "artifact_type": "table",
+      "claim_id": "models_event_study",
+      "required": true,
+      "exists": true,
+      "n_rows": 28,
+      "n_cols": 10
+    },
+    {
+      "path": "outputs/figures/fig_event_study_pilot_zones.png",
+      "artifact_type": "figure",
+      "claim_id": "fig_event_study",
+      "required": true,
+      "exists": true,
+      "n_rows": null,
+      "n_cols": null,
+      "bytes": 35134
+    },
+    {
+      "path": "data/processed/export_outcomes_sector_year.csv",
+      "artifact_type": "processed",
+      "claim_id": "exports_sector_year",
+      "required": false,
+      "exists": true,
+      "n_rows": 88,
+      "n_cols": 11
+    },
+    {
+      "path": "outputs/tables/table_4_export_upgrading_models.csv",
+      "artifact_type": "table",
+      "claim_id": "models_export_upgrading",
+      "required": false,
+      "exists": true,
+      "n_rows": 2,
+      "n_cols": 9
+    }
+  ],
+  "missing_required": []
+}

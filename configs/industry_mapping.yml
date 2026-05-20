@@ -1,0 +1,61 @@
+# First-match industry assignment from firm + project text (Chinese).
+# industry_code follows GB/T 4754-style coarse buckets for aggregation, not full national codes.
+rules:
+  - industry_code: C36
+    industry_label: automotive
+    patterns: [汽车, 乘用车, 新能源汽, 变速器, 发动机有限公司]
+  - industry_code: C39
+    industry_label: electronics
+    patterns: [电子, 显示, 电声, 手机, 光纤光缆, 棒纤缆]
+  - industry_code: C40
+    industry_label: instruments
+    patterns: [仪器, 仪表, 测量研究所]
+  - industry_code: C38
+    industry_label: electrical_machinery
+    patterns: [电气, 输配电, 变压器, 压缩机, 液压]
+  - industry_code: C35
+    industry_label: special_equipment
+    patterns: [工程机械, 桩工机械, 采煤, 电梯, 集装箱, 油气装备]
+  - industry_code: C33
+    industry_label: metals
+    patterns: [钢铁, 金属, 铝, 铜, 稀土]
+  - industry_code: C26
+    industry_label: chemicals
+    patterns: [化工, 石化, 制药, 药业, 中药, 乳制品, 调味品]
+  - industry_code: C37
+    industry_label: railway_shipbuilding_aerospace
+    patterns: [船舶, 动车, 机车, 航天, 航空]
+  - industry_code: C30
+    industry_label: non_metallic_minerals
+    patterns: [水泥, 玻璃]
+  - industry_code: C14
+    industry_label: food
+    patterns: [食品, 乳品, 啤酒, 饮料]
+  - industry_code: C17
+    industry_label: textiles
+    patterns: [纺织, 家纺, 服装]
+  - industry_code: C27
+    industry_label: pharma
+    patterns: [药, 生物]
+  - industry_code: C39_semi
+    industry_label: semiconductors
+    patterns: [半导体, 集成电路, 微电子, 封装测试, 芯片]
+  - industry_code: C39_battery
+    industry_label: batteries
+    patterns: [锂电池, 动力电池, 电池, 储能]
+  - industry_code: C39_ai_server
+    industry_label: ai_servers
+    patterns: [AI服务器, 服务器全链路, 智算]
+  - industry_code: C13
+    industry_label: mining
+    patterns: [采煤, 矿山, 锂业, 碳酸锂]
+  - industry_code: C22
+    industry_label: paper
+    patterns: [造纸, 纸业]
+  - industry_code: C31
+    industry_label: furniture_wood
+    patterns: [家具, 实木]
+default:
+  industry_code: C34
+  industry_label: general_equipment
+  industry_confidence: low
