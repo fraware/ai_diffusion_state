@@ -10,19 +10,20 @@ sys.path.insert(0, str(ROOT / "src"))
 import pandas as pd
 
 from diffusion_state.build_city_controls import COLUMN_ALIASES, REQUIRED_COLUMNS
+from diffusion_state.panel_controls import _is_production_raw_file
 
 RAW_DIR = ROOT / "data" / "raw" / "city_controls"
 
 
 def main() -> int:
-    files = list(RAW_DIR.glob("*.csv")) + list(RAW_DIR.glob("*.xlsx")) + list(RAW_DIR.glob("*.xls"))
-    stub_only = len(files) == 1 and files[0].name.startswith("city_controls_ci_stub")
+    all_files = list(RAW_DIR.glob("*.csv")) + list(RAW_DIR.glob("*.xlsx")) + list(RAW_DIR.glob("*.xls"))
+    files = [p for p in all_files if _is_production_raw_file(p)]
     if not files:
-        print("BLOCKER: no files in data/raw/city_controls/")
+        print("BLOCKER: no production EPS/NBS files in data/raw/city_controls/")
+        print("  (ingest_template and ci_stub are excluded)")
+        if all_files:
+            print("  found non-production files:", ", ".join(p.name for p in all_files))
         return 1
-    if stub_only:
-        print("WARN: only CI stub present — not valid for paper claims.")
-        return 2
 
     frames = []
     for path in files:

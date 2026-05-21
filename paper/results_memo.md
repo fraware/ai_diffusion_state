@@ -17,7 +17,7 @@ From `table_1_dataset_summary.csv`:
 <!-- PCS:GEO_RESOLUTION -->
 - **509** projects with assigned city (**0** unknown in current build).
 - **102** `official_location_exact`, **407** `rule_based_text_inference`, **0** `external_evidence_verified` (Table 16).
-- **455** city-resolution rule rows in `data/seed/smart_factory_city_overrides.csv` (registry/list inference — not external verification unless `external_evidence_url` is set).
+- **456** city-resolution rule rows in `data/seed/smart_factory_city_overrides.csv` (registry/list inference — not external verification unless `external_evidence_url` is set).
 - Stratified city-resolution audit is **pending** (`data/audit/city_resolution_sample_audit.csv` → Table 17).
 <!-- /PCS:GEO_RESOLUTION -->
 

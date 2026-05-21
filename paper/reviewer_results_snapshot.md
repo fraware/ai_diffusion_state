@@ -11,7 +11,7 @@
 | Projects with resolved city | **509** (baseline 193) |
 | Projects without city | **0** |
 <!-- PCS:REVIEWER_SEED -->
-| City-resolution rule rows (seed) | **455** (rule-based register; not external audit) |
+| City-resolution rule rows (seed) | **456** (rule-based register; not external audit) |
 <!-- /PCS:REVIEWER_SEED -->
 | Cities with listed projects (resolved) | **158** |
 <!-- PCS:ADOPTION_CITIES -->
