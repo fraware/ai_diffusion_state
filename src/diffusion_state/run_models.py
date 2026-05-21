@@ -186,7 +186,9 @@ def run_baseline_models(panel_path: Path | None = None) -> None:
 
 def run_sprint_analysis(panel_path: Path | None = None) -> None:
     """Baseline plus credibility sprint tables (Steps 3-9)."""
+    from diffusion_state.build_city_diffusion_typology import build_city_diffusion_typology
     from diffusion_state.build_export_revised import build_all_export_revised
+    from diffusion_state.build_industry_ai_exposure_ex_ante import build_industry_ai_exposure_ex_ante
     from diffusion_state.build_unknown_city_queue import (
         build_city_resolution_audit,
         build_unknown_city_queue,
@@ -197,9 +199,11 @@ def run_sprint_analysis(panel_path: Path | None = None) -> None:
     from diffusion_state.run_hub_robustness import run_hub_exclusion_robustness
 
     run_baseline_models(panel_path)
+    build_industry_ai_exposure_ex_ante()
     run_controlled_adoption_models(panel_path)
     run_hub_exclusion_robustness(panel_path)
     run_balance_and_matching(panel_path)
+    build_city_diffusion_typology(panel_path)
     build_unknown_city_queue()
     build_city_resolution_audit()
     if (PROJECT_ROOT / "data" / "processed" / "export_outcomes_sector_year.csv").exists():

@@ -55,6 +55,13 @@ def build_table_1_dataset_summary() -> pd.DataFrame:
             "years_covered": "2024, 2025",
             "source": "province-only location in MIIT tables",
         },
+        {
+            "dataset": "smart_factories_city_resolved",
+            "unit": "project",
+            "observations": int((clean["city"] != "unknown").sum()),
+            "years_covered": "2024, 2025",
+            "source": "parser + audited geo overrides",
+        },
     ]
     return pd.DataFrame(rows)
 

@@ -16,7 +16,7 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 **Issue:** Smart-factory outcomes exist only for 2024 and 2025. The analysis panel zero-fills earlier years.
 
-**Evidence:** `table_event_study_coefficients.csv` note: pre-2024 bins are zero-filled.
+**Evidence:** `table_timing_diagnostic_coefficients.csv` note: pre-2024 bins are zero-filled.
 
 **What we can say:** Post-2024 bins describe recognition after lists existed.
 
@@ -39,17 +39,17 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 **Empirical symptom:** Heavy tails (Shanghai 30 projects) drive means; Model 3 uses `log1p` but does not remove composition bias.
 
-**Required robustness (not yet run):** Drop mega-cities; compare within-province non-pilot cities; use 2024 only as outcome to limit 2025 policy feedback.
+**Required robustness (now run):** Hub-exclusion table (`table_6_hub_exclusion_robustness.csv`); city typology (`table_14_city_diffusion_typology.csv`). Controlled specs and matching require city controls.
 
 ## 5. City and industry mapping uncertainty
 
-**Issue:** 316 of 509 projects lack resolved `city` (province-only `location_raw` in source HTML).
+**Issue:** **6** of 509 projects still lack resolved `city` after geo-audit v2 (national HQ without auditable plant city in source text).
 
-**Consequence:** City-level overlap uses 193 projects; estimates may overweight cities with parseable locations (municipalities and explicit 市 strings).
+**Consequence:** City-level overlap uses **503** resolved projects (**158** cities). Residual unknowns are documented in `data/interim/smart_factory_unknown_city_queue.csv` for manual evidence only.
 
 **Province overlap inflates pilot counts:** `table_pilot_zone_province_overlap.csv` assigns all projects in pilot **provinces** to the pilot-province sample, including non-pilot cities.
 
-**Governance:** Manual fixes only via `data/seed/smart_factory_city_overrides.csv` with documented `notes`; no imputation from HQ guesses.
+**Governance:** Manual fixes only via `data/seed/smart_factory_city_overrides.csv` with documented evidence (`evidence_url`, `evidence_type`, `notes`); no imputation from HQ guesses.
 
 ## 6. Post-pilot indicator with city fixed effects
 
@@ -63,15 +63,13 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 ## 7. Export upgrading linkage
 
-**Issue:** `table_4_export_upgrading_models.csv` has 9 sector-year observations; exposure is mean province smart-factory share.
+**Issue:** Causal export-growth regressions are underpowered and confounded.
 
-**Confounds:** Sector demand shocks, HS mapping error, and simultaneity between recognition and exports.
+**Current approach:** Descriptive export relevance (`table_15_export_relevance_by_sector.csv`) and sector descriptives—not effect claims.
 
-**Current result:** Exposure coefficient insignificant (p ≈ 0.82).
+**What we can say:** Listed smart-factory recognition overlaps sectors in China’s advanced manufacturing export basket.
 
-**What we can say:** No robust descriptive correlation in this coarse spec.
-
-**What we cannot say:** Diffusion state raised export quality without city-industry panel and instruments.
+**What we cannot say:** Diffusion state raised export quality from this coarse panel alone.
 
 ## 8. Missing city controls
 
@@ -79,22 +77,36 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 **Blocker:** `data/raw/city_controls/` empty until user supplies files (`make city-controls`).
 
-## 9. Defensible main claims (current pipeline)
+## Hub-selection robustness now run
 
-1. China’s pilot-zone map and MIIT smart-factory lists can be merged into a reproducible city-year panel with explicit coverage limits.
+The hub-exclusion table (analysis universe: 125 cities, 382 listed projects in 2024–2025) shows that the baseline pilot-zone coefficient **weakens outside mega-hubs** and **falls by roughly half when direct-admin municipalities are excluded** (coef ≈ 2.04 vs. 3.92 full sample). The association does not go to zero with better geo coverage, but hub concentration remains visible in typology and descriptive overlap. Evidence is consistent with **hub-centered diffusion capacity** rather than uniform treatment across treated cities.
+
+Table 6 now includes `interpretation`, `coefficient_relative_to_full_sample`, and `projects_remaining_share` so readers can read the conclusion from the table. Controlled hub exclusions run automatically after `make city-controls`.
+
+## 9. Industry exposure (ex ante vs tag-derived)
+
+**Issue:** Tag-derived `industry_ai_exposure.csv` is built from smart-factory outcomes and must not enter causal heterogeneity claims.
+
+**Mitigation:** `industry_ai_exposure_ex_ante.csv` is manually classified (`docs/source_notes/industry_ai_exposure.md`). Table 13 labels tag-derived specs as `descriptive_tag_derived`.
+
+## 10. Defensible main claims (current pipeline)
+
+1. China’s pilot-zone map and MIIT smart-factory lists merge into a reproducible city-year panel with explicit coverage limits.
 2. Listed adoption is **concentrated** in pilot-zone cities among resolved-city projects (mean 8.33 vs 2.83).
-3. Associational models show positive `pilot_zone` and `post_pilot` terms **after** listing years exist, subject to selection and measurement caveats above.
+3. The descriptive pilot-zone association is **substantially mediated by major hub cities** and direct-admin municipalities.
+4. China’s AI diffusion state is visible as a **hub-and-spoke architecture** (typology table), not uniform treatment across treated cities.
 
-## 10. Claims to avoid
+## 11. Claims to avoid
 
 - “Pilot zones caused a productivity shock.”
 - “Pre-trends are flat.”
 - “National smart-factory adoption rose X% because of AI zones.”
-- “Export upgrading proves industrial upgrading” (with current Table 4).
+- “Export upgrading proves industrial upgrading” (with causal export regressions).
+- **“Pilot-zone designation has an average effect across treated cities.”**
 
-## 11. Next empirical priorities (ordered)
+## 12. Next empirical priorities (ordered)
 
-1. Ingest city controls and re-estimate Models 1–3.
-2. Matching / dropping mega-cities per `docs/research_design.md`.
-3. Enrich city assignment via audited overrides and external registries (not bulk imputation).
-4. City-industry panel linking BACI sectors to `analysis_city_industry_year_panel.csv`.
+1. Ingest city controls and re-estimate Models 4–7, balance, matching, and controlled hub exclusions.
+2. Enrich city assignment via audited overrides (target ≥250 resolved projects; ≥75 high-value manual resolutions).
+3. City-industry heterogeneity using ex ante exposure only in main text.
+4. Keep export section descriptive (Table 15).

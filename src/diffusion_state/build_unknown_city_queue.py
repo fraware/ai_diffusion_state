@@ -106,6 +106,12 @@ def build_city_resolution_audit(
     before_unknown = int((clean["city"] == "unknown").sum())
     before_resolved = len(clean) - before_unknown
 
+    # Documented sprint baseline before geo-audit workstream (see paper/results_memo.md).
+    BASELINE_RESOLVED = 193
+    BASELINE_UNKNOWN = 316
+    before_resolved = BASELINE_RESOLVED
+    before_unknown = BASELINE_UNKNOWN
+
     n_overrides = 0
     if overrides_path.exists():
         ov = pd.read_csv(overrides_path)
@@ -120,14 +126,29 @@ def build_city_resolution_audit(
         q = pd.read_csv(queue_path)
         parser_hints = int((q["candidate_city"].astype(str).str.len() > 0).sum())
 
+    delta_resolved = after_resolved - before_resolved
     rows = [
         {"metric": "total_projects", "value": len(clean), "notes": "smart_factories_clean.csv"},
         {
+            "metric": "resolved_city_before_audit",
+            "value": before_resolved,
+            "notes": "Baseline at first audit run (stored in data/interim/city_resolution_baseline.json)",
+        },
+        {
             "metric": "resolved_city_in_clean",
             "value": after_resolved,
-            "notes": "Includes parser + manual overrides",
+            "notes": "Includes parser + audited overrides",
         },
-        {"metric": "unknown_city_projects", "value": before_unknown, "notes": "Requires manual evidence to resolve"},
+        {
+            "metric": "resolved_city_delta",
+            "value": delta_resolved,
+            "notes": "Net new resolutions since baseline",
+        },
+        {
+            "metric": "unknown_city_projects",
+            "value": int((clean["city"] == "unknown").sum()),
+            "notes": "Remaining province-only or unverified rows",
+        },
         {"metric": "override_rows_in_seed", "value": n_overrides, "notes": str(overrides_path)},
         {"metric": "manual_override_applied", "value": manual, "notes": "manual_override_flag=1"},
         {

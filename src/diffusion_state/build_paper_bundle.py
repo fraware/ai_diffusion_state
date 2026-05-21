@@ -44,7 +44,11 @@ PAPER_ARTIFACTS: tuple[PaperArtifact, ...] = (
     PaperArtifact(Path("outputs/tables/table_11_export_sector_descriptives.csv"), "table", "export_sector_descriptives", required=False),
     PaperArtifact(Path("outputs/tables/table_12_export_models_revised.csv"), "table", "export_models_revised", required=False),
     PaperArtifact(Path("outputs/tables/table_13_city_industry_adoption_models.csv"), "table", "city_industry_models"),
-    PaperArtifact(Path("data/processed/industry_ai_exposure.csv"), "processed", "industry_ai_exposure"),
+    PaperArtifact(Path("data/processed/industry_ai_exposure.csv"), "processed", "industry_ai_exposure", required=False),
+    PaperArtifact(Path("data/processed/industry_ai_exposure_ex_ante.csv"), "processed", "industry_ai_exposure_ex_ante"),
+    PaperArtifact(Path("outputs/tables/table_14_city_diffusion_typology.csv"), "table", "city_diffusion_typology"),
+    PaperArtifact(Path("outputs/figures/fig_city_typology_smart_factory_counts.png"), "figure", "fig_city_typology", required=False),
+    PaperArtifact(Path("outputs/tables/table_15_export_relevance_by_sector.csv"), "table", "export_relevance", required=False),
 )
 
 CLAIM_MAP_ROWS = [
@@ -86,9 +90,16 @@ CLAIM_MAP_ROWS = [
     {
         "claim_id": "hub_robustness",
         "claim_tier": "robust_association",
-        "claim_summary": "Pilot-zone coefficient under mega-city and top-city exclusions.",
+        "claim_summary": "Pilot coefficient collapses outside mega-hubs and direct-admin municipalities.",
         "artifact": "outputs/tables/table_6_hub_exclusion_robustness.csv",
         "script": "src/diffusion_state/run_hub_robustness.py",
+    },
+    {
+        "claim_id": "hub_architecture_typology",
+        "claim_tier": "validated_descriptive",
+        "claim_summary": "Adoption clusters by diffusion-state city type not pilot binary alone.",
+        "artifact": "outputs/tables/table_14_city_diffusion_typology.csv",
+        "script": "src/diffusion_state/build_city_diffusion_typology.py",
     },
     {
         "claim_id": "timing_diagnostic",
@@ -105,23 +116,23 @@ CLAIM_MAP_ROWS = [
         "script": "src/diffusion_state/run_balance_matching.py",
     },
     {
-        "claim_id": "city_industry_exposure",
+        "claim_id": "city_industry_exposure_ex_ante",
         "claim_tier": "suggestive_mechanism",
-        "claim_summary": "Pilot association heterogeneity by industry AI exposure (exploratory).",
+        "claim_summary": "Pilot heterogeneity by ex ante industry AI exposure (preferred spec).",
         "artifact": "outputs/tables/table_13_city_industry_adoption_models.csv",
         "script": "src/diffusion_state/run_city_industry_models.py",
     },
     {
-        "claim_id": "export_upgrading_descriptive",
-        "claim_tier": "not_supported",
-        "claim_summary": "Export linkage descriptive only; revised models in table_12.",
-        "artifact": "outputs/tables/table_12_export_models_revised.csv",
+        "claim_id": "export_relevance_descriptive",
+        "claim_tier": "validated_descriptive",
+        "claim_summary": "Smart-factory sectors overlap advanced export basket (no causal claim).",
+        "artifact": "outputs/tables/table_15_export_relevance_by_sector.csv",
         "script": "src/diffusion_state/build_export_revised.py",
     },
     {
         "claim_id": "causal_pilot_effect",
         "claim_tier": "not_supported",
-        "claim_summary": "Do not claim pilot zones caused adoption until controls and balance justify it.",
+        "claim_summary": "Do not claim average pilot-zone treatment effect across treated cities.",
         "artifact": "",
         "script": "",
     },

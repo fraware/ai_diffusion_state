@@ -1,0 +1,1096 @@
+entries:
+- match: 江西铜业股份
+  city: Guixi
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Jiangxi Copper in Guixi/Yingtan area.
+- match: 山东玲珑轮胎
+  city: Zhaoyuan
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Linglong tire in Yantai/Zhaoyuan.
+- match: 山东华鲁恒升
+  city: Dezhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Hualu Hengsheng chemical in Dezhou.
+- match: 湖北兴发化工
+  city: Yichang
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Xingfa chemical in Yichang.
+- match: 广东石化
+  city: Maoming
+  province: Guangdong
+  evidence_type: company_site_registry
+  note: Guangdong Petrochemical in Maoming.
+- match: 日立电梯
+  city: Guangzhou
+  province: Guangdong
+  evidence_type: company_site_registry
+  note: Hitachi Elevator China plant in Guangzhou.
+- match: 卡尔蔡司光学
+  city: Guangzhou
+  province: Guangdong
+  evidence_type: company_site_registry
+  note: Zeiss optical in Guangzhou development zone.
+- match: 四川长虹电器
+  city: Mianyang
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Changhong electronics in Mianyang.
+- match: 大全集团
+  city: Yangzhong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Daqo electric in Yangzhong, Zhenjiang prefecture.
+- match: 惠生清洁能源
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Wison offshore engineering in Nantong.
+- match: 江苏大生集团
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Dasheng textile in Nantong.
+- match: 江苏恒力化纤
+  city: Suzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Hengli chemical fiber in Suzhou Wujiang.
+- match: 江苏恒立液压
+  city: Changzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Hengli hydraulic in Changzhou.
+- match: 江苏恒瑞医药
+  city: Lianyungang
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Hengrui pharma in Lianyungang.
+- match: 江苏联发纺织
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: LiFa textile in Nantong.
+- match: 江苏林洋能源
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Linyang energy meters in Nantong.
+- match: 江苏隆基乐叶
+  city: Taizhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: LONGi solar module plant Jiangsu.
+- match: 江苏沙钢集团
+  city: Zhangjiagang
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Shagang steel in Zhangjiagang.
+- match: 江苏上上电缆
+  city: Liyang
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Shangshang cable in Liyang, Changzhou area.
+- match: 江苏时代新能源
+  city: Changzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: CATL/Contemporary Amperex era plant Changzhou.
+- match: 江苏太平洋精锻
+  city: Taizhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Pacific precision forging in Taizhou.
+- match: 江苏兴达钢帘线
+  city: Taizhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Xingda steel cord in Taizhou.
+- match: 江苏永钢集团
+  city: Zhangjiagang
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Yonggang steel Zhangjiagang.
+- match: 江苏优嘉植物保护
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Yangnong chemical in Nantong.
+- match: 江苏中天科技
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: ZTT fiber optic in Nantong.
+- match: 金东纸业
+  city: Zhenjiang
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Gold East Paper in Zhenjiang.
+- match: 安徽华茂纺织
+  city: Tongling
+  province: Anhui
+  evidence_type: company_annual_report
+  note: Huamao textile in Tongling.
+- match: 中海石油深海
+  city: Shenzhen
+  province: Guangdong
+  evidence_type: company_site_registry
+  note: CNOOC deepwater operations Shenzhen.
+- match: 陕西法士特
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: Fast Gear in Xi'an.
+- match: 新疆众和股份
+  city: Urumqi
+  province: Xinjiang
+  evidence_type: company_annual_report
+  note: Xinjiang Joinworld Urumqi.
+- match: 江西铜业
+  city: Guixi
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Jiangxi Copper smelter Guixi.
+- match: 九江分公司
+  city: Jiujiang
+  province: Jiangxi
+  evidence_type: company_site_registry
+  note: Sinopec Jiujiang refinery.
+- match: 阳新弘盛铜业
+  city: Huangshi
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Hongsheng copper Huangshi.
+- match: 湖北三环锻造
+  city: Xiangyang
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Sanhuan forging Xiangyang.
+- match: 中海石油（中国）
+  city: Sanya
+  province: Hainan
+  evidence_type: company_site_registry
+  note: CNOOC Hainan deepwater ops.
+- match: 西藏奇正藏药
+  city: Lhasa
+  province: Tibet
+  evidence_type: company_annual_report
+  note: Qizheng Tibetan medicine Lhasa.
+- match: 西安飞行自动控制
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: project_registry
+  note: AVIC flight control Xi'an.
+- match: 吴忠赛马
+  city: Wuzhong
+  province: Ningxia
+  evidence_type: company_annual_report
+  note: 赛马 cement Wuzhong.
+- match: 特变电工智能电气
+  city: Changji
+  province: Xinjiang
+  evidence_type: company_annual_report
+  note: TBEA electric Changji.
+- match: 独山子石化分公司
+  city: Karamay
+  province: Xinjiang
+  evidence_type: company_site_registry
+  note: PetroChina Dushanzi refinery.
+- match: 巨龙钢管
+  city: Cangzhou
+  province: Hebei
+  evidence_type: company_annual_report
+  note: Julong steel pipe Cangzhou.
+- match: 安泰北方
+  city: Baotou
+  province: Inner Mongolia
+  evidence_type: company_annual_report
+  note: AT&M rare earth Baotou.
+- match: 内蒙古东景
+  city: Ordos
+  province: Inner Mongolia
+  evidence_type: company_annual_report
+  note: Dongjing bio Ordos.
+- match: 内蒙古金泽伊利
+  city: Hohhot
+  province: Inner Mongolia
+  evidence_type: company_annual_report
+  note: Yili dairy Hohhot.
+- match: 内蒙古兴发
+  city: Wuhai
+  province: Inner Mongolia
+  evidence_type: company_annual_report
+  note: Xingfa chemical Wuhai.
+- match: 鞍钢集团矿业
+  city: Anshan
+  province: Liaoning
+  evidence_type: company_annual_report
+  note: Ansteel mining Anshan.
+- match: 本钢板材
+  city: Benxi
+  province: Liaoning
+  evidence_type: company_annual_report
+  note: Benxi Steel Benxi.
+- match: 辽宁首钢硼铁
+  city: Benxi
+  province: Liaoning
+  evidence_type: company_site_registry
+  note: Shougang boron iron Benxi.
+- match: 一汽解放大连
+  city: Dalian
+  province: Liaoning
+  evidence_type: company_annual_report
+  note: FAW Dalian diesel.
+- match: 金宏气体
+  city: Suzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Gases industrial park Suzhou.
+- match: 新凤鸣
+  city: Jiaxing
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Xinfengming fiber Jiaxing.
+- match: 招商局重工
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: CMHI shipyard Nantong.
+- match: 金陵分公司
+  city: Nanjing
+  province: Jiangsu
+  evidence_type: company_site_registry
+  note: Sinopec Jinling refinery Nanjing.
+- match: 中天科技海缆
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: ZTT submarine cable Nantong.
+- match: 华立科技
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Holley meters Hangzhou.
+- match: 康赛妮集团
+  city: Ningbo
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Consinee cashmere Ningbo.
+- match: 利欧集团浙江泵业
+  city: Wenzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Leo pump Wenzhou.
+- match: 浙江大胜达
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Shengda packaging Hangzhou.
+- match: 浙江锂威能源
+  city: Jinhua
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Lithium battery Jinhua.
+- match: 浙江双环传动
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Shuanghuan gear Hangzhou.
+- match: 福建百宏聚纤
+  city: Quanzhou
+  province: Fujian
+  evidence_type: company_annual_report
+  note: Baihong polyester Quanzhou.
+- match: 福建东龙针纺
+  city: Fuzhou
+  province: Fujian
+  evidence_type: company_annual_report
+  note: Donglong knitting Fuzhou.
+- match: 福建浔兴拉链
+  city: Jinjiang
+  province: Fujian
+  evidence_type: company_annual_report
+  note: SBS zipper Jinjiang.
+- match: 锐捷网络
+  city: Fuzhou
+  province: Fujian
+  evidence_type: company_annual_report
+  note: Ruijie networks Fuzhou.
+- match: 中铝瑞闽
+  city: Fuzhou
+  province: Fujian
+  evidence_type: company_annual_report
+  note: Chalco Ruimin Fuzhou.
+- match: 崇义章源钨业
+  city: Ganzhou
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Zhangyuan tungsten Ganzhou.
+- match: 吉安伊戈尔
+  city: Jian
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Eaglerise magnetics Ji'an.
+- match: 江西洪都航空
+  city: Nanchang
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Hongdu Aircraft Nanchang.
+- match: 江西江南新材料
+  city: Yingtan
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Jiangnan copper foil Yingtan.
+- match: 江西兆驰半导体
+  city: Nanchang
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Zhaochi LED Nanchang.
+- match: 双胞胎
+  city: Nanchang
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Twins hog feed Nanchang.
+- match: 济宁神州轮胎
+  city: Jining
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Shenzhou tire Jining.
+- match: 浪潮计算机
+  city: Jinan
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Inspur computer Jinan.
+- match: 山东创新精密
+  city: Binzhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Innovation aluminum Binzhou.
+- match: 山东电工电气
+  city: Jinan
+  province: Shandong
+  evidence_type: company_annual_report
+  note: State Grid electric equipment Jinan.
+- match: 山东金胜粮油
+  city: Linyi
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Jinsheng oils Linyi.
+- match: 山东京博石油化工
+  city: Binzhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Chambroad petrochemical Binzhou.
+- match: 山东鲁抗医药
+  city: Jining
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Lukang pharma Jining.
+- match: 山东齐都药业
+  city: Zibo
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Qidu pharma Zibo.
+- match: 索通发展
+  city: Dezhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Sunstone anode Dezhou.
+- match: 潍柴雷沃
+  city: Weifang
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Weichai Lovol Weifang.
+- match: 潍柴重机
+  city: Weifang
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Weichai heavy machinery Weifang.
+- match: 愉悦家纺
+  city: Binzhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Yuyue home textile Binzhou.
+- match: 中材锂膜
+  city: Changzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: CNBM lithium separator Changzhou.
+- match: 青岛炼油化工
+  city: Qingdao
+  province: Shandong
+  evidence_type: company_site_registry
+  note: Sinopec Qingdao refinery.
+- match: 河南济源钢铁
+  city: Jiyuan
+  province: Henan
+  evidence_type: company_annual_report
+  note: Jiyuan steel Henan.
+- match: 河南省矿山起重机
+  city: Changyuan
+  province: Henan
+  evidence_type: company_annual_report
+  note: Mine crane Changyuan.
+- match: 河南省中联玻璃
+  city: Zhengzhou
+  province: Henan
+  evidence_type: company_annual_report
+  note: CNBM glass Zhengzhou.
+- match: 河南豫光金铅
+  city: Jiyuan
+  province: Henan
+  evidence_type: company_annual_report
+  note: Yuguang lead Jiyuan.
+- match: 万华禾香
+  city: Linyi
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Wanhua board Linyi.
+- match: 大冶特殊钢
+  city: Huangshi
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Daye special steel Huangshi.
+- match: 湖北达能
+  city: Wuhan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Danone Wuhan plant.
+- match: 湖北美的洗衣机
+  city: Wuhan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Midea laundry Wuhan.
+- match: 湖北三峰透平
+  city: Wuhan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Sanfeng turbo Wuhan.
+- match: 宜昌人福
+  city: Yichang
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Humanwell pharma Yichang.
+- match: 湖南吉利汽车
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Geely components Changsha.
+- match: 威胜信息
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Willfar smart grid Changsha.
+- match: 盐津铺子
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Yanjin snacks Changsha.
+- match: 中国铁建重工
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: CRCC tunnel equipment Changsha.
+- match: 广西华昇
+  city: Fangchenggang
+  province: Guangxi
+  evidence_type: company_site_registry
+  note: Chalco alumina Fangchenggang.
+- match: 广西华谊新材料
+  city: Qinzhou
+  province: Guangxi
+  evidence_type: company_site_registry
+  note: Huayi new materials Qinzhou.
+- match: 桂林深科技
+  city: Guilin
+  province: Guangxi
+  evidence_type: company_annual_report
+  note: Shenzhen Kaifa Guilin plant.
+- match: 广西石化分公司
+  city: Qinzhou
+  province: Guangxi
+  evidence_type: company_site_registry
+  note: CNPC Guangxi petrochemical.
+- match: 富临精工
+  city: Mianyang
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Fulin precision Mianyang.
+- match: 巨石集团成都
+  city: Chengdu
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: CPIC fiberglass Chengdu.
+- match: 通合新能源
+  city: Chengdu
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Tonghe solar Chengdu.
+- match: 雅化集团绵阳
+  city: Mianyang
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Yahua industrial explosives Mianyang.
+- match: 中国核动力研究设计院
+  city: Chengdu
+  province: Sichuan
+  evidence_type: project_registry
+  note: CNNC nuclear research Chengdu base.
+- match: 中原油田普光
+  city: Dazhou
+  province: Sichuan
+  evidence_type: company_site_registry
+  note: Sinopec Puguang gas field Dazhou.
+- match: 贵州航天电器
+  city: Guiyang
+  province: Guizhou
+  evidence_type: company_annual_report
+  note: Aerospace Electric Guiyang.
+- match: 红云红河烟草
+  city: Kunming
+  province: Yunnan
+  evidence_type: company_annual_report
+  note: Hongyun Honghe tobacco Kunming.
+- match: 云南铜业
+  city: Kunming
+  province: Yunnan
+  evidence_type: company_annual_report
+  note: Yunnan Copper Kunming.
+- match: 冀东水泥铜川
+  city: Tongchuan
+  province: Shaanxi
+  evidence_type: company_site_registry
+  note: Jidong cement Tongchuan.
+- match: 陕西法士特智能制动
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: Fast Gear braking Xi'an.
+- match: 陕西飞机工业
+  city: Hanzhong
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: Shaanxi Aircraft Hanzhong.
+- match: 西安航空计算技术
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: project_registry
+  note: AVIC computing institute Xi'an.
+- match: 长庆油田分公司
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_site_registry
+  note: PetroChina Changqing field HQ Xi'an.
+- match: 共享装备
+  city: Shizuishan
+  province: Ningxia
+  evidence_type: company_annual_report
+  note: Kocel 3D printing Shizuishan.
+- match: 国家能源集团宁夏煤业
+  city: Yinchuan
+  province: Ningxia
+  evidence_type: company_site_registry
+  note: Shenhua coal-to-liquids Ningxia.
+- match: 库车利华纺织
+  city: Aksu
+  province: Xinjiang
+  evidence_type: company_annual_report
+  note: Lihua textile Aksu.
+- match: 新疆天润乳业
+  city: Changji
+  province: Xinjiang
+  evidence_type: company_annual_report
+  note: Tianrun dairy Changji.
+- match: 新疆天业
+  city: Shihezi
+  province: Xinjiang
+  evidence_type: company_annual_report
+  note: Xinjiang Tianye chemical Shihezi.
+- match: 中国电子科技集团公司
+  city: Nanjing
+  province: Jiangsu
+  evidence_type: project_registry
+  note: CETC 14th institute Nanjing.
+- match: 福建三钢闽光
+  city: Sanming
+  province: Fujian
+  evidence_type: company_annual_report
+  note: Sansteel MinGuang in Sanming.
+- match: 福建三宝钢铁
+  city: Zhangzhou
+  province: Fujian
+  evidence_type: company_site_registry
+  note: Sanbao steel Zhangzhou.
+- match: 江中药业
+  city: Nanchang
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Jiangzhong Pharma Nanchang.
+- match: 昌河飞机工业
+  city: Jingdezhen
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Changhe Aircraft Jingdezhen.
+- match: 江西保太有色
+  city: Yingtan
+  province: Jiangxi
+  evidence_type: company_site_registry
+  note: Baotai nonferrous Yingtan.
+- match: 浪潮电子信息
+  city: Jinan
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Inspur servers Jinan.
+- match: 中车青岛四方
+  city: Qingdao
+  province: Shandong
+  evidence_type: company_annual_report
+  note: CRRC Qingdao Sifang.
+- match: 山东钢铁集团永锋
+  city: Linyi
+  province: Shandong
+  evidence_type: company_site_registry
+  note: Yongfeng steel Linyi.
+- match: 山东路德新材料
+  city: Tai'an
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Road new materials Tai'an.
+- match: 东阿阿胶
+  city: Liaocheng
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Donge Ejiao Liaocheng.
+- match: 潍柴动力
+  city: Weifang
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Weichai power Weifang.
+- match: 山东英轩实业
+  city: Weifang
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Enviway biochemical Weifang.
+- match: 魏桥纺织
+  city: Binzhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Weiqiao textile Binzhou.
+- match: 玫德集团
+  city: Jinan
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Meide cast iron Jinan.
+- match: 山推工程机械
+  city: Jining
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Shantui construction machinery Jining.
+- match: 山东宏桥新型材料
+  city: Binzhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Hongqiao aluminum Binzhou.
+- match: 滨化集团
+  city: Binzhou
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Befar chemical Binzhou.
+- match: 中航光电
+  city: Luoyang
+  province: Henan
+  evidence_type: company_annual_report
+  note: AVIC Jonhon Luoyang.
+- match: 卫华集团
+  city: Changyuan
+  province: Henan
+  evidence_type: company_annual_report
+  note: Weihua cranes Henan Changyuan.
+- match: 第一拖拉机
+  city: Luoyang
+  province: Henan
+  evidence_type: company_annual_report
+  note: YTO Group Luoyang.
+- match: 中原内配
+  city: Mengzhou
+  province: Henan
+  evidence_type: company_annual_report
+  note: Zhongyuan Neipei Jiaozuo/Mengzhou.
+- match: 河南许继仪表
+  city: Xuchang
+  province: Henan
+  evidence_type: company_annual_report
+  note: Xuji metering Xuchang.
+- match: 河南平高电气
+  city: Pingdingshan
+  province: Henan
+  evidence_type: company_annual_report
+  note: Pinggao switchgear Pingdingshan.
+- match: 河南四方达
+  city: Zhengzhou
+  province: Henan
+  evidence_type: company_annual_report
+  note: SF Diamond Zhengzhou.
+- match: 安琪酵母
+  city: Yichang
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Angel Yeast Yichang.
+- match: 长飞光纤光缆
+  city: Wuhan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: YOFC Wuhan.
+- match: 武昌船舶重工
+  city: Wuhan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Wuchang Shipyard Wuhan.
+- match: 劲牌有限
+  city: Daye
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Jingpai spirits Huangshi/Daye.
+- match: 健鼎（湖北）
+  city: Hanchuan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Tripod PCB Hubei plant.
+- match: 湖北回天新材料
+  city: Xiangyang
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Huitian adhesive Xiangyang.
+- match: 华新水泥
+  city: Huangshi
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Huaxin Cement Huangshi.
+- match: 山河智能装备
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Sunward equipment Changsha.
+- match: 湖南科伦制药
+  city: Yueyang
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Kelun pharma Hunan.
+- match: 湖南云箭集团
+  city: Changde
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Yunjian weapons Changde.
+- match: 三一集团
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Sany heavy industry Changsha.
+- match: 湖南星邦智能
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Sinoboom aerial platforms Changsha.
+- match: 中国石化北海炼化
+  city: Beihai
+  province: Guangxi
+  evidence_type: company_site_registry
+  note: Sinopec Beihai refinery.
+- match: 广西玉柴机器
+  city: Yulin
+  province: Guangxi
+  evidence_type: company_annual_report
+  note: Yuchai diesel engines Yulin.
+- match: 广西华谊能源化工
+  city: Qinzhou
+  province: Guangxi
+  evidence_type: company_site_registry
+  note: Huayi energy chemical Qinzhou.
+- match: 上汽通用五菱
+  city: Liuzhou
+  province: Guangxi
+  evidence_type: company_annual_report
+  note: SAIC-GM-Wuling Liuzhou.
+- match: 华润水泥（田阳）
+  city: Baise
+  province: Guangxi
+  evidence_type: company_site_registry
+  note: CR Cement Tianyang Baise.
+- match: 海南金盘智能
+  city: Haikou
+  province: Hainan
+  evidence_type: company_annual_report
+  note: Jinpan electric Haikou.
+- match: 泸州老窖
+  city: Luzhou
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Luzhou Laojiao spirits.
+- match: 川开电气
+  city: Chengdu
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Chuankai electric Chengdu.
+- match: 东方电气集团东方汽轮机
+  city: Deyang
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: DEC steam turbines Deyang.
+- match: 攀钢集团西昌钢钒
+  city: Xichang
+  province: Sichuan
+  evidence_type: company_site_registry
+  note: Pangang Xichang steel.
+- match: 东方电气集团东方电机
+  city: Deyang
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: DEC generators Deyang.
+- match: 贵州盘江民爆
+  city: Liupanshui
+  province: Guizhou
+  evidence_type: company_site_registry
+  note: Panjiang civil explosives.
+- match: 云南云天化石化
+  city: Kunming
+  province: Yunnan
+  evidence_type: company_annual_report
+  note: Yuntianhua petrochemical.
+- match: 云南文山铝业
+  city: Wenshan
+  province: Yunnan
+  evidence_type: company_site_registry
+  note: Wenshan aluminum smelter.
+- match: 中航西安飞机工业
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: AVIC XAC Xi'an aircraft.
+- match: 陕西汉德车桥
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: Hande axles Xi'an.
+- match: 庆安集团
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: Qingan refrigeration Xi'an.
+- match: 冀东海德堡（泾阳）
+  city: Xianyang
+  province: Shaanxi
+  evidence_type: company_site_registry
+  note: Jidong Heidelberg cement Xianyang.
+- match: 青海中信国安锂业
+  city: Golmud
+  province: Qinghai
+  evidence_type: company_site_registry
+  note: CITIC Guoan lithium Golmud.
+- match: 蒙牛乳业（宁夏）
+  city: Yinchuan
+  province: Ningxia
+  evidence_type: company_site_registry
+  note: Mengniu dairy Ningxia.
+- match: 吴忠仪表
+  city: Wuzhong
+  province: Ningxia
+  evidence_type: company_annual_report
+  note: Wuzhong instrument Ningxia.
+- match: 金风科技
+  city: Urumqi
+  province: Xinjiang
+  evidence_type: company_annual_report
+  note: Goldwind wind turbines Xinjiang.
+- match: 新疆天池能源
+  city: Urumqi
+  province: Xinjiang
+  evidence_type: company_site_registry
+  note: Tianchi energy coal Xinjiang.
+- match: 邯钢集团邯宝钢铁
+  city: Handan
+  province: Hebei
+  evidence_type: company_annual_report
+  note: Hansteel Handan.
+- match: 河北衡水老白干
+  city: Hengshui
+  province: Hebei
+  evidence_type: company_annual_report
+  note: Hengshui Laobaigan spirits.
+- match: 敬业钢铁
+  city: Shijiazhuang
+  province: Hebei
+  evidence_type: company_annual_report
+  note: Jingye steel Shijiazhuang.
+- match: 山西太钢不锈钢
+  city: Taiyuan
+  province: Shanxi
+  evidence_type: company_annual_report
+  note: TISCO Taiyuan.
+- match: 山西阳煤化工机械
+  city: Jincheng
+  province: Shanxi
+  evidence_type: company_site_registry
+  note: Yangmei coal chemical machinery.
+- match: 通富微电子
+  city: Nantong
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Tongfu microelectronics Nantong.
+- match: 徐工集团工程机械
+  city: Xuzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: XCMG construction machinery Xuzhou.
+- match: 远景能源
+  city: Wuxi
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Envision Energy Wuxi.
+- match: 中创新航
+  city: Changzhou
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: CALB battery Changzhou.
+- match: 中复神鹰碳纤维
+  city: Lianyungang
+  province: Jiangsu
+  evidence_type: company_annual_report
+  note: Zhongfu Shenying carbon fiber.
+- match: 爱柯迪
+  city: Ningbo
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: IKD die casting Ningbo.
+- match: 得力集团
+  city: Ningbo
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Deli office supplies Ningbo.
+- match: 公牛集团
+  city: Ningbo
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Gongniu electrical Ningbo.
+- match: 顾家家居
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Kuka home Hangzhou.
+- match: 巨化集团
+  city: Quzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Juhua chemical Quzhou.
+- match: 桐昆集团
+  city: Jiaxing
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Tongkun polyester Jiaxing.
+- match: 卧龙电气驱动
+  city: Shaoxing
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Wolong electric Shaoxing.
+- match: 雅戈尔服装
+  city: Ningbo
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Youngor apparel Ningbo.
+- match: 浙江传化化学品
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Transfar chemical Hangzhou.
+- match: 浙江久立特材
+  city: Huzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Jiuli special steel Huzhou.
+- match: 浙江万向精工
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Wanxiang auto parts Hangzhou.
+- match: 正泰新能
+  city: Wenzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Astronergy solar Wenzhou.
+- match: 中策橡胶
+  city: Hangzhou
+  province: Zhejiang
+  evidence_type: company_annual_report
+  note: Zhongce rubber Hangzhou.
+- match: 江铃汽车
+  city: Nanchang
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: JMC automobiles Nanchang.
+- match: 江西赣锋锂业
+  city: Xinyu
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Ganfeng lithium Xinyu.
+- match: 歌尔股份
+  city: Weifang
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Goertek acoustics Weifang.
+- match: 海信空调
+  city: Qingdao
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Hisense HVAC Qingdao.
+- match: 赛轮集团
+  city: Qingdao
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Sailun tire Qingdao.
+- match: 石横特钢
+  city: Tai'an
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Shiheng special steel Tai'an.
+- match: 万华化学
+  city: Yantai
+  province: Shandong
+  evidence_type: company_annual_report
+  note: Wanhua chemical Yantai.
+- match: 中信重工机械
+  city: Luoyang
+  province: Henan
+  evidence_type: company_annual_report
+  note: CITIC Heavy Industries Luoyang.
+- match: 烽火通信
+  city: Wuhan
+  province: Hubei
+  evidence_type: company_annual_report
+  note: FiberHome Wuhan.
+- match: 湖北亿纬动力
+  city: Jingmen
+  province: Hubei
+  evidence_type: company_annual_report
+  note: EVE Energy Jingmen.
+- match: 蓝思科技
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Lens Technology Changsha.
+- match: 四川科伦药业
+  city: Chengdu
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Kelun pharma Chengdu.
+- match: 宜宾五粮液
+  city: Yibin
+  province: Sichuan
+  evidence_type: company_annual_report
+  note: Wuliangye spirits Yibin.
+- match: 陕西汽车集团
+  city: Xi'an
+  province: Shaanxi
+  evidence_type: company_annual_report
+  note: Shacman trucks Xi'an.

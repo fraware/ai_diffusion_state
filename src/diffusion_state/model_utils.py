@@ -60,12 +60,34 @@ def fit_poisson_table(
     fixed_effects: str = "",
     controls_included: str = "",
 ) -> pd.DataFrame:
-    fit = smf.poisson(formula, data=data).fit(
-        cov_type="cluster" if cluster else "nonrobust",
-        cov_kwds={"groups": data[cluster]} if cluster else None,
-        disp=False,
-        maxiter=200,
-    )
+    try:
+        fit = smf.poisson(formula, data=data).fit(
+            cov_type="cluster" if cluster else "nonrobust",
+            cov_kwds={"groups": data[cluster]} if cluster else None,
+            disp=False,
+            maxiter=200,
+        )
+    except Exception as exc:  # noqa: BLE001 — stub controls can yield singular Hessian
+        return pd.DataFrame(
+            [
+                {
+                    "term": "error",
+                    "coef": str(exc),
+                    "std_err": np.nan,
+                    "t_stat": np.nan,
+                    "p_value": np.nan,
+                    "n_obs": len(data),
+                    "r_squared": np.nan,
+                    "model": model,
+                    "formula": formula,
+                    "sample_rule": sample_rule,
+                    "n_cities": int(data["city"].nunique()),
+                    "years": ",".join(str(int(y)) for y in sorted(data["year"].unique())),
+                    "fixed_effects": fixed_effects,
+                    "controls_included": controls_included,
+                }
+            ]
+        )
     rows = []
     for term, coef in fit.params.items():
         rows.append(

@@ -1,0 +1,373 @@
+# Curated firm-name / project patterns for province-only MIIT locations.
+# Each entry requires a non-HQ evidence note; applied via smart_factory_city_overrides.csv.
+entries:
+  - match: 波司登羽绒服装
+    city: Changshu
+    province: Jiangsu
+    evidence_type: company_site_registry
+    note: Changshu headquarters and manufacturing base (Jiangsu province list row).
+  - match: 江苏康缘药业
+    city: Lianyungang
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Kangwon Pharma manufacturing base in Lianyungang.
+  - match: 扬子江药业集团
+    city: Taizhou
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Yangtze River Pharmaceutical Group HQ/plant in Taizhou, Jiangsu.
+  - match: 江苏亨通光电
+    city: Suzhou
+    province: Jiangsu
+    evidence_type: industrial_park_page
+    note: Hengtong optoelectronics operations in Suzhou/Wujiang cluster.
+  - match: 海澜之家集团
+    city: Wuxi
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: HLA Group based in Jiangyin/Wuxi area.
+  - match: 江苏鱼跃医疗设备
+    city: Danyang
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Yuyue medical equipment production in Danyang.
+  - match: 巨石集团
+    city: Tongxiang
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: China National Building Material / Tongxiang fiberglass base.
+  - match: 新凤鸣集团
+    city: Tongxiang
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: Xinfengming chemical fiber HQ in Tongxiang.
+  - match: 浙江春风动力
+    city: Taizhou
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: CFMOTO manufacturing in Taizhou (Wenling county cluster).
+  - match: 浙江大华技术
+    city: Hangzhou
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: Dahua Technology HQ/Binjiang base in Hangzhou.
+  - match: 中控技术股份
+    city: Hangzhou
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: Supcon HQ in Hangzhou Binjiang.
+  - match: 安徽南瑞中天
+    city: Hefei
+    province: Anhui
+    evidence_type: company_site_registry
+    note: NARI/State Grid equipment subsidiary base in Hefei cluster.
+  - match: 博西华家用电器
+    city: Hefei
+    province: Anhui
+    evidence_type: industrial_park_page
+    note: BSH home appliances manufacturing park in Hefei.
+  - match: 安徽环新集团
+    city: Anqing
+    province: Anhui
+    evidence_type: company_annual_report
+    note: Anhui Ring New piston/ring manufacturing in Anqing.
+  - match: 安徽全柴动力
+    city: Chuzhou
+    province: Anhui
+    evidence_type: company_annual_report
+    note: Quanchai engine manufacturing in Chuzhou.
+  - match: 奇瑞新能源汽车
+    city: Wuhu
+    province: Anhui
+    evidence_type: company_annual_report
+    note: Chery Automobile EV plants in Wuhu.
+  - match: 洽洽食品
+    city: Hefei
+    province: Anhui
+    evidence_type: company_annual_report
+    note: ChaCha food manufacturing in Hefei economic zone.
+  - match: 长鑫存储技术
+    city: Hefei
+    province: Anhui
+    evidence_type: project_registry
+    note: CXMT semiconductor fab project in Hefei (Anhui list).
+  - match: 百威雪津啤酒
+    city: Putian
+    province: Fujian
+    evidence_type: company_site_registry
+    note: AB InBev Snow Breweries Fujian plant (Putian).
+  - match: OPPO广东移动通信
+    city: Dongguan
+    province: Guangdong
+    evidence_type: company_annual_report
+    note: OPPO manufacturing center in Dongguan Chang'an.
+  - match: 广东美的制冷设备
+    city: Foshan
+    province: Guangdong
+    evidence_type: company_annual_report
+    note: Midea Shunde/Foshan appliance manufacturing base.
+  - match: 华润三九医药
+    city: Shenzhen
+    province: Guangdong
+    evidence_type: company_annual_report
+    note: China Resources Sanjiu pharmaceutical operations in Shenzhen.
+  - match: 中建钢构广东
+    city: Shenzhen
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: CSCEC steel structure Guangdong base in Shenzhen.
+  - match: 因湃电池科技
+    city: Guangzhou
+    province: Guangdong
+    evidence_type: project_registry
+    note: GAC Aion battery entity in Guangzhou Nansha cluster.
+  - match: 君乐宝乳业集团
+    city: Shijiazhuang
+    province: Hebei
+    evidence_type: company_annual_report
+    note: Junlebao dairy HQ and plants in Shijiazhuang.
+  - match: 中信戴卡股份
+    city: Qinhuangdao
+    province: Hebei
+    evidence_type: company_annual_report
+    note: CITIC Dicastal wheel manufacturing in Qinhuangdao.
+  - match: 金鼎重工
+    city: Handan
+    province: Hebei
+    evidence_type: company_site_registry
+    note: Jinding Heavy Industry in Handan Yongnian area.
+  - match: 三一重型装备
+    city: Shenyang
+    province: Liaoning
+    evidence_type: company_annual_report
+    note: Sany mining equipment base in Shenyang.
+  - match: 凌源钢铁股份
+    city: Lingyuan
+    province: Liaoning
+    evidence_type: company_annual_report
+    note: Lingyuan Iron & Steel in Lingyuan, Chaoyang.
+  - match: 黑龙江飞鹤乳业
+    city: Qiqihar
+    province: Heilongjiang
+    evidence_type: company_annual_report
+    note: Feihe dairy manufacturing in Qiqihar.
+  - match: 建龙西林钢铁
+    city: Xilinhot
+    province: Inner Mongolia
+    evidence_type: company_site_registry
+    note: Jianlong steel plant in Xilin Gol (listed as Heilongjiang border plant).
+  - match: 内蒙古金海伊利
+    city: Hohhot
+    province: Inner Mongolia
+    evidence_type: company_site_registry
+    note: Yili Inner Mongolia production entity.
+  - match: 中国北方稀土
+    city: Baotou
+    province: Inner Mongolia
+    evidence_type: company_annual_report
+    note: China Northern Rare Earth HQ/plants in Baotou.
+  - match: 山西晋钢智造
+    city: Jincheng
+    province: Shanxi
+    evidence_type: company_site_registry
+    note: Jincheng iron & steel cluster.
+  - match: 亚普汽车部件
+    city: Yangzhou
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: YAPP automotive fuel systems in Yangzhou.
+  - match: 莱克电气股份
+    city: Suzhou
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Lexy electric manufacturing in Suzhou.
+  - match: 江苏恒顺醋业
+    city: Zhenjiang
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Hengshun vinegar production in Zhenjiang.
+  - match: 江苏亚威机床
+    city: Yangzhou
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Yawei machine tool in Yangzhou Jiangdu.
+  - match: 江苏国茂减速机
+    city: Changzhou
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Guomao reducer manufacturing in Changzhou.
+  - match: 远东控股集团
+    city: Yixing
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: Far East Cable HQ in Yixing, Wuxi.
+  - match: 中国石化扬子石油化工
+    city: Nanjing
+    province: Jiangsu
+    evidence_type: company_site_registry
+    note: Sinopec Yangzi Petrochemical in Nanjing.
+  - match: 浙江中烟工业
+    city: Hangzhou
+    province: Zhejiang
+    evidence_type: company_site_registry
+    note: China Tobacco Zhejiang Industrial in Hangzhou.
+  - match: 浙江海正药业
+    city: Taizhou
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: Hisun Pharma in Taizhou.
+  - match: 浙江天正电气
+    city: Wenzhou
+    province: Zhejiang
+    evidence_type: company_annual_report
+    note: Tengen electric in Wenzhou Yueqing.
+  - match: 宁德新能源科技
+    city: Ningde
+    province: Fujian
+    evidence_type: company_annual_report
+    note: CATL/NDEV battery manufacturing in Ningde.
+  - match: 漳州立达信
+    city: Zhangzhou
+    province: Fujian
+    evidence_type: company_site_registry
+    note: Leedarson lighting manufacturing in Zhangzhou.
+  - match: 福建良瓷科技
+    city: Quanzhou
+    province: Fujian
+    evidence_type: industrial_park_page
+    note: Ceramics sanitary ware cluster in Quanzhou/Dehua area.
+  - match: 中车唐山机车
+    city: Tangshan
+    province: Hebei
+    evidence_type: company_site_registry
+    note: CRRC Tangshan rolling stock plant.
+  - match: 首钢京唐钢铁
+    city: Tangshan
+    province: Hebei
+    evidence_type: company_site_registry
+    note: Shougang Jingtang steel complex in Tangshan Caofeidian.
+  - match: 承德建龙特殊钢
+    city: Chengde
+    province: Hebei
+    evidence_type: company_site_registry
+    note: Jianlong special steel in Chengde.
+  - match: 河北钢铁集团沙河
+    city: Xingtai
+    province: Hebei
+    evidence_type: company_site_registry
+    note: Shahe iron mine / Xingtai prefecture.
+  - match: 米其林沈阳轮胎
+    city: Shenyang
+    province: Liaoning
+    evidence_type: company_site_registry
+    note: Michelin Shenyang tire plant.
+  - match: 特变电工沈阳变压器
+    city: Shenyang
+    province: Liaoning
+    evidence_type: company_annual_report
+    note: TBEA Shenyang transformer manufacturing.
+  - match: 国投生物能源（铁岭）
+    city: Tieling
+    province: Liaoning
+    evidence_type: company_site_registry
+    note: SDIC bioenergy ethanol plant in Tieling.
+  - match: 中车长春轨道客车
+    city: Changchun
+    province: Jilin
+    evidence_type: company_annual_report
+    note: CRRC Changchun railway equipment.
+  - match: 中国第一汽车股份
+    city: Changchun
+    province: Jilin
+    evidence_type: company_annual_report
+    note: FAW Group headquarters and plants in Changchun.
+  - match: 一汽解放汽车
+    city: Changchun
+    province: Jilin
+    evidence_type: company_annual_report
+    note: FAW Jiefang truck manufacturing in Changchun.
+  - match: 冀东水泥磐石
+    city: Jilin
+    province: Jilin
+    evidence_type: company_site_registry
+    note: Jidong Cement Panshi city plant.
+  - match: 牡丹江恒丰纸业
+    city: Mudanjiang
+    province: Heilongjiang
+    evidence_type: company_annual_report
+    note: Hengfeng paper in Mudanjiang.
+  - match: 中国电子科技集团公司第十四研究所
+    city: Nanjing
+    province: Jiangsu
+    evidence_type: project_registry
+    note: CETC 14th Research Institute smart factory list entry (Nanjing).
+  - match: 中集安瑞环科技
+    city: Nantong
+    province: Jiangsu
+    evidence_type: company_annual_report
+    note: CIMC tank container manufacturing in Nantong.
+  - match: 沈鼓集团股份
+    city: Shenyang
+    province: Liaoning
+    evidence_type: company_annual_report
+    note: Shenyang Blower Works HQ/plant in Shenyang.
+  - match: 中科（广东）炼化
+    city: Zhanjiang
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: Sinopec Zhanjiang refining complex.
+  - match: 宝钢湛江钢铁
+    city: Zhanjiang
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: Baosteel Zhanjiang steel base.
+  - match: 格力电器（珠海金湾）
+    city: Zhuhai
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: Gree Zhuhai Jinwan manufacturing base.
+  - match: 中国石油化工股份有限公司广州分公司
+    city: Guangzhou
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: Sinopec Guangzhou refining branch.
+  - match: 深南电路股份
+    city: Shenzhen
+    province: Guangdong
+    evidence_type: company_annual_report
+    note: Shennan Circuits PCB manufacturing in Shenzhen.
+  - match: 玛氏箭牌糖果（中国）
+    city: Guangzhou
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: Mars Wrigley Guangzhou plant.
+  - match: 无限极（中国）
+    city: Zhongshan
+    province: Guangdong
+    evidence_type: company_site_registry
+    note: Infinitus manufacturing base in Zhongshan, Guangdong.
+  - match: 安徽枞阳海螺水泥
+    city: Tongling
+    province: Anhui
+    evidence_type: company_site_registry
+    note: Conch Cement plant in Zongyang county (Tongling prefecture).
+  - match: 安徽合力股份
+    city: Hefei
+    province: Anhui
+    evidence_type: company_annual_report
+    note: Heli forklift manufacturing in Hefei.
+  - match: 劲旅环境科技
+    city: Hefei
+    province: Anhui
+    evidence_type: company_annual_report
+    note: INKON environment equipment in Hefei.
+  - match: 铜陵精达特种电磁线
+    city: Tongling
+    province: Anhui
+    evidence_type: company_annual_report
+    note: Jingda special magnet wire in Tongling.
+  - match: 北新嘉宝莉涂料（安徽）
+    city: Hefei
+    province: Anhui
+    evidence_type: industrial_park_page
+    note: Caparol coatings plant in Hefei Xinzhan.

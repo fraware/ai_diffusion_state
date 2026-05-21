@@ -25,7 +25,7 @@
       "claim_id": "panel_city_year",
       "required": true,
       "exists": true,
-      "n_rows": 60,
+      "n_rows": 222,
       "n_cols": 10
     },
     {
@@ -34,7 +34,7 @@
       "claim_id": "panel_analysis",
       "required": true,
       "exists": true,
-      "n_rows": 287,
+      "n_rows": 1113,
       "n_cols": 27
     },
     {
@@ -43,7 +43,7 @@
       "claim_id": "descriptive_data_coverage",
       "required": true,
       "exists": true,
-      "n_rows": 5,
+      "n_rows": 6,
       "n_cols": 5
     },
     {
@@ -79,7 +79,7 @@
       "claim_id": "models_adoption",
       "required": true,
       "exists": true,
-      "n_rows": 89,
+      "n_rows": 325,
       "n_cols": 11
     },
     {
@@ -99,7 +99,7 @@
       "exists": true,
       "n_rows": null,
       "n_cols": null,
-      "bytes": 45334
+      "bytes": 44840
     },
     {
       "path": "outputs/tables/table_5_controlled_adoption_models.csv",
@@ -107,7 +107,7 @@
       "claim_id": "models_controlled",
       "required": false,
       "exists": true,
-      "n_rows": 1,
+      "n_rows": 19,
       "n_cols": 14
     },
     {
@@ -116,8 +116,8 @@
       "claim_id": "robustness_hub_exclusion",
       "required": true,
       "exists": true,
-      "n_rows": 6,
-      "n_cols": 9
+      "n_rows": 12,
+      "n_cols": 13
     },
     {
       "path": "outputs/tables/table_7_pilot_city_balance.csv",
@@ -125,7 +125,7 @@
       "claim_id": "balance_pretreatment",
       "required": false,
       "exists": true,
-      "n_rows": 1,
+      "n_rows": 9,
       "n_cols": 9
     },
     {
@@ -135,7 +135,7 @@
       "required": false,
       "exists": true,
       "n_rows": 1,
-      "n_cols": 3
+      "n_cols": 10
     },
     {
       "path": "outputs/tables/table_9_city_resolution_audit.csv",
@@ -143,7 +143,7 @@
       "claim_id": "geo_resolution_audit",
       "required": true,
       "exists": true,
-      "n_rows": 6,
+      "n_rows": 8,
       "n_cols": 3
     },
     {
@@ -187,7 +187,9 @@
       "artifact_type": "table",
       "claim_id": "export_models_revised",
       "required": false,
-      "exists": false
+      "exists": true,
+      "n_rows": 8,
+      "n_cols": 9
     },
     {
       "path": "outputs/tables/table_13_city_industry_adoption_models.csv",
@@ -195,17 +197,54 @@
       "claim_id": "city_industry_models",
       "required": true,
       "exists": true,
-      "n_rows": 1882,
-      "n_cols": 9
+      "n_rows": 898,
+      "n_cols": 10
     },
     {
       "path": "data/processed/industry_ai_exposure.csv",
       "artifact_type": "processed",
       "claim_id": "industry_ai_exposure",
-      "required": true,
+      "required": false,
       "exists": true,
       "n_rows": 19,
       "n_cols": 7
+    },
+    {
+      "path": "data/processed/industry_ai_exposure_ex_ante.csv",
+      "artifact_type": "processed",
+      "claim_id": "industry_ai_exposure_ex_ante",
+      "required": true,
+      "exists": true,
+      "n_rows": 19,
+      "n_cols": 11
+    },
+    {
+      "path": "outputs/tables/table_14_city_diffusion_typology.csv",
+      "artifact_type": "table",
+      "claim_id": "city_diffusion_typology",
+      "required": true,
+      "exists": true,
+      "n_rows": 159,
+      "n_cols": 11
+    },
+    {
+      "path": "outputs/figures/fig_city_typology_smart_factory_counts.png",
+      "artifact_type": "figure",
+      "claim_id": "fig_city_typology",
+      "required": false,
+      "exists": true,
+      "n_rows": null,
+      "n_cols": null,
+      "bytes": 39270
+    },
+    {
+      "path": "outputs/tables/table_15_export_relevance_by_sector.csv",
+      "artifact_type": "table",
+      "claim_id": "export_relevance",
+      "required": false,
+      "exists": true,
+      "n_rows": 10,
+      "n_cols": 9
     }
   ],
   "missing_required": []

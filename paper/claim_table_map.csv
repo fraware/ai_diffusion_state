@@ -4,9 +4,10 @@ measurement_smart_factories,measured,MIIT excellence-level smart-factory project
 descriptive_pilot_overlap,validated_descriptive,Listed smart-factory recognition is concentrated in pilot-zone cities (resolved cities only).,outputs/tables/table_pilot_zone_overlap.csv,scripts/05_run_baseline_models.py
 associational_adoption,controlled_association,Positive pilot/post-pilot association in baseline models; controlled specs require city_controls_year.csv.,outputs/tables/table_3_pilot_zone_adoption_models.csv,src/diffusion_state/run_models.py
 controlled_adoption,controlled_association,Model 4-7 with city economic controls (blocked until EPS/NBS ingestion).,outputs/tables/table_5_controlled_adoption_models.csv,src/diffusion_state/run_controlled_models.py
-hub_robustness,robust_association,Pilot-zone coefficient under mega-city and top-city exclusions.,outputs/tables/table_6_hub_exclusion_robustness.csv,src/diffusion_state/run_hub_robustness.py
+hub_robustness,robust_association,Pilot coefficient collapses outside mega-hubs and direct-admin municipalities.,outputs/tables/table_6_hub_exclusion_robustness.csv,src/diffusion_state/run_hub_robustness.py
+hub_architecture_typology,validated_descriptive,Adoption clusters by diffusion-state city type not pilot binary alone.,outputs/tables/table_14_city_diffusion_typology.csv,src/diffusion_state/build_city_diffusion_typology.py
 timing_diagnostic,not_supported,"Pre-2024 bins are mechanical; figure is timing diagnostic only, not pre-trend validation.",outputs/tables/table_timing_diagnostic_coefficients.csv,src/diffusion_state/run_models.py
 balance_matching,robust_association,Pre-treatment balance and matched-sample adoption (requires city controls).,outputs/tables/table_7_pilot_city_balance.csv,src/diffusion_state/run_balance_matching.py
-city_industry_exposure,suggestive_mechanism,Pilot association heterogeneity by industry AI exposure (exploratory).,outputs/tables/table_13_city_industry_adoption_models.csv,src/diffusion_state/run_city_industry_models.py
-export_upgrading_descriptive,not_supported,Export linkage descriptive only; revised models in table_12.,outputs/tables/table_12_export_models_revised.csv,src/diffusion_state/build_export_revised.py
-causal_pilot_effect,not_supported,Do not claim pilot zones caused adoption until controls and balance justify it.,,
+city_industry_exposure_ex_ante,suggestive_mechanism,Pilot heterogeneity by ex ante industry AI exposure (preferred spec).,outputs/tables/table_13_city_industry_adoption_models.csv,src/diffusion_state/run_city_industry_models.py
+export_relevance_descriptive,validated_descriptive,Smart-factory sectors overlap advanced export basket (no causal claim).,outputs/tables/table_15_export_relevance_by_sector.csv,src/diffusion_state/build_export_revised.py
+causal_pilot_effect,not_supported,Do not claim average pilot-zone treatment effect across treated cities.,,

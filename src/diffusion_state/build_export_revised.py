@@ -185,6 +185,63 @@ def build_export_sector_trends_figure() -> Path | None:
     return path
 
 
+def build_export_relevance_by_sector() -> pd.DataFrame:
+    """Descriptive strategic relevance: smart-factory concentration vs export basket."""
+    clean = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "smart_factories_clean.csv")
+    sector = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "export_outcomes_sector_year.csv")
+    bridge = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "hs_to_smart_factory_sector_bridge.csv")
+    group_map = _sector_group_map()
+
+    sf = (
+        clean.assign(sector_group=lambda d: d["industry_label"].map(group_map).fillna("other"))
+        .groupby("sector_group", as_index=False)
+        .agg(smart_factory_projects=("project_id", "count"))
+    )
+    total_sf = int(sf["smart_factory_projects"].sum())
+    sf["share_of_smart_factory_projects"] = sf["smart_factory_projects"] / total_sf if total_sf else 0.0
+
+    sector = sector[sector["mapping_confidence_summary"].isin(PRIMARY_CONFIDENCE)].copy()
+    sector["sector_group"] = sector["sector_label"].map(group_map).fillna("other")
+    s2024 = sector[sector["year"] == 2024]
+    export_2024 = (
+        s2024.groupby("sector_group", as_index=False)
+        .agg(export_value_2024=("export_value_usd", "sum"))
+    )
+    total_export = float(export_2024["export_value_2024"].sum())
+    export_2024["share_of_china_exports_2024"] = (
+        export_2024["export_value_2024"] / total_export if total_export else 0.0
+    )
+
+    def _growth_spread(g: pd.DataFrame) -> pd.Series:
+        y24 = g.loc[g["year"] == 2024, "export_value_growth"].mean()
+        y17 = g.loc[g["year"] == 2017, "export_value_growth"].mean()
+        u24 = g.loc[g["year"] == 2024, "unit_value_growth"].mean()
+        u17 = g.loc[g["year"] == 2017, "unit_value_growth"].mean()
+        return pd.Series(
+            {
+                "export_growth_2017_2024": y24 - y17 if pd.notna(y24) and pd.notna(y17) else np.nan,
+                "unit_value_growth_2017_2024": u24 - u17 if pd.notna(u24) and pd.notna(u17) else np.nan,
+            }
+        )
+
+    growth = sector.groupby("sector_group").apply(_growth_spread, include_groups=False).reset_index()
+
+    conf = (
+        bridge.assign(sector_group=lambda d: d["smart_factory_industry_label"].map(group_map).fillna("other"))
+        .groupby("sector_group")["mapping_confidence"]
+        .agg(lambda s: "high" if (s == "high").any() else ("medium" if (s == "medium").any() else s.iloc[0]))
+        .reset_index()
+        .rename(columns={"mapping_confidence": "mapping_confidence"})
+    )
+
+    out = sf.merge(export_2024, on="sector_group", how="left").merge(growth, on="sector_group", how="left")
+    out = out.merge(conf, on="sector_group", how="left")
+    out["note"] = "Descriptive strategic relevance; not a causal export effect."
+    OUTPUT_TABLES.mkdir(parents=True, exist_ok=True)
+    write_csv(out, OUTPUT_TABLES / "table_15_export_relevance_by_sector.csv")
+    return out
+
+
 def build_all_export_revised() -> None:
     if not (PROJECT_ROOT / "data" / "processed" / "export_outcomes_sector_year.csv").exists():
         return
@@ -192,4 +249,5 @@ def build_all_export_revised() -> None:
     build_export_bridge_audit()
     build_export_sector_descriptives()
     build_export_models_revised()
+    build_export_relevance_by_sector()
     build_export_sector_trends_figure()

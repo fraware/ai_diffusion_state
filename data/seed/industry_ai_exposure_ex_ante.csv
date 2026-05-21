@@ -1,0 +1,20 @@
+industry_code,industry_label,ai_exposure_ex_ante,robot_complementarity_ex_ante,process_control_exposure,machine_vision_exposure,digital_twin_exposure,classification_reason,classification_source
+C39_semi,semiconductors,2,2,2,2,2,Fab automation; inline inspection; yield optimization,MIIT smart manufacturing guides; OECD AI exposure mapping
+C39,electronics,2,2,2,2,2,Assembly automation; AOI; SMT process control,MIIT smart manufacturing guides; OECD AI exposure mapping
+C39_ai_server,ai_servers,2,1,2,1,2,Compute-intensive production; supply-chain digitalization,National AI infrastructure policy; industry practice reviews
+C39_battery,batteries,2,2,2,1,2,Process control and quality critical for NEV supply chain,NEV battery industry reports; MIIT guidance
+C36,automotive,2,2,2,2,1,Robotics-heavy assembly; vision QC; predictive maintenance,Automotive industry 4.0 surveys; MIIT NEV policy
+C34,general_equipment,2,2,2,1,1,Industrial machinery; CNC and robotics integration,Industry 4.0 adoption literature
+C35,special_equipment,2,2,2,1,1,Custom equipment; robotics and process automation,Industry 4.0 adoption literature
+C38,electrical_machinery,2,2,2,1,1,Motor/transformer production; process automation,GB/T 4754 sector; industrial AI compatibility review
+C33,metals,2,1,2,1,1,Steel/metals: energy and process optimization; limited vision,Heavy industry digitalization reports
+C37,railway_shipbuilding_aerospace,2,1,2,1,2,Large-scale discrete manufacturing; digital twin in aerospace,Shipbuilding/aerospace digitization studies
+C27,pharma,2,1,2,2,1,GMP process control; vision inspection in packaging,Pharma 4.0 literature
+C26,chemicals,2,1,2,1,1,Process industries; DCS and advanced control,Process industry AI adoption reviews
+C40,instruments,1,1,1,1,0,Measurement equipment; moderate automation potential,Industrial instruments sector review
+C30,non_metallic_minerals,1,0,1,0,0,Cement/glass: process control; lower robotics density,Construction materials digitization
+C14,food,0,0,1,0,0,Food processing: selective automation,Lower AI exposure in food manufacturing
+C17,textiles,0,0,0,0,0,Labor-intensive; limited industrial AI in listed projects,Textile sector technology reviews
+C13,mining,1,0,1,0,0,Mining: remote operations; selective automation,Mining automation literature
+C22,paper,0,0,1,0,0,Paper: process control; limited robotics,Pulp and paper industry reviews
+C31,furniture_wood,0,0,0,0,0,Low process-control intensity for listed smart factories,Furniture sector digitization (limited)

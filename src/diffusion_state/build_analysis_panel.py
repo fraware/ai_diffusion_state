@@ -115,6 +115,8 @@ def build_analysis_city_year_panel(
 
     df = df.drop(columns=["pilot_year_treatment"])
     df = add_derived_controls(df)
+    df = df.sort_values(["smart_factory_projects", "pilot_zone"], ascending=[False, False])
+    df = df.drop_duplicates(subset=["city", "year"], keep="first")
     df = df.sort_values(["city", "year"]).reset_index(drop=True)
     write_csv(df, out_path)
     return df

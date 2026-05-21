@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit city-controls-stub
 
 PYTHON ?= python
 
@@ -24,6 +24,20 @@ baci: setup
 
 city-controls: setup
 	$(PYTHON) scripts/06_build_city_controls.py
+
+# Synthetic controls for CI only — do not use in paper claims
+validate-controls-raw: setup
+	$(PYTHON) scripts/06a_validate_city_controls_raw.py
+
+city-controls-stub: panel
+	$(PYTHON) scripts/06b_install_city_controls_stub.py
+
+geo-audit: build
+	$(PYTHON) scripts/11_build_registry_supplement.py
+	$(PYTHON) scripts/10_build_audited_city_overrides.py
+	$(PYTHON) scripts/04_build_city_year_panel.py
+
+pcs: geo-audit city-controls-stub panel analysis validate-sprint test
 
 panel: build
 	$(PYTHON) scripts/04_build_city_year_panel.py

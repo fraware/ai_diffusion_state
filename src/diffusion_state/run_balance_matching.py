@@ -177,7 +177,7 @@ def _plot_balance(balance: pd.DataFrame, out_path: Path) -> None:
     ax.axvline(-0.25, color="lightgray", linestyle="--", linewidth=0.6)
     ax.axvline(0.25, color="lightgray", linestyle="--", linewidth=0.6)
     ax.scatter(plot_df["std_diff_pre"], y, label="Pre-match", zorder=3)
-    if plot_df["std_diff_matched"].notna().any():
+    if "std_diff_matched" in plot_df.columns and plot_df["std_diff_matched"].notna().any():
         ax.scatter(
             plot_df["std_diff_matched"],
             y,
@@ -236,32 +236,53 @@ def run_balance_and_matching(panel_path: Path | None = None) -> tuple[pd.DataFra
     matched_results = []
     if matched_path.exists() and controls_available(panel):
         matched_cities = pd.read_csv(matched_path)
-        pilot_cities = set(matched_cities.loc[matched_cities["sample"] == "matched_pilot", "city"])
+        matched_pilot_cities = set(
+            matched_cities.loc[matched_cities["sample"] == "matched_pilot", "city"]
+        )
+        matched_control_cities = set(
+            matched_cities.loc[matched_cities["sample"] == "matched_control", "city"]
+        )
+        matched_sample_cities = matched_pilot_cities | matched_control_cities
         full = adoption_sample_with_controls(panel)
-        sub = full[full["city"].isin(pilot_cities)].copy()
-        if len(sub) >= 10:
+        sub = full[full["city"].isin(matched_sample_cities)].copy()
+        n_pilot = len(matched_pilot_cities)
+        n_control = len(matched_control_cities)
+        ratio = n_pilot / n_control if n_control else np.nan
+        if len(sub) >= 10 and n_pilot and n_control:
             formula = f"smart_factory_projects ~ pilot_zone + C(year) + {control_terms()}"
             est = fit_ols_table(
                 formula,
                 sub,
                 model="matched_nn_adoption",
-                sample_rule="nearest_neighbor_matched_cities",
+                sample_rule="nearest_neighbor_matched_pilot_and_control_cities",
                 fixed_effects="year",
                 controls_included=control_terms(),
             )
+            est["n_matched_pilot_cities"] = n_pilot
+            est["n_matched_control_cities"] = n_control
+            est["matched_city_ratio"] = ratio
             matched_results.append(est)
 
     if not matched_results:
+        note = "matching produced no pairs or controls unavailable"
+        if matched_path.exists():
+            mc = pd.read_csv(matched_path)
+            n_pairs = int((mc["sample"] == "matched_pilot").sum())
+            if n_pairs == 0:
+                note = "matching failed: no nearest-neighbor pairs within caliper"
         matched_out = pd.DataFrame(
             [
                 {
                     "term": "skipped",
-                    "coef": "matching produced no pairs or controls unavailable",
+                    "coef": note,
                     "model": "matched_adoption",
                     "formula": "",
                     "sample_rule": "matched",
                     "n_obs": 0,
                     "n_cities": 0,
+                    "n_matched_pilot_cities": 0,
+                    "n_matched_control_cities": 0,
+                    "matched_city_ratio": np.nan,
                 }
             ]
         )

@@ -93,6 +93,48 @@ def _load_geo_config() -> dict:
     return read_yaml(PROJECT_ROOT / "configs" / "province_normalization.yml")
 
 
+def _load_geo_tokens() -> list[tuple[str, str, str]]:
+    cfg = read_yaml(PROJECT_ROOT / "configs" / "city_geo_tokens.yml")
+    rows = []
+    for entry in cfg.get("tokens", []):
+        rows.append((entry["zh"], entry["city"], entry["province"]))
+    return sorted(rows, key=lambda x: len(x[0]), reverse=True)
+
+
+def _load_locality_aliases() -> dict[str, dict[str, str]]:
+    path = PROJECT_ROOT / "configs" / "city_locality_aliases.yml"
+    if not path.exists():
+        return {}
+    return read_yaml(path).get("aliases", {})
+
+
+def resolve_cn_locality(cn: str) -> tuple[str, str] | None:
+    """Map a Chinese place name (with or without 市) to (city_en, province_en)."""
+    cn = normalize_cn_text(cn).strip()
+    if not cn:
+        return None
+    if cn.endswith("市"):
+        cn = cn[:-1]
+
+    alias = _load_locality_aliases().get(cn)
+    if alias:
+        return alias["city"], alias["province"]
+
+    for zh, city_en, prov_en in _load_geo_tokens():
+        if cn == zh or cn.startswith(zh):
+            return city_en, prov_en
+
+    for prefix, city_en, province_en in FIRM_PREFIX_CITIES:
+        if cn == prefix:
+            return city_en, province_en
+
+    city_en = _prefecture_city_en(f"{cn}市")
+    prov_en = _province_for_prefecture_city(f"{cn}市")
+    if city_en and prov_en:
+        return city_en, prov_en
+    return None
+
+
 def _city_from_firm_province_county(firm_name_zh: str) -> GeoResult | None:
     """e.g. 福建省晋江市 -> Jinjiang, Fujian."""
     m = re.search(r"([\u4e00-\u9fff]{2,5}省)([\u4e00-\u9fff]{2,8}市)", firm_name_zh)
@@ -207,6 +249,109 @@ def _prefecture_city_en(loc: str) -> str | None:
         "湘潭市": "Xiangtan",
         "吴忠市": "Wuzhong",
         "文山市": "Wenshan",
+        "淮安市": "Huai'an",
+        "九江市": "Jiujiang",
+        "盐城市": "Yancheng",
+        "泰州市": "Taizhou",
+        "镇江市": "Zhenjiang",
+        "连云港市": "Lianyungang",
+        "扬州市": "Yangzhou",
+        "徐州市": "Xuzhou",
+        "南通市": "Nantong",
+        "宿迁市": "Suqian",
+        "丽水市": "Lishui",
+        "金华市": "Jinhua",
+        "衢州市": "Quzhou",
+        "舟山市": "Zhoushan",
+        "台州市": "Taizhou",
+        "茂名市": "Maoming",
+        "湛江市": "Zhanjiang",
+        "江门市": "Jiangmen",
+        "中山市": "Zhongshan",
+        "东莞市": "Dongguan",
+        "佛山市": "Foshan",
+        "济南市": "Jinan",
+        "临沂市": "Linyi",
+        "济宁市": "Jining",
+        "泰安市": "Tai'an",
+        "聊城市": "Liaocheng",
+        "滨州市": "Binzhou",
+        "菏泽市": "Heze",
+        "枣庄市": "Zaozhuang",
+        "绵阳市": "Mianyang",
+        "德阳市": "Deyang",
+        "乐山市": "Leshan",
+        "泸州市": "Luzhou",
+        "宜宾市": "Yibin",
+        "达州市": "Dazhou",
+        "自贡市": "Zigong",
+        "攀枝花市": "Panzhihua",
+        "桂林市": "Guilin",
+        "钦州市": "Qinzhou",
+        "防城港市": "Fangchenggang",
+        "北海市": "Beihai",
+        "百色市": "Baise",
+        "黄石市": "Huangshi",
+        "宜昌市": "Yichang",
+        "荆州市": "Jingzhou",
+        "襄阳市": "Xiangyang",
+        "十堰市": "Shiyan",
+        "赣州市": "Ganzhou",
+        "吉安市": "Ji'an",
+        "九江市": "Jiujiang",
+        "上饶市": "Shangrao",
+        "景德镇市": "Jingdezhen",
+        "鹰潭市": "Yingtan",
+        "新余市": "Xinyu",
+        "贵溪市": "Guixi",
+        "鞍山市": "Anshan",
+        "本溪市": "Benxi",
+        "抚顺市": "Fushun",
+        "锦州市": "Jinzhou",
+        "营口市": "Yingkou",
+        "盘锦市": "Panjin",
+        "铁岭市": "Tieling",
+        "朝阳市": "Chaoyang",
+        "葫芦岛市": "Huludao",
+        "齐齐哈尔市": "Qiqihar",
+        "大庆市": "Daqing",
+        "克拉玛依市": "Karamay",
+        "石嘴山市": "Shizuishan",
+        "中卫市": "Zhongwei",
+        "固原市": "Guyuan",
+        "吴忠市": "Wuzhong",
+        "铜川市": "Tongchuan",
+        "宝鸡市": "Baoji",
+        "咸阳市": "Xianyang",
+        "渭南市": "Weinan",
+        "汉中市": "Hanzhong",
+        "榆林市": "Yulin",
+        "延安市": "Yan'an",
+        "拉萨市": "Lhasa",
+        "库尔勒市": "Korla",
+        "阿克苏市": "Aksu",
+        "石河子市": "Shihezi",
+        "昌吉市": "Changji",
+        "独山子区": "Karamay",
+        "秦皇岛市": "Qinhuangdao",
+        "邯郸市": "Handan",
+        "邢台市": "Xingtai",
+        "沧州市": "Cangzhou",
+        "衡水市": "Hengshui",
+        "承德市": "Chengde",
+        "张家口市": "Zhangjiakou",
+        "大同市": "Datong",
+        "长治市": "Changzhi",
+        "晋城市": "Jincheng",
+        "临汾市": "Linfen",
+        "运城市": "Yuncheng",
+        "呼和浩特市": "Hohhot",
+        "包头市": "Baotou",
+        "乌海市": "Wuhai",
+        "赤峰市": "Chifeng",
+        "通辽市": "Tongliao",
+        "鄂尔多斯市": "Ordos",
+        "锡林浩特市": "Xilinhot",
     }
     return mapping.get(loc)
 
@@ -273,6 +418,98 @@ def _province_for_prefecture_city(loc: str) -> str | None:
         "湘潭市": "Hunan",
         "吴忠市": "Ningxia",
         "文山市": "Yunnan",
+        "淮安市": "Jiangsu",
+        "九江市": "Jiangxi",
+        "盐城市": "Jiangsu",
+        "泰州市": "Jiangsu",
+        "镇江市": "Jiangsu",
+        "连云港市": "Jiangsu",
+        "扬州市": "Jiangsu",
+        "徐州市": "Jiangsu",
+        "宿迁市": "Jiangsu",
+        "茂名市": "Guangdong",
+        "湛江市": "Guangdong",
+        "江门市": "Guangdong",
+        "中山市": "Guangdong",
+        "东莞市": "Guangdong",
+        "佛山市": "Guangdong",
+        "济南市": "Shandong",
+        "临沂市": "Shandong",
+        "济宁市": "Shandong",
+        "泰安市": "Shandong",
+        "聊城市": "Shandong",
+        "滨州市": "Shandong",
+        "菏泽市": "Shandong",
+        "枣庄市": "Shandong",
+        "绵阳市": "Sichuan",
+        "德阳市": "Sichuan",
+        "乐山市": "Sichuan",
+        "泸州市": "Sichuan",
+        "宜宾市": "Sichuan",
+        "达州市": "Sichuan",
+        "自贡市": "Sichuan",
+        "攀枝花市": "Sichuan",
+        "桂林市": "Guangxi",
+        "钦州市": "Guangxi",
+        "防城港市": "Guangxi",
+        "北海市": "Guangxi",
+        "百色市": "Guangxi",
+        "黄石市": "Hubei",
+        "宜昌市": "Hubei",
+        "荆州市": "Hubei",
+        "襄阳市": "Hubei",
+        "十堰市": "Hubei",
+        "赣州市": "Jiangxi",
+        "吉安市": "Jiangxi",
+        "上饶市": "Jiangxi",
+        "景德镇市": "Jiangxi",
+        "鹰潭市": "Jiangxi",
+        "新余市": "Jiangxi",
+        "贵溪市": "Jiangxi",
+        "鞍山市": "Liaoning",
+        "本溪市": "Liaoning",
+        "抚顺市": "Liaoning",
+        "锦州市": "Liaoning",
+        "营口市": "Liaoning",
+        "盘锦市": "Liaoning",
+        "铁岭市": "Liaoning",
+        "朝阳市": "Liaoning",
+        "葫芦岛市": "Liaoning",
+        "齐齐哈尔市": "Heilongjiang",
+        "大庆市": "Heilongjiang",
+        "克拉玛依市": "Xinjiang",
+        "石嘴山市": "Ningxia",
+        "中卫市": "Ningxia",
+        "固原市": "Ningxia",
+        "铜川市": "Shaanxi",
+        "宝鸡市": "Shaanxi",
+        "咸阳市": "Shaanxi",
+        "渭南市": "Shaanxi",
+        "汉中市": "Shaanxi",
+        "榆林市": "Shaanxi",
+        "延安市": "Shaanxi",
+        "拉萨市": "Tibet",
+        "库尔勒市": "Xinjiang",
+        "阿克苏市": "Xinjiang",
+        "石河子市": "Xinjiang",
+        "昌吉市": "Xinjiang",
+        "秦皇岛市": "Hebei",
+        "邯郸市": "Hebei",
+        "邢台市": "Hebei",
+        "沧州市": "Hebei",
+        "衡水市": "Hebei",
+        "承德市": "Hebei",
+        "张家口市": "Hebei",
+        "大同市": "Shanxi",
+        "长治市": "Shanxi",
+        "晋城市": "Shanxi",
+        "临汾市": "Shanxi",
+        "运城市": "Shanxi",
+        "呼和浩特市": "Inner Mongolia",
+        "乌海市": "Inner Mongolia",
+        "赤峰市": "Inner Mongolia",
+        "通辽市": "Inner Mongolia",
+        "锡林浩特市": "Inner Mongolia",
     }
     return city_province.get(loc)
 
@@ -282,14 +519,15 @@ def _city_from_firm_parenthetical(firm_name_zh: str) -> GeoResult | None:
     if not m:
         return None
     cn = m.group(1)
-    for prefix, city_en, province_en in FIRM_PREFIX_CITIES:
-        if cn == prefix or cn == prefix + "市":
-            return GeoResult(
-                province_en,
-                city_en,
-                "high",
-                f"city from parenthetical in firm name: {cn}",
-            )
+    hit = resolve_cn_locality(cn)
+    if hit:
+        city_en, province_en = hit
+        return GeoResult(
+            province_en,
+            city_en,
+            "high",
+            f"city from parenthetical in firm name: {cn}",
+        )
     return None
 
 
@@ -388,6 +626,25 @@ def resolve_geo(location_raw: str, firm_name_zh: str, project_name_zh: str) -> G
                 f"city inferred from {label}: {match}",
             )
 
+    from diffusion_state.audited_city_resolution import infer_audited_resolution
+
+    prov_hint = base.province if base.province != "unknown" else "unknown"
+    audited = infer_audited_resolution(
+        location_raw=location_raw,
+        firm_name_zh=firm_name_zh,
+        project_name_zh=project_name_zh,
+        province=prov_hint,
+        source_url="",
+    )
+    if audited and audited.city_confidence in {"exact", "high"}:
+        return GeoResult(
+            audited.province,
+            audited.city,
+            audited.city_confidence,
+            audited.notes,
+        )
+
     if base.province != "unknown":
         return base
+
     return GeoResult("unknown", "unknown", "unknown", base.geo_notes)
