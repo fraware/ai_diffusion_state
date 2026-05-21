@@ -14,9 +14,12 @@ From `table_1_dataset_summary.csv`:
 
 - 17 AI pilot-zone units (2019–2021).
 - 509 MIIT excellence-level smart-factory projects (235 in 2024, 274 in 2025).
-- **509** projects with resolved city after geo-audit v3 (**0** unknown in current build).
-- City resolution is split by `resolution_class` in `table_16_geo_evidence_quality.csv`: **102** `official_location_exact`, **407** `rule_based_text_inference`, **0** `external_evidence_verified` in the current build (regenerate Table 16 after `make geo-audit`). Registry plant-city matches are **rule-based** (`firm_registry_match`); list-page URLs are not external annual-report evidence. Stratified audit: `data/audit/city_resolution_sample_audit.csv` → Table 17.
-- Override seed: `data/seed/smart_factory_city_overrides.csv` (includes `resolution_class`; registry plant-city matches are **rule-based**, not external annual-report URLs).
+<!-- PCS:GEO_RESOLUTION -->
+- **509** projects with assigned city (**0** unknown in current build).
+- **102** `official_location_exact`, **407** `rule_based_text_inference`, **0** `external_evidence_verified` (Table 16).
+- **455** city-resolution rule rows in `data/seed/smart_factory_city_overrides.csv` (registry/list inference — not external verification unless `external_evidence_url` is set).
+- Stratified city-resolution audit is **pending** (`data/audit/city_resolution_sample_audit.csv` → Table 17).
+<!-- /PCS:GEO_RESOLUTION -->
 
 Pre-2024 years in `analysis_city_year_panel.csv` are **zero-filled** for smart-factory counts because public excellence lists begin in 2024.
 
@@ -107,7 +110,11 @@ Paper sentence: *We classify industries by ex ante technological compatibility w
 
 ## 10. Geography resolution
 
-`table_9_city_resolution_audit.csv` tracks coverage. Target: ≥250 resolved projects via audited overrides (`data/seed/smart_factory_city_overrides.csv` with evidence fields). Engineer B workstream; not automated.
+`table_9_city_resolution_audit.csv` tracks coverage and evidence-class counts.
+
+<!-- PCS:GEO_COVERAGE -->
+All **509** projects are currently assigned to cities. The remaining task is not coverage but **evidence quality**: distinguishing official-location exact, rule-based inference, and externally verified assignments. Do not describe the register as externally audited until non-list URLs are added and Table 17 is completed.
+<!-- /PCS:GEO_COVERAGE -->
 
 ## 11. What is not claimed
 

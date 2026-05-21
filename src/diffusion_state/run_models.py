@@ -230,6 +230,13 @@ def run_sprint_analysis(panel_path: Path | None = None) -> None:
         except Exception as exc:  # noqa: BLE001
             print(f"Export revised tables skipped: {exc}")
     run_city_industry_adoption_models()
+    from diffusion_state.build_external_verification_queue import build_external_verification_queue
+
+    build_external_verification_queue()
+    if (PROJECT_ROOT / "data" / "processed" / "export_outcomes_sector_year.csv").exists():
+        from diffusion_state.build_export_share_comparison import build_export_sector_share_comparison
+
+        build_export_sector_share_comparison()
 
 
 if __name__ == "__main__":

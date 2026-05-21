@@ -43,7 +43,7 @@ make analysis
 | high | (see audit table) |
 | unknown | **0** (post geo-audit v3) |
 
-City-level tables and overlap statistics use only rows with resolved `city` (**509** projects, **158** cities in overlap table). Adoption models use the wider **125**-city analysis universe (pilot cities plus smart-factory cities). Province-only locations in MIIT HTML (e.g. `江苏省`) or national firm names without plant city remain `city=unknown` until audited overrides are added.
+City-level tables and overlap statistics use rows with resolved `city` (**509** projects; **159** cities in overlap table). Adoption models use the **160**-city analysis universe (pilot cities plus cities with listed smart-factory projects in 2024–2025). All projects currently have a city assignment; remaining work is **evidence quality** (official vs rule-based vs externally verified), not coverage.
 
 Manual city assignment: add audited rows to `data/seed/smart_factory_city_overrides.csv` (header-only by default). Rebuild with `make build`.
 

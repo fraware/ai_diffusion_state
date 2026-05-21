@@ -1,7 +1,13 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
+
+from diffusion_state.utils import PROJECT_ROOT
+
+STUB_SOURCE_MARKERS = ("pipeline_ci_stub_not_for_paper", "city_controls_ci_stub", "STUB_NOTE")
 
 ADOPTION_YEARS = (2024, 2025)
 PRE_TREATMENT_YEAR = 2018
@@ -94,3 +100,41 @@ def adoption_sample_with_controls(panel: pd.DataFrame) -> pd.DataFrame:
     sample = add_derived_controls(sample)
     req = MIN_NONMISSING_FOR_ADOPTION + ["city", "province", "smart_factory_projects", "pilot_zone"]
     return sample.dropna(subset=[c for c in req if c in sample.columns])
+
+
+def _controls_csv_paths() -> list[Path]:
+    raw = PROJECT_ROOT / "data" / "raw" / "city_controls"
+    if not raw.exists():
+        return []
+    return list(raw.glob("*.csv")) + list(raw.glob("*.xlsx")) + list(raw.glob("*.xls"))
+
+
+def city_controls_source() -> str:
+    """Return production, stub, or missing for merged city controls."""
+    processed = PROJECT_ROOT / "data" / "processed" / "city_controls_year.csv"
+    if processed.exists():
+        df = pd.read_csv(processed)
+        if "source_name" in df.columns:
+            names = df["source_name"].astype(str)
+            if names.str.contains(STUB_SOURCE_MARKERS[0], case=False, na=False).any():
+                return "stub"
+            if names.notna().any() and (names.str.strip() != "").any():
+                return "production"
+    raw = _controls_csv_paths()
+    if not raw:
+        return "missing"
+    if all("stub" in p.name.lower() or "ci_stub" in p.name.lower() for p in raw):
+        return "stub"
+    return "production"
+
+
+def typology_control_source(panel: pd.DataFrame | None = None) -> str:
+    """Controls backing ex ante typology: real_city_controls, stub_controls, or no_controls."""
+    src = city_controls_source()
+    if src == "production" and panel is not None and controls_available(panel):
+        return "real_city_controls"
+    if src == "stub":
+        return "stub_controls"
+    if panel is not None and controls_available(panel):
+        return "real_city_controls"
+    return "no_controls"

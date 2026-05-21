@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from diffusion_state.panel_controls import add_derived_controls
+from diffusion_state.panel_controls import typology_control_source
 from diffusion_state.run_hub_robustness import DIRECT_ADMIN, HUB_CITIES, _top_gdp_cities
 from diffusion_state.utils import PROJECT_ROOT, write_csv
 
@@ -14,7 +14,10 @@ PROCESSED_PATH = PROJECT_ROOT / "data" / "processed" / "city_diffusion_typology_
 
 def build_city_diffusion_typology_ex_ante(panel_path: Path | None = None) -> pd.DataFrame:
     panel_path = panel_path or PROJECT_ROOT / "data" / "processed" / "analysis_city_year_panel.csv"
-    panel = add_derived_controls(pd.read_csv(panel_path))
+    panel = pd.read_csv(panel_path)
+    control_src = typology_control_source(panel)
+    use_gdp_rank = control_src == "real_city_controls" and panel["gdp"].notna().any()
+
     meta = (
         panel.groupby(["city", "province"], as_index=False)
         .agg(
@@ -25,11 +28,15 @@ def build_city_diffusion_typology_ex_ante(panel_path: Path | None = None) -> pd.
             industrial_output=("industrial_output", "mean"),
         )
     )
-    top10_gdp = _top_gdp_cities(10, panel) if panel["gdp"].notna().any() else set()
+    top10_gdp = _top_gdp_cities(10, panel) if use_gdp_rank else set()
 
     meta["direct_admin_municipality"] = meta["city"].isin(DIRECT_ADMIN).astype(int)
     meta["mega_hub"] = meta["city"].isin(HUB_CITIES).astype(int)
-    meta["top_10_gdp_city"] = meta["city"].isin(top10_gdp).astype(int)
+    meta["top_10_gdp_city"] = meta["city"].isin(top10_gdp).astype(int) if use_gdp_rank else 0
+    meta["typology_control_source"] = control_src
+    if control_src != "real_city_controls":
+        meta["top_10_gdp_city"] = 0
+
     meta["province_manufacturing_intensity"] = meta["secondary_value_added"] / meta["gdp"].replace(0, pd.NA)
 
     def _type(row: pd.Series) -> str:

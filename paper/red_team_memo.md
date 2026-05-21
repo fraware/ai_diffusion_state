@@ -49,7 +49,7 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 **Province overlap inflates pilot counts:** `table_pilot_zone_province_overlap.csv` assigns all projects in pilot **provinces** to the pilot-province sample, including non-pilot cities.
 
-**Governance:** Manual fixes only via `data/seed/smart_factory_city_overrides.csv` with documented evidence (`evidence_url`, `evidence_type`, `notes`); no imputation from HQ guesses.
+**Governance:** City assignments use the **city-resolution register** (`data/seed/smart_factory_city_overrides.csv`) with documented `evidence_url`, `evidence_type`, `resolution_class`, and `notes`. Do not call these “externally verified” unless a non-list `external_evidence_url` is supplied.
 
 ## 6. Post-pilot indicator with city fixed effects
 
@@ -79,7 +79,9 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 ## Hub-selection robustness now run
 
-The hub-exclusion table (analysis universe: 125 cities, 382 listed projects in 2024–2025) shows that the baseline pilot-zone coefficient **weakens outside mega-hubs** and **falls by roughly half when direct-admin municipalities are excluded** (coef ≈ 2.04 vs. 3.92 full sample). The association does not go to zero with better geo coverage, but hub concentration remains visible in typology and descriptive overlap. Evidence is consistent with **hub-centered diffusion capacity** rather than uniform treatment across treated cities.
+<!-- PCS:RED_TEAM_HUB -->
+The hub-exclusion table (analysis universe: **160** cities, **507** listed projects in 2024–2025) shows that the baseline pilot-zone coefficient **weakens outside mega-hubs** and **falls substantially when direct-admin municipalities are excluded** (coef ≈ 2.90 vs. 4.55 full sample; top-five smart-factory cities ≈ 2.95). The association does not go to zero with full city coverage, but hub concentration remains visible in typology and descriptive overlap. Evidence is consistent with **hub-centered diffusion capacity** rather than uniform treatment across treated cities.
+<!-- /PCS:RED_TEAM_HUB -->
 
 Table 6 now includes `interpretation`, `coefficient_relative_to_full_sample`, and `projects_remaining_share` so readers can read the conclusion from the table. Controlled hub exclusions run automatically after `make city-controls`.
 
@@ -92,7 +94,9 @@ Table 6 now includes `interpretation`, `coefficient_relative_to_full_sample`, an
 ## 10. Defensible main claims (current pipeline)
 
 1. China’s pilot-zone map and MIIT smart-factory lists merge into a reproducible city-year panel with explicit coverage limits.
-2. Listed adoption is **concentrated** in pilot-zone cities among resolved-city projects (mean 8.33 vs 2.83).
+<!-- PCS:PILOT_MEAN_CLAIM -->
+2. Listed adoption is **concentrated** in pilot-zone cities among resolved-city projects (mean **12.00** vs **2.22**).
+<!-- /PCS:PILOT_MEAN_CLAIM -->
 3. The descriptive pilot-zone association is **substantially mediated by major hub cities** and direct-admin municipalities.
 4. China’s AI diffusion state is visible as a **hub-and-spoke architecture** (typology table), not uniform treatment across treated cities.
 
@@ -107,6 +111,6 @@ Table 6 now includes `interpretation`, `coefficient_relative_to_full_sample`, an
 ## 12. Next empirical priorities (ordered)
 
 1. Ingest city controls and re-estimate Models 4–7, balance, matching, and controlled hub exclusions.
-2. City resolution uses **three evidence classes** (`resolution_class` in override seed; Table 16). Registry plant-city matches are **rule-based text inference**, not external annual-report verification, unless a non-list `evidence_url` is supplied. Stratified sample audit: `data/audit/city_resolution_sample_audit.csv` (Table 17).
+2. City resolution uses **three evidence classes** (`resolution_class` in city-resolution register; Table 16). All 509 projects have a city; **102** official-location exact, **407** rule-based, **0** externally verified until non-list URLs are added. Complete stratified audit in `data/audit/city_resolution_sample_audit.csv` (Table 17) before citing error rates.
 3. City-industry heterogeneity using ex ante exposure only in main text.
 4. Keep export section descriptive (Table 15).

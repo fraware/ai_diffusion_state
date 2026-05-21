@@ -172,12 +172,27 @@ def main() -> int:
     except ValueError as exc:
         print(f"WARN paper stat sync skipped: {exc}")
 
-    audit = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
-    if audit.exists():
-        a = pd.read_csv(audit)
-        filled = (a["auditor_decision"].fillna("").astype(str).str.strip() != "").sum()
-        if filled == 0:
-            print("TIP: fill data/audit/city_resolution_sample_audit.csv then make recompute-audit")
+    from diffusion_state.validate_audit_sample import validate_audit_sample
+
+    audit_ok, audit_issues = validate_audit_sample()
+    if audit_ok:
+        print("OK city-resolution audit sample validated")
+    else:
+        for i in audit_issues:
+            print(f"  audit: {i}")
+
+    evq = PROJECT_ROOT / "data" / "interim" / "external_verification_queue.csv"
+    if evq.exists():
+        print(f"external verification queue: {len(pd.read_csv(evq))} prioritized rows")
+
+    ext_n = 0
+    t16 = tables_dir / "table_16_geo_evidence_quality.csv"
+    if t16.exists():
+        t = pd.read_csv(t16)
+        s = t[(t["evidence_type"] == "_all") & (t["resolution_class"] == "external_evidence_verified")]
+        if not s.empty:
+            ext_n = int(s.iloc[0]["n_projects"])
+    print(f"external_evidence_verified projects: {ext_n} (target >=50 for paper)")
 
     return 0 if not missing else 1
 

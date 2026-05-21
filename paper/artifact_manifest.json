@@ -79,7 +79,7 @@
       "claim_id": "models_adoption",
       "required": true,
       "exists": true,
-      "n_rows": 325,
+      "n_rows": 327,
       "n_cols": 11
     },
     {
@@ -99,7 +99,7 @@
       "exists": true,
       "n_rows": null,
       "n_cols": null,
-      "bytes": 44840
+      "bytes": 44824
     },
     {
       "path": "outputs/tables/table_5_controlled_adoption_models.csv",
@@ -143,7 +143,7 @@
       "claim_id": "geo_resolution_audit",
       "required": true,
       "exists": true,
-      "n_rows": 8,
+      "n_rows": 10,
       "n_cols": 3
     },
     {
@@ -197,7 +197,7 @@
       "claim_id": "city_industry_models",
       "required": true,
       "exists": true,
-      "n_rows": 898,
+      "n_rows": 903,
       "n_cols": 10
     },
     {
@@ -224,7 +224,7 @@
       "claim_id": "city_diffusion_typology",
       "required": true,
       "exists": true,
-      "n_rows": 159,
+      "n_rows": 160,
       "n_cols": 11
     },
     {
@@ -235,7 +235,7 @@
       "exists": true,
       "n_rows": null,
       "n_cols": null,
-      "bytes": 39270
+      "bytes": 39283
     },
     {
       "path": "outputs/tables/table_15_export_relevance_by_sector.csv",
@@ -270,8 +270,8 @@
       "claim_id": "city_typology_ex_ante",
       "required": true,
       "exists": true,
-      "n_rows": 159,
-      "n_cols": 12
+      "n_rows": 160,
+      "n_cols": 13
     },
     {
       "path": "outputs/tables/table_19_province_year_models.csv",

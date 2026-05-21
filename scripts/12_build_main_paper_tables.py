@@ -17,6 +17,7 @@ MAPPING = {
     "table_E_ex_ante_city_typology.csv": "table_18_city_diffusion_typology_ex_ante.csv",
     "table_F_ex_ante_industry_heterogeneity.csv": "table_13_city_industry_adoption_models.csv",
     "table_G_export_relevance.csv": "table_15_export_relevance_by_sector.csv",
+    "table_H_export_sector_share_comparison.csv": "table_export_sector_share_comparison.csv",
 }
 
 

@@ -96,9 +96,23 @@ CLAIM_MAP_ROWS = [
     {
         "claim_id": "hub_robustness",
         "claim_tier": "robust_association",
-        "claim_summary": "Pilot coefficient collapses outside mega-hubs and direct-admin municipalities.",
+        "claim_summary": "Pilot coefficient attenuates substantially outside mega-hubs and direct-admin municipalities.",
         "artifact": "outputs/tables/table_6_hub_exclusion_robustness.csv",
         "script": "src/diffusion_state/run_hub_robustness.py",
+    },
+    {
+        "claim_id": "geo_resolution_quality",
+        "claim_tier": "validated_descriptive",
+        "claim_summary": "City assignments split by official location, rule-based inference, and external evidence (Table 16).",
+        "artifact": "outputs/tables/table_16_geo_evidence_quality.csv",
+        "script": "src/diffusion_state/build_geo_evidence_quality.py",
+    },
+    {
+        "claim_id": "province_year_robustness",
+        "claim_tier": "coarse_robustness",
+        "claim_summary": "Province-year pilot-province check; pilot provinces include non-pilot cities.",
+        "artifact": "outputs/tables/table_19_province_year_models.csv",
+        "script": "src/diffusion_state/run_province_year_models.py",
     },
     {
         "claim_id": "hub_architecture_typology",
@@ -188,11 +202,8 @@ def build_paper_bundle(strict: bool = True) -> dict:
         json.dump(manifest, f, indent=2)
 
     claim_path = PAPER_DIR / "claim_table_map.csv"
-    if claim_path.exists():
-        claim_df = pd.read_csv(claim_path)
-    else:
-        claim_df = pd.DataFrame(CLAIM_MAP_ROWS)
-        write_csv(claim_df, claim_path)
+    claim_df = pd.read_csv(claim_path) if claim_path.exists() else pd.DataFrame(CLAIM_MAP_ROWS)
+    write_csv(claim_df, claim_path)
     return manifest
 
 

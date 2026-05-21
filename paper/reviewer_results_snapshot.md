@@ -10,7 +10,9 @@
 | Smart-factory projects (2024–2025 lists) | 509 |
 | Projects with resolved city | **509** (baseline 193) |
 | Projects without city | **0** |
-| Audited override rows (seed) | **450+** |
+<!-- PCS:REVIEWER_SEED -->
+| City-resolution rule rows (seed) | **455** (rule-based register; not external audit) |
+<!-- /PCS:REVIEWER_SEED -->
 | Cities with listed projects (resolved) | **158** |
 <!-- PCS:ADOPTION_CITIES -->
 | Cities in adoption panel | **160** (pilot + smart-factory universe) |
@@ -18,10 +20,12 @@
 
 ## Descriptive overlap (resolved cities)
 
+<!-- PCS:REVIEWER_OVERLAP -->
 | Sample | Cities | Projects | Mean/city |
 |--------|-------:|---------:|----------:|
 | Pilot-zone | 16 | 192 | 12.00 |
 | Non-pilot | 143 | 317 | 2.22 |
+<!-- /PCS:REVIEWER_OVERLAP -->
 
 ## Hub-exclusion (Table 6, baseline)
 
@@ -58,15 +62,21 @@ Central descriptive table: `frontier_municipality_hub`, `pilot_industrial_hub`, 
 | `rule_based_text_inference` | 407 |
 | `external_evidence_verified` | 0 until registry rows include real external URLs |
 
-Registry plant-city matches use `firm_registry_match` + **rule-based** class (not external annual-report claims). **Table 17**: stratified sample in `data/audit/city_resolution_sample_audit.csv` — audit pending until `auditor_decision` filled.
+Registry plant-city matches use `firm_registry_match` + **rule-based** class (not external annual-report claims).
+
+<!-- PCS:AUDIT_STATUS -->
+**City-resolution audit:** **pending** — fill `data/audit/city_resolution_sample_audit.csv` (50 rule-based + 20 official minimum), then `make recompute-audit`.
+<!-- /PCS:AUDIT_STATUS -->
+
+External verification queue: `data/interim/external_verification_queue.csv` (top 50 rule-based priorities).
 
 ## Ex ante typology (Table 18)
 
-Capacity typology without `top_5_smart_factory_city` (pilot hub / non-pilot hub / low capacity).
+Capacity typology without `top_5_smart_factory_city`. Column `typology_control_source` records whether GDP ranks are used (`real_city_controls` only); with stub or missing controls, typology uses pilot/direct-admin/mega-hub flags only.
 
 ## Province-year robustness (Table 19)
 
-Coarse check using all 509 projects; pilot-province bucket includes non-pilot cities (caveat in red-team memo).
+**Coarse descriptive check only** (claim tier: `coarse_robustness`). Uses all 509 projects; pilot-province bucket includes many non-pilot cities, so it cannot isolate pilot-city effects.
 
 ## City-industry (Table 13)
 
