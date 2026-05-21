@@ -28,7 +28,7 @@ city-controls: setup
 validate-controls-raw: setup
 	$(PYTHON) scripts/06a_validate_city_controls_raw.py
 
-purge-stub-controls: setup
+purge-stub-controls:
 	$(PYTHON) scripts/22_purge_stub_controls.py
 
 geo-audit: build
@@ -53,7 +53,7 @@ validate-audit: setup
 apply-geo-updates: setup
 	$(PYTHON) scripts/20_apply_geo_workflow_updates.py
 
-preflight: purge-stub-controls setup
+preflight: purge-stub-controls
 	$(PYTHON) scripts/21_pcs_preflight.py
 
 pcs-status: setup
