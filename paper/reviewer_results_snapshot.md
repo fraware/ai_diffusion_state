@@ -12,7 +12,9 @@
 | Projects without city | **0** |
 | Audited override rows (seed) | **450+** |
 | Cities with listed projects (resolved) | **158** |
-| Cities in adoption panel | **125** (pilot + smart-factory universe) |
+<!-- PCS:ADOPTION_CITIES -->
+| Cities in adoption panel | **159** (pilot + smart-factory universe) |
+<!-- /PCS:ADOPTION_CITIES -->
 
 ## Descriptive overlap (resolved cities)
 
@@ -23,12 +25,14 @@
 
 ## Hub-exclusion (Table 6, baseline)
 
-| Rule | coef | p-value | Interpretation |
-|------|-----:|--------:|----------------|
-| Full sample | 3.92 | <0.001 | Baseline (125 cities) |
-| Drop BJ/SH/SZ/HZ | 2.97 | 0.0002 | Weakens (~76% of coef) |
-| Drop direct-admin | 2.04 | <0.001 | Substantially weakens (~52% of coef) |
-| Drop top-5 SF cities | 2.11 | <0.001 | Weakens (~54% of coef) |
+<!-- PCS:REVIEWER_HUB -->
+| Rule | coef | p-value | Note |
+|------|-----:|--------:|------|
+| Full sample | 4.56 | <0.001 | Baseline |
+| Drop BJ/SH/SZ/HZ | 3.68 | <0.001 | Weakens (~81% of coef) |
+| Drop direct-admin | 2.91 | <0.001 | Weakens (~64% of coef) |
+| Drop top-5 SF cities | 2.96 | <0.001 | Weakens (~65% of coef) |
+<!-- /PCS:REVIEWER_HUB -->
 
 **Story:** Hub-centered diffusion capacity, not average pilot treatment.
 

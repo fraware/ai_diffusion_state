@@ -24,11 +24,13 @@ Pre-2024 years in `analysis_city_year_panel.csv` are **zero-filled** for smart-f
 
 From `table_pilot_zone_overlap.csv` (2024–2025 totals, cities with known `city`):
 
+<!-- PCS:OVERLAP_TABLE -->
 | Sample | Cities | Total projects | Mean per city |
 |--------|-------:|---------------:|--------------:|
-| Pilot-zone cities | 16 | 192 | 12.00 |
-| Non-pilot cities | 143 | 317 | 2.22 |
-| All resolved | 159 | 509 | 3.20 |
+| pilot_zone_cities | 16 | 192 | 12.00 |
+| non_pilot_zone_cities | 143 | 317 | 2.22 |
+| all_resolved_cities | 159 | 509 | 3.20 |
+<!-- /PCS:OVERLAP_TABLE -->
 
 Mean difference (pilot minus non-pilot): **9.78** projects per city.
 
@@ -38,14 +40,16 @@ Top cities (`table_2_top_smart_factory_cities.csv`, pilot flag): Shanghai (30, p
 
 Without city economic controls, `pilot_zone` coefficient on 2024–2025 listed project counts. Table 6 adds `interpretation`, `coefficient_relative_to_full_sample`, and `projects_remaining_share`.
 
+<!-- PCS:HUB_TABLE -->
 | Exclusion rule | Cities | Projects | pilot_zone coef | p-value | Reader takeaway |
 |----------------|-------:|---------:|----------------:|--------:|-----------------|
-| Full sample | 125 | 382 | 3.92 | <0.001 | Baseline (analysis universe, resolved cities) |
-| Drop Beijing, Shanghai, Shenzhen, Hangzhou | 121 | 318 | 2.97 | 0.0002 | Weakens (~76% of coef) |
-| Drop above + Guangzhou | 120 | 312 | 3.05 | 0.0004 | Weakens (~78% of coef) |
-| Drop direct-admin municipalities | 121 | 294 | 2.04 | <0.001 | Substantially weakens (~52% of coef) |
-| Drop top 5 smart-factory cities | 120 | 277 | 2.11 | <0.001 | Weakens (~54% of coef) |
-| Drop top 10 GDP cities | 115 | 272 | 3.08 | 0.010 | Sensitive to GDP city definition |
+| Full sample | 159 | 501 | 4.56 | <0.001 | Baseline (analysis universe, resolved cities) |
+| Drop Beijing, Shanghai, Shenzhen, Hangzhou | 155 | 433 | 3.68 | <0.001 | Weakens (~81% of coef) |
+| Drop above + Guangzhou | 154 | 425 | 3.75 | <0.001 | Weakens (~82% of coef) |
+| Drop direct-admin municipalities | 155 | 413 | 2.91 | <0.001 | Substantially weakens (~64% of coef) |
+| Drop top 5 smart-factory cities | 154 | 396 | 2.96 | <0.001 | Substantially weakens (~65% of coef) |
+| Drop top 10 GDP cities | 149 | 374 | 3.55 | 0.0099 | Weakens (~78% of coef) |
+<!-- /PCS:HUB_TABLE -->
 
 **Conclusion:** With broader city resolution, the association **remains positive** but **attenuates when mega-hubs and direct-admin municipalities are excluded**. Hub architecture remains central; this is not a uniform treatment effect across treated cities.
 
@@ -64,9 +68,11 @@ Use this table as the central descriptive device: diffusion is clustered by inst
 
 ## 5. Adoption models (Table 3)
 
-From `table_3_pilot_zone_adoption_models.csv`, N = 250 city-years, **125** cities (pilot + non-pilot universe).
+From `table_3_pilot_zone_adoption_models.csv`:
 
-**Model 1:** `pilot_zone` coef = **3.92**, p &lt; **0.001** — interpret jointly with Table 6 hub attenuation (not collapse).
+<!-- PCS:MODEL1 -->
+**Model 1:** `pilot_zone` coef = **4.56**, p <0.001 — N = 318 city-years, **159** cities (pilot + non-pilot universe). Interpret jointly with Table 6 hub attenuation (not collapse).
+<!-- /PCS:MODEL1 -->
 
 **Models 2–3:** Within-city `post_pilot` terms are large with city FE; not causal treatment effects.
 

@@ -40,6 +40,9 @@ py -3 scripts/08_validate_sprint_outputs.py
 echo "==> main paper tables"
 py -3 scripts/12_build_main_paper_tables.py
 
+echo "==> sync paper stats"
+py -3 scripts/16_sync_paper_stats.py
+
 echo "==> tests"
 py -3 -m pytest -q
 

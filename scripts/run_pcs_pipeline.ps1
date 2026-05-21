@@ -39,6 +39,9 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 Write-Host "==> main paper tables"
 py -3 scripts\12_build_main_paper_tables.py
 
+Write-Host "==> sync paper stats"
+py -3 scripts\16_sync_paper_stats.py
+
 Write-Host "==> tests"
 py -3 -m pytest -q
 

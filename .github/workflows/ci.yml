@@ -22,4 +22,6 @@ jobs:
       - run: make analysis
       - run: make validate-geo
       - run: make validate-sprint
+      - run: make main-tables
+      - run: make sync-paper-stats
       - run: pytest -q

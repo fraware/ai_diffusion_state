@@ -61,9 +61,13 @@ def main() -> int:
 
     print("OK required tables:", len(REQUIRED_TABLES))
 
+    pcs_missing = [t for t in PCS_TABLES if not (tables_dir / t).exists()]
     for t in PCS_TABLES:
         path = tables_dir / t
         print(f"  pcs {t}: {'present' if path.exists() else 'absent'}")
+    if pcs_missing:
+        print("MISSING PCS tables:", ", ".join(pcs_missing))
+        return 1
 
     for t in OPTIONAL_TABLES:
         path = tables_dir / t
@@ -159,6 +163,21 @@ def main() -> int:
         print(f"paper/main_tables/: {n} CSV files")
     else:
         print("TIP: run make main-tables after analysis")
+
+    try:
+        from diffusion_state.sync_paper_stats import sync_all
+
+        sync_all()
+        print("OK paper memos synced from output tables (PCS markers).")
+    except ValueError as exc:
+        print(f"WARN paper stat sync skipped: {exc}")
+
+    audit = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
+    if audit.exists():
+        a = pd.read_csv(audit)
+        filled = (a["auditor_decision"].fillna("").astype(str).str.strip() != "").sum()
+        if filled == 0:
+            print("TIP: fill data/audit/city_resolution_sample_audit.csv then make recompute-audit")
 
     return 0 if not missing else 1
 

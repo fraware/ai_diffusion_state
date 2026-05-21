@@ -8,7 +8,7 @@ Independent review of stratified city assignments before paper claims cite error
 
 | File | Role |
 |------|------|
-| `city_resolution_sample_audit.csv` | 100-row sample (regenerate with `make geo-audit`) |
+| `city_resolution_sample_audit.csv` | Stratified sample (50 rule-based + 20 official; +30 external when present; regenerate with `make geo-audit`) |
 | `../outputs/tables/table_17_geo_audit_error_rate.csv` | Aggregated rates after audit is filled |
 
 ## Auditor workflow

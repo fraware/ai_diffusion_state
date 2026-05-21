@@ -37,7 +37,10 @@ geo-audit: build
 	$(PYTHON) scripts/10_build_audited_city_overrides.py
 	$(PYTHON) scripts/04_build_city_year_panel.py
 
-pcs: geo-audit city-controls-stub panel analysis validate-geo validate-sprint main-tables test pcs-status
+pcs: geo-audit city-controls-stub panel analysis validate-geo validate-sprint main-tables sync-paper-stats test pcs-status
+
+sync-paper-stats: analysis
+	$(PYTHON) scripts/16_sync_paper_stats.py
 
 pcs-status: setup
 	$(PYTHON) scripts/15_pcs_status.py

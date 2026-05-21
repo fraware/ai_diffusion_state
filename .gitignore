@@ -35,6 +35,7 @@ data/raw/*
 !data/raw/.gitkeep
 !data/raw/city_controls/
 !data/raw/city_controls/**
+data/raw/city_controls/city_controls_ci_stub.csv
 data/interim/*
 !data/interim/.gitkeep
 !data/interim/city_resolution_baseline.json
