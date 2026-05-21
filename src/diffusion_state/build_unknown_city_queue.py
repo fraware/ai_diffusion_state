@@ -48,6 +48,11 @@ def build_unknown_city_queue(
         raise ValueError("smart_factories_clean.csv must include location_raw; run make build")
 
     unk = clean[clean["city"] == "unknown"].copy()
+    if unk.empty:
+        queue = pd.DataFrame(columns=QUEUE_COLUMNS)
+        write_csv(queue, queue_path)
+        return queue
+
     unk["priority"] = unk["province"].isin(PRIORITY_PROVINCES).astype(int)
     unk = unk.sort_values(["priority", "province", "list_year"], ascending=[False, True, True])
 

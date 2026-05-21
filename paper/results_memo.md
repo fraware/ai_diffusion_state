@@ -43,12 +43,12 @@ Without city economic controls, `pilot_zone` coefficient on 2024–2025 listed p
 <!-- PCS:HUB_TABLE -->
 | Exclusion rule | Cities | Projects | pilot_zone coef | p-value | Reader takeaway |
 |----------------|-------:|---------:|----------------:|--------:|-----------------|
-| Full sample | 159 | 501 | 4.56 | <0.001 | Baseline (analysis universe, resolved cities) |
-| Drop Beijing, Shanghai, Shenzhen, Hangzhou | 155 | 433 | 3.68 | <0.001 | Weakens (~81% of coef) |
-| Drop above + Guangzhou | 154 | 425 | 3.75 | <0.001 | Weakens (~82% of coef) |
-| Drop direct-admin municipalities | 155 | 413 | 2.91 | <0.001 | Substantially weakens (~64% of coef) |
-| Drop top 5 smart-factory cities | 154 | 396 | 2.96 | <0.001 | Substantially weakens (~65% of coef) |
-| Drop top 10 GDP cities | 149 | 374 | 3.55 | 0.0099 | Weakens (~78% of coef) |
+| Full sample | 160 | 507 | 4.55 | <0.001 | Baseline (analysis universe, resolved cities) |
+| Drop Beijing, Shanghai, Shenzhen, Hangzhou | 156 | 439 | 3.67 | <0.001 | Weakens (~81% of coef) |
+| Drop above + Guangzhou | 155 | 431 | 3.73 | <0.001 | Weakens (~82% of coef) |
+| Drop direct-admin municipalities | 156 | 419 | 2.90 | <0.001 | Substantially weakens (~64% of coef) |
+| Drop top 5 smart-factory cities | 155 | 402 | 2.95 | <0.001 | Substantially weakens (~65% of coef) |
+| Drop top 10 GDP cities | 150 | 381 | 3.61 | 0.009 | Weakens (~79% of coef) |
 <!-- /PCS:HUB_TABLE -->
 
 **Conclusion:** With broader city resolution, the association **remains positive** but **attenuates when mega-hubs and direct-admin municipalities are excluded**. Hub architecture remains central; this is not a uniform treatment effect across treated cities.
@@ -71,7 +71,7 @@ Use this table as the central descriptive device: diffusion is clustered by inst
 From `table_3_pilot_zone_adoption_models.csv`:
 
 <!-- PCS:MODEL1 -->
-**Model 1:** `pilot_zone` coef = **4.56**, p <0.001 — N = 318 city-years, **159** cities (pilot + non-pilot universe). Interpret jointly with Table 6 hub attenuation (not collapse).
+**Model 1:** `pilot_zone` coef = **4.55**, p <0.001 — N = 320 city-years, **160** cities (pilot + non-pilot universe). Interpret jointly with Table 6 hub attenuation (not collapse).
 <!-- /PCS:MODEL1 -->
 
 **Models 2–3:** Within-city `post_pilot` terms are large with city FE; not causal treatment effects.
