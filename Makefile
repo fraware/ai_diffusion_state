@@ -51,6 +51,12 @@ external-verification-queue: setup
 validate-audit: setup
 	$(PYTHON) scripts/19_validate_audit_sample.py
 
+apply-geo-updates: setup
+	$(PYTHON) scripts/20_apply_geo_workflow_updates.py
+
+preflight: setup
+	PCS_ALLOW_STUB=1 $(PYTHON) scripts/21_pcs_preflight.py
+
 pcs-status: setup
 	$(PYTHON) scripts/15_pcs_status.py
 

@@ -2,7 +2,9 @@
 
 **Paper frame:** China's AI diffusion state is a **hub-centered industrial adoption architecture**. Pilot zones mark part of this architecture; the evidence does **not** establish a uniform average treatment effect.
 
-**Draft only from** `paper/main_tables/` (Tables A–G). Do not draft from Table 4/12, stub Table 5, or pending Table 17 until qualified.
+**Draft only from** `paper/main_tables/` (Tables A–H). Do not draft from Table 4/12, stub Table 5, or pending Table 17 until qualified.
+
+**Preflight before drafting:** `make preflight` (sets `PCS_ALLOW_STUB=1` for dev checks).
 
 ---
 
@@ -38,6 +40,7 @@ Fill `data/audit/city_resolution_sample_audit.csv`:
 
 ```bash
 make validate-audit    # fails until decisions filled
+make apply-geo-updates # applies incorrect -> corrected_city to seed
 make recompute-audit
 make sync-paper-stats
 ```
@@ -68,7 +71,10 @@ Prioritized queue (auto-built): `data/interim/external_verification_queue.csv` v
 
 Per row: `external_evidence_url`, `external_evidence_type`, `resolution_class=external_evidence_verified`, `audit_notes`.
 
+Fill `external_evidence_url` in the queue, then:
+
 ```bash
+make apply-geo-updates
 make external-verification-queue
 make geo-audit
 make validate-geo

@@ -41,7 +41,7 @@ AI pilot zones → listed smart-factory recognition → hub-typed diffusion geog
 
 ### 4.3 Data and measurement
 
-- Coverage limits (316/509 without city).
+- **509/509** projects assigned to cities; evidence split in Table 16 (102 official, 407 rule-based; external verification in progress).
 - Ex ante industry exposure (`docs/source_notes/industry_ai_exposure.md`).
 
 ### 4.4 Descriptive results

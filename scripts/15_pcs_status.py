@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import pandas as pd
 
 from diffusion_state.geo_evidence import validate_evidence_hygiene
-from diffusion_state.panel_controls import controls_available
+from diffusion_state.panel_controls import city_controls_source, controls_available
 from diffusion_state.smart_factory_overrides import load_city_overrides
 from diffusion_state.utils import PROJECT_ROOT
 
@@ -20,8 +20,6 @@ def main() -> int:
     reg = PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
     t16 = PROJECT_ROOT / "outputs" / "tables" / "table_16_geo_evidence_quality.csv"
     audit = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
-    raw = list((PROJECT_ROOT / "data" / "raw" / "city_controls").glob("*.csv"))
-
     print("=== PCS sprint status ===\n")
     n_unk = -1
 
@@ -39,15 +37,18 @@ def main() -> int:
     errs = validate_evidence_hygiene(overrides)
     print(f"Evidence hygiene: {'OK' if not errs else 'FAIL (' + str(len(errs)) + ' issues)'}")
 
-    stub = any("stub" in p.name.lower() for p in raw)
-    prod = raw and not stub
-    print(f"City controls: {'production' if prod else 'STUB/CI only' if stub else 'MISSING'}")
-
+    src = city_controls_source()
+    print(f"City controls: {src}")
     panel = PROJECT_ROOT / "data" / "processed" / "analysis_city_year_panel.csv"
-    if panel.exists() and prod:
-        print(f"Panel controls merged: {controls_available(pd.read_csv(panel))}")
-    elif panel.exists():
-        print("Panel controls merged: no (stub or missing EPS/NBS)")
+    if panel.exists():
+        merged = controls_available(pd.read_csv(panel)) and src == "production"
+        print(f"Panel controls merged (production): {'yes' if merged else 'no'}")
+
+    evq = PROJECT_ROOT / "data" / "interim" / "external_verification_queue.csv"
+    if evq.exists():
+        q = pd.read_csv(evq)
+        n_ext = int((q["external_evidence_url"].fillna("").astype(str).str.strip() != "").sum())
+        print(f"External verification queue: {len(q)} rows ({n_ext} with external_evidence_url)")
 
     if audit.exists():
         a = pd.read_csv(audit)

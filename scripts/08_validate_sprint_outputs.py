@@ -74,14 +74,15 @@ def main() -> int:
         status = "present" if path.exists() else "absent"
         print(f"  optional {t}: {status}")
 
-    raw_controls = list(BLOCKER.glob("*.csv")) + list(BLOCKER.glob("*.xlsx")) + list(BLOCKER.glob("*.xls"))
-    stub_only = _is_stub_controls(raw_controls)
-    if not raw_controls:
+    from diffusion_state.panel_controls import city_controls_source
+
+    src = city_controls_source()
+    if src == "missing":
         print("BLOCKER: no EPS/NBS files in data/raw/city_controls/ — controlled models cannot run.")
-    elif stub_only:
-        print("WARN: only CI stub city controls — Table 5 not valid for paper claims.")
+    elif src == "stub":
+        print("WARN: CI stub city controls — Table 5 not valid for paper claims.")
     else:
-        print(f"City controls raw files: {len(raw_controls)} (production)")
+        print("OK production city controls source in processed panel.")
 
     if PANEL.exists():
         panel = pd.read_csv(PANEL)
@@ -103,7 +104,7 @@ def main() -> int:
             if not pilot.empty:
                 p = pilot.iloc[0]
                 print(f"Table 5 Model 4 pilot_zone: coef={p['coef']} p={p['p_value']}")
-                if stub_only:
+                if src == "stub":
                     print("  (CI stub — do not cite in paper)")
             else:
                 print("Table 5 status: Model 4 present without pilot_zone term.")
