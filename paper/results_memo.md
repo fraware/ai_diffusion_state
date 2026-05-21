@@ -6,7 +6,7 @@
 
 **Framing:** Listed smart-factory adoption is concentrated in AI pilot-zone cities, but robustness checks show the pattern is heavily driven by major hubs and direct-admin municipalities. Pilot-zone designation marks part of that architecture; it is not evidence of uniform policy treatment across treated cities.
 
-**Blocked until EPS/NBS (paper):** Real city controls for interpretable Models 4–7. Optional `make city-controls-stub` runs CI pipeline only. Hub-exclusion and typology (Tables 6, 14) run now.
+**Blocked until EPS/NBS (paper):** Real city controls for interpretable Models 4–7 (`data/raw/city_controls/` → `make city-controls`). **No synthetic/stub controls** are used in this pipeline. Hub-exclusion and typology (Tables 6, 14) run now.
 
 ## 1. Measurement summary
 
@@ -51,7 +51,6 @@ Without city economic controls, `pilot_zone` coefficient on 2024–2025 listed p
 | Drop above + Guangzhou | 155 | 431 | 3.73 | <0.001 | Weakens (~82% of coef) |
 | Drop direct-admin municipalities | 156 | 419 | 2.90 | <0.001 | Substantially weakens (~64% of coef) |
 | Drop top 5 smart-factory cities | 155 | 402 | 2.95 | <0.001 | Substantially weakens (~65% of coef) |
-| Drop top 10 GDP cities | 150 | 381 | 3.61 | 0.009 | Weakens (~79% of coef) |
 <!-- /PCS:HUB_TABLE -->
 
 **Conclusion:** With broader city resolution, the association **remains positive** but **attenuates when mega-hubs and direct-admin municipalities are excluded**. Hub architecture remains central; this is not a uniform treatment effect across treated cities.
@@ -81,9 +80,7 @@ From `table_3_pilot_zone_adoption_models.csv`:
 
 ## 6. Controlled adoption models (Table 5)
 
-**Production:** EPS/NBS still required for paper (`data/raw/city_controls/`).
-
-**CI stub:** `make city-controls-stub` enables Models 4–7; stub Model 4 `pilot_zone` is weaker than baseline (not for claims).
+**Status:** Table 5 is **skipped** until EPS/NBS files are ingested (`make city-controls`). Do not cite controlled coefficients until `make production-check` passes.
 
 **Decision rule after real controls:**
 

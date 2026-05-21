@@ -1,11 +1,10 @@
 # Full PCS credibility sprint pipeline (Windows).
-# Usage: .\scripts\run_pcs_pipeline.ps1 [-UseStubControls]
-param(
-    [switch]$UseStubControls
-)
-
+# Usage: .\scripts\run_pcs_pipeline.ps1
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
+
+Write-Host "==> purge stub controls"
+py -3 scripts\22_purge_stub_controls.py
 
 Write-Host "==> build + geo-audit"
 py -3 scripts\11_build_registry_supplement.py
@@ -15,16 +14,14 @@ if ($LASTEXITCODE -ne 0) { Write-Warning "Geo-audit targets not met; continuing.
 Write-Host "==> panel"
 py -3 scripts\04_build_city_year_panel.py
 
-if ($UseStubControls) {
-    Write-Host "==> city-controls-stub (CI only)"
-    py -3 scripts\06b_install_city_controls_stub.py
-    py -3 scripts\04_build_city_year_panel.py
-} elseif (Test-Path "data\raw\city_controls\*.csv") {
+$prod = Get-ChildItem "data\raw\city_controls\*.csv" -ErrorAction SilentlyContinue |
+    Where-Object { $_.Name -notmatch 'ci_stub|ingest_template' }
+if ($prod) {
     Write-Host "==> city-controls (production)"
     py -3 scripts\06_build_city_controls.py
     py -3 scripts\04_build_city_year_panel.py
 } else {
-    Write-Host "SKIP city-controls (no raw EPS/NBS files)"
+    Write-Host "SKIP city-controls (place EPS/NBS CSVs in data\raw\city_controls\)"
 }
 
 Write-Host "==> analysis"

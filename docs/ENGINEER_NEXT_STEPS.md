@@ -2,9 +2,9 @@
 
 **Paper frame:** China's AI diffusion state is a **hub-centered industrial adoption architecture**. Pilot zones mark part of this architecture; the evidence does **not** establish a uniform average treatment effect.
 
-**Draft only from** `paper/main_tables/` (Tables A–H). Do not draft from Table 4/12, stub Table 5, or pending Table 17 until qualified.
+**Draft only from** `paper/main_tables/` (Tables A–H). Do not draft from Table 4/12, skipped Table 5, or pending Table 17 until qualified.
 
-**Preflight before drafting:** `make preflight` (sets `PCS_ALLOW_STUB=1` for dev checks).
+**No stubs:** `make purge-stub-controls` runs at the start of `make pcs` / `make preflight`. Controlled models require production EPS/NBS only.
 
 ---
 

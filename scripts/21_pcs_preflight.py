@@ -19,23 +19,19 @@ def _run(label: str, cmd: list[str], env: dict | None = None) -> bool:
 
 def main() -> int:
     py = sys.executable
-    env = os.environ.copy()
-    allow_stub = env.get("PCS_ALLOW_STUB", "").lower() in ("1", "true", "yes")
-    if not allow_stub:
-        env["PCS_ALLOW_STUB"] = "1"
+    subprocess.run([py, "scripts/22_purge_stub_controls.py"], cwd=ROOT, check=False)
 
     checks = [
         ("geo evidence", [py, "scripts/13_validate_geo_evidence.py"]),
         ("sprint outputs", [py, "scripts/08_validate_sprint_outputs.py"]),
-        ("production (dev stub allowed)", [py, "scripts/17_validate_production_outputs.py"], env),
+        ("production-check", [py, "scripts/17_validate_production_outputs.py"]),
         ("audit sample", [py, "scripts/19_validate_audit_sample.py"]),
     ]
     failed = []
     audit_pending = False
     for item in checks:
         label, cmd = item[0], item[1]
-        e = item[2] if len(item) > 2 else None
-        if not _run(label, cmd, e):
+        if not _run(label, cmd):
             if label == "audit sample":
                 audit_pending = True
                 print("    (expected until Engineer B fills audit CSV)")

@@ -16,8 +16,8 @@ jobs:
       - run: make seed
       - run: make fetch
       - run: make parse
+      - run: make purge-stub-controls
       - run: make geo-audit
-      - run: make city-controls-stub
       - run: make panel
       - run: make analysis
       - run: make validate-geo

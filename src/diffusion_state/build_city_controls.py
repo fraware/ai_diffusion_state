@@ -46,12 +46,19 @@ COLUMN_ALIASES = {
 }
 
 
+STUB_RAW_NAMES = ("city_controls_ci_stub", "ingest_template")
+
+
 def _discover_inputs(raw_dir: Path) -> list[Path]:
     patterns = ["*.csv", "*.xlsx", "*.xls"]
     files: list[Path] = []
     for pat in patterns:
         files.extend(raw_dir.glob(pat))
-    return sorted(files)
+    return sorted(
+        p
+        for p in files
+        if not any(marker in p.name.lower() for marker in STUB_RAW_NAMES)
+    )
 
 
 def build_city_controls_year(
@@ -75,7 +82,8 @@ def build_city_controls_year(
     inputs = _discover_inputs(raw_dir)
     if not inputs:
         raise FileNotFoundError(
-            f"No CSV/Excel files in {raw_dir}. See docs/source_notes/city_controls.md."
+            f"No production CSV/Excel files in {raw_dir} (CI stub and templates are excluded). "
+            "See docs/source_notes/city_controls.md."
         )
 
     frames: list[pd.DataFrame] = []

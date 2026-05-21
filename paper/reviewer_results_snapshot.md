@@ -42,7 +42,7 @@
 
 ## Controlled models (Table 5)
 
-**CI stub run:** With `make city-controls-stub`, Model 4 `pilot_zone` ≈ 1.86 (p ≈ 0.035) on stub controls — **not for paper** (synthetic controls). Production requires EPS/NBS in `data/raw/city_controls/`.
+**Skipped** until EPS/NBS city controls are in `data/raw/city_controls/` and `make city-controls` succeeds. Synthetic controls are not used in this pipeline.
 
 ## Balance / matching (Tables 7–8)
 
@@ -94,8 +94,7 @@ Preferred: **ex ante** exposure (`industry_ai_exposure_ex_ante.csv`). Tag-derive
 | Measured | Pilot zones + smart-factory lists reproducibly coded |
 | Validated descriptive | Pilot overlap; hub typology; export relevance |
 | Robust association | Hub exclusion attenuation (baseline); typology |
-| CI-only | Stub-controlled adoption (not for claims) |
-| Blocked (paper) | Real-controls adoption, balance, matched models |
+| Blocked (paper) | Controlled adoption (Table 5), balance, matched models until EPS/NBS |
 | Not supported | Causal pilot effect; average treatment across treated cities |
 
 Full map: `paper/claim_table_map.csv`. Identification limits: `paper/red_team_memo.md`. Narrative: `paper/results_memo.md`.

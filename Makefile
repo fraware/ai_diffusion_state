@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit city-controls-stub production-check
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check
 
 PYTHON ?= python
 
@@ -25,19 +25,18 @@ baci: setup
 city-controls: setup
 	$(PYTHON) scripts/06_build_city_controls.py
 
-# Synthetic controls for CI only — do not use in paper claims
 validate-controls-raw: setup
 	$(PYTHON) scripts/06a_validate_city_controls_raw.py
 
-city-controls-stub: panel
-	$(PYTHON) scripts/06b_install_city_controls_stub.py
+purge-stub-controls: setup
+	$(PYTHON) scripts/22_purge_stub_controls.py
 
 geo-audit: build
 	$(PYTHON) scripts/11_build_registry_supplement.py
 	$(PYTHON) scripts/10_build_audited_city_overrides.py
 	$(PYTHON) scripts/04_build_city_year_panel.py
 
-pcs: geo-audit city-controls-stub panel analysis validate-geo validate-sprint main-tables sync-paper-stats paper test pcs-status
+pcs: purge-stub-controls geo-audit panel analysis validate-geo validate-sprint main-tables sync-paper-stats paper test pcs-status
 
 sync-paper-stats: analysis
 	$(PYTHON) scripts/16_sync_paper_stats.py
@@ -54,8 +53,8 @@ validate-audit: setup
 apply-geo-updates: setup
 	$(PYTHON) scripts/20_apply_geo_workflow_updates.py
 
-preflight: setup
-	PCS_ALLOW_STUB=1 $(PYTHON) scripts/21_pcs_preflight.py
+preflight: purge-stub-controls setup
+	$(PYTHON) scripts/21_pcs_preflight.py
 
 pcs-status: setup
 	$(PYTHON) scripts/15_pcs_status.py

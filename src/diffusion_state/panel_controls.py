@@ -85,6 +85,8 @@ def controls_available(
     years: tuple[int, ...] = ADOPTION_YEARS,
     min_vars: list[str] | None = None,
 ) -> bool:
+    if city_controls_source() != "production":
+        return False
     min_vars = min_vars or MIN_NONMISSING_FOR_ADOPTION
     sample = panel[panel["year"].isin(years)]
     if sample.empty:
@@ -102,11 +104,20 @@ def adoption_sample_with_controls(panel: pd.DataFrame) -> pd.DataFrame:
     return sample.dropna(subset=[c for c in req if c in sample.columns])
 
 
+NON_PRODUCTION_RAW_MARKERS = ("ci_stub", "ingest_template")
+
+
+def _is_production_raw_file(path: Path) -> bool:
+    name = path.name.lower()
+    return not any(m in name for m in NON_PRODUCTION_RAW_MARKERS)
+
+
 def _controls_csv_paths() -> list[Path]:
     raw = PROJECT_ROOT / "data" / "raw" / "city_controls"
     if not raw.exists():
         return []
-    return list(raw.glob("*.csv")) + list(raw.glob("*.xlsx")) + list(raw.glob("*.xls"))
+    files = list(raw.glob("*.csv")) + list(raw.glob("*.xlsx")) + list(raw.glob("*.xls"))
+    return [p for p in files if _is_production_raw_file(p)]
 
 
 def city_controls_source() -> str:
@@ -123,18 +134,35 @@ def city_controls_source() -> str:
     raw = _controls_csv_paths()
     if not raw:
         return "missing"
-    if all("stub" in p.name.lower() or "ci_stub" in p.name.lower() for p in raw):
-        return "stub"
     return "production"
 
 
 def typology_control_source(panel: pd.DataFrame | None = None) -> str:
-    """Controls backing ex ante typology: real_city_controls, stub_controls, or no_controls."""
-    src = city_controls_source()
-    if src == "production" and panel is not None and controls_available(panel):
-        return "real_city_controls"
-    if src == "stub":
-        return "stub_controls"
-    if panel is not None and controls_available(panel):
+    """Controls backing ex ante typology: real_city_controls or no_controls (never stub)."""
+    if city_controls_source() == "production" and panel is not None and controls_available(panel):
         return "real_city_controls"
     return "no_controls"
+
+
+def purge_stub_city_controls() -> list[str]:
+    """Remove CI stub files and processed controls built from them."""
+    removed: list[str] = []
+    raw = PROJECT_ROOT / "data" / "raw" / "city_controls"
+    if raw.exists():
+        for path in list(raw.glob("*")):
+            if path.is_file() and (
+                "ci_stub" in path.name.lower() or path.name.lower().startswith("city_controls_ci_stub")
+            ):
+                path.unlink()
+                removed.append(str(path.relative_to(PROJECT_ROOT)))
+    processed = PROJECT_ROOT / "data" / "processed" / "city_controls_year.csv"
+    if processed.exists():
+        names = pd.read_csv(processed, usecols=["source_name"])["source_name"].astype(str)
+        if names.str.contains(STUB_SOURCE_MARKERS[0], case=False, na=False).any():
+            processed.unlink()
+            removed.append(str(processed.relative_to(PROJECT_ROOT)))
+    miss = PROJECT_ROOT / "data" / "processed" / "city_controls_missingness.csv"
+    if miss.exists() and not processed.exists():
+        miss.unlink()
+        removed.append(str(miss.relative_to(PROJECT_ROOT)))
+    return removed

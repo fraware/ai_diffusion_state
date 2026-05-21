@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 # Full PCS credibility sprint pipeline (Git Bash / Linux / macOS).
-# Usage: bash scripts/run_pcs_pipeline.sh [--stub-controls]
+# Usage: bash scripts/run_pcs_pipeline.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-USE_STUB=0
-if [[ "${1:-}" == "--stub-controls" ]] || [[ "${1:-}" == "-UseStubControls" ]]; then
-  USE_STUB=1
-fi
+echo "==> purge stub controls (never used in paper pipeline)"
+py -3 scripts/22_purge_stub_controls.py
 
 echo "==> build + geo-audit"
 py -3 scripts/11_build_registry_supplement.py
@@ -18,14 +16,21 @@ py -3 scripts/10_build_audited_city_overrides.py || echo "WARN: geo-audit target
 echo "==> panel"
 py -3 scripts/04_build_city_year_panel.py
 
-if [[ "$USE_STUB" -eq 1 ]]; then
-  echo "==> city-controls-stub (CI only)"
-  py -3 scripts/06b_install_city_controls_stub.py
-  py -3 scripts/04_build_city_year_panel.py
-elif compgen -G "data/raw/city_controls/*.csv" >/dev/null 2>&1; then
-  echo "==> city-controls (production)"
-  py -3 scripts/06_build_city_controls.py
-  py -3 scripts/04_build_city_year_panel.py
+if compgen -G "data/raw/city_controls/*.csv" >/dev/null 2>&1; then
+  prod=0
+  for f in data/raw/city_controls/*.csv; do
+    case "$(basename "$f")" in
+      *ci_stub*|*ingest_template*) ;;
+      *) prod=1; break ;;
+    esac
+  done
+  if [[ "$prod" -eq 1 ]]; then
+    echo "==> city-controls (production)"
+    py -3 scripts/06_build_city_controls.py
+    py -3 scripts/04_build_city_year_panel.py
+  else
+    echo "SKIP city-controls (no production EPS/NBS files; stub/template excluded)"
+  fi
 else
   echo "SKIP city-controls (no raw EPS/NBS files)"
 fi

@@ -51,9 +51,14 @@ ALLOW_STUB_CONTEXT = (
     "CI stub",
     "not for paper",
     "do not cite",
+    "no stub",
+    "no synthetic",
+    "not used",
+    "disabled",
     "BLOCKED",
     "blocked until",
-    "city-controls-stub runs",
+    "never used",
+    "excluded",
 )
 
 
@@ -65,19 +70,14 @@ def _line_allowed_stub(line: str) -> bool:
 def main() -> int:
     import os
 
-    allow_stub = os.environ.get("PCS_ALLOW_STUB", "").lower() in ("1", "true", "yes")
     errors: list[str] = []
-    warnings: list[str] = []
 
     src = city_controls_source()
     if src == "stub":
-        msg = (
-            "data/processed/city_controls_year.csv uses CI stub source — run make city-controls with EPS/NBS"
+        errors.append(
+            "data/processed/city_controls_year.csv uses CI stub — run make purge-stub-controls "
+            "then make city-controls with EPS/NBS"
         )
-        if allow_stub:
-            warnings.append(msg + " (PCS_ALLOW_STUB=1: warning only)")
-        else:
-            errors.append(msg)
 
     for path in PAPER_PATHS:
         if not path.exists():
@@ -96,11 +96,11 @@ def main() -> int:
 
     t5 = PROJECT_ROOT / "outputs" / "tables" / "table_5_controlled_adoption_models.csv"
     if t5.exists() and src != "production":
-        msg = "table_5 exists but production city controls missing — omit Table 5 from paper"
-        if allow_stub:
-            warnings.append(msg)
-        else:
-            errors.append(msg)
+        t5df = pd.read_csv(t5)
+        if not (t5df["term"] == "skipped").all():
+            errors.append(
+                "table_5 has estimated coefficients without production controls — rerun make analysis"
+            )
 
     if MAIN_TABLES.exists():
         for csv in MAIN_TABLES.glob("*.csv"):
@@ -124,8 +124,6 @@ def main() -> int:
             print(f"  {e}")
         return 1
 
-    for w in warnings:
-        print(f"WARN {w}")
     print("OK production-check: no stub leakage or stale paper numbers detected.")
     return 0
 

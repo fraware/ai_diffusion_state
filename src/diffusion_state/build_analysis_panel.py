@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from diffusion_state.panel_controls import add_derived_controls
+from diffusion_state.panel_controls import add_derived_controls, city_controls_source
 from diffusion_state.utils import PROJECT_ROOT, write_csv
 
 LIST_YEARS = (2024, 2025)
@@ -105,7 +105,7 @@ def build_analysis_city_year_panel(
     df.loc[never_treated, "post_pilot"] = 0
     df.loc[never_treated, "years_since_pilot"] = np.nan
 
-    if city_controls_path.exists():
+    if city_controls_path.exists() and city_controls_source() == "production":
         controls = pd.read_csv(city_controls_path)
         keep = ["city", "year"] + [c for c in CONTROL_COLUMNS if c in controls.columns]
         df = df.merge(controls[keep], on=["city", "year"], how="left")
