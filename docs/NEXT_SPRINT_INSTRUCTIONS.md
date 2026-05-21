@@ -1,5 +1,7 @@
 # Next Sprint Instructions — From Research Pipeline to Paper-Ready Evidence
 
+**Human-input blockers (EPS/NBS, audit, external URLs):** use [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md) as the canonical workstream split (A / B1 / B2), success conditions, and final unlock sequence. Do not bypass blockers with synthetic data.
+
 ## Sprint objective
 
 Move the project from a strong prototype to a paper-ready empirical package.

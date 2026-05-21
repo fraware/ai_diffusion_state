@@ -14,18 +14,19 @@ fetch: setup
 	$(PYTHON) scripts/01_fetch_source_pages.py
 
 # Analysis-ready processed tables from seeds and parsed smart-factory HTML
-build: setup seed parse
+# (no setup: avoids pip rebuilding numpy on Windows when env is already installed)
+build: seed parse
 
-parse: setup
+parse:
 	$(PYTHON) scripts/02_parse_smart_factories.py
 
 baci: setup
 	$(PYTHON) scripts/03_build_baci_outcomes.py
 
-city-controls: setup
+city-controls:
 	$(PYTHON) scripts/06_build_city_controls.py
 
-validate-controls-raw: setup
+validate-controls-raw:
 	$(PYTHON) scripts/06a_validate_city_controls_raw.py
 
 purge-stub-controls:
@@ -41,22 +42,22 @@ pcs: purge-stub-controls geo-audit panel analysis validate-geo validate-sprint m
 sync-paper-stats: analysis
 	$(PYTHON) scripts/16_sync_paper_stats.py
 
-production-check: setup
+production-check:
 	$(PYTHON) scripts/17_validate_production_outputs.py
 
-external-verification-queue: setup
+external-verification-queue:
 	$(PYTHON) scripts/18_build_external_verification_queue.py
 
-validate-audit: setup
+validate-audit:
 	$(PYTHON) scripts/19_validate_audit_sample.py
 
-apply-geo-updates: setup
+apply-geo-updates:
 	$(PYTHON) scripts/20_apply_geo_workflow_updates.py
 
 preflight: purge-stub-controls
 	$(PYTHON) scripts/21_pcs_preflight.py
 
-pcs-status: setup
+pcs-status:
 	$(PYTHON) scripts/15_pcs_status.py
 
 panel: build
@@ -65,7 +66,7 @@ panel: build
 main-tables: analysis
 	$(PYTHON) scripts/12_build_main_paper_tables.py
 
-recompute-audit: setup
+recompute-audit:
 	$(PYTHON) scripts/14_recompute_geo_audit_error_rate.py
 
 analysis: panel
@@ -76,14 +77,14 @@ outputs: analysis
 paper: analysis
 	$(PYTHON) scripts/07_build_paper_bundle.py
 
-validate-geo: setup
+validate-geo:
 	$(PYTHON) scripts/13_validate_geo_evidence.py
 
 validate-sprint: analysis
 	$(PYTHON) scripts/13_validate_geo_evidence.py
 	$(PYTHON) scripts/08_validate_sprint_outputs.py
 
-test: setup
+test:
 	pytest -q
 
 all: setup build baci panel analysis paper test

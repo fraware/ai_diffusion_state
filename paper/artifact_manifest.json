@@ -107,7 +107,7 @@
       "claim_id": "models_controlled",
       "required": false,
       "exists": true,
-      "n_rows": 19,
+      "n_rows": 1,
       "n_cols": 14
     },
     {
@@ -116,7 +116,7 @@
       "claim_id": "robustness_hub_exclusion",
       "required": true,
       "exists": true,
-      "n_rows": 12,
+      "n_rows": 6,
       "n_cols": 13
     },
     {
@@ -125,7 +125,7 @@
       "claim_id": "balance_pretreatment",
       "required": false,
       "exists": true,
-      "n_rows": 9,
+      "n_rows": 1,
       "n_cols": 9
     },
     {
@@ -135,7 +135,7 @@
       "required": false,
       "exists": true,
       "n_rows": 1,
-      "n_cols": 10
+      "n_cols": 3
     },
     {
       "path": "outputs/tables/table_9_city_resolution_audit.csv",
@@ -279,7 +279,7 @@
       "claim_id": "province_year_robustness",
       "required": true,
       "exists": true,
-      "n_rows": 17,
+      "n_rows": 9,
       "n_cols": 9
     },
     {

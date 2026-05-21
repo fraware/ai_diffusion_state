@@ -1,7 +1,8 @@
 # Sprint execution status
 
-**Generated:** after running the production gate on the current repo state.  
-**Latest commits:** `f29b541` (next sprint instructions), `ebdb845` (no stub pipeline).
+**Generated:** 2026-05-21 after descriptive production gate (human-input blockers unchanged).  
+**Canonical blocker playbook:** [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md) (`e8f1695`).  
+**Latest local gate:** `make purge-stub-controls` through `make test pcs-status` — exit 0; blockers A / B1 / B2 still pending.
 
 ## Final production gate results
 
@@ -17,7 +18,8 @@
 | `validate-audit` | **1** | 0/70 `auditor_decision` filled |
 | `production-check` | 0 | No stub leakage in paper text |
 | `validate-sprint` | 0 | PCS tables present |
-| `test` | 0 | 48 passed, 1 skipped |
+| `test` | 0 | 48 passed, 1 skipped (2026-05-21) |
+| `pcs-status` | 0 | Controls missing; audit 0/70; external 0/50 |
 
 ## Expected final state vs actual
 
@@ -35,15 +37,19 @@
 
 ## Engineer assignments (action required)
 
-### Engineer A — BLOCKED
+See **`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`** for exact columns, allowed values, rejected URLs, and per-workstream command blocks.
 
-Place **real** EPS/NBS export(s) in `data/raw/city_controls/` (not the template). Then rerun the command block in `docs/NEXT_SPRINT_INSTRUCTIONS.md` § Engineer A.
+### Engineer A — BLOCKED (Workstream A)
 
-### Engineer B — BLOCKED
+Place **real** EPS/NBS export(s) in `data/raw/city_controls/` (not the template; do not commit proprietary downloads). Then run the Workstream A commands in the blocker action plan.
 
-1. Fill `data/audit/city_resolution_sample_audit.csv` (50 rule-based + 20 official decisions minimum).  
-2. Fill `external_evidence_url` on >= 50 rows in `data/interim/external_verification_queue.csv`.  
-3. Rerun apply + geo-audit + validate-audit.
+### Engineer B1 — BLOCKED (Workstream B1)
+
+Fill `data/audit/city_resolution_sample_audit.csv` (≥50 `rule_based_text_inference` + ≥20 `official_location_exact`). Then `make apply-geo-updates`, `make recompute-audit`, `make validate-audit`.
+
+### Engineer B2 — BLOCKED (Workstream B2)
+
+Fill `external_evidence_url` (+ type, notes) on ≥50 rows in `data/interim/external_verification_queue.csv` (non-list, facility-level URLs only). Then `make apply-geo-updates`, `make geo-audit`, `make validate-geo`, and downstream tables.
 
 ### Engineer C — DONE (descriptive path)
 
