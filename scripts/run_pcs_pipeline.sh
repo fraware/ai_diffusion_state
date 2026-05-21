@@ -34,9 +34,16 @@ echo "==> analysis"
 py -3 scripts/05_run_baseline_models.py
 
 echo "==> validate"
+py -3 scripts/13_validate_geo_evidence.py
 py -3 scripts/08_validate_sprint_outputs.py
+
+echo "==> main paper tables"
+py -3 scripts/12_build_main_paper_tables.py
 
 echo "==> tests"
 py -3 -m pytest -q
+
+echo "==> PCS status"
+py -3 scripts/15_pcs_status.py
 
 echo "PCS pipeline complete."

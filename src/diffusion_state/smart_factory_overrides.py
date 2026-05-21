@@ -16,8 +16,10 @@ REQUIRED_OVERRIDE_COLUMNS = [
 
 OPTIONAL_OVERRIDE_COLUMNS = [
     "override_source",
+    "resolution_class",
     "evidence_url",
     "evidence_type",
+    "external_evidence_url",
     "reviewer",
     "review_date",
 ]

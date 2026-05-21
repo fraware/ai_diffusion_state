@@ -103,14 +103,16 @@ def build_city_resolution_audit(
     queue_path = queue_path or PROJECT_ROOT / "data" / "interim" / "smart_factory_unknown_city_queue.csv"
 
     clean = pd.read_csv(clean_path)
-    before_unknown = int((clean["city"] == "unknown").sum())
-    before_resolved = len(clean) - before_unknown
+    baseline_path = PROJECT_ROOT / "data" / "interim" / "city_resolution_baseline.json"
+    if baseline_path.exists():
+        import json
 
-    # Documented sprint baseline before geo-audit workstream (see paper/results_memo.md).
-    BASELINE_RESOLVED = 193
-    BASELINE_UNKNOWN = 316
-    before_resolved = BASELINE_RESOLVED
-    before_unknown = BASELINE_UNKNOWN
+        baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+        before_resolved = int(baseline.get("resolved_city_projects", 193))
+        before_unknown = int(baseline.get("unknown_city_projects", 316))
+    else:
+        before_resolved = int((clean["city"] != "unknown").sum())
+        before_unknown = int((clean["city"] == "unknown").sum())
 
     n_overrides = 0
     if overrides_path.exists():
@@ -157,6 +159,18 @@ def build_city_resolution_audit(
             "notes": "Hints from source text only; not applied without override seed",
         },
     ]
+    register_path = PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
+    if register_path.exists():
+        reg = pd.read_csv(register_path)
+        resolved = reg[reg["city"] != "unknown"]
+        for rc, n in resolved["resolution_class"].value_counts().items():
+            rows.append(
+                {
+                    "metric": f"resolved_{rc}",
+                    "value": int(n),
+                    "notes": "From city_resolution_register.csv (Table 16)",
+                }
+            )
     audit = pd.DataFrame(rows)
     out = PROJECT_ROOT / "outputs" / "tables" / "table_9_city_resolution_audit.csv"
     out.parent.mkdir(parents=True, exist_ok=True)

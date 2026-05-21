@@ -1094,3 +1094,18 @@ entries:
   province: Shaanxi
   evidence_type: company_annual_report
   note: Shacman trucks Xi'an.
+- match: 江西中易微连
+  city: Yingtan
+  province: Jiangxi
+  evidence_type: company_annual_report
+  note: Zhongyi microconnect Yingtan.
+- match: 中联重科
+  city: Changsha
+  province: Hunan
+  evidence_type: company_annual_report
+  note: Zoomlion headquarters Changsha.
+- match: 湖北宜化集团
+  city: Yichang
+  province: Hubei
+  evidence_type: company_annual_report
+  note: Yihua Group Yichang.

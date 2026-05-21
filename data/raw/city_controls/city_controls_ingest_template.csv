@@ -1,0 +1,2 @@
+city,province,year,gdp,gdp_per_capita,secondary_value_added,industrial_output,population,employment,average_wage,fdi,fixed_asset_investment,education_proxy,telecom_or_internet_proxy,foreign_trade,source_name,source_file
+Shanghai,Shanghai,2023,0,0,0,0,0,0,0,0,0,0,0,0,EPS_China_City_Statistics,example_do_not_commit.csv

@@ -212,19 +212,38 @@ def build_export_relevance_by_sector() -> pd.DataFrame:
         export_2024["export_value_2024"] / total_export if total_export else 0.0
     )
 
-    def _growth_spread(g: pd.DataFrame) -> pd.Series:
-        y24 = g.loc[g["year"] == 2024, "export_value_growth"].mean()
-        y17 = g.loc[g["year"] == 2017, "export_value_growth"].mean()
-        u24 = g.loc[g["year"] == 2024, "unit_value_growth"].mean()
-        u17 = g.loc[g["year"] == 2017, "unit_value_growth"].mean()
+    def _cumulative_growth(g: pd.DataFrame) -> pd.Series:
+        e17 = g.loc[g["year"] == 2017, "export_value_usd"]
+        e24 = g.loc[g["year"] == 2024, "export_value_usd"]
+        u17 = g.loc[g["year"] == 2017, "unit_value_index"]
+        u24 = g.loc[g["year"] == 2024, "unit_value_index"]
+        export_value_2017 = float(e17.sum()) if len(e17) else np.nan
+        export_value_2024 = float(e24.sum()) if len(e24) else np.nan
+        unit_value_index_2017 = float(u17.mean()) if len(u17) and u17.notna().any() else np.nan
+        unit_value_index_2024 = float(u24.mean()) if len(u24) and u24.notna().any() else np.nan
+        log_export = (
+            np.log(export_value_2024) - np.log(export_value_2017)
+            if export_value_2017 > 0 and export_value_2024 > 0
+            else np.nan
+        )
+        log_unit = (
+            np.log(unit_value_index_2024) - np.log(unit_value_index_2017)
+            if unit_value_index_2017 > 0 and unit_value_index_2024 > 0
+            else np.nan
+        )
         return pd.Series(
             {
-                "export_growth_2017_2024": y24 - y17 if pd.notna(y24) and pd.notna(y17) else np.nan,
-                "unit_value_growth_2017_2024": u24 - u17 if pd.notna(u24) and pd.notna(u17) else np.nan,
+                "export_value_2017": export_value_2017,
+                "export_value_2024": export_value_2024,
+                "log_export_growth_2017_2024": log_export,
+                "unit_value_index_2017": unit_value_index_2017,
+                "unit_value_index_2024": unit_value_index_2024,
+                "log_unit_value_growth_2017_2024": log_unit,
+                "growth_method": "log_level_2017_2024",
             }
         )
 
-    growth = sector.groupby("sector_group").apply(_growth_spread, include_groups=False).reset_index()
+    growth = sector.groupby("sector_group").apply(_cumulative_growth, include_groups=False).reset_index()
 
     conf = (
         bridge.assign(sector_group=lambda d: d["smart_factory_industry_label"].map(group_map).fillna("other"))

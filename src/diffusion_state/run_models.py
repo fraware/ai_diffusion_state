@@ -187,6 +187,13 @@ def run_baseline_models(panel_path: Path | None = None) -> None:
 def run_sprint_analysis(panel_path: Path | None = None) -> None:
     """Baseline plus credibility sprint tables (Steps 3-9)."""
     from diffusion_state.build_city_diffusion_typology import build_city_diffusion_typology
+    from diffusion_state.build_city_diffusion_typology_ex_ante import build_city_diffusion_typology_ex_ante
+    from diffusion_state.build_geo_evidence_quality import (
+        build_city_resolution_register,
+        build_geo_sample_audit_template,
+        build_table_geo_audit_error_rate,
+        build_table_geo_evidence_quality,
+    )
     from diffusion_state.build_export_revised import build_all_export_revised
     from diffusion_state.build_industry_ai_exposure_ex_ante import build_industry_ai_exposure_ex_ante
     from diffusion_state.build_unknown_city_queue import (
@@ -197,6 +204,10 @@ def run_sprint_analysis(panel_path: Path | None = None) -> None:
     from diffusion_state.run_city_industry_models import run_city_industry_adoption_models
     from diffusion_state.run_controlled_models import run_controlled_adoption_models
     from diffusion_state.run_hub_robustness import run_hub_exclusion_robustness
+    from diffusion_state.run_province_year_models import (
+        build_analysis_province_year_panel,
+        run_province_year_models,
+    )
 
     run_baseline_models(panel_path)
     build_industry_ai_exposure_ex_ante()
@@ -204,6 +215,13 @@ def run_sprint_analysis(panel_path: Path | None = None) -> None:
     run_hub_exclusion_robustness(panel_path)
     run_balance_and_matching(panel_path)
     build_city_diffusion_typology(panel_path)
+    build_city_diffusion_typology_ex_ante(panel_path)
+    build_city_resolution_register()
+    build_table_geo_evidence_quality()
+    build_geo_sample_audit_template()
+    build_table_geo_audit_error_rate()
+    build_analysis_province_year_panel()
+    run_province_year_models()
     build_unknown_city_queue()
     build_city_resolution_audit()
     if (PROJECT_ROOT / "data" / "processed" / "export_outcomes_sector_year.csv").exists():

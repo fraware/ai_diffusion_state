@@ -49,6 +49,12 @@ PAPER_ARTIFACTS: tuple[PaperArtifact, ...] = (
     PaperArtifact(Path("outputs/tables/table_14_city_diffusion_typology.csv"), "table", "city_diffusion_typology"),
     PaperArtifact(Path("outputs/figures/fig_city_typology_smart_factory_counts.png"), "figure", "fig_city_typology", required=False),
     PaperArtifact(Path("outputs/tables/table_15_export_relevance_by_sector.csv"), "table", "export_relevance", required=False),
+    PaperArtifact(Path("outputs/tables/table_16_geo_evidence_quality.csv"), "table", "geo_evidence_quality"),
+    PaperArtifact(Path("outputs/tables/table_17_geo_audit_error_rate.csv"), "table", "geo_audit_error_rate", required=False),
+    PaperArtifact(Path("outputs/tables/table_18_city_diffusion_typology_ex_ante.csv"), "table", "city_typology_ex_ante"),
+    PaperArtifact(Path("outputs/tables/table_19_province_year_models.csv"), "table", "province_year_robustness"),
+    PaperArtifact(Path("data/processed/city_resolution_register.csv"), "processed", "city_resolution_register"),
+    PaperArtifact(Path("data/audit/city_resolution_sample_audit.csv"), "audit", "geo_sample_audit", required=False),
 )
 
 CLAIM_MAP_ROWS = [
@@ -181,8 +187,12 @@ def build_paper_bundle(strict: bool = True) -> dict:
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
-    claim_df = pd.DataFrame(CLAIM_MAP_ROWS)
-    write_csv(claim_df, PAPER_DIR / "claim_table_map.csv")
+    claim_path = PAPER_DIR / "claim_table_map.csv"
+    if claim_path.exists():
+        claim_df = pd.read_csv(claim_path)
+    else:
+        claim_df = pd.DataFrame(CLAIM_MAP_ROWS)
+        write_csv(claim_df, claim_path)
     return manifest
 
 

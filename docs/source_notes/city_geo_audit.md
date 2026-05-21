@@ -47,11 +47,24 @@ Blocked: province-only firm prefix without plant token (e.g. `广东` + national
 - `outputs/tables/table_9_city_resolution_audit.csv` — before/after metrics (baseline 193 resolved; v2 build **503** resolved)
 - `data/interim/smart_factory_unknown_city_queue.csv` — manual review queue (**6** rows after v2 pass)
 
+## Evidence classes (`resolution_class`)
+
+| Class | Meaning | `evidence_url` |
+|-------|---------|----------------|
+| `official_location_exact` | MIIT location field names the city | Smart-factory list page OK |
+| `rule_based_text_inference` | City from list text, registry plant map, tokens, branches | List page only |
+| `external_evidence_verified` | External URL proves plant city | Must not be list-page URL |
+
+Hygiene check: `make validate-geo` or `scripts/13_validate_geo_evidence.py`.
+
+Paper wording: “503 projects are city-resolved: X official-location, Y rule-based inference, Z externally verified” (from Table 16 `_all` rows).
+
 Regenerate supplement before geo-audit when adding plant maps:
 
 ```bash
 py -3 scripts/11_build_registry_supplement.py
 make geo-audit
+make validate-geo
 ```
 
 ## City controls (CI)

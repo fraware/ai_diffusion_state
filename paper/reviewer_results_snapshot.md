@@ -8,8 +8,8 @@
 |------|------:|
 | AI pilot-zone units | 17 |
 | Smart-factory projects (2024–2025 lists) | 509 |
-| Projects with resolved city | **503** (baseline 193) |
-| Projects without city | **6** |
+| Projects with resolved city | **509** (baseline 193) |
+| Projects without city | **0** |
 | Audited override rows (seed) | **450+** |
 | Cities with listed projects (resolved) | **158** |
 | Cities in adoption panel | **125** (pilot + smart-factory universe) |
@@ -19,7 +19,7 @@
 | Sample | Cities | Projects | Mean/city |
 |--------|-------:|---------:|----------:|
 | Pilot-zone | 16 | 192 | 12.00 |
-| Non-pilot | 142 | 311 | 2.19 |
+| Non-pilot | 143 | 317 | 2.22 |
 
 ## Hub-exclusion (Table 6, baseline)
 
@@ -44,9 +44,25 @@
 
 Central descriptive table: `frontier_municipality_hub`, `pilot_industrial_hub`, `pilot_non_hub`, `nonpilot_industrial_hub`, `nonpilot_low_adoption`. Figure: `fig_city_typology_smart_factory_counts.png`.
 
-## City resolution (Table 9)
+## City resolution evidence (Tables 9, 16, 17)
 
-503 resolved; **6** remain in queue: `data/interim/smart_factory_unknown_city_queue.csv`.
+509 resolved; **0** unknown. **Table 16** (regenerate with `make geo-audit`):
+
+| `resolution_class` | Projects (typical build) |
+|--------------------|-------------------------:|
+| `official_location_exact` | 102 |
+| `rule_based_text_inference` | 407 |
+| `external_evidence_verified` | 0 until registry rows include real external URLs |
+
+Registry plant-city matches use `firm_registry_match` + **rule-based** class (not external annual-report claims). **Table 17**: stratified sample in `data/audit/city_resolution_sample_audit.csv` — audit pending until `auditor_decision` filled.
+
+## Ex ante typology (Table 18)
+
+Capacity typology without `top_5_smart_factory_city` (pilot hub / non-pilot hub / low capacity).
+
+## Province-year robustness (Table 19)
+
+Coarse check using all 509 projects; pilot-province bucket includes non-pilot cities (caveat in red-team memo).
 
 ## City-industry (Table 13)
 

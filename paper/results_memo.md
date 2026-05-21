@@ -14,8 +14,9 @@ From `table_1_dataset_summary.csv`:
 
 - 17 AI pilot-zone units (2019–2021).
 - 509 MIIT excellence-level smart-factory projects (235 in 2024, 274 in 2025).
-- **503** projects with resolved city after geo-audit v2 (**6** remain province-only / unverified).
-- **450+** audited override rows in `data/seed/smart_factory_city_overrides.csv` (see `docs/source_notes/city_geo_audit.md`).
+- **509** projects with resolved city after geo-audit v3 (**0** unknown in current build).
+- City resolution is split by `resolution_class` in `table_16_geo_evidence_quality.csv`: **102** `official_location_exact`, **407** `rule_based_text_inference`, **0** `external_evidence_verified` in the current build (regenerate Table 16 after `make geo-audit`). Registry plant-city matches are **rule-based** (`firm_registry_match`); list-page URLs are not external annual-report evidence. Stratified audit: `data/audit/city_resolution_sample_audit.csv` → Table 17.
+- Override seed: `data/seed/smart_factory_city_overrides.csv` (includes `resolution_class`; registry plant-city matches are **rule-based**, not external annual-report URLs).
 
 Pre-2024 years in `analysis_city_year_panel.csv` are **zero-filled** for smart-factory counts because public excellence lists begin in 2024.
 
@@ -26,10 +27,10 @@ From `table_pilot_zone_overlap.csv` (2024–2025 totals, cities with known `city
 | Sample | Cities | Total projects | Mean per city |
 |--------|-------:|---------------:|--------------:|
 | Pilot-zone cities | 16 | 192 | 12.00 |
-| Non-pilot cities | 142 | 311 | 2.19 |
-| All resolved | 158 | 503 | 3.18 |
+| Non-pilot cities | 143 | 317 | 2.22 |
+| All resolved | 159 | 509 | 3.20 |
 
-Mean difference (pilot minus non-pilot): **9.81** projects per city.
+Mean difference (pilot minus non-pilot): **9.78** projects per city.
 
 Top cities (`table_2_top_smart_factory_cities.csv`, pilot flag): Shanghai (30, pilot), Chongqing (22, pilot), Beijing (19, pilot), Tianjin (17, pilot), Qingdao (14, non-pilot).
 

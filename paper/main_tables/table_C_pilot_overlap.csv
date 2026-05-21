@@ -1,0 +1,4 @@
+﻿sample,n_cities,total_projects_2024_2025,mean_projects_per_city,median_projects_per_city,mean_difference_pilot_minus_non
+pilot_zone_cities,16,192,12.0,11.0,9.783216783216783
+non_pilot_zone_cities,143,317,2.2167832167832167,1.0,9.783216783216783
+all_resolved_cities,159,509,3.20125786163522,2.0,9.783216783216783

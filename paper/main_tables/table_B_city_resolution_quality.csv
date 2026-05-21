@@ -1,0 +1,11 @@
+﻿resolution_class,n_projects,evidence_type,share_projects,n_with_source_list_url_only,n_with_external_url
+official_location_exact,102,_all,0.20039292730844793,102,0
+rule_based_text_inference,407,_all,0.7996070726915521,407,0
+official_location_exact,102,miit_location_field,0.20039292730844793,102,0
+rule_based_text_inference,32,embedded_html_table,0.06286836935166994,32,0
+rule_based_text_inference,64,firm_embedded_city_token,0.12573673870333987,64,0
+rule_based_text_inference,27,firm_parenthetical,0.05304518664047151,27,0
+rule_based_text_inference,1,firm_province_county,0.0019646365422396855,1,0
+rule_based_text_inference,258,firm_registry_match,0.5068762278978389,258,0
+rule_based_text_inference,21,html_p_tag_rtl_location,0.0412573673870334,21,0
+rule_based_text_inference,4,project_branch_city,0.007858546168958742,4,0

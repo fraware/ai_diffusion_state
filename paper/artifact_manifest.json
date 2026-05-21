@@ -25,7 +25,7 @@
       "claim_id": "panel_city_year",
       "required": true,
       "exists": true,
-      "n_rows": 222,
+      "n_rows": 224,
       "n_cols": 10
     },
     {
@@ -34,7 +34,7 @@
       "claim_id": "panel_analysis",
       "required": true,
       "exists": true,
-      "n_rows": 1113,
+      "n_rows": 1120,
       "n_cols": 27
     },
     {
@@ -43,7 +43,7 @@
       "claim_id": "descriptive_data_coverage",
       "required": true,
       "exists": true,
-      "n_rows": 6,
+      "n_rows": 8,
       "n_cols": 5
     },
     {
@@ -244,7 +244,61 @@
       "required": false,
       "exists": true,
       "n_rows": 10,
+      "n_cols": 14
+    },
+    {
+      "path": "outputs/tables/table_16_geo_evidence_quality.csv",
+      "artifact_type": "table",
+      "claim_id": "geo_evidence_quality",
+      "required": true,
+      "exists": true,
+      "n_rows": 10,
+      "n_cols": 6
+    },
+    {
+      "path": "outputs/tables/table_17_geo_audit_error_rate.csv",
+      "artifact_type": "table",
+      "claim_id": "geo_audit_error_rate",
+      "required": false,
+      "exists": true,
+      "n_rows": 2,
+      "n_cols": 8
+    },
+    {
+      "path": "outputs/tables/table_18_city_diffusion_typology_ex_ante.csv",
+      "artifact_type": "table",
+      "claim_id": "city_typology_ex_ante",
+      "required": true,
+      "exists": true,
+      "n_rows": 159,
+      "n_cols": 12
+    },
+    {
+      "path": "outputs/tables/table_19_province_year_models.csv",
+      "artifact_type": "table",
+      "claim_id": "province_year_robustness",
+      "required": true,
+      "exists": true,
+      "n_rows": 17,
       "n_cols": 9
+    },
+    {
+      "path": "data/processed/city_resolution_register.csv",
+      "artifact_type": "processed",
+      "claim_id": "city_resolution_register",
+      "required": true,
+      "exists": true,
+      "n_rows": 509,
+      "n_cols": 10
+    },
+    {
+      "path": "data/audit/city_resolution_sample_audit.csv",
+      "artifact_type": "audit",
+      "claim_id": "geo_sample_audit",
+      "required": false,
+      "exists": true,
+      "n_rows": 70,
+      "n_cols": 14
     }
   ],
   "missing_required": []

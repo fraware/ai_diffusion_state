@@ -43,9 +43,9 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 ## 5. City and industry mapping uncertainty
 
-**Issue:** **6** of 509 projects still lack resolved `city` after geo-audit v2 (national HQ without auditable plant city in source text).
+**Issue:** Current build resolves **509/509** projects to a city using official location, rule-based list-text inference, or plant-city registry (Table 16). **Zero** rows are `external_evidence_verified` until non-list URLs are added to the registry.
 
-**Consequence:** City-level overlap uses **503** resolved projects (**158** cities). Residual unknowns are documented in `data/interim/smart_factory_unknown_city_queue.csv` for manual evidence only.
+**Consequence:** City-level models use the full list; province-only robustness (Table 19) remains a coarser check. Do not describe registry matches as externally audited without a real `evidence_url`.
 
 **Province overlap inflates pilot counts:** `table_pilot_zone_province_overlap.csv` assigns all projects in pilot **provinces** to the pilot-province sample, including non-pilot cities.
 
@@ -107,6 +107,6 @@ Table 6 now includes `interpretation`, `coefficient_relative_to_full_sample`, an
 ## 12. Next empirical priorities (ordered)
 
 1. Ingest city controls and re-estimate Models 4–7, balance, matching, and controlled hub exclusions.
-2. Enrich city assignment via audited overrides (target ≥250 resolved projects; ≥75 high-value manual resolutions).
+2. City resolution uses **three evidence classes** (`resolution_class` in override seed; Table 16). Registry plant-city matches are **rule-based text inference**, not external annual-report verification, unless a non-list `evidence_url` is supplied. Stratified sample audit: `data/audit/city_resolution_sample_audit.csv` (Table 17).
 3. City-industry heterogeneity using ex ante exposure only in main text.
 4. Keep export section descriptive (Table 15).

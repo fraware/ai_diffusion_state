@@ -29,17 +29,31 @@ def main() -> int:
     print("Step 3: rebuild clean applying overrides...")
     build_smart_factories_clean()
 
-    after = int((pd.read_csv(clean)["city"] == "unknown").sum())
-    resolved = 509 - after
-    print(f"  resolved city projects: {resolved} (target >=250)")
+    clean_df = pd.read_csv(clean)
+    after = int((clean_df["city"] == "unknown").sum())
+    n = len(clean_df)
+    resolved = n - after
+    print(f"  resolved city projects: {resolved}/{n}")
     print(f"  remaining unknown: {after}")
 
-    if len(overrides) < 75 and resolved < 250:
-        print(f"WARN: fewer than 75 override rows ({len(overrides)}) and resolved {resolved}<250.")
+    if after > 0:
+        print(f"WARN: {after} projects still lack resolved city.")
         return 1
-    if resolved < 250:
-        print(f"WARN: resolved count {resolved} below 250 target.")
-        return 1
+    if len(overrides) < 75:
+        print(f"WARN: fewer than 75 override rows ({len(overrides)}).")
+
+    print("==> geo evidence quality tables")
+    from diffusion_state.build_geo_evidence_quality import (
+        build_city_resolution_register,
+        build_geo_sample_audit_template,
+        build_table_geo_audit_error_rate,
+        build_table_geo_evidence_quality,
+    )
+
+    build_city_resolution_register()
+    build_table_geo_evidence_quality()
+    build_geo_sample_audit_template()
+    build_table_geo_audit_error_rate()
     return 0
 
 

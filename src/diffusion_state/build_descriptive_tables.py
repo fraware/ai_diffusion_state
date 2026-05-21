@@ -63,6 +63,20 @@ def build_table_1_dataset_summary() -> pd.DataFrame:
             "source": "parser + audited geo overrides",
         },
     ]
+    reg_path = PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
+    if reg_path.exists():
+        reg = pd.read_csv(reg_path)
+        resolved = reg[reg["city"] != "unknown"]
+        for rc, n in resolved["resolution_class"].value_counts().items():
+            rows.append(
+                {
+                    "dataset": f"geo_resolution_{rc}",
+                    "unit": "project",
+                    "observations": int(n),
+                    "years_covered": "2024, 2025",
+                    "source": "data/processed/city_resolution_register.csv",
+                }
+            )
     return pd.DataFrame(rows)
 
 

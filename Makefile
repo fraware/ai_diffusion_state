@@ -37,10 +37,19 @@ geo-audit: build
 	$(PYTHON) scripts/10_build_audited_city_overrides.py
 	$(PYTHON) scripts/04_build_city_year_panel.py
 
-pcs: geo-audit city-controls-stub panel analysis validate-sprint test
+pcs: geo-audit city-controls-stub panel analysis validate-geo validate-sprint main-tables test pcs-status
+
+pcs-status: setup
+	$(PYTHON) scripts/15_pcs_status.py
 
 panel: build
 	$(PYTHON) scripts/04_build_city_year_panel.py
+
+main-tables: analysis
+	$(PYTHON) scripts/12_build_main_paper_tables.py
+
+recompute-audit: setup
+	$(PYTHON) scripts/14_recompute_geo_audit_error_rate.py
 
 analysis: panel
 	$(PYTHON) scripts/05_run_baseline_models.py
@@ -50,7 +59,11 @@ outputs: analysis
 paper: analysis
 	$(PYTHON) scripts/07_build_paper_bundle.py
 
+validate-geo: setup
+	$(PYTHON) scripts/13_validate_geo_evidence.py
+
 validate-sprint: analysis
+	$(PYTHON) scripts/13_validate_geo_evidence.py
 	$(PYTHON) scripts/08_validate_sprint_outputs.py
 
 test: setup
