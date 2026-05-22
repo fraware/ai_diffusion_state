@@ -18,7 +18,7 @@ Changshu,Jiangsu,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Changyuan,Henan,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
 Changzhou,Jiangsu,0,0,7,10.0,0,0,0,0,nonpilot_low_adoption
 Chengde,Hebei,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
-Chengdu,Sichuan,1,1,11,7.0,0,0,0,0,pilot_non_hub
+Chengdu,Sichuan,1,1,11,7.0,0,0,0,1,pilot_non_hub
 Chongqing,Chongqing,1,1,22,2.0,1,0,1,0,frontier_municipality_hub
 Chuzhou,Anhui,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Dalian,Liaoning,0,0,5,12.0,0,0,0,0,nonpilot_low_adoption
@@ -34,14 +34,14 @@ Foshan,Guangdong,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Fuzhou,Fujian,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Ganzhou,Jiangxi,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Golmud,Qinghai,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
-Guangzhou,Guangdong,1,1,8,9.0,0,1,0,0,pilot_industrial_hub
+Guangzhou,Guangdong,1,1,8,9.0,0,1,0,1,pilot_industrial_hub
 Guilin,Guangxi,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Guixi,Jiangxi,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Guiyang,Guizhou,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Haikou,Hainan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Hanchuan,Hubei,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Handan,Hebei,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
-Hangzhou,Zhejiang,1,1,13,5.0,0,1,0,0,pilot_industrial_hub
+Hangzhou,Zhejiang,1,1,13,5.0,0,1,0,1,pilot_industrial_hub
 Hanzhong,Shaanxi,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Harbin,Heilongjiang,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Hefei,Anhui,1,1,9,8.0,0,0,0,0,pilot_non_hub
@@ -84,14 +84,14 @@ Mengzhou,Henan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Mianyang,Sichuan,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Mudanjiang,Heilongjiang,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Nanchang,Jiangxi,0,0,8,9.0,0,0,0,0,nonpilot_low_adoption
-Nanjing,Jiangsu,0,0,9,8.0,0,0,0,0,nonpilot_low_adoption
+Nanjing,Jiangsu,0,0,9,8.0,0,0,0,1,nonpilot_industrial_hub
 Nantong,Jiangsu,0,0,13,5.0,0,0,0,0,nonpilot_low_adoption
-Ningbo,Zhejiang,0,0,13,5.0,0,0,0,0,nonpilot_low_adoption
+Ningbo,Zhejiang,0,0,13,5.0,0,0,0,1,nonpilot_industrial_hub
 Ningde,Fujian,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Ordos,Inner Mongolia,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Pingdingshan,Henan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Putian,Fujian,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
-Qingdao,Shandong,0,0,17,4.0,0,0,1,0,nonpilot_industrial_hub
+Qingdao,Shandong,0,0,17,4.0,0,0,1,1,nonpilot_industrial_hub
 Qinhuangdao,Hebei,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
 Qinzhou,Guangxi,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Qiqihar,Heilongjiang,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
@@ -103,11 +103,11 @@ Sanya,Hainan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Shanghai,Shanghai,1,1,30,1.0,1,1,1,0,frontier_municipality_hub
 Shaoxing,Zhejiang,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Shenyang,Liaoning,1,1,8,9.0,0,0,0,0,pilot_non_hub
-Shenzhen,Guangdong,1,1,6,11.0,0,1,0,0,pilot_industrial_hub
+Shenzhen,Guangdong,1,1,6,11.0,0,1,0,1,pilot_industrial_hub
 Shihezi,Xinjiang,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Shijiazhuang,Hebei,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Shizuishan,Ningxia,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
-Suzhou,Jiangsu,1,1,7,10.0,0,0,0,0,pilot_non_hub
+Suzhou,Jiangsu,1,1,7,10.0,0,0,0,1,pilot_non_hub
 Tai'an,Shandong,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
 Taiyuan,Shanxi,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
 Taizhou,Jiangsu,0,0,6,11.0,0,0,0,0,nonpilot_low_adoption
@@ -122,7 +122,7 @@ Weifang,Shandong,0,0,5,12.0,0,0,0,0,nonpilot_low_adoption
 Wenshan,Yunnan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Wenzhou,Zhejiang,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Wuhai,Inner Mongolia,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
-Wuhan,Hubei,1,1,12,6.0,0,0,0,0,pilot_non_hub
+Wuhan,Hubei,1,1,12,6.0,0,0,0,1,pilot_non_hub
 Wuhu,Anhui,0,0,4,13.0,0,0,0,0,nonpilot_low_adoption
 Wuxi,Jiangsu,0,0,3,14.0,0,0,0,0,nonpilot_low_adoption
 Wuzhong,Ningxia,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
@@ -131,7 +131,7 @@ Xiamen,Fujian,0,0,9,8.0,0,0,0,0,nonpilot_low_adoption
 Xiangtan,Hunan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Xiangyang,Hubei,0,0,2,15.0,0,0,0,0,nonpilot_low_adoption
 Xianyang,Shaanxi,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
-Xichang,Sichuan,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
+Xichang,Sichuan,0,0,1,16.0,0,0,0,1,nonpilot_industrial_hub
 Xilinhot,Inner Mongolia,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Xingtai,Hebei,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption
 Xinyu,Jiangxi,0,0,1,16.0,0,0,0,0,nonpilot_low_adoption

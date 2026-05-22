@@ -125,7 +125,7 @@
       "claim_id": "balance_pretreatment",
       "required": false,
       "exists": true,
-      "n_rows": 1,
+      "n_rows": 3,
       "n_cols": 9
     },
     {
@@ -135,7 +135,7 @@
       "required": false,
       "exists": true,
       "n_rows": 1,
-      "n_cols": 3
+      "n_cols": 10
     },
     {
       "path": "outputs/tables/table_9_city_resolution_audit.csv",
@@ -235,7 +235,7 @@
       "exists": true,
       "n_rows": null,
       "n_cols": null,
-      "bytes": 39283
+      "bytes": 38901
     },
     {
       "path": "outputs/tables/table_15_export_relevance_by_sector.csv",
