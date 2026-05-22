@@ -1,13 +1,13 @@
 ﻿variable,share_missing,n_missing,n_obs,nonmissing_years
-gdp,0.0,0,156,"[2021, 2022, 2024]"
-gdp_per_capita,0.00641025641025641,1,156,"[2021, 2022, 2024]"
-secondary_value_added,0.0,0,156,"[2021, 2022, 2024]"
-industrial_output,1.0,156,156,[]
-population,0.00641025641025641,1,156,"[2021, 2022, 2024]"
-employment,0.3333333333333333,52,156,"[2021, 2022]"
-average_wage,1.0,156,156,[]
-fdi,1.0,156,156,[]
-fixed_asset_investment,1.0,156,156,[]
-education_proxy,1.0,156,156,[]
-telecom_or_internet_proxy,1.0,156,156,[]
-foreign_trade,1.0,156,156,[]
+gdp,0.0,0,209,"[2021, 2022, 2023, 2024]"
+gdp_per_capita,0.004784688995215311,1,209,"[2021, 2022, 2023, 2024]"
+secondary_value_added,0.004784688995215311,1,209,"[2021, 2022, 2023, 2024]"
+industrial_output,0.7559808612440191,158,209,[2024]
+population,0.004784688995215311,1,209,"[2021, 2022, 2023, 2024]"
+employment,0.014354066985645933,3,209,"[2021, 2022, 2023, 2024]"
+average_wage,1.0,209,209,[]
+fdi,1.0,209,209,[]
+fixed_asset_investment,1.0,209,209,[]
+education_proxy,0.7511961722488039,157,209,[2024]
+telecom_or_internet_proxy,0.7511961722488039,157,209,[2024]
+foreign_trade,0.7511961722488039,157,209,[2024]

@@ -192,8 +192,25 @@ def infer_year(path: Path) -> int | None:
     return int(m.group(1)) if m else None
 
 
+TABLE_CODE_VARS = {
+    "2-12": "foreign_trade",
+    "2-28": "telecom_or_internet_proxy",
+    "2-13": "industrial_output",
+    "2-14": "industrial_output",
+}
+
+# Full-archive tables with reliable city rows (skip 2-10..2-11 etc. that mis-match keywords).
+ALLOWED_EXTRACTED_CODES = {
+    "2-1", "2-6", "2-7", "2-8", "2-12", "2-13", "2-14", "2-18",
+    "2-19", "2-20", "2-21", "2-28",
+}
+
+
 def infer_variable(path: Path) -> str | None:
     name = path.name
+    code = re.search(r"(?:20[0-9]{2}-)?([23]-[0-9]{1,2})", name.replace("_", "-"))
+    if code and code.group(1) in TABLE_CODE_VARS:
+        return TABLE_CODE_VARS[code.group(1)]
     # GDP composition must be checked before GDP.
     if "地区生产总值构成" in name:
         return "secondary_value_added"
@@ -227,8 +244,13 @@ def candidate_excel_files() -> list[Path]:
     out = []
     for p in files:
         name = p.name
-        if "3-" in name or "3_" in name:
+        # County-level yearbook tables (3-*) only; do not match year prefixes like 2023_.
+        if re.search(r"(?:^|_)3-\d", name):
             continue
+        if "extracted_" in str(p):
+            code = re.search(r"(?:20[0-9]{2}-)?([23]-[0-9]{1,2})", name.replace("_", "-"))
+            if not code or code.group(1) not in ALLOWED_EXTRACTED_CODES:
+                continue
         if infer_variable(p) is not None:
             out.append(p)
     return out
@@ -284,6 +306,12 @@ def pick_value_for_var(row: pd.Series, var: str) -> float:
         # In labor/income tables first may be employment, later wage. Use largest plausible wage-like value.
         candidates = [v for v in vals if v > 1000]
         return candidates[-1] if candidates else vals[-1]
+    if var == "telecom_or_internet_proxy" and len(vals) >= 3:
+        # 2-28: postal revenue, telecom revenue, mobile subscribers (万户) — use subscribers.
+        return vals[2]
+    if var == "foreign_trade" and len(vals) >= 2:
+        # 2-12: import + export (万元); store combined trade volume.
+        return vals[0] + vals[1]
     return vals[0]
 
 

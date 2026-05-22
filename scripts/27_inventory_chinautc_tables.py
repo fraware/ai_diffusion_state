@@ -24,8 +24,8 @@ HINTS = {
     "gdp_composition": ["第二产业", "第三产业", "构成"],
     "employment_wage": ["就业", "工资", "收入"],
     "industrial_output": ["工业企业", "工业总产值", "规模以上工业"],
-    "fixed_asset_investment": ["固定资产投资"],
-    "foreign_trade_fdi": ["进出口", "外商", "外资"],
+    "fixed_asset_investment": ["固定资产投资", "Fixed Asset Investment", "全社会固定资产投资"],
+    "foreign_trade_fdi": ["进出口", "外商", "外资", "对外经济", "货物进口", "货物出口", "Foreign Trade"],
     "education": ["教育", "学校", "学生"],
     "telecom": ["邮电", "电信", "互联网", "宽带", "移动电话"],
 }
