@@ -6,9 +6,12 @@ public XLSX/RAR attachments exposed on ChinaUTC yearbook pages into:
 
     data/raw/city_controls/chinautc_downloads/
 
-The script should be run on a local machine with internet access. The current
-execution container cannot resolve chinautc.com, but ordinary browsers and local
-PowerShell/curl generally can.
+Run on a machine with internet access:
+
+    python scripts/24_fetch_chinautc_city_yearbook.py --insecure
+
+Use ``--insecure`` when Python fails SSL verification against chinautc.com (common
+on Windows). Ordinary browsers may work without it.
 
 Sources verified by web inspection:
 - 2024 index: https://www.chinautc.com/templates/H_nianjian/index.aspx?nodeid=6328
@@ -22,6 +25,7 @@ paid/mirrored yearbook source.
 """
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from dataclasses import dataclass
@@ -65,6 +69,17 @@ HEADERS = {
     "Referer": "https://www.chinautc.com/",
 }
 
+# ChinaUTC often fails Python SSL verification on Windows; browsers still work.
+VERIFY_SSL = True
+
+
+def log(msg: str) -> None:
+    """Print without crashing on Windows cp1252 consoles."""
+    try:
+        print(msg)
+    except UnicodeEncodeError:
+        print(msg.encode("ascii", errors="backslashreplace").decode("ascii"))
+
 
 @dataclass
 class Attachment:
@@ -75,7 +90,7 @@ class Attachment:
 
 
 def get_html(url: str) -> str:
-    r = requests.get(url, headers=HEADERS, timeout=30)
+    r = requests.get(url, headers=HEADERS, timeout=30, verify=VERIFY_SSL)
     r.raise_for_status()
     r.encoding = r.apparent_encoding or "utf-8"
     return r.text
@@ -120,47 +135,70 @@ def download(att: Attachment) -> Path:
     year_dir.mkdir(parents=True, exist_ok=True)
     path = year_dir / safe_filename(att.year, att.name)
     if path.exists() and path.stat().st_size > 0:
-        print(f"SKIP exists: {path}")
+        log(f"SKIP exists: {path}")
         return path
-    print(f"Downloading {att.url}")
-    with requests.get(att.url, headers={**HEADERS, "Referer": att.page_url}, stream=True, timeout=120) as r:
+    log(f"Downloading {att.name} ({att.year})")
+    with requests.get(
+        att.url,
+        headers={**HEADERS, "Referer": att.page_url},
+        stream=True,
+        timeout=120,
+        verify=VERIFY_SSL,
+    ) as r:
         r.raise_for_status()
         with path.open("wb") as f:
             for chunk in r.iter_content(chunk_size=1024 * 256):
                 if chunk:
                     f.write(chunk)
-    print(f"Wrote {path} ({path.stat().st_size} bytes)")
+    log(f"Wrote {path} ({path.stat().st_size} bytes)")
     return path
 
 
 def main() -> int:
+    global VERIFY_SSL
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--insecure",
+        action="store_true",
+        help="Disable TLS certificate verification (use if chinautc.com fails SSL on your machine).",
+    )
+    args = parser.parse_args()
+    if args.insecure:
+        VERIFY_SSL = False
+        import urllib3
+
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        log("WARNING: TLS verification disabled for ChinaUTC downloads.")
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     all_atts: list[Attachment] = []
     for year, index_url in INDEX_PAGES.items():
-        print(f"\n=== {year}: {index_url} ===")
+        log(f"\n=== {year}: {index_url} ===")
         try:
             pages = discover_content_pages(year, index_url)
         except Exception as exc:
-            print(f"FAILED index {year}: {exc}")
+            log(f"FAILED index {year}: {exc}")
             continue
-        print(f"Found {len(pages)} content pages")
+        log(f"Found {len(pages)} content pages")
         for p in pages:
             try:
                 all_atts.extend(discover_attachments(year, p))
             except Exception as exc:
-                print(f"FAILED content page {p}: {exc}")
+                log(f"FAILED content page: {exc}")
     # Deduplicate by URL.
     uniq: dict[str, Attachment] = {a.url: a for a in all_atts}
-    print(f"\nDiscovered {len(uniq)} attachment URLs")
+    log(f"\nDiscovered {len(uniq)} attachment URLs")
     manifest_rows = []
+    failures = 0
     for att in uniq.values():
         try:
             path = download(att)
             status = "downloaded"
         except Exception as exc:
+            failures += 1
             path = Path("")
             status = f"failed: {exc}"
-            print(f"FAILED download {att.url}: {exc}")
+            log(f"FAILED download {att.name}: {exc}")
         manifest_rows.append({
             "year": att.year,
             "page_url": att.page_url,
@@ -175,9 +213,9 @@ def main() -> int:
         writer = csv.DictWriter(f, fieldnames=list(manifest_rows[0].keys()) if manifest_rows else ["year","page_url","attachment_url","name","local_path","status"])
         writer.writeheader()
         writer.writerows(manifest_rows)
-    print(f"\nManifest: {manifest}")
-    print("Next: inspect downloaded files, extract RAR/ZIP if needed, and build a normalized city-controls CSV.")
-    return 0
+    log(f"\nManifest: {manifest}")
+    log("Next: inspect downloaded files, extract RAR/ZIP if needed, and build a normalized city-controls CSV.")
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":
