@@ -167,6 +167,8 @@ def _plot_balance(balance: pd.DataFrame, out_path: Path) -> None:
     except ImportError:
         return
 
+    if balance.empty or "std_diff_pre" not in balance.columns:
+        return
     plot_df = balance.dropna(subset=["std_diff_pre"]).copy()
     if plot_df.empty:
         return

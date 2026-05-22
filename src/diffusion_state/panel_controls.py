@@ -104,7 +104,7 @@ def adoption_sample_with_controls(panel: pd.DataFrame) -> pd.DataFrame:
     return sample.dropna(subset=[c for c in req if c in sample.columns])
 
 
-NON_PRODUCTION_RAW_MARKERS = ("ci_stub", "ingest_template")
+NON_PRODUCTION_RAW_MARKERS = ("ci_stub", "ingest_template", "missingness")
 
 
 def _is_production_raw_file(path: Path) -> bool:

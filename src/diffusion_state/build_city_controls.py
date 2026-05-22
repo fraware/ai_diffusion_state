@@ -46,7 +46,7 @@ COLUMN_ALIASES = {
 }
 
 
-STUB_RAW_NAMES = ("city_controls_ci_stub", "ingest_template")
+STUB_RAW_NAMES = ("city_controls_ci_stub", "ingest_template", "missingness")
 
 
 def _discover_inputs(raw_dir: Path) -> list[Path]:

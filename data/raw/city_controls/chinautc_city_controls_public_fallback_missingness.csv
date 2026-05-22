@@ -1,0 +1,13 @@
+﻿variable,share_missing,n_missing,n_obs,nonmissing_years
+gdp,0.0,0,156,"[2021, 2022, 2024]"
+gdp_per_capita,0.00641025641025641,1,156,"[2021, 2022, 2024]"
+secondary_value_added,0.0,0,156,"[2021, 2022, 2024]"
+industrial_output,1.0,156,156,[]
+population,0.00641025641025641,1,156,"[2021, 2022, 2024]"
+employment,0.3333333333333333,52,156,"[2021, 2022]"
+average_wage,1.0,156,156,[]
+fdi,1.0,156,156,[]
+fixed_asset_investment,1.0,156,156,[]
+education_proxy,1.0,156,156,[]
+telecom_or_internet_proxy,1.0,156,156,[]
+foreign_trade,1.0,156,156,[]

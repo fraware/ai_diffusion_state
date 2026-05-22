@@ -200,7 +200,23 @@ def infer_variable(path: Path) -> str | None:
     for var, pats in VAR_PATTERNS.items():
         if any(p in name for p in pats):
             return var
+    # ChinaUTC 2021–2023 filenames often use table codes only (e.g. 2021-2-7.xlsx).
+    if re.search(r"2[-_]18", name):
+        return "employment"
+    if re.search(r"2[-_]8", name) or re.search(r"2[-_]08", name):
+        return "secondary_value_added"
+    if re.search(r"2[-_]7", name):
+        return "gdp"
+    if re.search(r"2[-_]1", name):
+        return "population"
     return None
+
+
+def log(msg: str) -> None:
+    try:
+        print(msg)
+    except UnicodeEncodeError:
+        print(msg.encode("ascii", errors="backslashreplace").decode("ascii"))
 
 
 def candidate_excel_files() -> list[Path]:
@@ -307,11 +323,11 @@ def build_controls() -> pd.DataFrame:
     files = candidate_excel_files()
     if not files:
         raise FileNotFoundError(f"No candidate XLSX/XLS files under {DL}")
-    print(f"Parsing {len(files)} candidate Excel files")
+    log(f"Parsing {len(files)} candidate Excel files")
     parsed = []
     for p in files:
         df = parse_file(p)
-        print(f"{p.name}: {len(df)} parsed rows ({infer_variable(p)})")
+        log(f"{p.name}: {len(df)} parsed rows ({infer_variable(p)})")
         if not df.empty:
             parsed.append(df)
     if not parsed:
@@ -369,14 +385,14 @@ def main() -> int:
             "nonmissing_years": sorted(out.loc[out[col].notna(), "year"].dropna().astype(int).unique().tolist()),
         })
     pd.DataFrame(miss).to_csv(MISS, index=False, encoding="utf-8-sig")
-    print(f"Wrote {len(out)} city-year rows to {OUT}")
-    print(f"Missingness report: {MISS}")
-    print("Next commands:")
-    print("  python scripts/06a_validate_city_controls_raw.py")
-    print("  make city-controls")
-    print("  make panel")
-    print("  make analysis")
-    print("  make production-check")
+    log(f"Wrote {len(out)} city-year rows to {OUT}")
+    log(f"Missingness report: {MISS}")
+    log("Next commands:")
+    log("  python scripts/06a_validate_city_controls_raw.py")
+    log("  make city-controls")
+    log("  make panel")
+    log("  make analysis")
+    log("  make production-check")
     return 0
 
 
