@@ -11,7 +11,7 @@
 | Projects with resolved city | **509** (baseline 193) |
 | Projects without city | **0** |
 <!-- PCS:REVIEWER_SEED -->
-| City-resolution rule rows (seed) | **456** (rule-based register; not external audit) |
+| City-resolution override rows (seed) | **414** inference overrides; **50** external-verification overrides |
 <!-- /PCS:REVIEWER_SEED -->
 | Cities with listed projects (resolved) | **158** |
 <!-- PCS:ADOPTION_CITIES -->
@@ -54,21 +54,23 @@ Central descriptive table: `frontier_municipality_hub`, `pilot_industrial_hub`, 
 
 ## City resolution evidence (Tables 9, 16, 17)
 
-509 resolved; **0** unknown. **Table 16** (regenerate with `make geo-audit`):
+509 resolved; **0** unknown. **Table 16** (`make geo-audit`):
 
-| `resolution_class` | Projects (typical build) |
-|--------------------|-------------------------:|
+<!-- PCS:REVIEWER_GEO_TABLE -->
+| `resolution_class` | Projects |
+|--------------------|--------:|
 | `official_location_exact` | 102 |
-| `rule_based_text_inference` | 407 |
-| `external_evidence_verified` | 0 until registry rows include real external URLs |
+| `rule_based_text_inference` | 357 |
+| `external_evidence_verified` | 50 |
+<!-- /PCS:REVIEWER_GEO_TABLE -->
 
 Registry plant-city matches use `firm_registry_match` + **rule-based** class (not external annual-report claims).
 
 <!-- PCS:AUDIT_STATUS -->
-**City-resolution audit:** **pending** — fill `data/audit/city_resolution_sample_audit.csv` (50 rule-based + 20 official minimum), then `make recompute-audit`.
+**City-resolution audit:** **70/70** sample decisions (Table 17). Official-location sample: **20/20** confirmed. Rule-based sample (n=50): **20** confirmed, **30** insufficient_evidence.
 <!-- /PCS:AUDIT_STATUS -->
 
-External verification queue: `data/interim/external_verification_queue.csv` (top 50 rule-based priorities).
+External verification queue: **50/50** rows with non-list `external_evidence_url` (synced from verified seed overrides).
 
 ## Ex ante typology (Table 18)
 

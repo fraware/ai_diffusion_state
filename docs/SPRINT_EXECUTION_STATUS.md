@@ -1,6 +1,6 @@
 # Sprint execution status
 
-**Updated:** 2026-05-22 — Workstream A closed (public appendix path). **Critical path: B1 + B2.**
+**Updated:** 2026-05-22 — Workstream A closed (public appendix). **B1 + B2 complete.** Paper drafting unblocked.
 
 **Canonical priorities:** [`docs/CURRENT_SPRINT_PRIORITIES.md`](CURRENT_SPRINT_PRIORITIES.md)  
 **Blocker playbook:** [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md)  
@@ -12,8 +12,8 @@
 |------------|--------|-------|
 | **A — Strict EPS/NBS controls** | **Closed** (public limit reached) | Strict Table 5 **skipped** by design. Table I / 5b appendix robustness **done**. |
 | **A — EPS/NBS (if later)** | Blocked on human export | Rerun controls pipeline only when real EPS/NBS files arrive. |
-| **B1 — Audit sample** | **Pending** | 0/70 `auditor_decision` filled; `validate-audit` fails |
-| **B2 — External verification** | **Pending** | 0/50 `external_evidence_url` filled |
+| **B1 — Audit sample** | **Done** | 70/70 decisions; `validate-audit` OK; Table 17 |
+| **B2 — External verification** | **Done** | 50/50 non-list URLs; Table 16 `external_evidence_verified` |
 | **Descriptive + geo** | **OK** | 509/509 cities; hygiene OK; `production-check` OK |
 | **Table I (5b)** | **Done** | `paper/main_tables/table_I_appendix_public_fallback_controls.csv` |
 
@@ -25,7 +25,8 @@
 | `production-check` | OK |
 | `public-fallback-controls` | OK → Table 5b |
 | `main-tables` | OK (10 tables incl. Table I) |
-| `validate-audit` | **Fails** until B1 complete |
+| `validate-audit` | OK |
+| `validate-sprint` | OK |
 | Strict Table 5 / panel merged | **Skipped / no** (expected) |
 
 ## Engineer assignments
@@ -34,17 +35,15 @@
 
 Public ChinaUTC path complete. Do not scrape further unless FDI or fixed-asset investment tables appear. See `CURRENT_SPRINT_PRIORITIES.md`.
 
-### Engineer B — Critical path
+### Engineer B — Done
 
-1. **B1:** `data/audit/city_resolution_sample_audit.csv` (≥50 rule-based + ≥20 official)  
-2. **B2:** `data/interim/external_verification_queue.csv` (≥50 facility-level URLs)  
-3. Memos: `docs/DEEP_RESEARCH_A_B2_*.md`
+B1 audit + B2 external verification applied; queue synced from seed via `scripts/29_apply_b2_research_to_queue.py`.
 
 ### Engineer C — Appendix documentation
 
 Table I wording + export relevance descriptives. No causal export claims.
 
-### Engineer D — After B1/B2
+### Engineer D — Done (2026-05-22)
 
 ```powershell
 make geo-audit validate-geo panel analysis public-fallback-controls main-tables paper production-check validate-sprint

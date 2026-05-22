@@ -11,4 +11,6 @@ def test_external_verification_queue_builds():
     q = build_external_verification_queue()
     assert len(q) <= 50
     assert "priority_rank" in q.columns
-    assert (q["resolution_class"] == "rule_based_text_inference").all()
+    assert q["resolution_class"].isin(
+        {"rule_based_text_inference", "external_evidence_verified"}
+    ).all()

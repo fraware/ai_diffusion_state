@@ -16,9 +16,9 @@ From `table_1_dataset_summary.csv`:
 - 509 MIIT excellence-level smart-factory projects (235 in 2024, 274 in 2025).
 <!-- PCS:GEO_RESOLUTION -->
 - **509** projects with assigned city (**0** unknown in current build).
-- **102** `official_location_exact`, **407** `rule_based_text_inference`, **0** `external_evidence_verified` (Table 16).
-- **456** city-resolution rule rows in `data/seed/smart_factory_city_overrides.csv` (registry/list inference — not external verification unless `external_evidence_url` is set).
-- Stratified city-resolution audit is **pending** (`data/audit/city_resolution_sample_audit.csv` → Table 17).
+- **102** `official_location_exact`, **357** `rule_based_text_inference`, **50** `external_evidence_verified` (Table 16).
+- **414** city-resolution override rows in `data/seed/smart_factory_city_overrides.csv` (excluding external-verification overrides; registry/list inference unless `external_evidence_url` is set).
+- Stratified city-resolution audit is **complete** (Table 17; 70/70 sample decisions).
 <!-- /PCS:GEO_RESOLUTION -->
 
 Pre-2024 years in `analysis_city_year_panel.csv` are **zero-filled** for smart-factory counts because public excellence lists begin in 2024.
@@ -51,6 +51,7 @@ Without city economic controls, `pilot_zone` coefficient on 2024–2025 listed p
 | Drop above + Guangzhou | 155 | 431 | 3.73 | <0.001 | Weakens (~82% of coef) |
 | Drop direct-admin municipalities | 156 | 419 | 2.90 | <0.001 | Substantially weakens (~64% of coef) |
 | Drop top 5 smart-factory cities | 155 | 402 | 2.95 | <0.001 | Substantially weakens (~65% of coef) |
+| Drop top 10 GDP cities | 150 | 408 | 5.15 | <0.001 | Sensitive (~113% of coef) |
 <!-- /PCS:HUB_TABLE -->
 
 **Conclusion:** With broader city resolution, the association **remains positive** but **attenuates when mega-hubs and direct-admin municipalities are excluded**. Hub architecture remains central; this is not a uniform treatment effect across treated cities.
@@ -110,7 +111,7 @@ Paper sentence: *We classify industries by ex ante technological compatibility w
 `table_9_city_resolution_audit.csv` tracks coverage and evidence-class counts.
 
 <!-- PCS:GEO_COVERAGE -->
-All **509** projects are currently assigned to cities. The remaining task is not coverage but **evidence quality**: distinguishing official-location exact, rule-based inference, and externally verified assignments. Do not describe the register as externally audited until non-list URLs are added and Table 17 is completed.
+All **509** projects are assigned to cities with three evidence classes (Table 16): **102** official-location exact, **357** rule-based inference, **50** with non-list external evidence. Stratified audit sample is complete (Table 17). Do not describe the register as fully externally audited; cite external verification only for the verified rows and audit conclusions for the stratified sample.
 <!-- /PCS:GEO_COVERAGE -->
 
 ## 11. What is not claimed

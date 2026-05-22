@@ -110,10 +110,11 @@ def validate_evidence_hygiene(
         errors.append(f"{int(missing_class.sum())} override rows missing resolution_class")
 
     ext = overrides[overrides["resolution_class"] == "external_evidence_verified"]
+    has_src_col = source_url_col in overrides.columns
     for _, row in ext.iterrows():
         ev = str(row.get("evidence_url", ""))
         ext_url = str(row.get("external_evidence_url", ""))
-        src = str(row.get(source_url_col, row.get("evidence_url", "")))
+        src = str(row.get(source_url_col, "")).strip() if has_src_col else ""
         if not is_external_evidence_url(ext_url or ev, src):
             errors.append(
                 f"external_evidence_verified without external URL: {row.get('project_id', '?')}"

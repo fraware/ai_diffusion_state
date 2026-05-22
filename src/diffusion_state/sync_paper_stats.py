@@ -44,6 +44,40 @@ def _read_table(name: str) -> pd.DataFrame | None:
     return pd.read_csv(path) if path.exists() else None
 
 
+def _filled_audit_decisions(audit: pd.DataFrame) -> int:
+    dec = audit["auditor_decision"]
+    mask = dec.notna() & (dec.astype(str).str.strip() != "") & (dec.astype(str) != "nan")
+    return int(mask.sum())
+
+
+def _geo_class_counts() -> tuple[int, int, int]:
+    """Return (official, rule_based, external) project counts from Table 16 or register."""
+    official, rule_based, external = 102, 357, 0
+    t16 = _read_table("table_16_geo_evidence_quality.csv")
+    if t16 is not None and "evidence_type" in t16.columns:
+        summary = t16[t16["evidence_type"].astype(str) == "_all"]
+        for _, r in summary.iterrows():
+            rc = str(r["resolution_class"])
+            n = int(r["n_projects"])
+            if rc == "official_location_exact":
+                official = n
+            elif rc == "rule_based_text_inference":
+                rule_based = n
+            elif rc == "external_evidence_verified":
+                external = n
+        if external > 0 or rule_based != 407:
+            return official, rule_based, external
+    reg_path = PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
+    if reg_path.exists():
+        reg = pd.read_csv(reg_path)
+        if "resolution_class" in reg.columns:
+            vc = reg["resolution_class"].value_counts()
+            official = int(vc.get("official_location_exact", official))
+            rule_based = int(vc.get("rule_based_text_inference", rule_based))
+            external = int(vc.get("external_evidence_verified", external))
+    return official, rule_based, external
+
+
 def build_hub_exclusion_markdown() -> str:
     t6 = _read_table("table_6_hub_exclusion_robustness.csv")
     if t6 is None:
@@ -214,50 +248,48 @@ def build_pilot_mean_claim() -> str:
 
 
 def build_geo_resolution_bullets() -> str:
-    t16 = _read_table("table_16_geo_evidence_quality.csv")
-    official, rule_based, external = 102, 407, 0
-    if t16 is not None:
-        summary = t16[t16["evidence_type"].astype(str) == "_all"]
-        for _, r in summary.iterrows():
-            rc = str(r["resolution_class"])
-            n = int(r["n_projects"])
-            if rc == "official_location_exact":
-                official = n
-            elif rc == "rule_based_text_inference":
-                rule_based = n
-            elif rc == "external_evidence_verified":
-                external = n
+    official, rule_based, external = _geo_class_counts()
     seed = PROJECT_ROOT / "data" / "seed" / "smart_factory_city_overrides.csv"
     n_rules = 0
     if seed.exists():
-        n_rules = len(pd.read_csv(seed))
-    audit_pending = True
+        s = pd.read_csv(seed)
+        if "resolution_class" in s.columns:
+            n_rules = int((s["resolution_class"] != "external_evidence_verified").sum())
+        else:
+            n_rules = len(s)
     audit_path = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
+    audit_line = "Stratified city-resolution audit is **pending** (Table 17)."
     if audit_path.exists():
-        a = pd.read_csv(audit_path)
-        filled = (a["auditor_decision"].fillna("").astype(str).str.strip() != "").sum()
-        audit_pending = filled == 0
-    audit_line = (
-        "Stratified city-resolution audit is **pending** (`data/audit/city_resolution_sample_audit.csv` → Table 17)."
-        if audit_pending
-        else "Stratified city-resolution audit is **complete** (Table 17)."
-    )
+        filled = _filled_audit_decisions(pd.read_csv(audit_path))
+        if filled >= 70:
+            audit_line = "Stratified city-resolution audit is **complete** (Table 17; 70/70 sample decisions)."
+        elif filled > 0:
+            audit_line = f"Stratified city-resolution audit **in progress** ({filled}/70 sample decisions; Table 17)."
     return (
         f"- **509** projects with assigned city (**0** unknown in current build).\n"
         f"- **{official}** `official_location_exact`, **{rule_based}** `rule_based_text_inference`, "
         f"**{external}** `external_evidence_verified` (Table 16).\n"
-        f"- **{n_rules}** city-resolution rule rows in `data/seed/smart_factory_city_overrides.csv` "
-        f"(registry/list inference — not external verification unless `external_evidence_url` is set).\n"
+        f"- **{n_rules}** city-resolution override rows in `data/seed/smart_factory_city_overrides.csv` "
+        f"(excluding external-verification overrides; registry/list inference unless `external_evidence_url` is set).\n"
         f"- {audit_line}\n"
     )
 
 
 def build_geo_coverage_paragraph() -> str:
+    official, rule_based, external = _geo_class_counts()
+    audit_path = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
+    audit_done = audit_path.exists() and _filled_audit_decisions(pd.read_csv(audit_path)) >= 70
+    if external >= 50 and audit_done:
+        return (
+            f"All **509** projects are assigned to cities with three evidence classes (Table 16): "
+            f"**{official}** official-location exact, **{rule_based}** rule-based inference, "
+            f"**{external}** with non-list external evidence. Stratified audit sample is complete (Table 17). "
+            "Do not describe the register as fully externally audited; cite external verification only for "
+            "the verified rows and audit conclusions for the stratified sample.\n"
+        )
     return (
-        "All **509** projects are currently assigned to cities. The remaining task is not coverage but "
-        "**evidence quality**: distinguishing official-location exact, rule-based inference, and externally "
-        "verified assignments. Do not describe the register as externally audited until non-list URLs are "
-        "added and Table 17 is completed.\n"
+        "All **509** projects are assigned to cities. Evidence quality work remains: complete external "
+        "verification (target ≥50) and stratified audit (Table 17) before claiming audited geocoding.\n"
     )
 
 
@@ -287,24 +319,78 @@ def build_audit_status_paragraph() -> str:
     if not audit_path.exists():
         return "**City-resolution audit:** sample file missing (run `make geo-audit`).\n"
     a = pd.read_csv(audit_path)
-    filled = (a["auditor_decision"].fillna("").astype(str).str.strip() != "").sum()
+    filled = _filled_audit_decisions(a)
     if filled == 0:
         return (
             "**City-resolution audit:** **pending** — fill `data/audit/city_resolution_sample_audit.csv` "
             "(50 rule-based + 20 official minimum), then `make recompute-audit`.\n"
         )
+    t17 = _read_table("table_17_geo_audit_error_rate.csv")
+    if t17 is not None and not t17.empty:
+        lines = [f"**City-resolution audit:** **{filled}/{len(a)}** sample decisions (Table 17)."]
+        for _, row in t17.iterrows():
+            rc = str(row["resolution_class"])
+            n = int(row["sampled_rows"])
+            conf = int(row.get("confirmed", 0))
+            insuf = int(row.get("insufficient_evidence", 0))
+            incor = int(row.get("incorrect", 0))
+            if rc == "official_location_exact":
+                lines.append(f"Official-location sample: **{conf}/{n}** confirmed.")
+            elif rc == "rule_based_text_inference":
+                parts = [f"**{conf}** confirmed"]
+                if insuf:
+                    parts.append(f"**{insuf}** insufficient_evidence")
+                if incor:
+                    parts.append(f"**{incor}** incorrect")
+                lines.append(f"Rule-based sample (n={n}): {', '.join(parts)}.")
+        return " ".join(lines) + "\n"
     incorrect = int((a["auditor_decision"] == "incorrect").sum())
     confirmed = int((a["auditor_decision"] == "confirmed").sum())
     return (
         f"**City-resolution audit:** **{filled}/{len(a)}** rows decided "
-        f"({confirmed} confirmed, {incorrect} incorrect). Table 17 updated via `make recompute-audit`.\n"
+        f"({confirmed} confirmed, {incorrect} incorrect). Table 17 via `make recompute-audit`.\n"
     )
 
 
 def build_reviewer_seed_line() -> str:
     seed = PROJECT_ROOT / "data" / "seed" / "smart_factory_city_overrides.csv"
-    n = len(pd.read_csv(seed)) if seed.exists() else 0
-    return f"| City-resolution rule rows (seed) | **{n}** (rule-based register; not external audit) |\n"
+    n = 0
+    n_ext = 0
+    if seed.exists():
+        s = pd.read_csv(seed)
+        if "resolution_class" in s.columns:
+            n_ext = int((s["resolution_class"] == "external_evidence_verified").sum())
+            n = int((s["resolution_class"] != "external_evidence_verified").sum())
+        else:
+            n = len(s)
+    return (
+        f"| City-resolution override rows (seed) | **{n}** inference overrides; "
+        f"**{n_ext}** external-verification overrides |\n"
+    )
+
+
+def build_reviewer_geo_resolution_table() -> str:
+    official, rule_based, external = _geo_class_counts()
+    return (
+        "| `resolution_class` | Projects |\n"
+        "|--------------------|--------:|\n"
+        f"| `official_location_exact` | {official} |\n"
+        f"| `rule_based_text_inference` | {rule_based} |\n"
+        f"| `external_evidence_verified` | {external} |\n"
+    )
+
+
+def build_red_team_geo_priority() -> str:
+    official, rule_based, external = _geo_class_counts()
+    audit_path = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
+    audit_note = "Stratified audit sample pending (Table 17)."
+    if audit_path.exists() and _filled_audit_decisions(pd.read_csv(audit_path)) >= 70:
+        audit_note = "Stratified audit sample complete (Table 17)."
+    return (
+        f"2. City resolution uses **three evidence classes** (Table 16): **{official}** official-location "
+        f"exact, **{rule_based}** rule-based, **{external}** external-evidence verified (non-list URLs). "
+        f"{audit_note} Do not claim full external audit of all 509 assignments; use class-specific language.\n"
+    )
 
 
 def sync_red_team_memo(path: Path | None = None) -> Path:
@@ -315,6 +401,12 @@ def sync_red_team_memo(path: Path | None = None) -> Path:
     )
     text = _replace_block(
         text, "<!-- PCS:PILOT_MEAN_CLAIM -->", "<!-- /PCS:PILOT_MEAN_CLAIM -->", build_pilot_mean_claim()
+    )
+    text = _replace_block(
+        text,
+        "<!-- PCS:RED_TEAM_GEO -->",
+        "<!-- /PCS:RED_TEAM_GEO -->",
+        build_red_team_geo_priority(),
     )
     path.write_text(text, encoding="utf-8")
     return path
@@ -355,6 +447,12 @@ def sync_reviewer_snapshot(path: Path | None = None) -> Path:
     )
     text = _replace_block(
         text, "<!-- PCS:AUDIT_STATUS -->", "<!-- /PCS:AUDIT_STATUS -->", build_audit_status_paragraph()
+    )
+    text = _replace_block(
+        text,
+        "<!-- PCS:REVIEWER_GEO_TABLE -->",
+        "<!-- /PCS:REVIEWER_GEO_TABLE -->",
+        build_reviewer_geo_resolution_table(),
     )
     path.write_text(text, encoding="utf-8")
     return path

@@ -201,6 +201,13 @@ def build_geo_sample_audit_template(
 ) -> pd.DataFrame:
     register_path = register_path or PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
     audit_path = audit_path or AUDIT_DIR / "city_resolution_sample_audit.csv"
+    if audit_path.exists():
+        prev = pd.read_csv(audit_path)
+        if "auditor_decision" in prev.columns:
+            dec = prev["auditor_decision"]
+            filled = dec.notna() & (dec.astype(str).str.strip() != "") & (dec.astype(str) != "nan")
+            if int(filled.sum()) >= n_rule + n_official:
+                return prev
     if not register_path.exists():
         build_city_resolution_register()
 
@@ -227,15 +234,35 @@ def build_geo_sample_audit_template(
             "province": "assigned_province",
         }
     )
-    for col in (
+    decision_cols = (
         "auditor_decision",
         "corrected_city",
         "corrected_province",
         "audit_notes",
         "auditor",
         "audit_date",
-    ):
+    )
+    for col in decision_cols:
         audit[col] = ""
+
+    if audit_path.exists():
+        prev = pd.read_csv(audit_path)
+        if "project_id" in prev.columns:
+            keep = ["project_id", *decision_cols]
+            keep = [c for c in keep if c in prev.columns]
+            prev = prev[keep].drop_duplicates("project_id")
+            dec = prev["auditor_decision"]
+            filled = dec.notna() & (dec.astype(str).str.strip() != "") & (dec.astype(str) != "nan")
+            prev = prev.loc[filled]
+            if not prev.empty:
+                audit = audit.drop(columns=list(decision_cols), errors="ignore").merge(
+                    prev,
+                    on="project_id",
+                    how="left",
+                )
+                for col in decision_cols:
+                    if col in audit.columns:
+                        audit[col] = audit[col].fillna("")
     cols = [
         "project_id",
         "firm_name_zh",

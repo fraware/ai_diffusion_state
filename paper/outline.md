@@ -41,7 +41,7 @@ AI pilot zones → listed smart-factory recognition → hub-typed diffusion geog
 
 ### 4.3 Data and measurement
 
-- **509/509** projects assigned to cities; evidence split in Table 16 (102 official, 407 rule-based; external verification in progress).
+- **509/509** projects assigned to cities; Table 16: 102 official, 357 rule-based, 50 external-evidence verified; stratified audit complete (Table 17).
 - Ex ante industry exposure (`docs/source_notes/industry_ai_exposure.md`).
 
 ### 4.4 Descriptive results

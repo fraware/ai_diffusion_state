@@ -47,12 +47,16 @@ def main() -> int:
     evq = PROJECT_ROOT / "data" / "interim" / "external_verification_queue.csv"
     if evq.exists():
         q = pd.read_csv(evq)
-        n_ext = int((q["external_evidence_url"].fillna("").astype(str).str.strip() != "").sum())
+        urls = q["external_evidence_url"]
+        mask = urls.notna() & (urls.astype(str).str.strip() != "") & (urls.astype(str) != "nan")
+        n_ext = int(mask.sum())
         print(f"External verification queue: {len(q)} rows ({n_ext} with external_evidence_url)")
 
     if audit.exists():
         a = pd.read_csv(audit)
-        filled = (a["auditor_decision"].fillna("").astype(str).str.strip() != "").sum()
+        dec = a["auditor_decision"]
+        mask = dec.notna() & (dec.astype(str).str.strip() != "") & (dec.astype(str) != "nan")
+        filled = int(mask.sum())
         print(f"Sample audit: {filled}/{len(a)} rows with auditor_decision")
 
     if t16.exists():

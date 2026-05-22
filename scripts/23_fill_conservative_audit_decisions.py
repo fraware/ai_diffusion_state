@@ -101,13 +101,13 @@ def _decide(row: pd.Series) -> tuple[str, str]:
     if rc == "official_location_exact":
         return (
             "confirmed",
-            "Confirmed from official/list location field used by the source parser; city assignment is not externally verified beyond the list source.",
+            "Confirmed from official/list location field used by the parser; not external verification beyond the list source.",
         )
 
     if et in DIRECT_TEXT_EVIDENCE:
         return (
             "confirmed",
-            f"Confirmed by direct text/location evidence type '{et}' in the source row; no external URL claimed.",
+            "Confirmed by direct city signal in firm/project/source-row text; not external verification.",
         )
 
     if et == "firm_registry_match" and _has_city_token(row):
@@ -119,7 +119,7 @@ def _decide(row: pd.Series) -> tuple[str, str]:
     if et == "firm_registry_match":
         return (
             "insufficient_evidence",
-            "Audit sample provides only a list-page URL plus registry-derived rule; no independent registry/company/local-government URL is present in this row.",
+            "Registry-derived rule present, but sample row provides no independent non-list evidence for city assignment.",
         )
 
     return (
@@ -133,16 +133,19 @@ def main() -> int:
         print(f"Missing {AUDIT_PATH}")
         return 1
     audit = pd.read_csv(AUDIT_PATH)
+    for col in ("auditor_decision", "audit_notes", "auditor", "audit_date"):
+        if col in audit.columns:
+            audit[col] = audit[col].astype("object")
     today = date.today().isoformat()
     changed = 0
     for idx, row in audit.iterrows():
-        existing = str(row.get("auditor_decision", "")).strip()
-        if existing:
+        existing = row.get("auditor_decision", "")
+        if pd.notna(existing) and str(existing).strip():
             continue
         decision, notes = _decide(row)
         audit.at[idx, "auditor_decision"] = decision
         audit.at[idx, "audit_notes"] = notes
-        audit.at[idx, "auditor"] = "GPT-5.5 conservative audit"
+        audit.at[idx, "auditor"] = "conservative_audit_workflow"
         audit.at[idx, "audit_date"] = today
         changed += 1
     audit.to_csv(AUDIT_PATH, index=False, encoding="utf-8-sig")

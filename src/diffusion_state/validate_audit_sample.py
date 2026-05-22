@@ -30,9 +30,10 @@ def validate_audit_sample(audit_path: Path | None = None) -> tuple[bool, list[st
     if missing_cols:
         return False, [f"missing columns: {missing_cols}"]
 
-    decisions = audit["auditor_decision"].fillna("").astype(str).str.strip()
-    filled = decisions != ""
+    decisions = audit["auditor_decision"]
+    filled = decisions.notna() & (decisions.astype(str).str.strip() != "") & (decisions.astype(str) != "nan")
     n_filled = int(filled.sum())
+    decisions = decisions.fillna("").astype(str).str.strip()
     if n_filled == 0:
         issues.append("audit pending: no auditor_decision filled")
         return False, issues
@@ -52,7 +53,10 @@ def validate_audit_sample(audit_path: Path | None = None) -> tuple[bool, list[st
 
     for rc, n_min in (("rule_based_text_inference", 50), ("official_location_exact", 20)):
         sub = audit[audit["resolution_class"].astype(str) == rc]
-        sub_filled = sub[sub["auditor_decision"].fillna("").astype(str).str.strip() != ""]
+        sub_dec = sub["auditor_decision"]
+        sub_filled = sub[
+            sub_dec.notna() & (sub_dec.astype(str).str.strip() != "") & (sub_dec.astype(str) != "nan")
+        ]
         if len(sub_filled) < n_min:
             issues.append(
                 f"{rc}: only {len(sub_filled)}/{len(sub)} audited (target >={n_min} decisions)"

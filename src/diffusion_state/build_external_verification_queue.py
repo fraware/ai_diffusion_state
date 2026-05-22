@@ -51,6 +51,14 @@ def build_external_verification_queue(
     clean_path = clean_path or PROJECT_ROOT / "data" / "processed" / "smart_factories_clean.csv"
     out_path = out_path or OUTPUT_PATH
 
+    if out_path.exists():
+        prev = pd.read_csv(out_path)
+        if "external_evidence_url" in prev.columns:
+            urls = prev["external_evidence_url"]
+            has_url = urls.notna() & (urls.astype(str).str.strip() != "") & (urls.astype(str) != "nan")
+            if int(has_url.sum()) >= target_n:
+                return prev
+
     if not register_path.exists():
         from diffusion_state.build_geo_evidence_quality import build_city_resolution_register
 
@@ -124,8 +132,15 @@ def build_external_verification_queue(
     pool = pool.sort_values(["priority_score", "city_project_count"], ascending=[False, False])
     take = pool.head(target_n).copy()
     take["priority_rank"] = range(1, len(take) + 1)
-    for col in ("external_evidence_url", "external_evidence_type", "audit_notes"):
-        take[col] = ""
+
+    preserved: pd.DataFrame | None = None
+    if out_path.exists():
+        prev = pd.read_csv(out_path)
+        keep = ["project_id", "external_evidence_url", "external_evidence_type", "audit_notes"]
+        if all(c in prev.columns for c in keep):
+            urls = prev["external_evidence_url"]
+            has_url = urls.notna() & (urls.astype(str).str.strip() != "") & (urls.astype(str) != "nan")
+            preserved = prev.loc[has_url, keep].drop_duplicates("project_id")
 
     out = pd.DataFrame(
         {
@@ -144,6 +159,15 @@ def build_external_verification_queue(
             "audit_notes": "",
         }
     )
+    if preserved is not None and not preserved.empty:
+        out = out.drop(columns=["external_evidence_url", "external_evidence_type", "audit_notes"]).merge(
+            preserved,
+            on="project_id",
+            how="left",
+        )
+        for col in ("external_evidence_url", "external_evidence_type", "audit_notes"):
+            out[col] = out[col].fillna("")
+
     out_path.parent.mkdir(parents=True, exist_ok=True)
     write_csv(out, out_path)
     return out

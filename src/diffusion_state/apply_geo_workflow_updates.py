@@ -50,7 +50,7 @@ def apply_external_verification_queue(
         return _load_seed(), 0
 
     seed = _load_seed()
-    by_pid = {r["project_id"]: r for _, r in seed.iterrows()} if not seed.empty else {}
+    by_pid = {r["project_id"]: dict(r) for _, r in seed.iterrows()} if not seed.empty else {}
     clean = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "smart_factories_clean.csv")
     src_by_pid = clean.set_index("project_id")["source_url"].to_dict() if "source_url" in clean.columns else {}
 
@@ -87,10 +87,13 @@ def apply_external_verification_queue(
         if c not in out.columns:
             out[c] = ""
     out = out[[c for c in OVERRIDE_COLUMNS if c in out.columns]]
-    write_csv(out, seed_path)
-    errs = validate_evidence_hygiene(out)
+    out_for_check = out.assign(
+        source_url=out["project_id"].map(lambda p: str(src_by_pid.get(p, "")))
+    )
+    errs = validate_evidence_hygiene(out_for_check, source_url_col="source_url")
     if errs:
         raise ValueError("Hygiene failed after external verification apply: " + "; ".join(errs[:5]))
+    write_csv(out, seed_path)
     return out, n
 
 

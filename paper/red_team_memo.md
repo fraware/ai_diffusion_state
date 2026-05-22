@@ -111,6 +111,8 @@ Table 6 now includes `interpretation`, `coefficient_relative_to_full_sample`, an
 ## 12. Next empirical priorities (ordered)
 
 1. Ingest city controls and re-estimate Models 4–7, balance, matching, and controlled hub exclusions.
-2. City resolution uses **three evidence classes** (`resolution_class` in city-resolution register; Table 16). All 509 projects have a city; **102** official-location exact, **407** rule-based, **0** externally verified until non-list URLs are added. Complete stratified audit in `data/audit/city_resolution_sample_audit.csv` (Table 17) before citing error rates.
+<!-- PCS:RED_TEAM_GEO -->
+2. City resolution uses **three evidence classes** (Table 16): **102** official-location exact, **357** rule-based, **50** external-evidence verified (non-list URLs). Stratified audit sample complete (Table 17). Do not claim full external audit of all 509 assignments; use class-specific language.
+<!-- /PCS:RED_TEAM_GEO -->
 3. City-industry heterogeneity using ex ante exposure only in main text.
 4. Keep export section descriptive (Table 15).

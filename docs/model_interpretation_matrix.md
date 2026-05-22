@@ -28,12 +28,12 @@ Until `make production-check` passes with `City controls: production`:
 - Table 7 must show covariate rows — not a single `skipped` row.
 - Table 8 must show matched pilot **and** control cities with `matched_city_ratio` metadata.
 
-## Geo gate (Engineer B)
+## Geo gate (Engineer B) — passed (2026-05-22)
 
-Until `make validate-audit` and Table 16 show `external_evidence_verified >= 50`:
-
-- Do not claim externally audited geocoding.
-- Use rule-based / official-location language from Table 16.
+- Table 16: **50** `external_evidence_verified`, **102** `official_location_exact`, **357** `rule_based_text_inference`.
+- Table 17: stratified audit sample complete (`make validate-audit` OK).
+- **Allowed:** “At least 50 city assignments are supported by non-list external evidence…” (company pages, annual reports, local-government documents, industrial-park pages, registry records).
+- **Not allowed:** “externally audited geocoding” or “all assignments verified externally.” Use stratified audit language for Table 17 (official vs rule-based), not external verification.
 
 ## Drafting rule
 

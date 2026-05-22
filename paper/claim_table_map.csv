@@ -1,7 +1,8 @@
 ﻿claim_id,claim_tier,claim_summary,artifact,script
 measurement_pilot_zones,measured,National AI pilot zones are coded at city/county level with designation years 2019-2021.,data/processed/pilot_zones.csv,scripts/00_build_seed_tables.py
 measurement_smart_factories,measured,MIIT excellence-level smart-factory projects are parsed from 2024 and 2025 public lists.,data/processed/smart_factories_clean.csv,scripts/02_parse_smart_factories.py
-geo_resolution_quality,validated_descriptive,City assignments split by official location rule-based inference and external evidence (Table 16).,outputs/tables/table_16_geo_evidence_quality.csv,src/diffusion_state/build_geo_evidence_quality.py
+geo_resolution_quality,validated_descriptive,City assignments split by official location rule-based inference and external evidence (Table 16); 50 externally evidenced.,outputs/tables/table_16_geo_evidence_quality.csv,src/diffusion_state/build_geo_evidence_quality.py
+geo_audit_stratified,validated_descriptive,Stratified audit of official vs rule-based assignments (Table 17); not full external audit of all 509.,outputs/tables/table_17_geo_audit_error_rate.csv,scripts/14_recompute_geo_audit_error_rate.py
 descriptive_pilot_overlap,validated_descriptive,Listed smart-factory recognition is concentrated in pilot-zone cities (resolved cities only).,outputs/tables/table_pilot_zone_overlap.csv,scripts/05_run_baseline_models.py
 associational_adoption,baseline_association,Positive pilot-zone association in baseline city-year models (not controlled until EPS/NBS).,outputs/tables/table_3_pilot_zone_adoption_models.csv,src/diffusion_state/run_models.py
 controlled_adoption,controlled_association,Model 4-7 with city economic controls (blocked until EPS/NBS ingestion).,outputs/tables/table_5_controlled_adoption_models.csv,src/diffusion_state/run_controlled_models.py

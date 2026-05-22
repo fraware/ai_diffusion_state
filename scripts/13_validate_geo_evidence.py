@@ -18,7 +18,15 @@ REGISTER = PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
 
 def main() -> int:
     overrides = load_city_overrides()
-    errors = validate_evidence_hygiene(overrides)
+    clean_path = PROJECT_ROOT / "data" / "processed" / "smart_factories_clean.csv"
+    if not overrides.empty and clean_path.exists():
+        clean = pd.read_csv(clean_path)
+        if "source_url" in clean.columns:
+            src_map = clean.set_index("project_id")["source_url"]
+            overrides = overrides.assign(
+                source_url=overrides["project_id"].map(lambda p: str(src_map.get(p, "")))
+            )
+    errors = validate_evidence_hygiene(overrides, source_url_col="source_url")
 
     if not REGISTER.exists():
         print("WARN: city_resolution_register.csv missing — run geo-audit first")

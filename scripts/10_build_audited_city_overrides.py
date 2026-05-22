@@ -26,6 +26,16 @@ def main() -> int:
     overrides = build_audited_city_overrides(priority_provinces_only=False)
     print(f"  override rows: {len(overrides)}")
 
+    from diffusion_state.apply_geo_workflow_updates import (
+        apply_audit_corrections,
+        apply_external_verification_queue,
+    )
+
+    seed_ext, n_ext = apply_external_verification_queue()
+    seed_audit, n_audit = apply_audit_corrections()
+    print(f"  external verification rows re-applied: {n_ext}")
+    print(f"  audit corrections re-applied: {n_audit}")
+
     print("Step 3: rebuild clean applying overrides...")
     build_smart_factories_clean()
 
