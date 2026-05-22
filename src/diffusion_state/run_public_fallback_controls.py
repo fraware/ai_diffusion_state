@@ -112,11 +112,14 @@ def run_public_fallback_controls(panel_path: Path | None = None) -> pd.DataFrame
         ),
     ]
     for model, formula, fitter in specs:
+        # Single-year cross-section: HC0/OLS (no city cluster) avoids statsmodels
+        # group/weight length mismatch after formula dropna.
         if fitter is fit_ols_table:
             results.append(fitter(
                 formula,
                 sample,
                 model=model,
+                cluster=None,
                 sample_rule="chinautc_public_fallback_2024_only",
                 fixed_effects="none; single year",
                 controls_included=ctrl,
@@ -127,6 +130,7 @@ def run_public_fallback_controls(panel_path: Path | None = None) -> pd.DataFrame
                 formula,
                 sample,
                 model=model,
+                cluster=None,
                 sample_rule="chinautc_public_fallback_2024_only",
                 fixed_effects="none; single year",
                 controls_included=ctrl,
