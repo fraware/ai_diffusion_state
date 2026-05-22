@@ -18,6 +18,10 @@ MAPPING = {
     "table_F_ex_ante_industry_heterogeneity.csv": "table_13_city_industry_adoption_models.csv",
     "table_G_export_relevance.csv": "table_15_export_relevance_by_sector.csv",
     "table_H_export_sector_share_comparison.csv": "table_export_sector_share_comparison.csv",
+    # Appendix-only. This is a partial public-controls robustness table from ChinaUTC.
+    # It is deliberately separate from strict Table 5 because FDI and fixed-asset investment
+    # are unavailable in the public fallback controls.
+    "table_I_appendix_public_fallback_controls.csv": "table_5b_public_fallback_controls.csv",
 }
 
 
@@ -31,7 +35,7 @@ def main() -> int:
             continue
         shutil.copy2(src, OUT / dest)
     if missing:
-        print("MISSING (run make analysis first):", ", ".join(missing))
+        print("MISSING (run make analysis and make public-fallback-controls first):", ", ".join(missing))
         return 1
     print(f"Wrote {len(MAPPING)} tables to {OUT}")
     return 0
