@@ -78,9 +78,9 @@ From `table_3_pilot_zone_adoption_models.csv`:
 
 **Models 2–3:** Within-city `post_pilot` terms are large with city FE; not causal treatment effects.
 
-## 6. Controlled adoption models (Table 5)
+## 6. Controlled adoption models (Table 5) and appendix public fallback (Table I)
 
-**Status:** Table 5 is **skipped** until EPS/NBS files are ingested (`make city-controls`). Do not cite controlled coefficients until `make production-check` passes.
+**Status:** Strict EPS/NBS Table 5 remains **skipped** because the public ChinaUTC bundle lacks FDI and fixed-asset investment. We report a separate appendix robustness specification using partial public China City Statistical Yearbook controls (`table_I_appendix_public_fallback_controls.csv` / Table 5b). In the 2024 ChinaUTC public-control subset, pilot-zone status remains positively associated with listed smart-factory counts in OLS count and log-count models, while the Poisson specification is not statistically significant. Do not cite strict Table 5 controlled coefficients or claim EPS-equivalent controls.
 
 **Decision rule after real controls:**
 

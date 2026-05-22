@@ -1,6 +1,7 @@
 # Next Sprint Instructions — From Research Pipeline to Paper-Ready Evidence
 
-**Human-input blockers (EPS/NBS, audit, external URLs):** use [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md) as the canonical workstream split (A / B1 / B2), success conditions, and final unlock sequence. Do not bypass blockers with synthetic data.
+**Current priorities:** [`docs/CURRENT_SPRINT_PRIORITIES.md`](CURRENT_SPRINT_PRIORITIES.md) — Workstream A closed (Table I appendix only); **B1 + B2 are critical path**.  
+**Human-input blockers:** [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md). Do not bypass blockers with synthetic data.
 
 ## Sprint objective
 
@@ -12,8 +13,8 @@ The paper should now be framed as:
 
 The sprint has five mandatory outputs:
 
-1. Real EPS/NBS city controls, or an explicit statement that controlled models remain blocked.
-2. Completed city-resolution audit sample.
+1. ~~Real EPS/NBS city controls~~ **Done for public path:** strict Table 5 skipped; Table I appendix robustness documented. EPS/NBS export only if it becomes available.
+2. Completed city-resolution audit sample. **Critical path.**
 3. At least 50 externally verified city-resolution rows.
 4. Production-safe main tables under `paper/main_tables/`.
 5. Paper-facing memos synchronized with current numbers and no CI-stub leakage.

@@ -1,14 +1,15 @@
 # Human Input Blockers — Action Plan
 
+**Sprint decision (2026-05-22):** Workstream A is **closed** on the public ChinaUTC path. Strict Table 5 stays skipped. Use `paper/main_tables/table_I_appendix_public_fallback_controls.csv` for appendix robustness only. **Critical path is now B1 + B2.** See [`docs/CURRENT_SPRINT_PRIORITIES.md`](CURRENT_SPRINT_PRIORITIES.md).
+
 ## Current status
 
-The pipeline is correctly blocked. The failures are expected and desirable because they prevent fabricated data from entering the paper.
+The pipeline is correctly blocked where human input is still missing. Failures are expected and desirable because they prevent fabricated data from entering the paper.
 
 Current blockers:
 
-1. `validate-controls-raw` fails because `data/raw/city_controls/` contains only the ingest template and no production EPS/NBS export.
-2. `make city-controls` fails for the same reason.
-3. Tables 5, 7, and 8 are skipped because no production city controls are merged.
+1. **Strict EPS/NBS Table 5** remains skipped (no FDI / fixed-asset in public bundle). **Table I / 5b** is the valid public appendix result — do not keep expanding ChinaUTC without FDI or fixed-asset tables.
+2. Tables 7 and 8 remain skipped when strict production controls are unavailable for the adoption-year gate.
 4. `validate-audit` fails because `data/audit/city_resolution_sample_audit.csv` has 0/70 `auditor_decision` values filled.
 5. External verification count is 0 because `data/interim/external_verification_queue.csv` has 0/50 non-list `external_evidence_url` values filled.
 
@@ -30,7 +31,11 @@ If the relevant field is not backed by a real source or a human audit decision, 
 
 # Workstream A — Real city controls
 
-## Required human input
+## Status: closed on public path; EPS/NBS only if export appears
+
+The ChinaUTC public fallback is complete (`chinautc_city_controls_public_fallback.csv`, Table I). **No further ChinaUTC engineering** unless new files contain FDI or fixed-asset investment.
+
+## Required human input (strict EPS/NBS only)
 
 A researcher with EPS/NBS access must export real city-year data.
 

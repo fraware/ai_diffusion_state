@@ -1,66 +1,58 @@
 # Sprint execution status
 
-**Generated:** 2026-05-21 after descriptive production gate (human-input blockers unchanged).  
-**Canonical blocker playbook:** [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md) (`e8f1695`).  
-**Latest local gate:** `make purge-stub-controls` through `make test pcs-status` — exit 0; blockers A / B1 / B2 still pending.
+**Updated:** 2026-05-22 — Workstream A closed (public appendix path). **Critical path: B1 + B2.**
 
-## Final production gate results
+**Canonical priorities:** [`docs/CURRENT_SPRINT_PRIORITIES.md`](CURRENT_SPRINT_PRIORITIES.md)  
+**Blocker playbook:** [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md)  
+**Table I interpretation:** [`docs/PUBLIC_FALLBACK_CONTROLS_INTERPRETATION.md`](PUBLIC_FALLBACK_CONTROLS_INTERPRETATION.md)
 
-| Step | Exit | Notes |
-|------|-----:|-------|
-| `purge-stub-controls` | 0 | No stub artifacts |
-| `validate-controls-raw` | **1** | **BLOCKER:** only `city_controls_ingest_template.csv` in `data/raw/city_controls/` |
-| `city-controls` | **1** | No production EPS/NBS files (templates excluded) |
-| `apply-geo-updates` | 0 | 0 audit corrections; 0 external URLs applied |
-| `geo-audit` | 0 | 509/509 resolved |
-| `validate-geo` | 0 | Hygiene OK |
-| `panel` / `analysis` | 0 | Descriptive + skipped controlled tables |
-| `validate-audit` | **1** | 0/70 `auditor_decision` filled |
-| `production-check` | 0 | No stub leakage in paper text |
-| `validate-sprint` | 0 | PCS tables present |
-| `test` | 0 | 48 passed, 1 skipped (2026-05-21) |
-| `pcs-status` | 0 | Controls missing; audit 0/70; external 0/50 |
+## Workstream status
 
-## Expected final state vs actual
+| Workstream | Status | Notes |
+|------------|--------|-------|
+| **A — Strict EPS/NBS controls** | **Closed** (public limit reached) | Strict Table 5 **skipped** by design. Table I / 5b appendix robustness **done**. |
+| **A — EPS/NBS (if later)** | Blocked on human export | Rerun controls pipeline only when real EPS/NBS files arrive. |
+| **B1 — Audit sample** | **Pending** | 0/70 `auditor_decision` filled; `validate-audit` fails |
+| **B2 — External verification** | **Pending** | 0/50 `external_evidence_url` filled |
+| **Descriptive + geo** | **OK** | 509/509 cities; hygiene OK; `production-check` OK |
+| **Table I (5b)** | **Done** | `paper/main_tables/table_I_appendix_public_fallback_controls.csv` |
 
-| Criterion | Target | Actual |
-|-----------|--------|--------|
-| City controls | production | **missing** |
-| Panel controls merged | yes | **no** |
-| Geo hygiene | OK | **OK** |
-| Audit validation | OK | **pending** (0/70) |
-| External verified | >= 50 | **0** |
-| Table 5 | real estimates | **skipped** |
-| Table 7 | balance | **skipped** |
-| Table 8 | matched | **skipped** |
-| Table 17 | audit rates | pending |
+## Latest gates (descriptive + appendix)
 
-## Engineer assignments (action required)
+| Step | Status |
+|------|--------|
+| `geo-audit` / `validate-geo` | OK |
+| `production-check` | OK |
+| `public-fallback-controls` | OK → Table 5b |
+| `main-tables` | OK (10 tables incl. Table I) |
+| `validate-audit` | **Fails** until B1 complete |
+| Strict Table 5 / panel merged | **Skipped / no** (expected) |
 
-See **`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`** for exact columns, allowed values, rejected URLs, and per-workstream command blocks.
+## Engineer assignments
 
-### Engineer A — BLOCKED (Workstream A)
+### Engineer A — Done (no further ChinaUTC work)
 
-Place **real** EPS/NBS export(s) in `data/raw/city_controls/` (not the template; do not commit proprietary downloads). Then run the Workstream A commands in the blocker action plan.
+Public ChinaUTC path complete. Do not scrape further unless FDI or fixed-asset investment tables appear. See `CURRENT_SPRINT_PRIORITIES.md`.
 
-### Engineer B1 — BLOCKED (Workstream B1)
+### Engineer B — Critical path
 
-Fill `data/audit/city_resolution_sample_audit.csv` (≥50 `rule_based_text_inference` + ≥20 `official_location_exact`). Then `make apply-geo-updates`, `make recompute-audit`, `make validate-audit`.
+1. **B1:** `data/audit/city_resolution_sample_audit.csv` (≥50 rule-based + ≥20 official)  
+2. **B2:** `data/interim/external_verification_queue.csv` (≥50 facility-level URLs)  
+3. Memos: `docs/DEEP_RESEARCH_A_B2_*.md`
 
-### Engineer B2 — BLOCKED (Workstream B2)
+### Engineer C — Appendix documentation
 
-Fill `external_evidence_url` (+ type, notes) on ≥50 rows in `data/interim/external_verification_queue.csv` (non-list, facility-level URLs only). Then `make apply-geo-updates`, `make geo-audit`, `make validate-geo`, and downstream tables.
+Table I wording + export relevance descriptives. No causal export claims.
 
-### Engineer C — DONE (descriptive path)
+### Engineer D — After B1/B2
 
-- `outputs/tables/table_15_export_relevance_by_sector.csv` — from `make analysis` when BACI export data present  
-- `paper/main_tables/table_G_export_relevance.csv` — from `make main-tables`  
-- `docs/export_relevance_memo.md` — descriptive framing (no causal claims)
+```powershell
+make geo-audit validate-geo panel analysis public-fallback-controls main-tables paper production-check validate-sprint
+python scripts/15_pcs_status.py
+```
 
-### Engineer D — DONE (template)
+Then refresh `docs/model_interpretation_matrix.md`.
 
-- `docs/model_interpretation_matrix.md` — interpretive matrix; rerun after A/B complete for numeric examples
+### Paper owner — Draft now
 
-### Paper owner
-
-Draft from `paper/main_tables/` only. **Do not** cite Table 5–8 or externally verified geo until A/B gates pass. Core thesis: hub-centered diffusion architecture, not uniform pilot treatment.
+Use `paper/main_tables/`. Hub-centered measurement paper; appendix Table I; no strict Table 5 or causal pilot claims until gates pass.

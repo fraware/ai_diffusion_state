@@ -1,5 +1,7 @@
 # Standalone Engineer Instructions
 
+**Current sprint (2026-05-22):** Workstream A is closed on the public path (Table I appendix only; strict Table 5 skipped). **Critical path: B1 audit + B2 external verification.** See [`docs/CURRENT_SPRINT_PRIORITIES.md`](CURRENT_SPRINT_PRIORITIES.md).
+
 These instructions are written so each engineer can start without additional context.
 
 ## Project context for everyone
