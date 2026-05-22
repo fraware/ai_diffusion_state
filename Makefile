@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls
 
 PYTHON ?= python
 
@@ -71,6 +71,9 @@ recompute-audit:
 
 analysis: panel
 	$(PYTHON) scripts/05_run_baseline_models.py
+
+public-fallback-controls: panel
+	$(PYTHON) scripts/28_run_public_fallback_controls.py
 
 outputs: analysis
 
