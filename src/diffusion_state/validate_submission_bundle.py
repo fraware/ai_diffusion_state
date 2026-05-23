@@ -15,6 +15,8 @@ REQUIRED_IN_BUNDLE = (
     "references.bib",
     "REPRODUCIBILITY.md",
     "DATA_AVAILABILITY.md",
+    "COVER_LETTER_DRAFT.md",
+    "SUBMISSION_CHECKLIST.md",
 )
 
 

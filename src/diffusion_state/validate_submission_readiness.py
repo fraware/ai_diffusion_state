@@ -63,6 +63,7 @@ RECOMMENDED_FILES = [
     "paper/REPRODUCIBILITY.md",
     "paper/DATA_AVAILABILITY.md",
     "paper/SUBMISSION_CHECKLIST.md",
+    "paper/COVER_LETTER_DRAFT.md",
 ]
 
 

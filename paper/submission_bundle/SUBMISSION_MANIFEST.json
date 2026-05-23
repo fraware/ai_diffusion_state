@@ -1,19 +1,28 @@
 {
-  "built_at_utc": "2026-05-23T14:57:47.987000+00:00",
+  "built_at_utc": "2026-05-23T15:19:35.333969+00:00",
   "bundle_directory": "paper/submission_bundle",
-  "n_files": 42,
+  "git_revision": "1eef76fdc6ca841c7602c808872886c846e20471",
+  "git_revision_short": "1eef76f",
+  "git_dirty": true,
+  "n_files": 44,
   "files": [
     {
       "path": "docs/PCS_GATE_CHECKLIST.md",
       "bundle_path": "paper/submission_bundle/docs/PCS_GATE_CHECKLIST.md",
-      "bytes": 3450,
-      "sha256": "d966e3848fff8a203fc1e3049e8df60b2d91fb6f75d96fbbf6ea7b7b5c05ab1b"
+      "bytes": 3724,
+      "sha256": "0416d2fb9247ae00c1f49bceadd67b651fcbefbaef59007ba2ab7c92227da3cf"
     },
     {
       "path": "docs/model_interpretation_matrix.md",
       "bundle_path": "paper/submission_bundle/docs/model_interpretation_matrix.md",
       "bytes": 4853,
       "sha256": "3df3d3255964ba410aa07d42b8d339a2a572723a3e177181a6b1dd79e30b3829"
+    },
+    {
+      "path": "paper/COVER_LETTER_DRAFT.md",
+      "bundle_path": "paper/submission_bundle/COVER_LETTER_DRAFT.md",
+      "bytes": 2007,
+      "sha256": "8dc4008828d96a005c408ce9b2d242f89d15f68c2c282169df6dc8a800be6178"
     },
     {
       "path": "paper/DATA_AVAILABILITY.md",
@@ -26,6 +35,12 @@
       "bundle_path": "paper/submission_bundle/REPRODUCIBILITY.md",
       "bytes": 1491,
       "sha256": "3cd3784b978e48db4b9af5e3b8121d21db213d4f0393ea584654dac53398aa1b"
+    },
+    {
+      "path": "paper/SUBMISSION_CHECKLIST.md",
+      "bundle_path": "paper/submission_bundle/SUBMISSION_CHECKLIST.md",
+      "bytes": 2014,
+      "sha256": "c5d14eed88315fa50b0d160b23284d84e04baff9cc2d46c303b704801677dda0"
     },
     {
       "path": "paper/SUBMISSION_READINESS.md",
@@ -66,8 +81,8 @@
     {
       "path": "paper/draft_v1_submission.md",
       "bundle_path": "paper/submission_bundle/draft_v1_submission.md",
-      "bytes": 58196,
-      "sha256": "86414734947a58f4dd2e853d338667cc39540ad58caeefa50f22e2df7f6ae28c"
+      "bytes": 53684,
+      "sha256": "0b8fdf3a696238b32c217e3811b62811640d75a80739e563ac597491d21420fe"
     },
     {
       "path": "paper/figure_manifest.json",
@@ -78,20 +93,20 @@
     {
       "path": "paper/figures/fig_1_timing_diagnostic_pilot_zones.png",
       "bundle_path": "figures/fig_1_timing_diagnostic_pilot_zones.png",
-      "bytes": 44823,
-      "sha256": "0f85a688a98024f7f0b1214dfd581ad9f4ce9d60c7486f2fb2171dfe2b5df92b"
+      "bytes": 44824,
+      "sha256": "17ef3ffacc7ef4f313745cc5f9e4fd6b03851640c7264dfe343e251311721599"
     },
     {
       "path": "paper/figures/fig_2_city_typology_smart_factory_counts.png",
       "bundle_path": "figures/fig_2_city_typology_smart_factory_counts.png",
-      "bytes": 38900,
-      "sha256": "aa728860ebe1cb24282f6ceb33db26046f198e93b1a21e4d5b5b9857189fc74d"
+      "bytes": 38901,
+      "sha256": "61787614cac6252ca2d96584f24fbe016a15cba04650c597463137b57fadc17a"
     },
     {
       "path": "paper/figures/fig_A1_balance_standardized_differences.png",
       "bundle_path": "figures/fig_A1_balance_standardized_differences.png",
-      "bytes": 36110,
-      "sha256": "bbd7c3e19042074c8b9aa17acb32f1dd53cd4b2c5bc677dc49e8d3ec16654b4a"
+      "bytes": 36111,
+      "sha256": "54546de11e7d58cf015cf8ec8fa25829b1c9034821fef44c0f5ac0c83161845a"
     },
     {
       "path": "paper/main_table_claim_map.csv",
@@ -138,8 +153,8 @@
     {
       "path": "paper/main_tables/table_F_ex_ante_industry_heterogeneity.csv",
       "bundle_path": "main_tables/table_F_ex_ante_industry_heterogeneity.csv",
-      "bytes": 266041,
-      "sha256": "5993944e3e6b4206c350a79c2d31abb911439fec3bc2661e10adb07593579467"
+      "bytes": 265708,
+      "sha256": "1b3b89c5279e554130668d3d80fe9eaf422ab87865bfc7a9e5f5b455593a8a0b"
     },
     {
       "path": "paper/main_tables/table_G_export_relevance.csv",
@@ -198,62 +213,62 @@
     {
       "path": "paper/tables_md/table_A_dataset_counts.md",
       "bundle_path": "tables_md/table_A_dataset_counts.md",
-      "bytes": 2045,
-      "sha256": "9389d594ee2b5c0e23af4def5f8b9e6a50ede251940a7dec34e0c15af9c3e417"
+      "bytes": 1755,
+      "sha256": "cf8cbbfe622f6b203495d89e84b9411afb0cdbaa80a6b5120bd8178621d5a546"
     },
     {
       "path": "paper/tables_md/table_B_city_resolution_quality.md",
       "bundle_path": "tables_md/table_B_city_resolution_quality.md",
-      "bytes": 2823,
-      "sha256": "b8dbe1898e02db5fde03e6cd10548119ad6e19d1e1fe9df1f9d945faaba1bc5e"
+      "bytes": 2386,
+      "sha256": "e5c752c6e3311bce1581bfeee9fe7fe7337884215e59fb481756e52aa1f1a649"
     },
     {
       "path": "paper/tables_md/table_C_pilot_overlap.md",
       "bundle_path": "tables_md/table_C_pilot_overlap.md",
-      "bytes": 1099,
-      "sha256": "433bd9887e8e2b275cd7158032e32a8d07b30e29a6a2f0f4a1ff9e8b3d0528e2"
+      "bytes": 862,
+      "sha256": "f813ade35770374ef2fc02b9417980b545abcdcd0beb538580776ccc318e36ed"
     },
     {
       "path": "paper/tables_md/table_D_hub_exclusion.md",
       "bundle_path": "tables_md/table_D_hub_exclusion.md",
-      "bytes": 3118,
-      "sha256": "6dd2393916cbca0e0464c9efb5e4a51b81f091b0911d5cb0424b2a531155f37a"
+      "bytes": 2546,
+      "sha256": "3cdddfcce8f2b9f25cd731ec711a96e67a035ad28754bb4fdb12599517e2473e"
     },
     {
       "path": "paper/tables_md/table_E_city_typology.md",
       "bundle_path": "tables_md/table_E_city_typology.md",
-      "bytes": 825,
-      "sha256": "fe92445350a5bd8fae34728835a35ffc202832942d7813936e5034a99d6d916c"
+      "bytes": 716,
+      "sha256": "a6f0dcb7ccfc49efe3144068d3370b01a018a5191e3364774510d6aff14f9994"
     },
     {
       "path": "paper/tables_md/table_E_ex_ante_city_typology.md",
       "bundle_path": "tables_md/table_E_ex_ante_city_typology.md",
-      "bytes": 673,
-      "sha256": "7440bc6a31ccd545b37c2fe7f62397d89205740dc7125e780738574d3ff5f147"
+      "bytes": 590,
+      "sha256": "ef27810877bea3838301a9f480bf64156243e5984271a1a2dc741f7a0ffd68b1"
     },
     {
       "path": "paper/tables_md/table_F_ex_ante_industry_heterogeneity.md",
       "bundle_path": "tables_md/table_F_ex_ante_industry_heterogeneity.md",
-      "bytes": 2686,
-      "sha256": "9f7a7c1feaba122e66486decb5260856d4109cca749e665f955900be6cb7e36f"
+      "bytes": 2290,
+      "sha256": "7bb0d771c8a5774c35f8b92a983bd842f0b0df9b617de26ea70a6255f7428071"
     },
     {
       "path": "paper/tables_md/table_G_export_relevance.md",
       "bundle_path": "tables_md/table_G_export_relevance.md",
-      "bytes": 5470,
-      "sha256": "5726a0b5acc2c9d92c5abd40ba09f7d4061c468c226332e185c58e9610512216"
+      "bytes": 4575,
+      "sha256": "ef502e506283a35909572782addae587296ec5896dbd0678882b2627eb91985a"
     },
     {
       "path": "paper/tables_md/table_H_export_sector_share_comparison.md",
       "bundle_path": "tables_md/table_H_export_sector_share_comparison.md",
-      "bytes": 4086,
-      "sha256": "96b79d8f2fac8120f20adfb4598c634038b85ada8502a761f9985db8792a8896"
+      "bytes": 3496,
+      "sha256": "6b1e27060f8254959c8eb7b3066f84871f66d2320be1e68ee65661e3db1e8f3e"
     },
     {
       "path": "paper/tables_md/table_I_appendix_public_fallback_controls.md",
       "bundle_path": "tables_md/table_I_appendix_public_fallback_controls.md",
-      "bytes": 4019,
-      "sha256": "bb3297fd529b8424022c85d7688ec3829ee61c410861ea85e75a6caaea3dc31d"
+      "bytes": 3116,
+      "sha256": "ead0b5ca0d471e2ee523044656e2dadd4043350344f027f6bcc070d4df04740e"
     }
   ],
   "gates_report": "paper/pcs_gate_report.json",

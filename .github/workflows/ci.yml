@@ -29,11 +29,14 @@ jobs:
       - run: make paper-figures
       - run: make paper-tables
       - run: make export-submission
+      - run: make cover-letter
       - run: make submission-bundle
+      - run: make submission-zip
       - run: make submission-checklist
       - run: make validate-submission
       - run: make validate-audit
       - run: make validate-sprint
       - run: make paper
       - run: python scripts/15_pcs_status.py --json
+      - run: make atlas-phase1
       - run: pytest -q

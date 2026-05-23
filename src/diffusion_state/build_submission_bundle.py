@@ -6,6 +6,7 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
+from diffusion_state.git_utils import get_git_revision
 from diffusion_state.utils import PROJECT_ROOT
 
 BUNDLE_DIR = PROJECT_ROOT / "paper" / "submission_bundle"
@@ -23,6 +24,8 @@ BUNDLE_PATHS: tuple[str, ...] = (
     "paper/figure_manifest.json",
     "paper/table_manifest.json",
     "paper/SUBMISSION_READINESS.md",
+    "paper/COVER_LETTER_DRAFT.md",
+    "paper/SUBMISSION_CHECKLIST.md",
     "paper/results_memo.md",
     "paper/red_team_memo.md",
     "paper/reviewer_results_snapshot.md",
@@ -187,9 +190,13 @@ def build_submission_bundle(clean: bool = True) -> dict:
                     }
                 )
 
+    revision = get_git_revision()
     manifest = {
         "built_at_utc": datetime.now(timezone.utc).isoformat(),
         "bundle_directory": "paper/submission_bundle",
+        "git_revision": revision.get("full") or None,
+        "git_revision_short": revision.get("short") or None,
+        "git_dirty": bool(revision.get("dirty")),
         "n_files": len(files),
         "files": sorted(files, key=lambda x: x["path"]),
         "gates_report": "paper/pcs_gate_report.json",

@@ -25,13 +25,17 @@ Regenerate: `make submission-checklist` after `make pcs`.
 - [x] **submission_tables_in_draft** — draft_v1_submission.md includes embedded tables
 - [x] **submission_bundle** — paper/submission_bundle/ assembled
 - [x] **draft_claim_compliance** — OK
+- [x] **cover_letter_draft** — COVER_LETTER_DRAFT.md with git commit
+- [x] **submission_manifest_revision** — manifest git_revision_short=1eef76f
+- [x] **submission_zip** — submission_bundle.zip (207,886 bytes)
 
 ## Paper owner (manual)
 
 - [ ] Journal template applied (`paper/draft_v1_submission.md` → Word/LaTeX)
 - [ ] Author affiliations and acknowledgments
 - [ ] Table/figure numbering matches journal style
-- [ ] Cover letter cites git commit and `paper/SUBMISSION_MANIFEST.json`
+- [x] Cover letter cites git commit (`paper/COVER_LETTER_DRAFT.md`)
+- [ ] Upload `paper/submission_bundle.zip` or folder to journal portal
 - [ ] Table I labeled appendix-only in submitted PDF
 - [ ] No strict Table 5 in main text unless EPS/NBS ingested
 

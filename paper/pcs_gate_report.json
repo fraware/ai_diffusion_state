@@ -109,6 +109,24 @@
       "passed": true,
       "detail": "OK",
       "severity": "error"
+    },
+    {
+      "name": "cover_letter_draft",
+      "passed": true,
+      "detail": "COVER_LETTER_DRAFT.md with git commit",
+      "severity": "error"
+    },
+    {
+      "name": "submission_manifest_revision",
+      "passed": true,
+      "detail": "manifest git_revision_short=1eef76f",
+      "severity": "error"
+    },
+    {
+      "name": "submission_zip",
+      "passed": true,
+      "detail": "submission_bundle.zip (207,886 bytes)",
+      "severity": "warn"
     }
   ],
   "main_table_claim_issues": [],

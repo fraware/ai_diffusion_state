@@ -30,6 +30,9 @@ src/diffusion_state.egg-info/
 .mypy_cache/
 .ruff_cache/
 
+# Regenerate with make submission-zip (included in make pcs)
+paper/submission_bundle.zip
+
 # Generated pipeline outputs (rebuild with make seed / make build)
 data/raw/*
 !data/raw/.gitkeep
@@ -45,11 +48,26 @@ data/interim/*
 !data/interim/external_verification_queue.csv
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/industry_ai_exposure_ex_ante_v2.csv
+!data/processed/industry_robot_compatibility.csv
+!data/processed/industrial_ai_patents_city_industry_year.csv
+!data/processed/smart_factory_city_industry_year.csv
+!data/processed/china_ai_diffusion_atlas_city_industry_year.csv
+!data/interim/industrial_ai_patents_long.csv
+!data/raw/patents/industrial_ai_patent_records.csv
 outputs/*
 !outputs/.gitkeep
 !outputs/tables/
 outputs/tables/*
 !outputs/tables/.gitkeep
+!outputs/tables/table_F1_pilot_x_ai_exposure_patents.csv
+!outputs/tables/table_F2_robot_complementarity_patents.csv
+!outputs/tables/table_F3_pilot_x_ai_exposure_smart_factories.csv
+!outputs/tables/table_F4_atlas_event_study_patents.csv
+!outputs/tables/table_C1_industry_exposure_scores.csv
+!outputs/tables/table_E1_atlas_coverage.csv
+!outputs/tables/table_E2_atlas_missingness.csv
+!outputs/tables/table_E3_diffusion_index_components.csv
 !outputs/figures/
 outputs/figures/*
 !outputs/figures/.gitkeep

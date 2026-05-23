@@ -277,6 +277,8 @@ def collect_pcs_gates() -> list[GateResult]:
         )
     )
 
+    from diffusion_state.generate_cover_letter import OUT_PATH as COVER_LETTER_PATH
+    from diffusion_state.generate_cover_letter import cover_letter_has_commit_hash
     from diffusion_state.validate_draft_claim_compliance import validate_draft_claim_compliance
 
     claim_issues = validate_draft_claim_compliance()
@@ -286,6 +288,49 @@ def collect_pcs_gates() -> list[GateResult]:
             not claim_issues,
             "OK" if not claim_issues else f"{len(claim_issues)} issue(s)",
             severity="error",
+        )
+    )
+
+    cover_ok = COVER_LETTER_PATH.exists() and cover_letter_has_commit_hash()
+    gates.append(
+        GateResult(
+            "cover_letter_draft",
+            cover_ok,
+            "COVER_LETTER_DRAFT.md with git commit"
+            if cover_ok
+            else "run make cover-letter",
+            severity="error",
+        )
+    )
+
+    manifest_path = PROJECT_ROOT / "paper" / "SUBMISSION_MANIFEST.json"
+    manifest_ok = False
+    manifest_detail = "run make submission-bundle"
+    if manifest_path.exists():
+        import json
+
+        data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        rev = data.get("git_revision_short") or data.get("git_revision")
+        manifest_ok = bool(rev)
+        manifest_detail = f"manifest git_revision_short={data.get('git_revision_short', 'n/a')}"
+    gates.append(
+        GateResult(
+            "submission_manifest_revision",
+            manifest_ok,
+            manifest_detail,
+            severity="error",
+        )
+    )
+
+    zip_path = PROJECT_ROOT / "paper" / "submission_bundle.zip"
+    gates.append(
+        GateResult(
+            "submission_zip",
+            zip_path.exists() and zip_path.stat().st_size > 1000,
+            f"submission_bundle.zip ({zip_path.stat().st_size:,} bytes)"
+            if zip_path.exists()
+            else "run make submission-zip",
+            severity="warn",
         )
     )
 

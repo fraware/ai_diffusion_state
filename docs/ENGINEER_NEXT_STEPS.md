@@ -1,6 +1,8 @@
-# Engineer next steps (PCS closed — post-gate maintenance)
+# Engineer next steps
 
-**Status:** PCS measurement sprint is **closed** (2026-05-22). All blocking gates pass.
+**PCS measurement paper:** Engineering **closed**. See `docs/PCS_ENGINEERING_CLOSED.md`. Guard: `make pcs-guard`.
+
+**Atlas true vision:** Active sprint — `docs/POST_PCS_TRUE_VISION_HANDOFF.md`, `make atlas-phase1`.
 
 **One command:**
 

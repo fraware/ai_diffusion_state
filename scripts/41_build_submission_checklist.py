@@ -1,14 +1,7 @@
-"""Generate paper/SUBMISSION_CHECKLIST.md from PCS gates."""
+"""Backward-compatible entry point — use scripts/52_build_submission_checklist.py."""
 from __future__ import annotations
 
-import sys
+import runpy
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from diffusion_state.build_submission_checklist import build_submission_checklist
-
-if __name__ == "__main__":
-    build_submission_checklist()
-    print("Wrote paper/SUBMISSION_CHECKLIST.md")
+runpy.run_path(str(Path(__file__).resolve().parent / "52_build_submission_checklist.py"), run_name="__main__")

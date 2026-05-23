@@ -75,6 +75,9 @@ After core gates pass:
 make paper-figures
 make paper-tables
 make export-submission
+make cover-letter
+make submission-bundle
+make submission-zip
 make validate-submission
 ```
 
@@ -88,8 +91,12 @@ make validate-submission
 | `paper/table_manifest.json` | Table → claim_id traceability |
 | `paper/draft_v1_submission.md` | Draft + embedded tables + figures + reference index |
 | `paper/draft_v1.tex` | Minimal LaTeX scaffold |
+| `paper/COVER_LETTER_DRAFT.md` | Gate-aware cover letter with git commit |
+| `paper/submission_bundle.zip` | Portal upload archive (`make submission-zip`) |
 
 `paper/pcs_gate_report.json` includes `submission_ready` when `make validate-submission` passes.
+
+Engineering freeze: `docs/PCS_ENGINEERING_CLOSED.md`.
 
 ## Quick status
 

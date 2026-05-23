@@ -144,17 +144,16 @@ Embedded from reproducible CSVs. Claim tiers follow `paper/main_table_claim_map.
 
 **Claim tier:** `measured` | **Claim ID:** `measurement_pilot_zones` | **Placement:** main
 
-| dataset                                   | unit          |   observations | years_covered                | source                                         |
-|:------------------------------------------|:--------------|---------------:|:-----------------------------|:-----------------------------------------------|
-| pilot_zones                               | city/county   |             17 | 2019-2021                    | data/processed/pilot_zones.csv                 |
-| smart_factories_clean                     | project       |            509 | 2024, 2025                   | data/processed/smart_factories_clean.csv       |
-| smart_factory_city_year                   | city-year     |            224 | 2024, 2025 (resolved cities) | data/processed/smart_factory_city_year.csv     |
-| smart_factory_province_year               | province-year |             59 | 2024, 2025                   | data/processed/smart_factory_province_year.csv |
-| smart_factories_city_unknown              | project       |              0 | 2024, 2025                   | province-only location in MIIT tables          |
-| smart_factories_city_resolved             | project       |            509 | 2024, 2025                   | parser + audited geo overrides                 |
-| geo_resolution_rule_based_text_inference  | project       |            357 | 2024, 2025                   | data/processed/city_resolution_register.csv    |
-| geo_resolution_official_location_exact    | project       |            102 | 2024, 2025                   | data/processed/city_resolution_register.csv    |
-| geo_resolution_external_evidence_verified | project       |             50 | 2024, 2025                   | data/processed/city_resolution_register.csv    |
+                                  dataset          unit  observations                years_covered                                         source
+                              pilot_zones   city/county            17                    2019-2021                 data/processed/pilot_zones.csv
+                    smart_factories_clean       project           509                   2024, 2025       data/processed/smart_factories_clean.csv
+                  smart_factory_city_year     city-year           224 2024, 2025 (resolved cities)     data/processed/smart_factory_city_year.csv
+              smart_factory_province_year province-year            59                   2024, 2025 data/processed/smart_factory_province_year.csv
+             smart_factories_city_unknown       project             0                   2024, 2025          province-only location in MIIT tables
+            smart_factories_city_resolved       project           509                   2024, 2025                 parser + audited geo overrides
+ geo_resolution_rule_based_text_inference       project           357                   2024, 2025    data/processed/city_resolution_register.csv
+   geo_resolution_official_location_exact       project           102                   2024, 2025    data/processed/city_resolution_register.csv
+geo_resolution_external_evidence_verified       project            50                   2024, 2025    data/processed/city_resolution_register.csv
 
 Source: `paper/main_tables/table_A_dataset_counts.csv` (9 rows in repository).
 
@@ -164,23 +163,22 @@ Source: `paper/main_tables/table_A_dataset_counts.csv` (9 rows in repository).
 
 **Claim tier:** `validated_descriptive` | **Claim ID:** `geo_resolution_quality` | **Placement:** main
 
-| resolution_class           |   n_projects | evidence_type            |   share_projects |   n_with_source_list_url_only |   n_with_external_url |
-|:---------------------------|-------------:|:-------------------------|-----------------:|------------------------------:|----------------------:|
-| external_evidence_verified |           50 | _all                     |       0.0982318  |                             0 |                    50 |
-| official_location_exact    |          102 | _all                     |       0.200393   |                           102 |                     0 |
-| rule_based_text_inference  |          357 | _all                     |       0.701375   |                           357 |                     0 |
-| external_evidence_verified |           11 | company_annual_report    |       0.021611   |                             0 |                    11 |
-| external_evidence_verified |           23 | company_site_registry    |       0.0451866  |                             0 |                    23 |
-| external_evidence_verified |            1 | industrial_park_page     |       0.00196464 |                             0 |                     1 |
-| external_evidence_verified |           15 | project_registry         |       0.0294695  |                             0 |                    15 |
-| official_location_exact    |          102 | miit_location_field      |       0.200393   |                           102 |                     0 |
-| rule_based_text_inference  |           28 | embedded_html_table      |       0.0550098  |                            28 |                     0 |
-| rule_based_text_inference  |           64 | firm_embedded_city_token |       0.125737   |                            64 |                     0 |
-| rule_based_text_inference  |           22 | firm_parenthetical       |       0.043222   |                            22 |                     0 |
-| rule_based_text_inference  |            1 | firm_province_county     |       0.00196464 |                             1 |                     0 |
-| rule_based_text_inference  |          221 | firm_registry_match      |       0.434185   |                           221 |                     0 |
-| rule_based_text_inference  |           17 | html_p_tag_rtl_location  |       0.0333988  |                            17 |                     0 |
-| rule_based_text_inference  |            4 | project_branch_city      |       0.00785855 |                             4 |                     0 |
+          resolution_class  n_projects            evidence_type  share_projects  n_with_source_list_url_only  n_with_external_url
+external_evidence_verified          50                     _all        0.098232                            0                   50
+   official_location_exact         102                     _all        0.200393                          102                    0
+ rule_based_text_inference         357                     _all        0.701375                          357                    0
+external_evidence_verified          11    company_annual_report        0.021611                            0                   11
+external_evidence_verified          23    company_site_registry        0.045187                            0                   23
+external_evidence_verified           1     industrial_park_page        0.001965                            0                    1
+external_evidence_verified          15         project_registry        0.029470                            0                   15
+   official_location_exact         102      miit_location_field        0.200393                          102                    0
+ rule_based_text_inference          28      embedded_html_table        0.055010                           28                    0
+ rule_based_text_inference          64 firm_embedded_city_token        0.125737                           64                    0
+ rule_based_text_inference          22       firm_parenthetical        0.043222                           22                    0
+ rule_based_text_inference           1     firm_province_county        0.001965                            1                    0
+ rule_based_text_inference         221      firm_registry_match        0.434185                          221                    0
+ rule_based_text_inference          17  html_p_tag_rtl_location        0.033399                           17                    0
+ rule_based_text_inference           4      project_branch_city        0.007859                            4                    0
 
 Source: `paper/main_tables/table_B_city_resolution_quality.csv` (15 rows in repository).
 
@@ -190,11 +188,10 @@ Source: `paper/main_tables/table_B_city_resolution_quality.csv` (15 rows in repo
 
 **Claim tier:** `validated_descriptive` | **Claim ID:** `descriptive_pilot_overlap` | **Placement:** main
 
-| sample                |   n_cities |   total_projects_2024_2025 |   mean_projects_per_city |   median_projects_per_city |   mean_difference_pilot_minus_non |
-|:----------------------|-----------:|---------------------------:|-------------------------:|---------------------------:|----------------------------------:|
-| pilot_zone_cities     |         16 |                        192 |                 12       |                         11 |                           9.78322 |
-| non_pilot_zone_cities |        143 |                        317 |                  2.21678 |                          1 |                           9.78322 |
-| all_resolved_cities   |        159 |                        509 |                  3.20126 |                          2 |                           9.78322 |
+               sample  n_cities  total_projects_2024_2025  mean_projects_per_city  median_projects_per_city  mean_difference_pilot_minus_non
+    pilot_zone_cities        16                       192               12.000000                      11.0                         9.783217
+non_pilot_zone_cities       143                       317                2.216783                       1.0                         9.783217
+  all_resolved_cities       159                       509                3.201258                       2.0                         9.783217
 
 Source: `paper/main_tables/table_C_pilot_overlap.csv` (3 rows in repository).
 
@@ -204,14 +201,13 @@ Source: `paper/main_tables/table_C_pilot_overlap.csv` (3 rows in repository).
 
 **Claim tier:** `robust_association` | **Claim ID:** `hub_robustness` | **Placement:** main
 
-| exclusion_rule                                    | spec     |   n_cities |   n_projects | model          | term       |    coef |   std_err |     p_value | formula                                       | interpretation                                                              |   coefficient_relative_to_full_sample |   projects_remaining_share |
-|:--------------------------------------------------|:---------|-----------:|-------------:|:---------------|:-----------|--------:|----------:|------------:|:----------------------------------------------|:----------------------------------------------------------------------------|--------------------------------------:|---------------------------:|
-| full_sample                                       | baseline |        160 |          507 | baseline_count | pilot_zone | 4.54566 |  0.877318 | 2.20328e-07 | smart_factory_projects ~ pilot_zone + C(year) | baseline association (all resolved cities)                                  |                              1        |                   1        |
-| drop_beijing_shanghai_shenzhen_hangzhou           | baseline |        156 |          439 | baseline_count | pilot_zone | 3.66783 |  0.768116 | 1.79614e-06 | smart_factory_projects ~ pilot_zone + C(year) | association weakens after dropping four mega-hubs                           |                              0.806887 |                   0.865878 |
-| drop_beijing_shanghai_shenzhen_hangzhou_guangzhou | baseline |        155 |          431 | baseline_count | pilot_zone | 3.73193 |  0.828425 | 6.64182e-06 | smart_factory_projects ~ pilot_zone + C(year) | association weakens after dropping five mega-hubs                           |                              0.820988 |                   0.850099 |
-| drop_direct_admin_municipalities                  | baseline |        156 |          419 | baseline_count | pilot_zone | 2.8986  |  0.514284 | 1.73851e-08 | smart_factory_projects ~ pilot_zone + C(year) | association weakens substantially when direct-admin municipalities excluded |                              0.637663 |                   0.82643  |
-| drop_top_5_smart_factory_cities                   | baseline |        155 |          402 | baseline_count | pilot_zone | 2.9507  |  0.51174  | 8.11654e-09 | smart_factory_projects ~ pilot_zone + C(year) | association weakens when top adoption cities excluded                       |                              0.649126 |                   0.792899 |
-| drop_top_10_gdp_cities                            | baseline |        150 |          408 | baseline_count | pilot_zone | 5.15435 |  1.29321  | 6.72836e-05 | smart_factory_projects ~ pilot_zone + C(year) | association under top-GDP-city exclusion (requires GDP controls)            |                              1.13391  |                   0.804734 |
+                                   exclusion_rule     spec  n_cities  n_projects          model       term     coef  std_err      p_value                                       formula                                                              interpretation  coefficient_relative_to_full_sample  projects_remaining_share
+                                      full_sample baseline       160         507 baseline_count pilot_zone 4.545660 0.877318 2.203282e-07 smart_factory_projects ~ pilot_zone + C(year)                                  baseline association (all resolved cities)                             1.000000                  1.000000
+          drop_beijing_shanghai_shenzhen_hangzhou baseline       156         439 baseline_count pilot_zone 3.667832 0.768116 1.796138e-06 smart_factory_projects ~ pilot_zone + C(year)                           association weakens after dropping four mega-hubs                             0.806887                  0.865878
+drop_beijing_shanghai_shenzhen_hangzhou_guangzhou baseline       155         431 baseline_count pilot_zone 3.731935 0.828425 6.641824e-06 smart_factory_projects ~ pilot_zone + C(year)                           association weakens after dropping five mega-hubs                             0.820988                  0.850099
+                 drop_direct_admin_municipalities baseline       156         419 baseline_count pilot_zone 2.898601 0.514284 1.738514e-08 smart_factory_projects ~ pilot_zone + C(year) association weakens substantially when direct-admin municipalities excluded                             0.637663                  0.826430
+                  drop_top_5_smart_factory_cities baseline       155         402 baseline_count pilot_zone 2.950704 0.511740 8.116544e-09 smart_factory_projects ~ pilot_zone + C(year)                       association weakens when top adoption cities excluded                             0.649126                  0.792899
+                           drop_top_10_gdp_cities baseline       150         408 baseline_count pilot_zone 5.154349 1.293213 6.728357e-05 smart_factory_projects ~ pilot_zone + C(year)            association under top-GDP-city exclusion (requires GDP controls)                             1.133906                  0.804734
 
 Source: `paper/main_tables/table_D_hub_exclusion.csv` (6 rows in repository).
 
@@ -223,13 +219,12 @@ Source: `paper/main_tables/table_D_hub_exclusion.csv` (6 rows in repository).
 
 *Note: Aggregated from city-level typology file.*
 
-| diffusion_type            |   resolved_smart_factory_projects |
-|:--------------------------|----------------------------------:|
-| nonpilot_low_adoption     |                               277 |
-| frontier_municipality_hub |                                88 |
-| pilot_non_hub             |                                77 |
-| nonpilot_industrial_hub   |                                40 |
-| pilot_industrial_hub      |                                27 |
+           diffusion_type  resolved_smart_factory_projects
+    nonpilot_low_adoption                              277
+frontier_municipality_hub                               88
+            pilot_non_hub                               77
+  nonpilot_industrial_hub                               40
+     pilot_industrial_hub                               27
 
 Source: `paper/main_tables/table_E_city_typology.csv` (160 rows in repository).
 
@@ -241,12 +236,11 @@ Source: `paper/main_tables/table_E_city_typology.csv` (160 rows in repository).
 
 *Note: City counts by ex ante typology (not project-weighted).*
 
-| diffusion_type_ex_ante        |   n_cities |
-|:------------------------------|-----------:|
-| ex_ante_nonpilot_low_capacity |        143 |
-| ex_ante_pilot_non_hub         |         10 |
-| frontier_municipality_hub     |          4 |
-| ex_ante_pilot_hub             |          3 |
+       diffusion_type_ex_ante  n_cities
+ex_ante_nonpilot_low_capacity       143
+        ex_ante_pilot_non_hub        10
+    frontier_municipality_hub         4
+            ex_ante_pilot_hub         3
 
 Source: `paper/main_tables/table_E_ex_ante_city_typology.csv` (160 rows in repository).
 
@@ -258,20 +252,19 @@ Source: `paper/main_tables/table_E_ex_ante_city_typology.csv` (160 rows in repos
 
 *Note: FE coefficients omitted; tag-derived spec is descriptive-only (not for main causal claims).*
 
-| model                                          | term                             |       coef |   std_err |     p_value |   n_obs | exposure_source         |
-|:-----------------------------------------------|:---------------------------------|-----------:|----------:|------------:|--------:|:------------------------|
-| city_industry_pilot_x_exposure_ex_ante         | Intercept                        |  0.831825  | 0.126274  | 4.47481e-11 |     385 | ex_ante                 |
-| city_industry_pilot_x_exposure_ex_ante         | pilot_zone                       | -0.166057  | 0.0988302 | 0.0929129   |     385 | ex_ante                 |
-| city_industry_pilot_x_exposure_ex_ante         | high_exposure_ex_ante            | -0.0626271 | 0.0800926 | 0.434253    |     385 | ex_ante                 |
-| city_industry_pilot_x_exposure_ex_ante         | pilot_zone:high_exposure_ex_ante |  0.262465  | 0.0786456 | 0.000845941 |     385 | ex_ante                 |
-| city_industry_pilot_x_score_ex_ante            | Intercept                        |  0.780737  | 0.130601  | 2.25858e-09 |     385 | ex_ante                 |
-| city_industry_pilot_x_score_ex_ante            | pilot_zone                       | -0.206648  | 0.109021  | 0.0580291   |     385 | ex_ante                 |
-| city_industry_pilot_x_score_ex_ante            | ai_exposure_ex_ante              |  0.0129569 | 0.0405087 | 0.749078    |     385 | ex_ante                 |
-| city_industry_pilot_x_score_ex_ante            | pilot_zone:ai_exposure_ex_ante   |  0.158893  | 0.0543758 | 0.00347641  |     385 | ex_ante                 |
-| city_industry_pilot_x_exposure_tag_descriptive | Intercept                        |  0.831825  | 0.126274  | 4.47481e-11 |     385 | descriptive_tag_derived |
-| city_industry_pilot_x_exposure_tag_descriptive | pilot_zone                       | -0.166057  | 0.0988302 | 0.0929129   |     385 | descriptive_tag_derived |
-| city_industry_pilot_x_exposure_tag_descriptive | high_exposure_sector             | -0.0626271 | 0.0800926 | 0.434253    |     385 | descriptive_tag_derived |
-| city_industry_pilot_x_exposure_tag_descriptive | pilot_zone:high_exposure_sector  |  0.262465  | 0.0786456 | 0.000845941 |     385 | descriptive_tag_derived |
+                                         model                             term      coef  std_err      p_value  n_obs         exposure_source
+        city_industry_pilot_x_exposure_ex_ante                        Intercept  0.831825 0.126274 4.474807e-11    385                 ex_ante
+        city_industry_pilot_x_exposure_ex_ante                       pilot_zone -0.166057 0.098830 9.291295e-02    385                 ex_ante
+        city_industry_pilot_x_exposure_ex_ante            high_exposure_ex_ante -0.062627 0.080093 4.342533e-01    385                 ex_ante
+        city_industry_pilot_x_exposure_ex_ante pilot_zone:high_exposure_ex_ante  0.262465 0.078646 8.459407e-04    385                 ex_ante
+           city_industry_pilot_x_score_ex_ante                        Intercept  0.780737 0.130601 2.258576e-09    385                 ex_ante
+           city_industry_pilot_x_score_ex_ante                       pilot_zone -0.206648 0.109021 5.802915e-02    385                 ex_ante
+           city_industry_pilot_x_score_ex_ante              ai_exposure_ex_ante  0.012957 0.040509 7.490779e-01    385                 ex_ante
+           city_industry_pilot_x_score_ex_ante   pilot_zone:ai_exposure_ex_ante  0.158893 0.054376 3.476407e-03    385                 ex_ante
+city_industry_pilot_x_exposure_tag_descriptive                        Intercept  0.831825 0.126274 4.474807e-11    385 descriptive_tag_derived
+city_industry_pilot_x_exposure_tag_descriptive                       pilot_zone -0.166057 0.098830 9.291295e-02    385 descriptive_tag_derived
+city_industry_pilot_x_exposure_tag_descriptive             high_exposure_sector -0.062627 0.080093 4.342533e-01    385 descriptive_tag_derived
+city_industry_pilot_x_exposure_tag_descriptive  pilot_zone:high_exposure_sector  0.262465 0.078646 8.459407e-04    385 descriptive_tag_derived
 
 Source: `paper/main_tables/table_F_ex_ante_industry_heterogeneity.csv` (903 rows in repository).
 
@@ -281,18 +274,17 @@ Source: `paper/main_tables/table_F_ex_ante_industry_heterogeneity.csv` (903 rows
 
 **Claim tier:** `validated_descriptive` | **Claim ID:** `export_relevance_descriptive` | **Placement:** main
 
-| sector_group                       |   smart_factory_projects |   share_of_smart_factory_projects |   export_value_2024_x |   share_of_china_exports_2024 |   export_value_2017 |   export_value_2024_y |   log_export_growth_2017_2024 |   unit_value_index_2017 |   unit_value_index_2024 |   log_unit_value_growth_2017_2024 | growth_method       | mapping_confidence   | note                                                         |
-|:-----------------------------------|-------------------------:|----------------------------------:|----------------------:|------------------------------:|--------------------:|----------------------:|------------------------------:|------------------------:|------------------------:|----------------------------------:|:--------------------|:---------------------|:-------------------------------------------------------------|
-| ai_servers_and_computing_equipment |                       48 |                        0.0943026  |           1.24944e+12 |                    0.452604   |         8.80569e+11 |           1.24944e+12 |                      0.349883 |                       1 |                 1.30499 |                          0.266198 | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| autos_and_nev                      |                       37 |                        0.0726916  |           2.10354e+11 |                    0.0761999  |         6.7956e+10  |           2.10354e+11 |                      1.12993  |                       1 |                 3.09545 |                          1.12993  | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| batteries                          |                       14 |                        0.0275049  |           7.61827e+10 |                    0.0275968  |         1.14546e+10 |           7.61827e+10 |                      1.89474  |                       1 |                 6.65081 |                          1.89474  | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| industrial_machinery               |                      247 |                        0.485265   |           6.38002e+11 |                    0.231113   |         4.53433e+11 |           6.38002e+11 |                      0.341494 |                       1 |                 1.97821 |                          0.682192 | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| other                              |                       36 |                        0.0707269  |         nan           |                  nan          |       nan           |         nan           |                    nan        |                     nan |               nan       |                        nan        | nan                 | nan                  | Descriptive strategic relevance; not a causal export effect. |
-| petrochemicals                     |                       53 |                        0.104126   |           1.36568e+11 |                    0.0494711  |         8.17017e+10 |           1.36568e+11 |                      0.513748 |                       1 |                 1.67154 |                          0.513748 | log_level_2017_2024 | medium               | Descriptive strategic relevance; not a causal export effect. |
-| pharmaceuticals                    |                        6 |                        0.0117878  |           1.70202e+10 |                    0.00616547 |         7.10615e+09 |           1.70202e+10 |                      0.873438 |                       1 |                 2.39513 |                          0.873438 | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| semiconductors_and_electronics     |                        4 |                        0.00785855 |           2.24646e+11 |                    0.081377   |         1.00043e+11 |           2.24646e+11 |                      0.808925 |                       1 |                 2.24549 |                          0.808925 | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| shipbuilding                       |                       19 |                        0.0373281  |           3.38342e+10 |                    0.0122563  |         1.99768e+10 |           3.38342e+10 |                      0.526902 |                       1 |                 1.69368 |                          0.526902 | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
-| steel_and_metals                   |                       45 |                        0.0884086  |           1.74512e+11 |                    0.0632163  |         1.09201e+11 |           1.74512e+11 |                      0.468805 |                       1 |                 1.59808 |                          0.468805 | log_level_2017_2024 | high                 | Descriptive strategic relevance; not a causal export effect. |
+                      sector_group  smart_factory_projects  share_of_smart_factory_projects  export_value_2024_x  share_of_china_exports_2024  export_value_2017  export_value_2024_y  log_export_growth_2017_2024  unit_value_index_2017  unit_value_index_2024  log_unit_value_growth_2017_2024       growth_method mapping_confidence                                                         note
+ai_servers_and_computing_equipment                      48                         0.094303         1.249440e+12                     0.452604       8.805689e+11         1.249440e+12                     0.349883                    1.0               1.304993                         0.266198 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+                     autos_and_nev                      37                         0.072692         2.103545e+11                     0.076200       6.795596e+10         2.103545e+11                     1.129934                    1.0               3.095453                         1.129934 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+                         batteries                      14                         0.027505         7.618270e+10                     0.027597       1.145464e+10         7.618270e+10                     1.894739                    1.0               6.650814                         1.894739 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+              industrial_machinery                     247                         0.485265         6.380018e+11                     0.231113       4.534326e+11         6.380018e+11                     0.341494                    1.0               1.978209                         0.682192 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+                             other                      36                         0.070727                  NaN                          NaN                NaN                  NaN                          NaN                    NaN                    NaN                              NaN                 NaN                NaN Descriptive strategic relevance; not a causal export effect.
+                    petrochemicals                      53                         0.104126         1.365680e+11                     0.049471       8.170165e+10         1.365680e+11                     0.513748                    1.0               1.671545                         0.513748 log_level_2017_2024             medium Descriptive strategic relevance; not a causal export effect.
+                   pharmaceuticals                       6                         0.011788         1.702016e+10                     0.006165       7.106148e+09         1.702016e+10                     0.873438                    1.0               2.395131                         0.873438 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+    semiconductors_and_electronics                       4                         0.007859         2.246461e+11                     0.081377       1.000431e+11         2.246461e+11                     0.808925                    1.0               2.245494                         0.808925 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+                      shipbuilding                      19                         0.037328         3.383422e+10                     0.012256       1.997679e+10         3.383422e+10                     0.526902                    1.0               1.693677                         0.526902 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
+                  steel_and_metals                      45                         0.088409         1.745123e+11                     0.063216       1.092010e+11         1.745123e+11                     0.468805                    1.0               1.598084                         0.468805 log_level_2017_2024               high Descriptive strategic relevance; not a causal export effect.
 
 Source: `paper/main_tables/table_G_export_relevance.csv` (10 rows in repository).
 
@@ -302,18 +294,17 @@ Source: `paper/main_tables/table_G_export_relevance.csv` (10 rows in repository)
 
 **Claim tier:** `validated_descriptive` | **Claim ID:** `export_sector_share_comparison` | **Placement:** main
 
-| sector_group                       |   smart_factory_projects |   share_of_smart_factory_projects |   share_of_china_exports_2024 | mapping_confidence   |   log_export_growth_2017_2024 |   share_gap_sf_minus_export | note                                                                                         |
-|:-----------------------------------|-------------------------:|----------------------------------:|------------------------------:|:---------------------|------------------------------:|----------------------------:|:---------------------------------------------------------------------------------------------|
-| industrial_machinery               |                      247 |                        0.485265   |                    0.231113   | high                 |                      0.341494 |                 0.254152    | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| petrochemicals                     |                       53 |                        0.104126   |                    0.0494711  | medium               |                      0.513748 |                 0.0546546   | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| steel_and_metals                   |                       45 |                        0.0884086  |                    0.0632163  | high                 |                      0.468805 |                 0.0251924   | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| shipbuilding                       |                       19 |                        0.0373281  |                    0.0122563  | high                 |                      0.526902 |                 0.0250718   | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| pharmaceuticals                    |                        6 |                        0.0117878  |                    0.00616547 | high                 |                      0.873438 |                 0.00562235  | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| batteries                          |                       14 |                        0.0275049  |                    0.0275968  | high                 |                      1.89474  |                -9.19164e-05 | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| autos_and_nev                      |                       37 |                        0.0726916  |                    0.0761999  | high                 |                      1.12993  |                -0.00350838  | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| semiconductors_and_electronics     |                        4 |                        0.00785855 |                    0.081377   | high                 |                      0.808925 |                -0.0735184   | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| ai_servers_and_computing_equipment |                       48 |                        0.0943026  |                    0.452604   | high                 |                      0.349883 |                -0.358301    | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
-| other                              |                       36 |                        0.0707269  |                  nan          | nan                  |                    nan        |               nan           | Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal. |
+                      sector_group  smart_factory_projects  share_of_smart_factory_projects  share_of_china_exports_2024 mapping_confidence  log_export_growth_2017_2024  share_gap_sf_minus_export                                                                                         note
+              industrial_machinery                     247                         0.485265                     0.231113               high                     0.341494                   0.254152 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                    petrochemicals                      53                         0.104126                     0.049471             medium                     0.513748                   0.054655 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                  steel_and_metals                      45                         0.088409                     0.063216               high                     0.468805                   0.025192 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                      shipbuilding                      19                         0.037328                     0.012256               high                     0.526902                   0.025072 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                   pharmaceuticals                       6                         0.011788                     0.006165               high                     0.873438                   0.005622 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                         batteries                      14                         0.027505                     0.027597               high                     1.894739                  -0.000092 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                     autos_and_nev                      37                         0.072692                     0.076200               high                     1.129934                  -0.003508 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+    semiconductors_and_electronics                       4                         0.007859                     0.081377               high                     0.808925                  -0.073518 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+ai_servers_and_computing_equipment                      48                         0.094303                     0.452604               high                     0.349883                  -0.358301 Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+                             other                      36                         0.070727                          NaN                NaN                          NaN                        NaN Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
 
 Source: `paper/main_tables/table_H_export_sector_share_comparison.csv` (10 rows in repository).
 
@@ -327,11 +318,10 @@ Source: `paper/main_tables/table_H_export_sector_share_comparison.csv` (10 rows 
 
 *Note: Pilot-zone rows only (appendix robustness).*
 
-| term       |     coef |   std_err |   t_stat |   p_value |   n_obs |   r_squared | model                                   | formula                                                                                                                                                   | sample_rule                        |   n_cities |   years | fixed_effects     | controls_included                                                                                                   | evidence_tier                         | paper_use                                            | control_source                                                              | missing_controls                                                      |
-|:-----------|---------:|----------:|---------:|----------:|--------:|------------:|:----------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------|-----------:|--------:|:------------------|:--------------------------------------------------------------------------------------------------------------------|:--------------------------------------|:-----------------------------------------------------|:----------------------------------------------------------------------------|:----------------------------------------------------------------------|
-| pilot_zone | 1.57953  |  0.652781 | 2.41969  | 0.0198348 |      51 |    0.523593 | model_5b_public_fallback_count_2024     | smart_factory_projects ~ pilot_zone + log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p | chinautc_public_fallback_2024_only |         52 |    2024 | none; single year | log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p | partial_public_controls_appendix_only | appendix robustness only; not EPS-equivalent Table 5 | ChinaUTC public China City Statistical Yearbook fallback, units as reported | FDI and fixed-asset investment unavailable in current public fallback |
-| pilot_zone | 0.50423  |  0.205183 | 2.45747  | 0.0181003 |      51 |    0.51339  | model_5c_public_fallback_log_count_2024 | log1p_projects ~ pilot_zone + log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p         | chinautc_public_fallback_2024_only |         52 |    2024 | none; single year | log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p | partial_public_controls_appendix_only | appendix robustness only; not EPS-equivalent Table 5 | ChinaUTC public China City Statistical Yearbook fallback, units as reported | FDI and fixed-asset investment unavailable in current public fallback |
-| pilot_zone | 0.233079 |  0.293775 | 0.793392 | 0.427549  |      51 |  nan        | model_5d_public_fallback_poisson_2024   | smart_factory_projects ~ pilot_zone + log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p | chinautc_public_fallback_2024_only |         52 |    2024 | none; single year | log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p | partial_public_controls_appendix_only | appendix robustness only; not EPS-equivalent Table 5 | ChinaUTC public China City Statistical Yearbook fallback, units as reported | FDI and fixed-asset investment unavailable in current public fallback |
+      term     coef  std_err   t_stat  p_value  n_obs  r_squared                                   model                                                                                                                                                   formula                        sample_rule  n_cities  years     fixed_effects                                                                                                   controls_included                         evidence_tier                                            paper_use                                                              control_source                                                      missing_controls
+pilot_zone 1.579527 0.652781 2.419690 0.019835     51   0.523593     model_5b_public_fallback_count_2024 smart_factory_projects ~ pilot_zone + log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p chinautc_public_fallback_2024_only        52   2024 none; single year log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p partial_public_controls_appendix_only appendix robustness only; not EPS-equivalent Table 5 ChinaUTC public China City Statistical Yearbook fallback, units as reported FDI and fixed-asset investment unavailable in current public fallback
+pilot_zone 0.504230 0.205183 2.457471 0.018100     51   0.513390 model_5c_public_fallback_log_count_2024         log1p_projects ~ pilot_zone + log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p chinautc_public_fallback_2024_only        52   2024 none; single year log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p partial_public_controls_appendix_only appendix robustness only; not EPS-equivalent Table 5 ChinaUTC public China City Statistical Yearbook fallback, units as reported FDI and fixed-asset investment unavailable in current public fallback
+pilot_zone 0.233079 0.293775 0.793392 0.427549     51        NaN   model_5d_public_fallback_poisson_2024 smart_factory_projects ~ pilot_zone + log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p chinautc_public_fallback_2024_only        52   2024 none; single year log_gdp + log_population + secondary_industry_share + foreign_trade_log1p + telecom_log1p + industrial_output_log1p partial_public_controls_appendix_only appendix robustness only; not EPS-equivalent Table 5 ChinaUTC public China City Statistical Yearbook fallback, units as reported FDI and fixed-asset investment unavailable in current public fallback
 
 Source: `paper/main_tables/table_I_appendix_public_fallback_controls.csv` (24 rows in repository).
 

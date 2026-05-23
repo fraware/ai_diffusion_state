@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02 atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-checklist validate-submission
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02 atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard cover-letter submission-docx
 
 PYTHON ?= python
 
@@ -49,15 +49,15 @@ export-submission: paper-figures paper-tables
 	$(PYTHON) scripts/36_export_draft_submission.py
 
 submission-bundle: export-submission
-	$(PYTHON) scripts/40_build_submission_bundle.py
+	$(PYTHON) scripts/51_build_submission_bundle.py
 
 submission-checklist:
-	$(PYTHON) scripts/41_build_submission_checklist.py
+	$(PYTHON) scripts/52_build_submission_checklist.py
 
-validate-submission: export-submission submission-bundle submission-checklist
+validate-submission: export-submission cover-letter submission-bundle submission-zip submission-checklist
 	$(PYTHON) scripts/37_validate_submission_readiness.py
 
-pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft paper-figures export-submission submission-bundle submission-checklist validate-submission validate-sprint validate-audit paper test pcs-status
+pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft paper-figures export-submission cover-letter submission-bundle submission-zip submission-checklist validate-submission validate-sprint validate-audit paper test pcs-status
 
 sync-paper-stats: analysis
 	$(PYTHON) scripts/16_sync_paper_stats.py
@@ -79,6 +79,17 @@ preflight: purge-stub-controls
 
 pcs-status:
 	$(PYTHON) scripts/15_pcs_status.py --json
+
+pcs-guard: pcs-status
+
+cover-letter:
+	$(PYTHON) scripts/53_generate_cover_letter.py
+
+submission-docx:
+	$(PYTHON) scripts/42_export_submission_pandoc.py
+
+submission-zip:
+	$(PYTHON) scripts/54_build_submission_zip.py
 
 validate-draft:
 	$(PYTHON) scripts/33_validate_draft_numbers.py
@@ -134,7 +145,10 @@ atlas-v02:
 atlas-models-v02:
 	$(PYTHON) scripts/49_run_atlas_models_v02.py
 
-atlas-phase1: atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02
+atlas-status:
+	$(PYTHON) scripts/50_atlas_status.py --json
+
+atlas-phase1: atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02 atlas-status
 
 test:
 	pytest -q

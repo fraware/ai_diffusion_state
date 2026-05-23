@@ -1,4 +1,4 @@
-﻿paper_table,claim_id,claim_tier,source_output_table
+paper_table,claim_id,claim_tier,source_output_table
 table_A_dataset_counts.csv,measurement_pilot_zones,measured,table_1_dataset_summary.csv
 table_A_dataset_counts.csv,measurement_smart_factories,measured,table_1_dataset_summary.csv
 table_B_city_resolution_quality.csv,geo_resolution_quality,validated_descriptive,table_16_geo_evidence_quality.csv

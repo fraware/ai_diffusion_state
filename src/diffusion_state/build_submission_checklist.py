@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from diffusion_state.generate_cover_letter import cover_letter_has_commit_hash
 from diffusion_state.pcs_status import collect_pcs_gates, pcs_ready
 from diffusion_state.utils import PROJECT_ROOT
 
@@ -30,6 +31,7 @@ def build_submission_checklist() -> str:
     for g in gates:
         mark = "x" if g.passed else " "
         lines.append(f"- [{mark}] **{g.name}** — {g.detail}")
+    cover_done = cover_letter_has_commit_hash()
     lines.extend(
         [
             "",
@@ -38,7 +40,8 @@ def build_submission_checklist() -> str:
             "- [ ] Journal template applied (`paper/draft_v1_submission.md` → Word/LaTeX)",
             "- [ ] Author affiliations and acknowledgments",
             "- [ ] Table/figure numbering matches journal style",
-            "- [ ] Cover letter cites git commit and `paper/SUBMISSION_MANIFEST.json`",
+            f"- [{'x' if cover_done else ' '}] Cover letter cites git commit (`paper/COVER_LETTER_DRAFT.md`)",
+            "- [ ] Upload `paper/submission_bundle.zip` or folder to journal portal",
             "- [ ] Table I labeled appendix-only in submitted PDF",
             "- [ ] No strict Table 5 in main text unless EPS/NBS ingested",
             "",

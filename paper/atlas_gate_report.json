@@ -1,0 +1,31 @@
+{
+  "pcs_ready": true,
+  "atlas_ready": true,
+  "exposure_layer_ready": true,
+  "patent_layer_ready": true,
+  "smart_factory_layer_ready": true,
+  "atlas_panel_ready": true,
+  "atlas_models_ready": true,
+  "atlas_phase1_ready": true,
+  "n_cities": 162,
+  "n_industries": 21,
+  "years_min": 2015,
+  "years_max": 2025,
+  "main_result_summary": "Pilot-zone x AI-exposure -> industrial AI patents (OLS count): coef=-0.0150 (negative), p=n/a. Interpret as associational exploratory (saturated FE; fixture patent microdata).",
+  "forbidden_claim_flags": [],
+  "layer_errors": {
+    "exposure": [],
+    "patents": [],
+    "smart_factories": [],
+    "atlas_panel": []
+  },
+  "artifact_paths": {
+    "industry_crosswalk": "data/seed/industry_crosswalk_atlas.csv",
+    "exposure": "data\\processed\\industry_ai_exposure_ex_ante_v2.csv",
+    "robot": "data\\processed\\industry_robot_compatibility.csv",
+    "patents": "data\\processed\\industrial_ai_patents_city_industry_year.csv",
+    "smart_factories": "data\\processed\\smart_factory_city_industry_year.csv",
+    "atlas_panel": "data\\processed\\china_ai_diffusion_atlas_city_industry_year.csv",
+    "draft_atlas": "paper/draft_atlas_v1.md"
+  }
+}
