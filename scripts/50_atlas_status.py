@@ -1,4 +1,4 @@
-"""Atlas Phase 1 status dashboard (JSON with --json)."""
+"""Atlas status dashboard (software vs evidence readiness)."""
 from __future__ import annotations
 
 import argparse
@@ -12,13 +12,18 @@ from diffusion_state.atlas_status import collect_atlas_status, write_atlas_gate_
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Atlas Phase 1 gate status")
+    parser = argparse.ArgumentParser(description="Atlas gate status")
     parser.add_argument(
         "--json",
         nargs="?",
         const=str(ROOT / "paper" / "atlas_gate_report.json"),
         metavar="PATH",
         help="Write JSON report (default: paper/atlas_gate_report.json)",
+    )
+    parser.add_argument(
+        "--require-evidence",
+        action="store_true",
+        help="Exit 1 unless atlas_evidence_ready is true",
     )
     args = parser.parse_args()
 
@@ -27,24 +32,33 @@ def main() -> int:
     else:
         report = collect_atlas_status()
 
-    print("=== Atlas Phase 1 status ===")
+    print("=== Atlas status ===")
     for key in (
         "pcs_ready",
+        "atlas_software_ready",
+        "atlas_evidence_ready",
         "atlas_ready",
-        "exposure_layer_ready",
+        "atlas_phase1_ready",
+        "fixture_patents_detected",
+        "patent_source_status",
         "patent_layer_ready",
-        "smart_factory_layer_ready",
-        "atlas_panel_ready",
         "atlas_models_ready",
     ):
         print(f"  {key}: {report[key]}")
-    print(f"  cities/industries/years: {report['n_cities']}/{report['n_industries']}/{report['years_min']}-{report['years_max']}")
+    print(
+        f"  cities/industries/years: {report['n_cities']}/{report['n_industries']}/"
+        f"{report['years_min']}-{report['years_max']}"
+    )
     print(f"  main_result: {report['main_result_summary']}")
+    if report.get("f1_publication_ready_detail"):
+        print(f"  f1_detail: {report['f1_publication_ready_detail']}")
 
     if args.json:
-        print(f"\nWrote {Path(args.json).relative_to(ROOT)} (atlas_ready={report['atlas_ready']})")
+        print(f"\nWrote {Path(args.json).relative_to(ROOT)}")
 
-    return 0 if report["atlas_phase1_ready"] else 1
+    if args.require_evidence:
+        return 0 if report["atlas_evidence_ready"] else 1
+    return 0 if report["atlas_software_ready"] else 1
 
 
 if __name__ == "__main__":

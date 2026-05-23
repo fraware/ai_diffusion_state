@@ -37,9 +37,28 @@ def validate_industry_exposure_v2() -> list[str]:
     if len(robot_pos) < 15:
         errors.append(f"need 15+ robot-compatible industries; got {len(robot_pos)}")
 
+    for col in (
+        "source_url_or_citation",
+        "not_outcome_derived",
+        "exposure_version",
+        "ai_exposure_binary_high",
+        "ai_exposure_rank",
+        "ai_exposure_leave_out_machine_vision",
+        "ai_exposure_leave_out_robotics",
+    ):
+        if col not in exposure.columns:
+            errors.append(f"missing exposure column: {col} — rebuild industry exposure v2")
+
     for _, row in exposure.iterrows():
         if pd.isna(row.get("ai_exposure_ex_ante")):
             errors.append(f"missing ai_exposure_ex_ante: {row.get('industry_code')}")
+        if not str(row.get("source_url_or_citation", "")).strip():
+            errors.append(f"missing source_url_or_citation: {row.get('industry_code')}")
+        if row.get("not_outcome_derived") is not True and str(row.get("not_outcome_derived")).lower() not in (
+            "true",
+            "1",
+        ):
+            errors.append(f"not_outcome_derived must be true: {row.get('industry_code')}")
         reason = str(row.get("classification_reason", "")).strip()
         if not reason:
             errors.append(f"blank classification_reason: {row.get('industry_code')}")

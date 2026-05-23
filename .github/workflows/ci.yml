@@ -39,4 +39,5 @@ jobs:
       - run: make paper
       - run: python scripts/15_pcs_status.py --json
       - run: make atlas-phase1
+      - run: python scripts/55_validate_no_fixture_patents.py --json
       - run: pytest -q

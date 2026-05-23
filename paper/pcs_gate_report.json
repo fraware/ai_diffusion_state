@@ -119,13 +119,13 @@
     {
       "name": "submission_manifest_revision",
       "passed": true,
-      "detail": "manifest git_revision_short=1eef76f",
+      "detail": "manifest git_revision_short=49a6b6c",
       "severity": "error"
     },
     {
       "name": "submission_zip",
       "passed": true,
-      "detail": "submission_bundle.zip (207,886 bytes)",
+      "detail": "submission_bundle.zip (208,878 bytes)",
       "severity": "warn"
     }
   ],

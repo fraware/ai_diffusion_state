@@ -1,10 +1,10 @@
 {
-  "built_at_utc": "2026-05-23T15:19:35.333969+00:00",
+  "built_at_utc": "2026-05-23T16:36:28.314923+00:00",
   "bundle_directory": "paper/submission_bundle",
-  "git_revision": "1eef76fdc6ca841c7602c808872886c846e20471",
-  "git_revision_short": "1eef76f",
+  "git_revision": "49a6b6c3292e8dbb81668c29b3f825d610223176",
+  "git_revision_short": "49a6b6c",
   "git_dirty": true,
-  "n_files": 44,
+  "n_files": 46,
   "files": [
     {
       "path": "docs/PCS_GATE_CHECKLIST.md",
@@ -22,7 +22,7 @@
       "path": "paper/COVER_LETTER_DRAFT.md",
       "bundle_path": "paper/submission_bundle/COVER_LETTER_DRAFT.md",
       "bytes": 2007,
-      "sha256": "8dc4008828d96a005c408ce9b2d242f89d15f68c2c282169df6dc8a800be6178"
+      "sha256": "f39995bfc838feffcbd1a824c69c92c75891ef6431b5f77de476f4e415e3bd63"
     },
     {
       "path": "paper/DATA_AVAILABILITY.md",
@@ -39,14 +39,26 @@
     {
       "path": "paper/SUBMISSION_CHECKLIST.md",
       "bundle_path": "paper/submission_bundle/SUBMISSION_CHECKLIST.md",
-      "bytes": 2014,
-      "sha256": "c5d14eed88315fa50b0d160b23284d84e04baff9cc2d46c303b704801677dda0"
+      "bytes": 2301,
+      "sha256": "ae782824aa534517f95b8730059a9992a54a80ec1642d7e000f2d4ca253287f9"
+    },
+    {
+      "path": "paper/SUBMISSION_OWNER_BRIEF.md",
+      "bundle_path": "paper/submission_bundle/SUBMISSION_OWNER_BRIEF.md",
+      "bytes": 1513,
+      "sha256": "9218ba7117f88b9f3306eaffd3c2a3e266e53c6f673491a8ec4cdcbc5a9ef96b"
     },
     {
       "path": "paper/SUBMISSION_READINESS.md",
       "bundle_path": "paper/submission_bundle/SUBMISSION_READINESS.md",
-      "bytes": 2703,
-      "sha256": "221d0d00a52cbed1f28a6606c8bc0a7c7933d5ac2beec03ede0271d5f4e2c6cf"
+      "bytes": 1830,
+      "sha256": "a524dbb1d10c757b7134d2b4be385605bfcce29f125ef278389e936a8d13ca5e"
+    },
+    {
+      "path": "paper/SUBMISSION_READINESS.md",
+      "bundle_path": "paper/submission_bundle/SUBMISSION_READINESS.md",
+      "bytes": 1830,
+      "sha256": "a524dbb1d10c757b7134d2b4be385605bfcce29f125ef278389e936a8d13ca5e"
     },
     {
       "path": "paper/citation_map.csv",
@@ -177,8 +189,8 @@
     {
       "path": "paper/pcs_gate_report.json",
       "bundle_path": "paper/submission_bundle/pcs_gate_report.json",
-      "bytes": 3055,
-      "sha256": "3cb5db8ff8ea7b591801671afe2af3b5bbc8a619e752d46ffad758d9159f792b"
+      "bytes": 3538,
+      "sha256": "a0cdf5c423a559547b54d6c68a37725174a1f5795dd191946cc4abaa34d25640"
     },
     {
       "path": "paper/red_team_memo.md",

@@ -26,6 +26,8 @@ BUNDLE_PATHS: tuple[str, ...] = (
     "paper/SUBMISSION_READINESS.md",
     "paper/COVER_LETTER_DRAFT.md",
     "paper/SUBMISSION_CHECKLIST.md",
+    "paper/SUBMISSION_READINESS.md",
+    "paper/SUBMISSION_OWNER_BRIEF.md",
     "paper/results_memo.md",
     "paper/red_team_memo.md",
     "paper/reviewer_results_snapshot.md",

@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02 atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard cover-letter submission-docx
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
 
 PYTHON ?= python
 
@@ -54,10 +54,10 @@ submission-bundle: export-submission
 submission-checklist:
 	$(PYTHON) scripts/52_build_submission_checklist.py
 
-validate-submission: export-submission cover-letter submission-bundle submission-zip submission-checklist
+validate-submission: export-submission cover-letter submission-checklist submission-bundle submission-zip
 	$(PYTHON) scripts/37_validate_submission_readiness.py
 
-pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft paper-figures export-submission cover-letter submission-bundle submission-zip submission-checklist validate-submission validate-sprint validate-audit paper test pcs-status
+pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft paper-figures export-submission cover-letter submission-checklist submission-bundle submission-zip validate-submission validate-sprint validate-audit paper test pcs-status
 
 sync-paper-stats: analysis
 	$(PYTHON) scripts/16_sync_paper_stats.py
@@ -81,6 +81,9 @@ pcs-status:
 	$(PYTHON) scripts/15_pcs_status.py --json
 
 pcs-guard: pcs-status
+
+pcs-paper-owner: pcs-guard cover-letter submission-checklist submission-bundle submission-zip validate-submission pcs-status
+	@echo "Paper owner brief: paper/SUBMISSION_OWNER_BRIEF.md"
 
 cover-letter:
 	$(PYTHON) scripts/53_generate_cover_letter.py
@@ -138,6 +141,12 @@ atlas-smartfactories:
 	$(PYTHON) scripts/45_build_smart_factory_city_industry_year.py
 	$(PYTHON) scripts/46_validate_smart_factory_city_industry_year.py
 
+atlas-sf-audit:
+	$(PYTHON) scripts/56_build_smart_factory_atlas_audit.py
+
+atlas-evidence-check:
+	$(PYTHON) scripts/55_validate_no_fixture_patents.py --json
+
 atlas-v02:
 	$(PYTHON) scripts/47_build_atlas_v02.py
 	$(PYTHON) scripts/48_validate_atlas_v02.py
@@ -148,7 +157,7 @@ atlas-models-v02:
 atlas-status:
 	$(PYTHON) scripts/50_atlas_status.py --json
 
-atlas-phase1: atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02 atlas-status
+atlas-phase1: atlas-exposure atlas-patents atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status
 
 test:
 	pytest -q

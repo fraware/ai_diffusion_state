@@ -43,8 +43,11 @@ make validate-submission
 | Reproducibility / data availability | `paper/REPRODUCIBILITY.md`, `paper/DATA_AVAILABILITY.md` |
 | Cover letter draft | `paper/COVER_LETTER_DRAFT.md` (`make cover-letter`; includes git commit) |
 | Portal zip | `paper/submission_bundle.zip` (`make submission-zip`) |
+| One-page owner brief | `paper/SUBMISSION_OWNER_BRIEF.md` (`make pcs-paper-owner`) |
 
 ## Paper owner only (not engineering)
+
+Run `make pcs-paper-owner` to refresh the upload brief, cover letter, bundle, and zip without a full pipeline rebuild.
 
 - Journal Word/LaTeX template and author block
 - Final proofread and citation formatting

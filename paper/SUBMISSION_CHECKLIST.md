@@ -26,8 +26,8 @@ Regenerate: `make submission-checklist` after `make pcs`.
 - [x] **submission_bundle** — paper/submission_bundle/ assembled
 - [x] **draft_claim_compliance** — OK
 - [x] **cover_letter_draft** — COVER_LETTER_DRAFT.md with git commit
-- [x] **submission_manifest_revision** — manifest git_revision_short=1eef76f
-- [x] **submission_zip** — submission_bundle.zip (207,886 bytes)
+- [x] **submission_manifest_revision** — manifest git_revision_short=49a6b6c
+- [x] **submission_zip** — submission_bundle.zip (208,878 bytes)
 
 ## Paper owner (manual)
 

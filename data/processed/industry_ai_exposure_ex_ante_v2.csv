@@ -1,30 +1,30 @@
-﻿industry_code,industry,machine_vision_exposure,robotics_exposure,predictive_maintenance_exposure,digital_twin_exposure,process_control_exposure,quality_inspection_exposure,smart_logistics_exposure,industrial_software_exposure,classification_reason,classification_source,confidence,ai_exposure_ex_ante
-semiconductors,semiconductors,2,2,2,2,2,2,1,2,Fab automation; inline inspection; yield optimization,MIIT smart manufacturing guides; OECD AI exposure mapping,high,1.875
-electronics,electronics,2,2,1,1,2,2,1,2,Assembly automation; AOI; SMT process control,MIIT smart manufacturing guides; OECD AI exposure mapping,high,1.625
-ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,1,1,2,2,2,1,2,2,Compute-intensive production; supply-chain digitalization,National AI infrastructure policy; industry practice reviews,high,1.625
-batteries,batteries,2,2,2,2,2,2,1,2,Process control and quality critical for NEV supply chain,NEV battery industry reports; MIIT guidance,high,1.875
-automotive_and_nev,automotive_and_nev,2,2,2,1,2,2,1,2,Robotics-heavy assembly; vision QC; predictive maintenance,Automotive industry 4.0 surveys; MIIT NEV policy,high,1.75
-industrial_machinery,industrial_machinery,2,2,1,1,2,1,1,2,CNC and robotics integration,Industry 4.0 adoption literature,high,1.5
-robotics,robotics,2,2,1,1,2,1,2,2,Robotics OEM; motion control and vision core,IFR robotics industry taxonomy,high,1.625
-precision_instruments,precision_instruments,1,1,1,1,1,2,0,1,Measurement and metrology; moderate automation,Industrial instruments sector review,medium,1.0
-electrical_machinery,electrical_machinery,1,2,1,1,2,1,1,1,Motor/transformer production; process automation,GB/T 4754 sector; industrial AI compatibility review,medium,1.25
-steel_and_metals,steel_and_metals,1,1,2,1,2,1,1,1,Energy and process optimization; limited vision,Heavy industry digitalization reports,medium,1.25
-chemicals_and_petrochemicals,chemicals_and_petrochemicals,1,0,2,1,2,1,1,2,Process industries; DCS and advanced control,Process industry AI adoption reviews,medium,1.25
-pharmaceuticals,pharmaceuticals,2,1,2,1,2,2,1,2,GMP process control; vision in packaging,Pharma 4.0 literature,medium,1.625
-shipbuilding,shipbuilding,1,1,1,2,1,1,1,1,Large discrete manufacturing; digital twin in marine,Shipbuilding digitization studies,medium,1.125
-aerospace_components,aerospace_components,2,1,2,2,2,2,0,2,Aerospace composites; twin and inspection intensity,Aerospace digitization studies,medium,1.625
-solar_pv,solar_pv,2,1,1,1,2,2,1,1,Cell/module lines; vision and process control,PV manufacturing technology reviews,medium,1.375
-logistics_equipment,logistics_equipment,1,2,1,0,1,1,2,2,AGV and warehouse automation systems,Intralogistics automation literature,medium,1.25
-textiles,textiles,0,0,0,0,0,0,1,0,Labor-intensive; limited industrial AI,Textile sector technology reviews,low,0.125
-food_processing,food_processing,0,0,1,0,1,1,1,0,Selective automation in food processing,Food manufacturing digitization reviews,low,0.5
-packaging,packaging,1,1,0,0,1,2,1,1,Packaging machinery vision and control,Packaging OEM sector review,low,0.875
-home_appliances,home_appliances,1,2,1,0,1,2,1,1,Appliance assembly robotics and QC,Appliance industry 4.0 surveys,medium,1.125
-construction_machinery,construction_machinery,1,1,1,1,1,1,0,1,Heavy equipment; telematics and control,Construction equipment digitization,medium,0.875
-rail_equipment,rail_equipment,1,1,1,1,2,1,0,1,Rail manufacturing; process and safety control,Rail equipment industry reports,medium,1.0
-telecommunications_equipment,telecommunications_equipment,1,1,1,1,2,2,1,2,High-volume electronics assembly,SMT and telecom equipment reviews,medium,1.375
-optical_fiber_and_photonics,optical_fiber_and_photonics,1,0,1,1,2,2,0,1,Fiber draw and coating process control,Photonics manufacturing reviews,medium,1.0
-power_equipment,power_equipment,1,1,2,1,2,1,1,2,Grid apparatus; predictive maintenance and SCADA,Power equipment digitization reports,medium,1.375
-non_metallic_minerals,non_metallic_minerals,0,0,1,0,2,0,0,0,Cement/glass process control; lower robotics,Construction materials digitization,low,0.375
-mining,mining,1,0,1,0,1,0,1,0,Mining remote operations; selective automation,Mining automation literature,low,0.5
-paper,paper,0,0,1,0,1,0,1,0,Paper process control; limited robotics,Pulp and paper industry reviews,low,0.375
-furniture_wood,furniture_wood,0,0,0,0,0,0,0,0,Low process-control intensity for industrial AI,Furniture sector digitization (limited),low,0.0
+﻿industry_code,industry,machine_vision_exposure,robotics_exposure,predictive_maintenance_exposure,digital_twin_exposure,process_control_exposure,quality_inspection_exposure,smart_logistics_exposure,industrial_software_exposure,classification_reason,classification_source,confidence,source_url_or_citation,not_outcome_derived,exposure_version,ai_exposure_ex_ante,ai_exposure_binary_high,ai_exposure_rank,ai_exposure_leave_out_machine_vision,ai_exposure_leave_out_robotics
+semiconductors,semiconductors,2,2,2,2,2,2,1,2,Fab automation; inline inspection; yield optimization,MIIT smart manufacturing guides; OECD AI exposure mapping,high,MIIT smart manufacturing guides; OECD AI exposure mapping,True,v2_ex_ante_manual,1.875,1,28.5,1.8571428571428572,1.8571428571428572
+electronics,electronics,2,2,1,1,2,2,1,2,Assembly automation; AOI; SMT process control,MIIT smart manufacturing guides; OECD AI exposure mapping,high,MIIT smart manufacturing guides; OECD AI exposure mapping,True,v2_ex_ante_manual,1.625,1,24.0,1.5714285714285714,1.5714285714285714
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,1,1,2,2,2,1,2,2,Compute-intensive production; supply-chain digitalization,National AI infrastructure policy; industry practice reviews,high,National AI infrastructure policy; industry practice reviews,True,v2_ex_ante_manual,1.625,1,24.0,1.7142857142857142,1.7142857142857142
+batteries,batteries,2,2,2,2,2,2,1,2,Process control and quality critical for NEV supply chain,NEV battery industry reports; MIIT guidance,high,NEV battery industry reports; MIIT guidance,True,v2_ex_ante_manual,1.875,1,28.5,1.8571428571428572,1.8571428571428572
+automotive_and_nev,automotive_and_nev,2,2,2,1,2,2,1,2,Robotics-heavy assembly; vision QC; predictive maintenance,Automotive industry 4.0 surveys; MIIT NEV policy,high,Automotive industry 4.0 surveys; MIIT NEV policy,True,v2_ex_ante_manual,1.75,1,27.0,1.7142857142857142,1.7142857142857142
+industrial_machinery,industrial_machinery,2,2,1,1,2,1,1,2,CNC and robotics integration,Industry 4.0 adoption literature,high,Industry 4.0 adoption literature,True,v2_ex_ante_manual,1.5,1,21.0,1.4285714285714286,1.4285714285714286
+robotics,robotics,2,2,1,1,2,1,2,2,Robotics OEM; motion control and vision core,IFR robotics industry taxonomy,high,IFR robotics industry taxonomy,True,v2_ex_ante_manual,1.625,1,24.0,1.5714285714285714,1.5714285714285714
+precision_instruments,precision_instruments,1,1,1,1,1,2,0,1,Measurement and metrology; moderate automation,Industrial instruments sector review,medium,Industrial instruments sector review,True,v2_ex_ante_manual,1.0,0,10.0,1.0,1.0
+electrical_machinery,electrical_machinery,1,2,1,1,2,1,1,1,Motor/transformer production; process automation,GB/T 4754 sector; industrial AI compatibility review,medium,GB/T 4754 sector; industrial AI compatibility review,True,v2_ex_ante_manual,1.25,0,15.5,1.2857142857142858,1.1428571428571428
+steel_and_metals,steel_and_metals,1,1,2,1,2,1,1,1,Energy and process optimization; limited vision,Heavy industry digitalization reports,medium,Heavy industry digitalization reports,True,v2_ex_ante_manual,1.25,0,15.5,1.2857142857142858,1.2857142857142858
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,1,0,2,1,2,1,1,2,Process industries; DCS and advanced control,Process industry AI adoption reviews,medium,Process industry AI adoption reviews,True,v2_ex_ante_manual,1.25,0,15.5,1.2857142857142858,1.4285714285714286
+pharmaceuticals,pharmaceuticals,2,1,2,1,2,2,1,2,GMP process control; vision in packaging,Pharma 4.0 literature,medium,Pharma 4.0 literature,True,v2_ex_ante_manual,1.625,1,24.0,1.5714285714285714,1.7142857142857142
+shipbuilding,shipbuilding,1,1,1,2,1,1,1,1,Large discrete manufacturing; digital twin in marine,Shipbuilding digitization studies,medium,Shipbuilding digitization studies,True,v2_ex_ante_manual,1.125,0,12.5,1.1428571428571428,1.1428571428571428
+aerospace_components,aerospace_components,2,1,2,2,2,2,0,2,Aerospace composites; twin and inspection intensity,Aerospace digitization studies,medium,Aerospace digitization studies,True,v2_ex_ante_manual,1.625,1,24.0,1.5714285714285714,1.7142857142857142
+solar_pv,solar_pv,2,1,1,1,2,2,1,1,Cell/module lines; vision and process control,PV manufacturing technology reviews,medium,PV manufacturing technology reviews,True,v2_ex_ante_manual,1.375,0,19.0,1.2857142857142858,1.4285714285714286
+logistics_equipment,logistics_equipment,1,2,1,0,1,1,2,2,AGV and warehouse automation systems,Intralogistics automation literature,medium,Intralogistics automation literature,True,v2_ex_ante_manual,1.25,0,15.5,1.2857142857142858,1.1428571428571428
+textiles,textiles,0,0,0,0,0,0,1,0,Labor-intensive; limited industrial AI,Textile sector technology reviews,low,Textile sector technology reviews,True,v2_ex_ante_manual,0.125,0,2.0,0.14285714285714285,0.14285714285714285
+food_processing,food_processing,0,0,1,0,1,1,1,0,Selective automation in food processing,Food manufacturing digitization reviews,low,Food manufacturing digitization reviews,True,v2_ex_ante_manual,0.5,0,5.5,0.5714285714285714,0.5714285714285714
+packaging,packaging,1,1,0,0,1,2,1,1,Packaging machinery vision and control,Packaging OEM sector review,low,Packaging OEM sector review,True,v2_ex_ante_manual,0.875,0,7.5,0.8571428571428571,0.8571428571428571
+home_appliances,home_appliances,1,2,1,0,1,2,1,1,Appliance assembly robotics and QC,Appliance industry 4.0 surveys,medium,Appliance industry 4.0 surveys,True,v2_ex_ante_manual,1.125,0,12.5,1.1428571428571428,1.0
+construction_machinery,construction_machinery,1,1,1,1,1,1,0,1,Heavy equipment; telematics and control,Construction equipment digitization,medium,Construction equipment digitization,True,v2_ex_ante_manual,0.875,0,7.5,0.8571428571428571,0.8571428571428571
+rail_equipment,rail_equipment,1,1,1,1,2,1,0,1,Rail manufacturing; process and safety control,Rail equipment industry reports,medium,Rail equipment industry reports,True,v2_ex_ante_manual,1.0,0,10.0,1.0,1.0
+telecommunications_equipment,telecommunications_equipment,1,1,1,1,2,2,1,2,High-volume electronics assembly,SMT and telecom equipment reviews,medium,SMT and telecom equipment reviews,True,v2_ex_ante_manual,1.375,0,19.0,1.4285714285714286,1.4285714285714286
+optical_fiber_and_photonics,optical_fiber_and_photonics,1,0,1,1,2,2,0,1,Fiber draw and coating process control,Photonics manufacturing reviews,medium,Photonics manufacturing reviews,True,v2_ex_ante_manual,1.0,0,10.0,1.0,1.1428571428571428
+power_equipment,power_equipment,1,1,2,1,2,1,1,2,Grid apparatus; predictive maintenance and SCADA,Power equipment digitization reports,medium,Power equipment digitization reports,True,v2_ex_ante_manual,1.375,0,19.0,1.4285714285714286,1.4285714285714286
+non_metallic_minerals,non_metallic_minerals,0,0,1,0,2,0,0,0,Cement/glass process control; lower robotics,Construction materials digitization,low,Construction materials digitization,True,v2_ex_ante_manual,0.375,0,3.5,0.42857142857142855,0.42857142857142855
+mining,mining,1,0,1,0,1,0,1,0,Mining remote operations; selective automation,Mining automation literature,low,Mining automation literature,True,v2_ex_ante_manual,0.5,0,5.5,0.42857142857142855,0.5714285714285714
+paper,paper,0,0,1,0,1,0,1,0,Paper process control; limited robotics,Pulp and paper industry reviews,low,Pulp and paper industry reviews,True,v2_ex_ante_manual,0.375,0,3.5,0.42857142857142855,0.42857142857142855
+furniture_wood,furniture_wood,0,0,0,0,0,0,0,0,Low process-control intensity for industrial AI,Furniture sector digitization (limited),low,Furniture sector digitization (limited),True,v2_ex_ante_manual,0.0,0,1.0,0.0,0.0

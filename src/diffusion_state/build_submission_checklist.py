@@ -3,6 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from diffusion_state.build_submission_readiness import (
+    build_submission_owner_brief,
+    build_submission_readiness,
+)
 from diffusion_state.generate_cover_letter import cover_letter_has_commit_hash
 from diffusion_state.pcs_status import collect_pcs_gates, pcs_ready
 from diffusion_state.utils import PROJECT_ROOT
@@ -56,4 +60,6 @@ def build_submission_checklist() -> str:
     )
     text = "\n".join(lines)
     CHECKLIST_PATH.write_text(text, encoding="utf-8")
+    build_submission_readiness()
+    build_submission_owner_brief()
     return text
