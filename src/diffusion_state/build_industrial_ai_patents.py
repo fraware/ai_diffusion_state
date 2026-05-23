@@ -118,6 +118,7 @@ def aggregate_city_industry_year(
     panel["citation_weighted_patents"] = np.nan
     panel["pct_or_family_patents"] = np.nan
     panel["coverage_note"] = "city_industry_year_from_microdata"
+    panel["source_coverage_note"] = panel["coverage_note"]
     return panel[PROCESSED_COLUMNS]
 
 
@@ -199,5 +200,20 @@ def build_industrial_ai_patents(
     main_long = long_df[long_df["source"] != "cset_1790"] if len(long_df) else long_df
     write_csv(build_taxonomy_counts(main_long), tables_dir / "table_A1_patent_taxonomy_counts.csv")
     write_csv(build_coverage_table(panel), tables_dir / "table_A2_city_industry_patent_coverage.csv")
+    if not panel.empty:
+        top_cities = (
+            panel.groupby(["city", "province"], as_index=False)["industrial_ai_patents"]
+            .sum()
+            .sort_values("industrial_ai_patents", ascending=False)
+            .head(25)
+        )
+        top_inds = (
+            panel.groupby(["industry_code", "industry"], as_index=False)["industrial_ai_patents"]
+            .sum()
+            .sort_values("industrial_ai_patents", ascending=False)
+            .head(25)
+        )
+        write_csv(top_cities, tables_dir / "table_A3_top_cities_industrial_ai_patents.csv")
+        write_csv(top_inds, tables_dir / "table_A4_top_industries_industrial_ai_patents.csv")
     build_cset_validation_tables(long_df, tables_dir)
     return panel

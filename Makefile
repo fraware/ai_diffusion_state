@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02 atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-checklist validate-submission
 
 PYTHON ?= python
 
@@ -37,7 +37,27 @@ geo-audit: build
 	$(PYTHON) scripts/10_build_audited_city_overrides.py
 	$(PYTHON) scripts/04_build_city_year_panel.py
 
-pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft validate-sprint validate-audit paper test pcs-status
+paper-figures: analysis
+	$(PYTHON) scripts/34_build_paper_figures.py
+	$(PYTHON) scripts/35_validate_paper_figures.py
+
+paper-tables: main-tables
+	$(PYTHON) scripts/38_build_paper_tables.py
+	$(PYTHON) scripts/39_validate_paper_tables.py
+
+export-submission: paper-figures paper-tables
+	$(PYTHON) scripts/36_export_draft_submission.py
+
+submission-bundle: export-submission
+	$(PYTHON) scripts/40_build_submission_bundle.py
+
+submission-checklist:
+	$(PYTHON) scripts/41_build_submission_checklist.py
+
+validate-submission: export-submission submission-bundle submission-checklist
+	$(PYTHON) scripts/37_validate_submission_readiness.py
+
+pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft paper-figures export-submission submission-bundle submission-checklist validate-submission validate-sprint validate-audit paper test pcs-status
 
 sync-paper-stats: analysis
 	$(PYTHON) scripts/16_sync_paper_stats.py
@@ -93,6 +113,28 @@ validate-sprint: analysis
 patents:
 	$(PYTHON) scripts/30_build_industrial_ai_patents.py
 	$(PYTHON) scripts/31_validate_patent_layer.py
+
+atlas-exposure:
+	$(PYTHON) scripts/40_build_industry_exposure_v2.py
+	$(PYTHON) scripts/41_validate_industry_exposure_v2.py
+
+atlas-patents:
+	$(PYTHON) scripts/42_parse_industrial_ai_patents.py
+	$(PYTHON) scripts/43_build_industrial_ai_patents_city_industry_year.py
+	$(PYTHON) scripts/44_validate_industrial_ai_patents.py
+
+atlas-smartfactories:
+	$(PYTHON) scripts/45_build_smart_factory_city_industry_year.py
+	$(PYTHON) scripts/46_validate_smart_factory_city_industry_year.py
+
+atlas-v02:
+	$(PYTHON) scripts/47_build_atlas_v02.py
+	$(PYTHON) scripts/48_validate_atlas_v02.py
+
+atlas-models-v02:
+	$(PYTHON) scripts/49_run_atlas_models_v02.py
+
+atlas-phase1: atlas-exposure atlas-patents atlas-smartfactories atlas-v02 atlas-models-v02
 
 test:
 	pytest -q

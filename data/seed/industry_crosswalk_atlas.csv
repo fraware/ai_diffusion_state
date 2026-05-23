@@ -1,30 +1,30 @@
-industry_code,industry_label,ipc_prefixes,keyword_patterns,mapping_confidence_default
-C39_semi,semiconductors,"H01L,G03F,H05K","半导体,集成电路,晶圆,光刻,封装",high
-C39,electronics,"H04B,H04L,H04N,G02F","电子,显示,PCB,SMT",high
-C39_ai_server,ai_servers,"G06F,G06N","AI服务器,智算,GPU服务器",high
-C39_battery,batteries,"H01M,B60L","锂电池,动力电池,电芯,储能",high
-C36,automotive,"B60,B62","汽车,新能源,整车,零部件",high
-C34,general_equipment,"B23,B24,F16","机床,通用设备,机械加工",medium
-C35,special_equipment,"B66,E21,F42","工程机械,特种设备,电梯",medium
-C38,electrical_machinery,"H02,H01F","电气,电机,变压器",medium
-C33,metals,"C21,C22","钢铁,冶金,金属冶炼",medium
-C37,railway_shipbuilding_aerospace,"B63,B64,B61","船舶,航空,航天,轨道交通",medium
-C27,pharma,"A61,C12","制药,医药,生物药",medium
-C26,chemicals,"C07,C08,C10","化工,石化,精细化工",medium
-C40,instruments,"G01,G12","仪器,仪表,测量",medium
-C30,non_metallic_minerals,"C04,B28","水泥,玻璃,建材",low
-C14,food,"A23,C13","食品,饮料,乳品",low
-C17,textiles,"D01,D02,D03","纺织,服装,家纺",low
-C13,mining,"E21,C09","采矿,矿山,选矿",low
-C22,paper,"D21","造纸,纸业",low
-C31,furniture_wood,"B27,C16","家具,木材加工",low
-C32,solar_pv,"H01L,H02S","光伏,太阳能,组件",medium
-C33_logistics_equipment,"logistics_equipment","B65,G06Q","物流装备,仓储,分拣",medium
-C35_construction_machinery,construction_machinery,"E02,F15","工程机械,挖掘机",medium
-C38_power_equipment,power_equipment,"H02,H01B","电力设备,输配电",medium
-C39_telecom,telecommunications_equipment,"H04","通信设备,基站",medium
-C40_precision_instruments,precision_instruments,"G01B,G12B","精密仪器,计量",medium
-C35_packaging,packaging,"B65B,B31","包装机械,灌装",low
-C14_home_appliances,home_appliances,"H04,H05","家电,白色家电",low
-C37_rail_equipment,rail_equipment,"B61","轨道交通装备",medium
-C39_optical_fiber,optical_fiber_and_photonics,"G02B,H04B","光纤,光通信,光子",medium
+industry_code,industry,industry_group,legacy_industry_codes,ipc_prefixes,keyword_patterns,smart_factory_keywords_zh,patent_keywords_zh,procurement_keywords_zh,hs6_prefixes_or_codes,mapping_notes,priority_tier,mapping_confidence_default
+semiconductors,semiconductors,core,C39_semi,"H01L,G03F,H05K","半导体,集成电路,晶圆,光刻,封装","半导体,集成电路,晶圆","半导体,晶圆,光刻,封装","半导体,晶圆",854231,Fab and packaging automation,core,high
+electronics,electronics,core,C39,"H04B,H04L,H04N,G02F","电子,显示,PCB,SMT","电子,显示,PCB","电子,显示,SMT","电子,显示",854140,Electronics assembly and AOI,core,high
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,core,C39_ai_server,"G06F,G06N","AI服务器,智算,GPU服务器","智算,服务器,算力","AI服务器,智算,GPU","智算中心,AI服务器",847150,Compute infrastructure manufacturing,core,high
+batteries,batteries,core,C39_battery,"H01M,B60L","锂电池,动力电池,电芯,储能","锂电,电池,电芯","锂电,极片,电芯,动力电池","锂电池,储能",850760,NEV battery process control,core,high
+automotive_and_nev,automotive_and_nev,core,C36,"B60,B62","汽车,新能源,整车,零部件","汽车,新能源,整车","汽车,新能源,零部件","汽车,新能源",870380,Robotics-heavy vehicle assembly,core,high
+industrial_machinery,industrial_machinery,core,C34,"B23,B24,F16","机床,通用设备,机械加工","机床,通用设备","机床,机械加工,CNC","机床,通用设备",846693,CNC and machine-tool automation,core,high
+robotics,robotics,core,,"B25J,G05B","机器人,机械臂,协作机器人","机器人,机械臂","机器人,机械臂,运动控制","工业机器人",847950,Robotics OEM and integrators,core,high
+precision_instruments,precision_instruments,core,C40,"G01,G12","仪器,仪表,测量","精密仪器,计量","精密仪器,测量","仪器仪表",902610,Metrology and sensing equipment,core,medium
+electrical_machinery,electrical_machinery,core,C38,"H02,H01F","电气,电机,变压器","电气,电机","电气,电机,变压器","电气设备",850440,Motor and transformer production,core,medium
+steel_and_metals,steel_and_metals,core,C33,"C21,C22","钢铁,冶金,金属冶炼","钢铁,冶金","钢铁,冶金,冶炼","钢铁,冶金",720839,Process optimization in metals,core,medium
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,core,C26,"C07,C08,C10","化工,石化,精细化工","化工,石化","化工,反应釜,工艺","化工,石化",290511,DCS and advanced process control,core,medium
+pharmaceuticals,pharmaceuticals,core,C27,"A61,C12","制药,医药,生物药","制药,医药","制药,GMP,包装","医药,制药",300490,GMP and packaging vision,core,medium
+shipbuilding,shipbuilding,secondary,C37,"B63","船舶,造船,海工","船舶,造船","船舶,造船,海工","船舶制造",890120,Large discrete marine manufacturing,secondary,medium
+aerospace_components,aerospace_components,secondary,,"B64","航空,航天,复合材料","航空,航天","航空,航天,复合材料","航空航天",880330,Digital twin in aerospace,secondary,medium
+solar_pv,solar_pv,core,C32,"H01L,H02S","光伏,太阳能,组件","光伏,组件","光伏,组件,电池片","光伏,太阳能",854140,PV cell and module lines,core,medium
+logistics_equipment,logistics_equipment,secondary,C33_logistics_equipment,"B65,G06Q","物流装备,仓储,分拣","物流,仓储","智能仓储,分拣,AGV","智能物流,仓储",842890,Warehouse and intralogistics automation,secondary,medium
+textiles,textiles,appendix,C17,"D01,D02,D03","纺织,服装,家纺","纺织,服装","纺织,印染","纺织",520852,Labor-intensive lower AI exposure,appendix,low
+food_processing,food_processing,appendix,C14,"A23,C13","食品,饮料,乳品","食品,饮料","食品,灌装,包装","食品,饮料",210690,Selective automation in food,appendix,low
+packaging,packaging,secondary,C35_packaging,"B65B,B31","包装机械,灌装","包装,灌装","包装机械,灌装","包装设备",842230,Packaging machinery OEM,secondary,low
+home_appliances,home_appliances,secondary,C14_home_appliances,"H04,H05","家电,白色家电","家电,白色家电","家电,装配","家电",845011,Appliance assembly lines,secondary,medium
+construction_machinery,construction_machinery,secondary,C35,"E02,F15","工程机械,挖掘机","工程机械","工程机械,挖掘机","工程机械",842911,Heavy equipment manufacturing,secondary,medium
+rail_equipment,rail_equipment,secondary,C37_rail_equipment,"B61","轨道交通装备","轨道交通,高铁","轨道交通,列车","轨道交通",860310,Rail rolling-stock manufacturing,secondary,medium
+telecommunications_equipment,telecommunications_equipment,core,C39_telecom,"H04","通信设备,基站","通信,基站","通信设备,基站","通信设备",851762,Telecom equipment assembly,core,medium
+optical_fiber_and_photonics,optical_fiber_and_photonics,secondary,C39_optical_fiber,"G02B,H04B","光纤,光通信,光子","光纤,光通信","光纤,光子","光通信",900110,Photonics and fiber manufacturing,secondary,medium
+power_equipment,power_equipment,core,C38_power_equipment,"H02,H01B","电力设备,输配电","电力设备,输配电","电力设备,变压器","电力设备,输配电",850423,Grid and power apparatus,core,medium
+non_metallic_minerals,non_metallic_minerals,appendix,C30,"C04,B28","水泥,玻璃,建材","水泥,玻璃","水泥,玻璃,建材","建材",681099,Cement and glass process control,appendix,low
+mining,mining,appendix,C13,"E21,C09","采矿,矿山,选矿","采矿,矿山","采矿,选矿","矿山",260111,Remote operations selective automation,appendix,low
+paper,paper,appendix,C22,"D21","造纸,纸业","造纸","造纸,纸业","造纸",480255,Process control limited robotics,appendix,low
+furniture_wood,furniture_wood,appendix,C31,"B27,C16","家具,木材加工","家具,木材","家具,木材","家具",940360,Low industrial AI intensity,appendix,low

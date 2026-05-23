@@ -1,0 +1,11 @@
+﻿sector_group,smart_factory_projects,share_of_smart_factory_projects,share_of_china_exports_2024,mapping_confidence,log_export_growth_2017_2024,share_gap_sf_minus_export,note
+industrial_machinery,247,0.48526522593320237,0.23111319878876194,high,0.3414944962510553,0.2541520271444404,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+petrochemicals,53,0.10412573673870335,0.0494711050065011,medium,0.5137480737361599,0.054654631732202245,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+steel_and_metals,45,0.08840864440078586,0.06321625693198367,high,0.468805164316894,0.025192387468802188,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+shipbuilding,19,0.03732809430255403,0.01225628886583569,high,0.5269016467797911,0.025071805436718338,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+pharmaceuticals,6,0.011787819253438114,0.006165471957433351,high,0.8734379015486233,0.005622347296004763,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+batteries,14,0.0275049115913556,0.027596827960229997,high,1.8947392587596603,-9.191636887439722e-05,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+autos_and_nev,37,0.07269155206286837,0.07619993235923365,high,1.129934218356734,-0.003508380296365285,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+semiconductors_and_electronics,4,0.007858546168958742,0.0813769875148203,high,0.8089253411767032,-0.07351844134586155,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+ai_servers_and_computing_equipment,48,0.09430255402750491,0.4526039306152003,high,0.34988284042443496,-0.3583013765876954,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.
+other,36,0.07072691552062868,,,,,Descriptive comparison of listed smart-factory sector mix vs 2024 export basket; not causal.

@@ -26,6 +26,12 @@ jobs:
       - run: make sync-paper-stats
       - run: make production-check
       - run: make validate-draft
+      - run: make paper-figures
+      - run: make paper-tables
+      - run: make export-submission
+      - run: make submission-bundle
+      - run: make submission-checklist
+      - run: make validate-submission
       - run: make validate-audit
       - run: make validate-sprint
       - run: make paper

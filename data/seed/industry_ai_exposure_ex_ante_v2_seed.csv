@@ -1,0 +1,30 @@
+industry_code,industry,machine_vision_exposure,robotics_exposure,predictive_maintenance_exposure,digital_twin_exposure,process_control_exposure,quality_inspection_exposure,smart_logistics_exposure,industrial_software_exposure,classification_reason,classification_source,confidence
+semiconductors,semiconductors,2,2,2,2,2,2,1,2,Fab automation; inline inspection; yield optimization,MIIT smart manufacturing guides; OECD AI exposure mapping,high
+electronics,electronics,2,2,1,1,2,2,1,2,Assembly automation; AOI; SMT process control,MIIT smart manufacturing guides; OECD AI exposure mapping,high
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,1,1,2,2,2,1,2,2,Compute-intensive production; supply-chain digitalization,National AI infrastructure policy; industry practice reviews,high
+batteries,batteries,2,2,2,2,2,2,1,2,Process control and quality critical for NEV supply chain,NEV battery industry reports; MIIT guidance,high
+automotive_and_nev,automotive_and_nev,2,2,2,1,2,2,1,2,Robotics-heavy assembly; vision QC; predictive maintenance,Automotive industry 4.0 surveys; MIIT NEV policy,high
+industrial_machinery,industrial_machinery,2,2,1,1,2,1,1,2,CNC and robotics integration,Industry 4.0 adoption literature,high
+robotics,robotics,2,2,1,1,2,1,2,2,Robotics OEM; motion control and vision core,IFR robotics industry taxonomy,high
+precision_instruments,precision_instruments,1,1,1,1,1,2,0,1,Measurement and metrology; moderate automation,Industrial instruments sector review,medium
+electrical_machinery,electrical_machinery,1,2,1,1,2,1,1,1,Motor/transformer production; process automation,GB/T 4754 sector; industrial AI compatibility review,medium
+steel_and_metals,steel_and_metals,1,1,2,1,2,1,1,1,Energy and process optimization; limited vision,Heavy industry digitalization reports,medium
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,1,0,2,1,2,1,1,2,Process industries; DCS and advanced control,Process industry AI adoption reviews,medium
+pharmaceuticals,pharmaceuticals,2,1,2,1,2,2,1,2,GMP process control; vision in packaging,Pharma 4.0 literature,medium
+shipbuilding,shipbuilding,1,1,1,2,1,1,1,1,Large discrete manufacturing; digital twin in marine,Shipbuilding digitization studies,medium
+aerospace_components,aerospace_components,2,1,2,2,2,2,0,2,Aerospace composites; twin and inspection intensity,Aerospace digitization studies,medium
+solar_pv,solar_pv,2,1,1,1,2,2,1,1,Cell/module lines; vision and process control,PV manufacturing technology reviews,medium
+logistics_equipment,logistics_equipment,1,2,1,0,1,1,2,2,AGV and warehouse automation systems,Intralogistics automation literature,medium
+textiles,textiles,0,0,0,0,0,0,1,0,Labor-intensive; limited industrial AI,Textile sector technology reviews,low
+food_processing,food_processing,0,0,1,0,1,1,1,0,Selective automation in food processing,Food manufacturing digitization reviews,low
+packaging,packaging,1,1,0,0,1,2,1,1,Packaging machinery vision and control,Packaging OEM sector review,low
+home_appliances,home_appliances,1,2,1,0,1,2,1,1,Appliance assembly robotics and QC,Appliance industry 4.0 surveys,medium
+construction_machinery,construction_machinery,1,1,1,1,1,1,0,1,Heavy equipment; telematics and control,Construction equipment digitization,medium
+rail_equipment,rail_equipment,1,1,1,1,2,1,0,1,Rail manufacturing; process and safety control,Rail equipment industry reports,medium
+telecommunications_equipment,telecommunications_equipment,1,1,1,1,2,2,1,2,High-volume electronics assembly,SMT and telecom equipment reviews,medium
+optical_fiber_and_photonics,optical_fiber_and_photonics,1,0,1,1,2,2,0,1,Fiber draw and coating process control,Photonics manufacturing reviews,medium
+power_equipment,power_equipment,1,1,2,1,2,1,1,2,Grid apparatus; predictive maintenance and SCADA,Power equipment digitization reports,medium
+non_metallic_minerals,non_metallic_minerals,0,0,1,0,2,0,0,0,Cement/glass process control; lower robotics,Construction materials digitization,low
+mining,mining,1,0,1,0,1,0,1,0,Mining remote operations; selective automation,Mining automation literature,low
+paper,paper,0,0,1,0,1,0,1,0,Paper process control; limited robotics,Pulp and paper industry reviews,low
+furniture_wood,furniture_wood,0,0,0,0,0,0,0,0,Low process-control intensity for industrial AI,Furniture sector digitization (limited),low

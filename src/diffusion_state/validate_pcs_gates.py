@@ -42,8 +42,19 @@ def validate_main_table_claim_map() -> list[str]:
 def write_pcs_gate_report(path: Path | None = None) -> dict:
     path = path or PROJECT_ROOT / "paper" / "pcs_gate_report.json"
     gates = collect_pcs_gates()
+    claim_issues = validate_main_table_claim_map()
+    submission_ready = False
+    submission_issues: list[str] = []
+    try:
+        from diffusion_state.validate_submission_readiness import validate_submission_readiness
+
+        submission_ready, submission_issues = validate_submission_readiness()
+    except Exception as exc:  # noqa: BLE001
+        submission_issues = [str(exc)]
+
     report = {
-        "ready": bool(pcs_ready(gates)),
+        "ready": bool(pcs_ready(gates) and not claim_issues),
+        "submission_ready": bool(submission_ready),
         "gates": [
             {
                 "name": g.name,
@@ -53,7 +64,8 @@ def write_pcs_gate_report(path: Path | None = None) -> dict:
             }
             for g in gates
         ],
-        "main_table_claim_issues": validate_main_table_claim_map(),
+        "main_table_claim_issues": claim_issues,
+        "submission_issues": submission_issues,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:

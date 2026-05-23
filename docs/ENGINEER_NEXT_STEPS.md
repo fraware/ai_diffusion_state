@@ -32,11 +32,18 @@ make validate-draft
 make production-check
 ```
 
-3. Remaining drafting work (not blocked by engineering):
-   - Formal citations (pilot-zone notices, MIIT lists, ChinaUTC, BACI)
-   - LaTeX/Word conversion
-   - Figures (`fig_city_typology_smart_factory_counts.png`, timing diagnostic)
-   - Related-literature section
+3. Submission package (engineering — run after pipeline changes):
+
+```powershell
+make paper-figures
+make export-submission
+make validate-submission
+```
+
+4. Remaining drafting work (paper owner):
+   - Journal template conversion (`paper/draft_v1_submission.md` or `paper/draft_v1.tex`)
+   - Paste numbered tables from `paper/main_tables/`
+   - Author block and final citation formatting from `paper/references.bib`
 
 ---
 

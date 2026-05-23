@@ -196,6 +196,99 @@ def collect_pcs_gates() -> list[GateResult]:
         )
     )
 
+    paper_fig_dir = PROJECT_ROOT / "paper" / "figures"
+    required_figs = [
+        "fig_1_timing_diagnostic_pilot_zones.png",
+        "fig_2_city_typology_smart_factory_counts.png",
+    ]
+    missing_figs = [f for f in required_figs if not (paper_fig_dir / f).exists()]
+    gates.append(
+        GateResult(
+            "paper_figures",
+            not missing_figs,
+            "main-text figures synced to paper/figures/"
+            if not missing_figs
+            else f"missing: {', '.join(missing_figs)} (run make paper-figures)",
+            severity="error",
+        )
+    )
+
+    bib = PROJECT_ROOT / "paper" / "references.bib"
+    gates.append(
+        GateResult(
+            "references_bib",
+            bib.exists() and bib.read_text(encoding="utf-8").count("@") >= 10,
+            f"paper/references.bib ({bib.read_text(encoding='utf-8').count('@')} entries)"
+            if bib.exists()
+            else "missing paper/references.bib",
+            severity="error",
+        )
+    )
+
+    sub = PROJECT_ROOT / "paper" / "draft_v1_submission.md"
+    gates.append(
+        GateResult(
+            "submission_draft_export",
+            sub.exists(),
+            "draft_v1_submission.md present" if sub.exists() else "run make export-submission",
+            severity="warn",
+        )
+    )
+
+    tbl_manifest = PROJECT_ROOT / "paper" / "table_manifest.json"
+    tables_built = False
+    if tbl_manifest.exists():
+        import json
+
+        data = json.loads(tbl_manifest.read_text(encoding="utf-8"))
+        tables_built = all(t.get("status") == "built" for t in data.get("tables", []))
+    gates.append(
+        GateResult(
+            "paper_tables_embedded",
+            tables_built,
+            "Tables A–I markdown built in paper/tables_md/"
+            if tables_built
+            else "run make paper-tables",
+            severity="error",
+        )
+    )
+
+    embedded = sub.exists() and "## Tables (paper/main_tables)" in sub.read_text(encoding="utf-8")
+    gates.append(
+        GateResult(
+            "submission_tables_in_draft",
+            embedded,
+            "draft_v1_submission.md includes embedded tables"
+            if embedded
+            else "run make export-submission after paper-tables",
+            severity="error",
+        )
+    )
+
+    bundle_dir = PROJECT_ROOT / "paper" / "submission_bundle"
+    gates.append(
+        GateResult(
+            "submission_bundle",
+            bundle_dir.exists() and (bundle_dir / "draft_v1_submission.md").exists(),
+            "paper/submission_bundle/ assembled"
+            if bundle_dir.exists()
+            else "run make submission-bundle",
+            severity="error",
+        )
+    )
+
+    from diffusion_state.validate_draft_claim_compliance import validate_draft_claim_compliance
+
+    claim_issues = validate_draft_claim_compliance()
+    gates.append(
+        GateResult(
+            "draft_claim_compliance",
+            not claim_issues,
+            "OK" if not claim_issues else f"{len(claim_issues)} issue(s)",
+            severity="error",
+        )
+    )
+
     return gates
 
 

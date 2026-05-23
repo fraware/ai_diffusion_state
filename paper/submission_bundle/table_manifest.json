@@ -1,0 +1,114 @@
+{
+  "tables": [
+    {
+      "paper_table": "table_A_dataset_counts.csv",
+      "label": "Table A",
+      "markdown_path": "paper/tables_md/table_A_dataset_counts.md",
+      "claim_id": "measurement_pilot_zones",
+      "claim_tier": "measured",
+      "placement": "main",
+      "caption": "Dataset counts and coverage (pilot zones, smart-factory projects, geo evidence classes).",
+      "source_rows": 9,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_B_city_resolution_quality.csv",
+      "label": "Table B",
+      "markdown_path": "paper/tables_md/table_B_city_resolution_quality.md",
+      "claim_id": "geo_resolution_quality",
+      "claim_tier": "validated_descriptive",
+      "placement": "main",
+      "caption": "City-resolution evidence quality by resolution class and evidence type.",
+      "source_rows": 15,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_C_pilot_overlap.csv",
+      "label": "Table C",
+      "markdown_path": "paper/tables_md/table_C_pilot_overlap.md",
+      "claim_id": "descriptive_pilot_overlap",
+      "claim_tier": "validated_descriptive",
+      "placement": "main",
+      "caption": "Pilot-zone vs non-pilot overlap in listed smart-factory projects (resolved cities).",
+      "source_rows": 3,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_D_hub_exclusion.csv",
+      "label": "Table D",
+      "markdown_path": "paper/tables_md/table_D_hub_exclusion.md",
+      "claim_id": "hub_robustness",
+      "claim_tier": "robust_association",
+      "placement": "main",
+      "caption": "Hub-exclusion robustness for pilot-zone association in city-year adoption models.",
+      "source_rows": 6,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_E_city_typology.csv",
+      "label": "Table E",
+      "markdown_path": "paper/tables_md/table_E_city_typology.md",
+      "claim_id": "hub_architecture_typology",
+      "claim_tier": "validated_descriptive",
+      "placement": "main",
+      "caption": "City diffusion typology \u2014 project counts by type (outcome-informed labels; descriptive).",
+      "source_rows": 160,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_E_ex_ante_city_typology.csv",
+      "label": "Table E (ex ante)",
+      "markdown_path": "paper/tables_md/table_E_ex_ante_city_typology.md",
+      "claim_id": "hub_architecture_typology_ex_ante",
+      "claim_tier": "validated_descriptive",
+      "placement": "main",
+      "caption": "Ex ante city capacity typology \u2014 project counts by type (pre-outcome labels).",
+      "source_rows": 160,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_F_ex_ante_industry_heterogeneity.csv",
+      "label": "Table F",
+      "markdown_path": "paper/tables_md/table_F_ex_ante_industry_heterogeneity.md",
+      "claim_id": "city_industry_exposure_ex_ante",
+      "claim_tier": "suggestive_mechanism",
+      "placement": "main",
+      "caption": "City-industry adoption models \u2014 key terms only (ex ante exposure interactions).",
+      "source_rows": 903,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_G_export_relevance.csv",
+      "label": "Table G",
+      "markdown_path": "paper/tables_md/table_G_export_relevance.md",
+      "claim_id": "export_relevance_descriptive",
+      "claim_tier": "validated_descriptive",
+      "placement": "main",
+      "caption": "Export relevance of smart-factory sectors (descriptive).",
+      "source_rows": 10,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_H_export_sector_share_comparison.csv",
+      "label": "Table H",
+      "markdown_path": "paper/tables_md/table_H_export_sector_share_comparison.md",
+      "claim_id": "export_sector_share_comparison",
+      "claim_tier": "validated_descriptive",
+      "placement": "main",
+      "caption": "Listed smart-factory sectors vs 2024 export basket shares (descriptive).",
+      "source_rows": 10,
+      "status": "built"
+    },
+    {
+      "paper_table": "table_I_appendix_public_fallback_controls.csv",
+      "label": "Table I",
+      "markdown_path": "paper/tables_md/table_I_appendix_public_fallback_controls.md",
+      "claim_id": "appendix_public_fallback_controls",
+      "claim_tier": "partial_public_controls_appendix_only",
+      "placement": "appendix",
+      "caption": "Appendix: partial 2024 ChinaUTC public controls (not EPS-equivalent).",
+      "source_rows": 24,
+      "status": "built"
+    }
+  ]
+}

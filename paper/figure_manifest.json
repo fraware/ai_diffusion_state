@@ -1,0 +1,31 @@
+{
+  "figures": [
+    {
+      "paper_path": "paper/figures/fig_1_timing_diagnostic_pilot_zones.png",
+      "source_path": "outputs/figures/fig_timing_diagnostic_pilot_zones.png",
+      "claim_id": "fig_timing_diagnostic",
+      "caption": "Timing diagnostic: pilot-zone coefficients by event time (listed smart-factory counts; pre-2024 zeros). Not a pre-trend test.",
+      "main_text": true,
+      "required": true,
+      "status": "copied"
+    },
+    {
+      "paper_path": "paper/figures/fig_2_city_typology_smart_factory_counts.png",
+      "source_path": "outputs/figures/fig_city_typology_smart_factory_counts.png",
+      "claim_id": "fig_city_typology",
+      "caption": "Listed smart-factory projects by ex ante diffusion-state city type (2024\u20132025, resolved cities).",
+      "main_text": true,
+      "required": true,
+      "status": "copied"
+    },
+    {
+      "paper_path": "paper/figures/fig_A1_balance_standardized_differences.png",
+      "source_path": "outputs/figures/fig_balance_standardized_differences.png",
+      "claim_id": "fig_balance",
+      "caption": "Standardized mean differences for pilot vs non-pilot cities (appendix; controls-dependent).",
+      "main_text": false,
+      "required": false,
+      "status": "copied"
+    }
+  ]
+}

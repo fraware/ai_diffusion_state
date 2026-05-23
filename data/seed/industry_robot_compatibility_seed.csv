@@ -1,0 +1,30 @@
+industry_code,industry,robot_compatibility,robot_compatibility_reason,robot_compatibility_source,confidence
+semiconductors,semiconductors,2,High fixed automation and wafer-handling robotics,IFR; fab automation surveys,high
+electronics,electronics,2,Assembly robotics and AOI stations common,IFR electronics manufacturing,high
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,1,Moderate assembly robotics; less shop-floor density,Server assembly industry reviews,medium
+batteries,batteries,2,Automated cell lines and material handling,NEV battery plant surveys,high
+automotive_and_nev,automotive_and_nev,2,Body/welding/paint robotics intensive,Automotive robotics adoption data,high
+industrial_machinery,industrial_machinery,2,CNC and machine-tool robotics integration,Machine-tool industry reports,high
+robotics,robotics,2,Robotics is the product category,IFR taxonomy,high
+precision_instruments,precision_instruments,1,Precision assembly with selective robotics,Instruments sector review,medium
+electrical_machinery,electrical_machinery,2,Motor/transformer winding and assembly robots,Electrical equipment automation,medium
+steel_and_metals,steel_and_metals,1,Process-heavy; robotics in material handling,Steel industry automation,medium
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,0,Continuous process; limited industrial robots,Process industry robotics review,medium
+pharmaceuticals,pharmaceuticals,1,Packaging and fill-finish robotics,GMP automation literature,medium
+shipbuilding,shipbuilding,1,Large-part welding robotics; project-based,Shipyard automation studies,medium
+aerospace_components,aerospace_components,1,Drilling/riveting robotics in airframe,Aerospace manufacturing surveys,medium
+solar_pv,solar_pv,1,Module line robotics moderate,PV line automation reviews,medium
+logistics_equipment,logistics_equipment,2,AGV and warehouse robotics core product,Intralogistics IFR categories,high
+textiles,textiles,0,Labor-intensive low robot density,Textile automation literature,low
+food_processing,food_processing,0,Selective robotics; many manual lines,Food industry robotics review,low
+packaging,packaging,1,Packaging line robotics common,Packaging machinery OEM data,medium
+home_appliances,home_appliances,2,White-goods assembly robotics widespread,Appliance robotics surveys,medium
+construction_machinery,construction_machinery,1,Heavy fabrication robotics; variable,Construction equipment reports,medium
+rail_equipment,rail_equipment,1,Rail carbody welding and assembly robots,Rail manufacturing reports,medium
+telecommunications_equipment,telecommunications_equipment,1,SMT and test automation robotics,Telecom equipment assembly,medium
+optical_fiber_and_photonics,optical_fiber_and_photonics,0,Fiber draw lines less robot-dense,Photonics manufacturing review,medium
+power_equipment,power_equipment,1,Transformer and switchgear assembly robots,Power equipment automation,medium
+non_metallic_minerals,non_metallic_minerals,0,Cement kilns continuous; limited robots,Heavy industry review,low
+mining,mining,0,Remote ops; not classic shop-floor robots,Mining automation literature,low
+paper,paper,0,Continuous paper machines; low robotics,Paper industry review,low
+furniture_wood,furniture_wood,0,Low robotics in wood furniture,Furniture sector review,low

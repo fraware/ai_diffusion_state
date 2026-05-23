@@ -48,9 +48,10 @@ def map_patent_industry(
         prefixes = [p.strip() for p in prefixes if p.strip()]
         if ipc_prefix and any(ipc_prefix.startswith(p) for p in prefixes):
             conf = str(row.get("mapping_confidence_default", "medium"))
+            label = row.get("industry", row.get("industry_label", row["industry_code"]))
             return (
                 row["industry_code"],
-                row["industry_label"],
+                str(label),
                 conf,
                 f"ipc_prefix:{ipc_prefix}",
             )
@@ -60,9 +61,10 @@ def map_patent_industry(
         patterns = [p.strip() for p in patterns if p.strip()]
         if text and contains_any(text, patterns):
             conf = str(row.get("mapping_confidence_default", "medium"))
+            label = row.get("industry", row.get("industry_label", row["industry_code"]))
             return (
                 row["industry_code"],
-                row["industry_label"],
+                str(label),
                 conf,
                 "keyword_crosswalk",
             )
