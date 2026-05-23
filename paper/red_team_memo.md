@@ -43,9 +43,9 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 ## 5. City and industry mapping uncertainty
 
-**Issue:** Current build resolves **509/509** projects to a city using official location, rule-based list-text inference, or plant-city registry (Table 16). **Zero** rows are `external_evidence_verified` until non-list URLs are added to the registry.
+**Issue:** Current build resolves **509/509** projects to a city using official location, rule-based list-text inference, or non-list external evidence (Table 16). **50** projects are `external_evidence_verified` with documented `external_evidence_url` (company sites, annual reports, government pages, registries). The remaining assignments rely on list text or registry inference and must not be described as externally verified.
 
-**Consequence:** City-level models use the full list; province-only robustness (Table 19) remains a coarser check. Do not describe registry matches as externally audited without a real `evidence_url`.
+**Consequence:** City-level models use the full list; province-only robustness (Table 19) remains a coarser check. Use class-specific language: external verification for the 50 verified rows; stratified audit (Table 17) for official vs rule-based quality.
 
 **Province overlap inflates pilot counts:** `table_pilot_zone_province_overlap.csv` assigns all projects in pilot **provinces** to the pilot-province sample, including non-pilot cities.
 
@@ -75,7 +75,7 @@ This memo lists threats to causal interpretation and defensible claims for the N
 
 **Issue:** `analysis_city_year_panel.csv` does not yet merge EPS/NBS controls. Omitted variables (GDP, manufacturing, patents, universities) correlate with both pilot status and adoption.
 
-**Blocker:** `data/raw/city_controls/` empty until user supplies files (`make city-controls`).
+**Blocker (strict Table 5):** EPS/NBS export with FDI and fixed-asset investment not yet in `data/raw/city_controls/`. A **public ChinaUTC fallback** exists for appendix Table I only (`chinautc_city_controls_public_fallback.csv`); it does not satisfy the strict production-control design.
 
 ## Hub-selection robustness now run
 

@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents
 
 PYTHON ?= python
 
@@ -37,7 +37,7 @@ geo-audit: build
 	$(PYTHON) scripts/10_build_audited_city_overrides.py
 	$(PYTHON) scripts/04_build_city_year_panel.py
 
-pcs: purge-stub-controls geo-audit panel analysis validate-geo validate-sprint main-tables sync-paper-stats paper test pcs-status
+pcs: purge-stub-controls geo-audit panel analysis validate-geo public-fallback-controls main-tables sync-paper-stats production-check validate-draft validate-sprint validate-audit paper test pcs-status
 
 sync-paper-stats: analysis
 	$(PYTHON) scripts/16_sync_paper_stats.py
@@ -58,7 +58,10 @@ preflight: purge-stub-controls
 	$(PYTHON) scripts/21_pcs_preflight.py
 
 pcs-status:
-	$(PYTHON) scripts/15_pcs_status.py
+	$(PYTHON) scripts/15_pcs_status.py --json
+
+validate-draft:
+	$(PYTHON) scripts/33_validate_draft_numbers.py
 
 panel: build
 	$(PYTHON) scripts/04_build_city_year_panel.py
@@ -86,6 +89,10 @@ validate-geo:
 validate-sprint: analysis
 	$(PYTHON) scripts/13_validate_geo_evidence.py
 	$(PYTHON) scripts/08_validate_sprint_outputs.py
+
+patents:
+	$(PYTHON) scripts/30_build_industrial_ai_patents.py
+	$(PYTHON) scripts/31_validate_patent_layer.py
 
 test:
 	pytest -q

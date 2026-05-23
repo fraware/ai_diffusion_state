@@ -27,6 +27,10 @@ MAPPING = {
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
+    claim_src = ROOT / "data" / "seed" / "main_table_claim_map.csv"
+    claim_dst = ROOT / "paper" / "main_table_claim_map.csv"
+    if claim_src.exists():
+        shutil.copy2(claim_src, claim_dst)
     missing = []
     for dest, src_name in MAPPING.items():
         src = SRC / src_name

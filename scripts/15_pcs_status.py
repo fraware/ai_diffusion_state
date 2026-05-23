@@ -1,69 +1,45 @@
-"""Print one-page PCS sprint status for paper owner / reviewers."""
+"""Print PCS sprint gate dashboard for paper owner / reviewers."""
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import pandas as pd
-
-from diffusion_state.geo_evidence import validate_evidence_hygiene
-from diffusion_state.panel_controls import city_controls_source, controls_available
-from diffusion_state.smart_factory_overrides import load_city_overrides
-from diffusion_state.utils import PROJECT_ROOT
+from diffusion_state.pcs_status import collect_pcs_gates, format_pcs_report, pcs_ready
+from diffusion_state.validate_pcs_gates import validate_main_table_claim_map, write_pcs_gate_report
 
 
 def main() -> int:
-    clean = PROJECT_ROOT / "data" / "processed" / "smart_factories_clean.csv"
-    reg = PROJECT_ROOT / "data" / "processed" / "city_resolution_register.csv"
-    t16 = PROJECT_ROOT / "outputs" / "tables" / "table_16_geo_evidence_quality.csv"
-    audit = PROJECT_ROOT / "data" / "audit" / "city_resolution_sample_audit.csv"
-    print("=== PCS sprint status ===\n")
-    n_unk = -1
+    parser = argparse.ArgumentParser(description="PCS sprint gate status")
+    parser.add_argument(
+        "--json",
+        nargs="?",
+        const=str(ROOT / "paper" / "pcs_gate_report.json"),
+        metavar="PATH",
+        help="Write machine-readable gate report (default: paper/pcs_gate_report.json)",
+    )
+    args = parser.parse_args()
 
-    if clean.exists():
-        c = pd.read_csv(clean)
-        n_unk = int((c["city"] == "unknown").sum())
-        print(f"City resolution: {len(c) - n_unk}/{len(c)} resolved ({n_unk} unknown)")
+    gates = collect_pcs_gates()
+    print(format_pcs_report(gates))
 
-    if reg.exists():
-        r = pd.read_csv(reg)
-        for rc, n in r["resolution_class"].value_counts().items():
-            print(f"  {rc}: {n}")
+    claim_issues = validate_main_table_claim_map()
+    if claim_issues:
+        print("\nClaim map issues:")
+        for issue in claim_issues:
+            print(f"  {issue}")
+    else:
+        print("\n[PASS] main_table_claim_map aligned with claim_table_map")
 
-    overrides = load_city_overrides()
-    errs = validate_evidence_hygiene(overrides)
-    print(f"Evidence hygiene: {'OK' if not errs else 'FAIL (' + str(len(errs)) + ' issues)'}")
+    if args.json:
+        report_path = Path(args.json)
+        report = write_pcs_gate_report(report_path)
+        print(f"\nWrote {report_path.relative_to(ROOT)} (ready={report['ready']})")
 
-    src = city_controls_source()
-    print(f"City controls: {src}")
-    panel = PROJECT_ROOT / "data" / "processed" / "analysis_city_year_panel.csv"
-    if panel.exists():
-        merged = controls_available(pd.read_csv(panel)) and src == "production"
-        print(f"Panel controls merged (production): {'yes' if merged else 'no'}")
-
-    evq = PROJECT_ROOT / "data" / "interim" / "external_verification_queue.csv"
-    if evq.exists():
-        q = pd.read_csv(evq)
-        urls = q["external_evidence_url"]
-        mask = urls.notna() & (urls.astype(str).str.strip() != "") & (urls.astype(str) != "nan")
-        n_ext = int(mask.sum())
-        print(f"External verification queue: {len(q)} rows ({n_ext} with external_evidence_url)")
-
-    if audit.exists():
-        a = pd.read_csv(audit)
-        dec = a["auditor_decision"]
-        mask = dec.notna() & (dec.astype(str).str.strip() != "") & (dec.astype(str) != "nan")
-        filled = int(mask.sum())
-        print(f"Sample audit: {filled}/{len(a)} rows with auditor_decision")
-
-    if t16.exists():
-        print(f"Table 16: {t16.relative_to(ROOT)}")
-
-    print("\nPaper tables: paper/main_tables/ (run make main-tables)")
-    ok = not errs and clean.exists() and n_unk == 0
+    ok = pcs_ready(gates) and not claim_issues
     return 0 if ok else 1
 
 

@@ -1,6 +1,6 @@
 # Sprint execution status
 
-**Updated:** 2026-05-22 — Workstream A closed (public appendix). **B1 + B2 complete.** Paper drafting unblocked.
+**Updated:** 2026-05-22 — **PCS sprint closed** (full gate chain + Priority 3 paper artifacts). Atlas patent pipeline landed separately. B1 + B2 complete.
 
 **Canonical priorities:** [`docs/CURRENT_SPRINT_PRIORITIES.md`](CURRENT_SPRINT_PRIORITIES.md)  
 **Blocker playbook:** [`docs/HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md`](HUMAN_INPUT_BLOCKERS_ACTION_PLAN.md)  
@@ -10,6 +10,7 @@
 
 | Workstream | Status | Notes |
 |------------|--------|-------|
+| **Atlas A — Industrial AI patents** | **Pipeline ready** | `make patents`; needs CNIPA microdata in `data/raw/patents/`. CSET auto-fetch for validation only. |
 | **A — Strict EPS/NBS controls** | **Closed** (public limit reached) | Strict Table 5 **skipped** by design. Table I / 5b appendix robustness **done**. |
 | **A — EPS/NBS (if later)** | Blocked on human export | Rerun controls pipeline only when real EPS/NBS files arrive. |
 | **B1 — Audit sample** | **Done** | 70/70 decisions; `validate-audit` OK; Table 17 |
@@ -54,4 +55,16 @@ Then refresh `docs/model_interpretation_matrix.md`.
 
 ### Paper owner — Draft now
 
-Use `paper/main_tables/`. Hub-centered measurement paper; appendix Table I; no strict Table 5 or causal pilot claims until gates pass.
+Use `paper/main_tables/` (Tables A–I). Hub-centered measurement paper; appendix Table I; no strict Table 5 or causal pilot claims. Gates pass: `python scripts/15_pcs_status.py`.
+
+### Priority 3 — Paper-facing updates (done)
+
+- `paper/results_memo.md`, `paper/red_team_memo.md`, `paper/reviewer_results_snapshot.md` synced via `make sync-paper-stats`
+- `paper/claim_table_map.csv` and `paper/main_table_claim_map.csv` (Tables A–I traceability)
+- `paper/draft_v1.md` hub-centered measurement draft
+- `paper/pcs_gate_report.json` via `make pcs-status`
+- `docs/model_interpretation_matrix.md` and `docs/PCS_GATE_CHECKLIST.md` updated
+- `validate-sprint` enforces PCS blocking gates via `validate_pcs_gates.py`
+- `validate-draft` cross-checks `paper/draft_v1.md` statistics against output tables
+- `paper/SUBMISSION_READINESS.md` paper-owner checklist
+- CI runs full PCS chain (`.github/workflows/ci.yml`)

@@ -2,39 +2,77 @@
 
 **Paper frame:** Hub-centered diffusion architecture; **not** uniform pilot-zone treatment, productivity causality, or export effects.
 
-**Last rebuilt:** Run `make analysis` after Engineer A (controls) and Engineer B (geo) updates.
+**Last rebuilt:** 2026-05-22 full PCS gate chain (`make pcs`). Use only `paper/main_tables/` in the draft; run `make sync-paper-stats` after every `make analysis`.
+
+## PCS gates (current build)
+
+| Gate | Status |
+|------|--------|
+| 509/509 city resolution | Pass |
+| External verification | 50 projects |
+| Stratified audit (Table 17) | 70/70 decisions |
+| Geo evidence hygiene | Pass |
+| Strict Table 5 | Skipped (expected) |
+| Appendix Table I | Pass |
+| Paper main tables A–I | 10/10 |
+
+Quick check: `python scripts/15_pcs_status.py` or `docs/PCS_GATE_CHECKLIST.md`.
+
+## Table map
 
 | Table | What variation identifies the coefficient | Supports (claim tier) | Cannot support |
 |-------|----------------------------------------|------------------------|----------------|
-| **Table 3** — baseline adoption | Cross-city differences in 2024–2025 listed project counts; `pilot_zone` = city ever in national AI pilot list | Positive **association** between pilot status and listed adoption (descriptive / associational) | Causal effect of pilot designation; uniform treatment across treated cities |
-| **Table 3** — Model 2–3 (`post_pilot` + city FE) | Within-city years after `pilot_year` vs before, holding city fixed | Post-designation years coincide with higher counts **given list availability from 2024** | Clean event-study dynamics; pre-2024 zeros are mechanical |
-| **Table 5** — controlled adoption | Same as Table 3 plus city-year covariates (GDP, population, industry structure, FDI, etc.) | Whether pilot association **survives** observable city economic differences | Causal identification without design-based variation; claims if controls are stub/missing |
-| **Table 6** — hub exclusion | `pilot_zone` coef under sample restrictions (drop mega-hubs, direct-admin, top adopters) | **Attenuation** of association outside hubs — hub-centered architecture | That association is zero nationally; average treatment effect |
-| **Table 7** — balance | Pre-treatment (2018) covariate means: pilot vs non-pilot cities; matched subsample | Whether treated/control cities are **comparable** on observables before lists exist | Randomization; causal balance without controls data |
-| **Table 8** — matched adoption | Matched pilot/control cities on pre-treatment covariates; adoption 2024–2025 | **Robustness** of associational pattern in matched sample | Full causal interpretation; valid if matching fails or controls missing |
-| **Table 13** — city-industry | `pilot_zone` × ex ante AI exposure (`industry_ai_exposure_ex_ante.csv`) with city + industry + year FE | **Heterogeneity** — higher-exposure industries more concentrated in pilot cities | Causal mechanism; tag-derived specs (labeled descriptive only) |
-| **Table 14** — city typology | Descriptive counts by diffusion type (hub, pilot hub, non-pilot, etc.) | **Architecture** — adoption clusters by institutional/industrial hub type | Binary pilot flag as sufficient summary |
-| **Table 18** — ex ante typology | Capacity typology without top smart-factory city labels; uses real GDP ranks only if production controls merged | Ex ante **capacity** framing for heterogeneity | Outcome-driven labels; stub-driven GDP ranks |
-| **Table 19** — province-year | Province-year FE; “pilot province” if any pilot city in province | **Coarse** check using all projects | Pilot-city effect (non-pilot cities inside pilot provinces) |
-| **Table 15 / G** — export relevance | Sector shares: listed projects vs export basket | **Descriptive** strategic overlap with advanced exports | Export causality or upgrading effects |
-| **Table 4 / 12** | Export growth on sector outcomes | — | **Do not use** in main text (underpowered, non-causal) |
-| **Timing diagnostic** | Event-time bins around pilot year with zero-filled pre-2024 outcomes | Timing **diagnostic** only | Pre-trend validation |
+| **Table A** — dataset counts | Coverage of pilots, projects, geo classes | Measured data construction | Representativeness of all China smart manufacturing |
+| **Table B** — city resolution | Evidence-class distribution (official / rule-based / external) | Validated descriptive geo quality | Full external audit of all 509 assignments |
+| **Table C** — pilot overlap | Cross-city 2024–2025 listed counts by pilot status | Pilot-zone concentration (descriptive) | Causal treatment effect |
+| **Table D / 6** — hub exclusion | `pilot_zone` under sample restrictions | Hub-centered architecture; attenuation outside mega-hubs | Zero national association; ATT |
+| **Table E** — city typology | Descriptive counts by diffusion type | Institutional/industrial hub clustering | Binary pilot flag as sufficient summary |
+| **Table E (ex ante)** — typology | Capacity typology without top-SF-city labels | Ex ante capacity framing | Outcome-driven labels |
+| **Table F / 13** — city-industry | `pilot_zone` × ex ante AI exposure | Heterogeneity in pilot cities (associational) | Causal mechanism; tag-derived specs in main text |
+| **Table G / 15** — export relevance | Sector shares vs export basket | Descriptive strategic overlap | Export causality |
+| **Table H** — export share comparison | Listed sectors vs 2024 export basket shares | Descriptive overlap | Productivity or upgrading claims |
+| **Table I / 5b** — public fallback | 2024 cross-section; partial ChinaUTC controls | Appendix robustness: pilot survives OLS count/log | EPS-equivalent controls; causal claims; Poisson as primary |
+| **Table 3** — baseline adoption | Cross-city pilot indicator | Baseline associational adoption | Causal pilot effect |
+| **Table 3** — Models 2–3 | Within-city `post_pilot` + city FE | Post-designation years vs pre (list from 2024) | Pre-trend validation |
+| **Table 5** — controlled adoption | City-year covariates (GDP, FDI, etc.) | — | **Blocked** until EPS/NBS; do not cite |
+| **Table 7–8** — balance / matched | Pre-treatment balance; matched sample | — | **Blocked** without strict controls |
+| **Table 19** — province-year | Province-year FE; pilot-province indicator | Coarse descriptive check | Pilot-city isolation |
+| **Table 4 / 12** — export models | — | — | **Do not use** in main text |
+| **Timing diagnostic** | Event-time bins | Timing diagnostic only | Pre-trend validation |
 
-## Table 5–8 gate (Engineer A)
+## Table I (appendix) — required wording
 
-Until `make production-check` passes with `City controls: production`:
+Strict EPS/NBS Table 5 remains unavailable (no FDI / fixed-asset investment in public bundle).
 
-- Table 5 must show `model_4_controlled_count` with numeric `pilot_zone` — not `skipped`.
-- Table 7 must show covariate rows — not a single `skipped` row.
-- Table 8 must show matched pilot **and** control cities with `matched_city_ratio` metadata.
+**Allowed (Table I):**
 
-## Geo gate (Engineer B) — passed (2026-05-22)
+> In the 2024 ChinaUTC public-control subset, pilot-zone status remains positively associated with listed smart-factory counts in OLS count and log-count models, while the Poisson specification is not statistically significant.
 
-- Table 16: **50** `external_evidence_verified`, **102** `official_location_exact`, **357** `rule_based_text_inference`.
-- Table 17: stratified audit sample complete (`make validate-audit` OK).
-- **Allowed:** “At least 50 city assignments are supported by non-list external evidence…” (company pages, annual reports, local-government documents, industrial-park pages, registry records).
-- **Not allowed:** “externally audited geocoding” or “all assignments verified externally.” Use stratified audit language for Table 17 (official vs rule-based), not external verification.
+**Forbidden:**
+
+- The controlled model passes.
+- The EPS/NBS model supports the association.
+- Pilot-zone effects survive full controls.
+
+See `docs/PUBLIC_FALLBACK_CONTROLS_INTERPRETATION.md`.
+
+## Table 5–8 gate (strict controls)
+
+Until real EPS/NBS files are ingested and `make city-controls` merges adoption-year controls:
+
+- Table 5 must remain skipped or explicitly non-EPS.
+- Tables 7–8 remain skipped for paper claims.
+
+## Geo gate — passed
+
+- Table 16 / B: **50** `external_evidence_verified`, **102** `official_location_exact`, **312+** `rule_based_text_inference` (exact split from current register).
+- Table 17: stratified audit **70/70** complete.
+- **Allowed:** “At least 50 city assignments are supported by non-list external evidence…”
+- **Not allowed:** “all assignments externally verified” or “fully audited geocoding.”
 
 ## Drafting rule
 
-Use only `paper/main_tables/` (Tables A–H) for numbers in the draft. Run `make sync-paper-stats` after every `make analysis`.
+1. Numbers from `paper/main_tables/` only.
+2. Run `make sync-paper-stats` after `make analysis`.
+3. Match claim tier in `paper/claim_table_map.csv`.
+4. Identification limits in `paper/red_team_memo.md`.

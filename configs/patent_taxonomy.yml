@@ -1,0 +1,43 @@
+# Industrial AI patent taxonomy for Atlas Workstream A.
+# Binary category flags are set when any keyword matches title + abstract + claims text.
+
+categories:
+  machine_vision:
+    keywords: [机器视觉, 图像检测, 缺陷检测, 视觉识别, 目标检测, 图像识别]
+  robotics:
+    keywords: [机器人, 机械臂, 运动控制, 工业机器人, 协作机器人]
+  predictive_maintenance:
+    keywords: [预测性维护, 故障诊断, 设备健康, 健康管理, 预测维护]
+  digital_twin:
+    keywords: [数字孪生, 虚实融合, 孪生体]
+  quality_inspection:
+    keywords: [智能质检, 质量检测, 良率, 缺陷检测, 在线检测]
+  industrial_scheduling:
+    keywords: [智能排产, 调度优化, 生产调度, 智能调度]
+  process_control:
+    keywords: [过程控制, 参数优化, 闭环控制, 工艺优化, DCS]
+  smart_logistics:
+    keywords: [智能仓储, 路径优化, 智能物流, AGV, 仓储调度]
+  industrial_software:
+    keywords: [工业软件, MES, SCADA, PLC, 工业互联网平台, 工业大脑]
+  industrial_foundation_model:
+    keywords: [工业大模型, 行业大模型, 垂直大模型]
+  semiconductor_manufacturing_ai:
+    keywords: [半导体, 晶圆, 光刻, 封装, 量测, 芯片制造]
+  battery_manufacturing_ai:
+    keywords: [锂电, 极片, 电芯, 化成, 分容, 动力电池]
+  chemical_process_ai:
+    keywords: [反应釜, 催化, 配方优化, 化工工艺]
+
+# CSET 1790 field -> Atlas category (used when text fields are unavailable).
+cset_field_map:
+  Computer_Vision: machine_vision
+  Robotics: robotics
+  Control: process_control
+  Planning_and_Scheduling: industrial_scheduling
+  Measuring_and_Testing: quality_inspection
+  Industrial_and_Manufacturing: industrial_software
+  Semiconductors: semiconductor_manufacturing_ai
+
+non_industrial_exclusions:
+  keywords: [人脸识别, 智能安防, 公安大数据, 视频结构化, 智慧城市, 城市大脑]

@@ -20,8 +20,14 @@ jobs:
       - run: make geo-audit
       - run: make panel
       - run: make analysis
+      - run: make public-fallback-controls
       - run: make validate-geo
-      - run: make validate-sprint
       - run: make main-tables
       - run: make sync-paper-stats
+      - run: make production-check
+      - run: make validate-draft
+      - run: make validate-audit
+      - run: make validate-sprint
+      - run: make paper
+      - run: python scripts/15_pcs_status.py --json
       - run: pytest -q

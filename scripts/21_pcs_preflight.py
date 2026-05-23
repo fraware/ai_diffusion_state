@@ -40,9 +40,12 @@ def main() -> int:
 
     main_tables = ROOT / "paper" / "main_tables"
     n_tables = len(list(main_tables.glob("*.csv"))) if main_tables.exists() else 0
-    print(f"\nmain_tables CSV count: {n_tables} (expect 9)")
-    if n_tables < 9:
+    print(f"\nmain_tables CSV count: {n_tables} (expect 10 incl. Table I)")
+    if n_tables < 10:
         failed.append("main_tables")
+    t_i = main_tables / "table_I_appendix_public_fallback_controls.csv"
+    if not t_i.exists():
+        failed.append("table_I")
 
     if failed:
         print("\nPreflight FAILED:", ", ".join(failed))

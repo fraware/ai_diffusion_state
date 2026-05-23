@@ -1,0 +1,72 @@
+{
+  "ready": true,
+  "gates": [
+    {
+      "name": "city_resolution",
+      "passed": true,
+      "detail": "509/509 projects resolved (0 unknown)",
+      "severity": "error"
+    },
+    {
+      "name": "geo_evidence_hygiene",
+      "passed": true,
+      "detail": "OK",
+      "severity": "error"
+    },
+    {
+      "name": "external_verification",
+      "passed": true,
+      "detail": "50 external_evidence_verified (target >= 50)",
+      "severity": "info"
+    },
+    {
+      "name": "geo_evidence_classes",
+      "passed": true,
+      "detail": "official=102, rule_based=357, external=50",
+      "severity": "info"
+    },
+    {
+      "name": "audit_sample",
+      "passed": true,
+      "detail": "70/70 auditor_decision filled",
+      "severity": "error"
+    },
+    {
+      "name": "external_verification_queue",
+      "passed": true,
+      "detail": "50/50 queue rows with external_evidence_url",
+      "severity": "error"
+    },
+    {
+      "name": "paper_main_tables",
+      "passed": true,
+      "detail": "10/10 tables present",
+      "severity": "error"
+    },
+    {
+      "name": "sprint_core_tables",
+      "passed": true,
+      "detail": "8/8 core tables",
+      "severity": "error"
+    },
+    {
+      "name": "strict_table_5",
+      "passed": true,
+      "detail": "skipped by design (expected until EPS/NBS)",
+      "severity": "info"
+    },
+    {
+      "name": "appendix_table_i",
+      "passed": true,
+      "detail": "Table I OLS count: pilot_zone coef=1.58, p=0.020, N=51, R2=0.52 (appendix only; not EPS-equivalent)",
+      "severity": "info"
+    },
+    {
+      "name": "city_controls_source",
+      "passed": true,
+      "detail": "source=production; panel merged adoption-year controls: no (expected for public fallback path)",
+      "severity": "info"
+    }
+  ],
+  "main_table_claim_issues": []
+}

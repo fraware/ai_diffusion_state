@@ -195,6 +195,17 @@ def main() -> int:
             ext_n = int(s.iloc[0]["n_projects"])
     print(f"external_evidence_verified projects: {ext_n} (target >=50 for paper)")
 
+    from diffusion_state.validate_pcs_gates import validate_pcs_gates
+
+    pcs_ok, pcs_issues = validate_pcs_gates()
+    if pcs_ok:
+        print("OK PCS blocking gates (geo, audit, external verification, main tables)")
+    else:
+        print("FAIL PCS blocking gates:")
+        for issue in pcs_issues:
+            print(f"  {issue}")
+        return 1
+
     return 0 if not missing else 1
 
 

@@ -55,6 +55,19 @@ PAPER_ARTIFACTS: tuple[PaperArtifact, ...] = (
     PaperArtifact(Path("outputs/tables/table_19_province_year_models.csv"), "table", "province_year_robustness"),
     PaperArtifact(Path("data/processed/city_resolution_register.csv"), "processed", "city_resolution_register"),
     PaperArtifact(Path("data/audit/city_resolution_sample_audit.csv"), "audit", "geo_sample_audit", required=False),
+    PaperArtifact(
+        Path("outputs/tables/table_5b_public_fallback_controls.csv"),
+        "table",
+        "appendix_public_fallback_controls",
+        required=False,
+    ),
+    PaperArtifact(
+        Path("data/interim/external_verification_queue.csv"),
+        "interim",
+        "external_verification_queue",
+        required=False,
+    ),
+    PaperArtifact(Path("paper/main_tables/table_I_appendix_public_fallback_controls.csv"), "table", "paper_table_I", required=False),
 )
 
 CLAIM_MAP_ROWS = [
@@ -92,6 +105,34 @@ CLAIM_MAP_ROWS = [
         "claim_summary": "Model 4-7 with city economic controls (blocked until EPS/NBS ingestion).",
         "artifact": "outputs/tables/table_5_controlled_adoption_models.csv",
         "script": "src/diffusion_state/run_controlled_models.py",
+    },
+    {
+        "claim_id": "appendix_public_fallback_controls",
+        "claim_tier": "partial_public_controls_appendix_only",
+        "claim_summary": "2024 ChinaUTC partial controls; OLS count/log pilot positive; not EPS-equivalent.",
+        "artifact": "paper/main_tables/table_I_appendix_public_fallback_controls.csv",
+        "script": "scripts/28_run_public_fallback_controls.py",
+    },
+    {
+        "claim_id": "geo_audit_stratified",
+        "claim_tier": "validated_descriptive",
+        "claim_summary": "Stratified audit of official vs rule-based assignments (Table 17).",
+        "artifact": "outputs/tables/table_17_geo_audit_error_rate.csv",
+        "script": "scripts/14_recompute_geo_audit_error_rate.py",
+    },
+    {
+        "claim_id": "hub_architecture_typology_ex_ante",
+        "claim_tier": "validated_descriptive",
+        "claim_summary": "Ex ante city capacity typology without top smart-factory city labels.",
+        "artifact": "outputs/tables/table_18_city_diffusion_typology_ex_ante.csv",
+        "script": "src/diffusion_state/build_city_diffusion_typology_ex_ante.py",
+    },
+    {
+        "claim_id": "export_sector_share_comparison",
+        "claim_tier": "validated_descriptive",
+        "claim_summary": "Smart-factory sector shares vs 2024 export basket shares (Table H).",
+        "artifact": "outputs/tables/table_export_sector_share_comparison.csv",
+        "script": "src/diffusion_state/build_export_share_comparison.py",
     },
     {
         "claim_id": "hub_robustness",
@@ -202,8 +243,22 @@ def build_paper_bundle(strict: bool = True) -> dict:
         json.dump(manifest, f, indent=2)
 
     claim_path = PAPER_DIR / "claim_table_map.csv"
-    claim_df = pd.read_csv(claim_path) if claim_path.exists() else pd.DataFrame(CLAIM_MAP_ROWS)
+    if claim_path.exists():
+        claim_df = pd.read_csv(claim_path)
+        canonical = pd.DataFrame(CLAIM_MAP_ROWS)
+        missing_ids = set(canonical["claim_id"]) - set(claim_df["claim_id"].astype(str))
+        if missing_ids:
+            claim_df = pd.concat(
+                [claim_df, canonical[canonical["claim_id"].isin(missing_ids)]],
+                ignore_index=True,
+            )
+    else:
+        claim_df = pd.DataFrame(CLAIM_MAP_ROWS)
     write_csv(claim_df, claim_path)
+
+    claim_map_src = PROJECT_ROOT / "data" / "seed" / "main_table_claim_map.csv"
+    if claim_map_src.exists():
+        write_csv(pd.read_csv(claim_map_src), PAPER_DIR / "main_table_claim_map.csv")
     return manifest
 
 

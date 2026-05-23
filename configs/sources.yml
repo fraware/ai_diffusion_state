@@ -81,3 +81,23 @@ sources:
     license_or_terms: "Figshare dataset terms"
     local_path: "data/raw/deepinnovationai/"
     notes: "Tier 2 validation only."
+
+  cset_1790_ai_patents:
+    name: "CSET 1790 AI patent database"
+    source_type: academic
+    url: "https://github.com/georgetown-cset/1790-ai-patent-data"
+    accessed_at: "2026-05-22"
+    expected_format: csv
+    license_or_terms: "CSET public research data"
+    local_path: "data/raw/patents/patent_database.csv"
+    notes: "Taxonomy validation for Workstream A; no applicant city. Auto-fetched by make patents."
+
+  cnipa_patent_microdata:
+    name: "CNIPA / institutional patent export"
+    source_type: official
+    url: null
+    accessed_at: null
+    expected_format: csv
+    license_or_terms: "Institutional or licensed CNIPA export required"
+    local_path: "data/raw/patents/"
+    notes: "Primary source for city-industry-year panel. Place cnipa_*.csv or patents_normalized*.csv in local_path."

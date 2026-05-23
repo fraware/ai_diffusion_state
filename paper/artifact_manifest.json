@@ -299,6 +299,33 @@
       "exists": true,
       "n_rows": 70,
       "n_cols": 14
+    },
+    {
+      "path": "outputs/tables/table_5b_public_fallback_controls.csv",
+      "artifact_type": "table",
+      "claim_id": "appendix_public_fallback_controls",
+      "required": false,
+      "exists": true,
+      "n_rows": 24,
+      "n_cols": 18
+    },
+    {
+      "path": "data/interim/external_verification_queue.csv",
+      "artifact_type": "interim",
+      "claim_id": "external_verification_queue",
+      "required": false,
+      "exists": true,
+      "n_rows": 50,
+      "n_cols": 13
+    },
+    {
+      "path": "paper/main_tables/table_I_appendix_public_fallback_controls.csv",
+      "artifact_type": "table",
+      "claim_id": "paper_table_I",
+      "required": false,
+      "exists": true,
+      "n_rows": 24,
+      "n_cols": 18
     }
   ],
   "missing_required": []

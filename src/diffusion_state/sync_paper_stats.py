@@ -468,6 +468,61 @@ def _adoption_cities_line() -> str:
     return f"| Cities in adoption panel | **{n_cities}** (pilot + smart-factory universe) |\n"
 
 
+def build_table_i_reviewer_section() -> str:
+    t = _read_table("table_5b_public_fallback_controls.csv")
+    if t is None:
+        return "**Table I:** _missing — run `make public-fallback-controls`._\n"
+    lines = [
+        "**Status:** Strict Table 5 skipped. Appendix Table I uses 2024 ChinaUTC partial controls (no FDI / fixed-asset investment).",
+        "",
+        "| Model | pilot_zone coef | p-value | N | Note |",
+        "|-------|----------------:|--------:|--:|------|",
+    ]
+    for model_key, label in [
+        ("model_5b_public_fallback_count_2024", "5b OLS count"),
+        ("model_5c_public_fallback_log_count_2024", "5c OLS log count"),
+        ("model_5d_public_fallback_poisson_2024", "5d Poisson"),
+    ]:
+        sub = t[(t["model"] == model_key) & (t["term"] == "pilot_zone")]
+        if sub.empty:
+            continue
+        r = sub.iloc[0]
+        note = "significant" if float(r["p_value"]) < 0.05 else "not significant"
+        if "poisson" in model_key:
+            note += "; appendix only"
+        lines.append(
+            f"| {label} | {float(r['coef']):.2f} | {_fmt_p(r['p_value'])} | {int(r['n_obs'])} | {note} |"
+        )
+    lines.append("")
+    lines.append(
+        "Do not cite as EPS-equivalent or primary controlled evidence. See "
+        "`docs/PUBLIC_FALLBACK_CONTROLS_INTERPRETATION.md`."
+    )
+    return "\n".join(lines) + "\n"
+
+
+def sync_reviewer_table_i(path: Path | None = None) -> Path:
+    path = path or PAPER / "reviewer_results_snapshot.md"
+    text = path.read_text(encoding="utf-8")
+    if "<!-- PCS:TABLE_I -->" not in text:
+        insert = (
+            "\n## Appendix public fallback (Table I)\n\n"
+            "<!-- PCS:TABLE_I -->\n"
+            "_Placeholder — run make sync-paper-stats._\n"
+            "<!-- /PCS:TABLE_I -->\n"
+        )
+        marker = "## Controlled models (Table 5)"
+        if marker in text:
+            text = text.replace(marker, insert + "\n" + marker)
+        else:
+            text = text.rstrip() + insert
+    text = _replace_block(
+        text, "<!-- PCS:TABLE_I -->", "<!-- /PCS:TABLE_I -->", build_table_i_reviewer_section()
+    )
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
 def sync_all() -> list[Path]:
     updated = []
     for rel, fn in (
@@ -480,4 +535,8 @@ def sync_all() -> list[Path]:
             continue
         fn(target)
         updated.append(target)
+    snap = PAPER / "reviewer_results_snapshot.md"
+    if snap.exists():
+        sync_reviewer_table_i(snap)
+        updated.append(snap)
     return updated

@@ -40,6 +40,20 @@
 
 **Story:** Hub-centered diffusion capacity, not average pilot treatment.
 
+## Appendix public fallback (Table I)
+
+<!-- PCS:TABLE_I -->
+**Status:** Strict Table 5 skipped. Appendix Table I uses 2024 ChinaUTC partial controls (no FDI / fixed-asset investment).
+
+| Model | pilot_zone coef | p-value | N | Note |
+|-------|----------------:|--------:|--:|------|
+| 5b OLS count | 1.58 | 0.0198 | 51 | significant |
+| 5c OLS log count | 0.50 | 0.0181 | 51 | significant |
+| 5d Poisson | 0.23 | 0.4275 | 51 | not significant; appendix only |
+
+Do not cite as EPS-equivalent or primary controlled evidence. See `docs/PUBLIC_FALLBACK_CONTROLS_INTERPRETATION.md`.
+<!-- /PCS:TABLE_I -->
+
 ## Controlled models (Table 5)
 
 **Skipped** until EPS/NBS city controls are in `data/raw/city_controls/` and `make city-controls` succeeds. Synthetic controls are not used in this pipeline.

@@ -17,6 +17,7 @@ PAPER_PATHS = [
     PROJECT_ROOT / "paper" / "results_memo.md",
     PROJECT_ROOT / "paper" / "red_team_memo.md",
     PROJECT_ROOT / "paper" / "reviewer_results_snapshot.md",
+    PROJECT_ROOT / "paper" / "draft_v1.md",
     PROJECT_ROOT / "paper" / "claim_table_map.csv",
     PROJECT_ROOT / "paper" / "data_appendix.md",
 ]
@@ -32,6 +33,8 @@ STUB_PHRASES = (
 )
 
 STALE_NUMERIC_PHRASES = (
+    "Zero rows are `external_evidence_verified`",
+    "zero external_evidence_verified",
     "125 cities, 382",
     "125-city",
     "382 listed projects",
@@ -118,13 +121,19 @@ def main() -> int:
             if bad.any() and src == "production":
                 errors.append("city_controls_year.csv: stub source_name flagged as production")
 
+    from diffusion_state.validate_draft_numbers import validate_draft_numbers
+
+    draft_ok, draft_issues = validate_draft_numbers()
+    if not draft_ok:
+        errors.extend([f"draft_v1: {i}" for i in draft_issues])
+
     if errors:
         print("FAIL production-check:")
         for e in errors:
             print(f"  {e}")
         return 1
 
-    print("OK production-check: no stub leakage or stale paper numbers detected.")
+    print("OK production-check: no stub leakage; draft numbers match tables.")
     return 0
 
 
