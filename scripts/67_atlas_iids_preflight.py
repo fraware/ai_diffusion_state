@@ -41,6 +41,17 @@ def _file_rows(path: Path) -> int:
         return sum(1 for _ in csv.reader(f)) - 1
 
 
+def _cnipa_or_lens_exports_present() -> bool:
+    patterns = ("cnipa_*.csv", "lens_*.csv", "google_patents_*.csv")
+    for pattern in patterns:
+        for path in RAW_PATENTS_DIR.glob(pattern):
+            name = path.name.lower()
+            if "template" in name or "geography" in name:
+                continue
+            return True
+    return False
+
+
 def collect_readiness() -> dict:
     sources = resolve_iids_sources_dir()
     detail, law = find_iids_sql_paths(sources)
@@ -69,7 +80,7 @@ def collect_readiness() -> dict:
             os.environ.get("OPENXLAB_AK") and os.environ.get("OPENXLAB_SK")
         ),
         "ready_for_convert": bool(detail and detail.exists()),
-        "ready_for_geography_build": bool(list(RAW_PATENTS_DIR.glob("cnipa_*.csv")) or list(RAW_PATENTS_DIR.glob("lens_*.csv"))),
+        "ready_for_geography_build": _cnipa_or_lens_exports_present(),
         "ready_for_geography_join": bool(geo and geo.exists() and not is_geography_template_path(geo)),
         "ready_for_evidence_chain": bool(output.exists() and _file_rows(output) >= 500 and geo and not is_geography_template_path(geo)),
         "recommended_next_command": _recommended_next(

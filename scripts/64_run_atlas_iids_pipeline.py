@@ -20,7 +20,15 @@ from diffusion_state.iids_paths import (  # noqa: E402
 from diffusion_state.iids_patent_converter import find_iids_sql_paths  # noqa: E402
 from diffusion_state.patent_raw_sources import MANIFEST_PATH, RAW_PATENTS_DIR  # noqa: E402
 
-PYTHON = sys.executable
+
+def _cnipa_or_lens_exports_present() -> bool:
+    for pattern in ("cnipa_*.csv", "lens_*.csv", "google_patents_*.csv"):
+        for path in RAW_PATENTS_DIR.glob(pattern):
+            name = path.name.lower()
+            if "template" in name or "geography" in name:
+                continue
+            return True
+    return False
 
 
 def _run(cmd: list[str], *, label: str) -> int:
@@ -140,7 +148,7 @@ def main() -> int:
         report["steps"].append({"manifest_prep": code})
 
     if not args.skip_geo and args.production:
-        if args.cnipa_export or any(RAW_PATENTS_DIR.glob("cnipa_*.csv")):
+        if args.cnipa_export or _cnipa_or_lens_exports_present():
             cmd = [PYTHON, "scripts/65_build_patent_geography_from_export.py", "--iids-csv", str(output_csv)]
             if args.cnipa_export:
                 cmd.extend(["--export", str(args.cnipa_export)])
