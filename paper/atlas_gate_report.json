@@ -20,7 +20,7 @@
   "n_industries": 21,
   "years_min": 2015,
   "years_max": 2025,
-  "main_result_summary": "Atlas software pipeline operational; patent layer is fixture-backed. Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens exports are ingested. (fixture data; exploratory only: pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
+  "main_result_summary": "Atlas software pipeline operational; no manifest-backed real patent exports in evidence path (missing_real_exports). Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens exports are ingested per docs/ATLAS_PHASE2_PATENT_EXPORT_AND_MODEL_RUNBOOK.md. (exploratory on stale/fixture panel only: pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
   "forbidden_claim_flags": [],
   "layer_errors": {
     "exposure": [],

@@ -39,6 +39,30 @@ def _load_evidence_frames() -> tuple[pd.DataFrame, list]:
     return pd.concat(frames, ignore_index=True), paths
 
 
+FIXTURE_SOURCE_VALUES = {"cnipa_micro_export", "fixture", "repository_fixture", "quarantined"}
+REAL_IIDS_SOURCES = {"opendatalab_iids"}
+MIN_CITY_FILL_FOR_EVIDENCE = 0.80
+
+
+def _source_series(df: pd.DataFrame) -> pd.Series:
+    return df.get("source", pd.Series(dtype=str)).astype(str).str.strip().str.lower()
+
+
+def _non_iids_frame(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df
+    source = _source_series(df)
+    mask = ~source.isin(REAL_IIDS_SOURCES)
+    return df[mask] if mask.any() else df.iloc[0:0]
+
+
+def _city_fill_rate(df: pd.DataFrame) -> float:
+    if df.empty or "applicant_city" not in df.columns:
+        return 0.0
+    city = df["applicant_city"].astype(str).str.strip().replace({"nan": "", "None": ""})
+    return float(city.str.len().gt(0).mean())
+
+
 def _detect_fixture_signals(df: pd.DataFrame) -> dict:
     if df.empty:
         return {
@@ -56,22 +80,27 @@ def _detect_fixture_signals(df: pd.DataFrame) -> dict:
         }
 
     n = len(df)
-    pid = df.get("patent_id", pd.Series(dtype=str)).astype(str)
-    sequential_share = float(pid.str.match(SEQUENTIAL_PATENT_ID).mean()) if n else 0.0
-    applicant = df.get("applicant_name", pd.Series(dtype=str)).astype(str)
-    synth_share = float(applicant.str.contains("智造科技有限公司", regex=False).mean()) if n else 0.0
+    check_df = _non_iids_frame(df)
+    n_check = len(check_df) if len(check_df) else n
+    pid = (check_df if len(check_df) else df).get("patent_id", pd.Series(dtype=str)).astype(str)
+    sequential_share = float(pid.str.match(SEQUENTIAL_PATENT_ID).mean()) if n_check else 0.0
+    applicant = (check_df if len(check_df) else df).get("applicant_name", pd.Series(dtype=str)).astype(str)
+    synth_share = float(applicant.str.contains("智造科技有限公司", regex=False).mean()) if n_check else 0.0
     src_file = df.get("source_url_or_file", pd.Series(dtype=str)).astype(str)
     only_fixture_file = (
         src_file.str.contains("fixtures/", regex=False).any()
         or src_file.str.contains("industrial_ai_patent_records.csv", regex=False).all()
     )
-    source = df.get("source", pd.Series(dtype=str)).astype(str).str.strip().str.lower()
+    source = _source_series(df)
     cnipa_micro_share = float(source.isin({s.lower() for s in FIXTURE_SOURCE_VALUES}).mean())
-    title = df.get("patent_title", pd.Series(dtype=str)).astype(str)
-    title_template_share = float(title.str.match(TITLE_TEMPLATE).mean()) if n else 0.0
-    abstract = df.get("abstract", pd.Series(dtype=str)).astype(str)
-    claims = df.get("claims_or_description", pd.Series(dtype=str)).astype(str)
-    equal_share = float((abstract == claims).mean()) if n else 0.0
+    title = (check_df if len(check_df) else df).get("patent_title", pd.Series(dtype=str)).astype(str)
+    title_template_share = float(title.str.match(TITLE_TEMPLATE).mean()) if n_check else 0.0
+    abstract = (check_df if len(check_df) else df).get("abstract", pd.Series(dtype=str)).astype(str)
+    claims = (check_df if len(check_df) else df).get("claims_or_description", pd.Series(dtype=str)).astype(str)
+    equal_share = float((abstract == claims).mean()) if n_check else 0.0
+    iids_share = float(source.isin(REAL_IIDS_SOURCES).mean()) if n else 0.0
+    city_fill = _city_fill_rate(df)
+    geography_ready = city_fill >= MIN_CITY_FILL_FOR_EVIDENCE if iids_share > 0 else True
 
     return {
         "sequential_patent_ids": sequential_share >= 0.5,
@@ -83,8 +112,11 @@ def _detect_fixture_signals(df: pd.DataFrame) -> dict:
         "cnipa_micro_source_share": cnipa_micro_share,
         "systematic_title_templates": title_template_share >= 0.5,
         "title_template_share": title_template_share,
-        "abstract_equals_claims": equal_share >= 0.8,
+        "abstract_equals_claims": equal_share >= 0.8 and iids_share < 1.0,
         "abstract_equals_claims_share": equal_share,
+        "iids_source_share": iids_share,
+        "applicant_city_fill_rate": city_fill,
+        "geography_ready": geography_ready,
     }
 
 
@@ -164,5 +196,13 @@ def validate_no_fixture_patents() -> tuple[bool, list[str]]:
     if report["n_unique_patent_ids"] < 500 and report["real_patent_source_present"]:
         issues.append(
             f"n_unique_patent_ids={report['n_unique_patent_ids']} below minimum 500 for evidence-ready"
+        )
+    geo_ready = report.get("fixture_signals", {}).get("geography_ready", True)
+    iids_share = float(report.get("fixture_signals", {}).get("iids_source_share", 0.0))
+    if report["real_patent_source_present"] and iids_share > 0 and not geo_ready:
+        fill = float(report.get("fixture_signals", {}).get("applicant_city_fill_rate", 0.0))
+        issues.append(
+            f"IIDS export applicant_city fill {fill:.1%} below {MIN_CITY_FILL_FOR_EVIDENCE:.0%}; "
+            "run scripts/62_join_iids_patent_geography.py after building cnipa_patent_geography_2015_2024.csv"
         )
     return len(issues) == 0, issues

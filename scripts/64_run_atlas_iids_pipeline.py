@@ -38,7 +38,10 @@ def _preflight(include_sql: bool) -> list[str]:
     if include_sql:
         free = _disk_free_gb(ROOT)
         if free < MIN_FREE_GB:
-            issues.append(f"free disk {free:.0f} GB below recommended {MIN_FREE_GB} GB for SQL download")
+            issues.append(
+                f"free disk {free:.0f} GB below recommended {MIN_FREE_GB} GB for SQL download; "
+                "use --docs-only or free space before --include-sql"
+            )
         if not os.environ.get("OPENXLAB_AK") or not os.environ.get("OPENXLAB_SK"):
             issues.append("OPENXLAB_AK / OPENXLAB_SK not set for SQL download")
     detail, _ = find_iids_sql_paths()
