@@ -1,0 +1,2 @@
+patent_id,publication_number,applicant_name,applicant_city,applicant_province,applicant_address,geography_source,geography_source_url,city_mapping_confidence,notes
+CN_EXAMPLE_000000,CN_EXAMPLE_000000,EXAMPLE APPLICANT,Hangzhou,Zhejiang,EXAMPLE ADDRESS,template,manual_fill_required,low,Replace with real CNIPA/Lens/applicant-address geography supplement; do not use template rows as evidence.
