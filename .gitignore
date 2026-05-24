@@ -42,6 +42,9 @@ data/raw/*
 data/raw/patents/*
 !data/raw/patents/README.md
 !data/raw/patents/README_REAL_EXPORTS.md
+!data/raw/patents/patent_source_manifest.csv
+!data/raw/patents/fixtures/
+!data/raw/patents/fixtures/industrial_ai_patent_records.csv
 data/raw/city_controls/city_controls_ci_stub.csv
 data/interim/*
 !data/interim/.gitkeep
@@ -55,7 +58,6 @@ data/processed/*
 !data/processed/smart_factory_city_industry_year.csv
 !data/processed/china_ai_diffusion_atlas_city_industry_year.csv
 !data/interim/industrial_ai_patents_long.csv
-!data/raw/patents/industrial_ai_patent_records.csv
 outputs/*
 !outputs/.gitkeep
 !outputs/tables/

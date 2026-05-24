@@ -55,10 +55,12 @@ def _models_built() -> bool:
 def _main_result_summary(evidence: dict) -> str:
     if evidence.get("fixture_patents_detected", True):
         ok, detail = has_publication_ready_f1()
-        note = f" (fixture data; exploratory only: {detail})" if ok else ""
+        note = f" (exploratory on stale/fixture panel only: {detail})" if ok else ""
+        status = evidence.get("patent_source_status", "fixture")
         return (
-            "Atlas software pipeline operational; patent layer is fixture-backed. "
-            "Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens exports are ingested."
+            f"Atlas software pipeline operational; no manifest-backed real patent exports in evidence path "
+            f"({status}). Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens "
+            f"exports are ingested per docs/ATLAS_PHASE2_PATENT_EXPORT_AND_MODEL_RUNBOOK.md."
             + note
         )
     ok, detail = has_publication_ready_f1()

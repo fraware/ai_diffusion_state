@@ -7,6 +7,7 @@ import pandas as pd
 
 from diffusion_state.ingest_patents import ingest_all_patents, write_patents_long
 from diffusion_state.patent_taxonomy import CATEGORY_COLUMNS, category_count_columns
+from diffusion_state.patent_raw_sources import list_evidence_patent_csv_files
 from diffusion_state.utils import PROJECT_ROOT, write_csv
 
 PRIMARY_CONFIDENCE = {"high", "medium"}
@@ -186,6 +187,11 @@ def build_industrial_ai_patents(
         PROJECT_ROOT / "data" / "processed" / "industrial_ai_patents_city_industry_year.csv"
     )
     interim_path = interim_path or PROJECT_ROOT / "data" / "interim" / "industrial_ai_patents_long.csv"
+
+    if not list_evidence_patent_csv_files(patents_dir):
+        if processed_path.exists():
+            return pd.read_csv(processed_path)
+        return pd.DataFrame(columns=PROCESSED_COLUMNS)
 
     long_df = build_industrial_ai_patents_long(
         patents_dir,

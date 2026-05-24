@@ -1,27 +1,30 @@
 {
   "fixture_patents_detected": true,
   "real_patent_source_present": false,
-  "n_raw_patent_records": 288648,
-  "n_unique_patent_ids": 560,
-  "n_source_files": 3,
-  "source_files": [
-    "cnipa_micro.csv",
-    "industrial_ai_patent_records.csv",
-    "patent_database.csv"
+  "n_raw_patent_records": 0,
+  "n_unique_patent_ids": 0,
+  "n_source_files": 0,
+  "source_files": [],
+  "quarantined_fixture_files": [
+    "fixtures/cnipa_micro.csv",
+    "fixtures/industrial_ai_patent_records.csv",
+    "fixtures/patent_database.csv",
+    "patent_source_manifest.csv"
   ],
-  "patent_source_status": "fixture_micro",
+  "patent_source_status": "missing_real_exports",
+  "manifest_path": "data\\raw\\patents\\patent_source_manifest.csv",
   "fixture_signals": {
     "sequential_patent_ids": false,
-    "sequential_patent_id_share": 0.0019400792660957292,
+    "sequential_patent_id_share": 0.0,
     "synthetic_applicant_names": false,
-    "synthetic_applicant_share": 0.0019400792660957292,
+    "synthetic_applicant_share": 0.0,
     "single_fixture_source_file": false,
     "cnipa_micro_without_real_export": false,
-    "cnipa_micro_source_share": 0.0019400792660957292,
+    "cnipa_micro_source_share": 0.0,
     "systematic_title_templates": false,
     "title_template_share": 0.0,
-    "abstract_equals_claims": true,
-    "abstract_equals_claims_share": 1.0
+    "abstract_equals_claims": false,
+    "abstract_equals_claims_share": 0.0
   },
   "evidence_gate_passed": false
 }

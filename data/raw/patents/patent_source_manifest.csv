@@ -1,0 +1,4 @@
+source_file,source_platform,export_date,export_owner,query_group,query_string,year_min,year_max,jurisdiction_filter,record_count,contains_applicant_address,contains_city,contains_abstract,contains_claims,license_or_access_note,proprietary_or_public,notes
+fixtures/industrial_ai_patent_records.csv,repository_fixture,,engineering,fixture,,2015,2024,CN,560,True,True,True,True,tests only; do not use for evidence builds,quarantined,Excluded from Atlas evidence ingest by patent_raw_sources.py
+fixtures/cnipa_micro.csv,repository_fixture,,engineering,fixture,,2015,2024,CN,560,True,True,True,True,tests only; do not use for evidence builds,quarantined,Excluded from Atlas evidence ingest by patent_raw_sources.py
+fixtures/patent_database.csv,repository_fixture,,engineering,fixture,,2015,2024,CN,287528,True,True,True,True,tests only; do not use for evidence builds,quarantined,Excluded from Atlas evidence ingest by patent_raw_sources.py

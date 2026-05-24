@@ -7,11 +7,15 @@ from diffusion_state.utils import PROJECT_ROOT
 from diffusion_state.validate_no_fixture_patents import collect_evidence_gate_report
 
 
-def test_fixture_patents_detected_on_current_repo() -> None:
+def test_evidence_gate_fails_without_real_exports() -> None:
     report = collect_evidence_gate_report()
     assert report["fixture_patents_detected"] is True
-    assert report["patent_source_status"] in ("fixture_micro", "mixed_fixture_and_real")
-    assert report["n_raw_patent_records"] >= 100
+    assert report["real_patent_source_present"] is False
+    assert report["evidence_gate_passed"] is False
+    assert report["patent_source_status"] in (
+        "missing_real_exports",
+        "fixture_micro_in_evidence_path",
+    )
 
 
 def test_atlas_software_ready_but_not_evidence_ready() -> None:
@@ -22,9 +26,21 @@ def test_atlas_software_ready_but_not_evidence_ready() -> None:
     assert status["fixture_patents_detected"] is True
 
 
-def test_evidence_gate_report_written_by_make_target() -> None:
+def test_quarantined_fixtures_not_in_evidence_path() -> None:
+    report = collect_evidence_gate_report()
+    for name in report.get("source_files", []):
+        assert "fixtures/" not in name
+        assert name not in {
+            "industrial_ai_patent_records.csv",
+            "cnipa_micro.csv",
+            "patent_database.csv",
+        }
+
+
+def test_evidence_gate_report_fields() -> None:
     path = PROJECT_ROOT / "paper" / "atlas_evidence_gate_report.json"
     if path.exists():
         data = json.loads(path.read_text(encoding="utf-8"))
         assert "fixture_patents_detected" in data
-        assert "source_files" in data
+        assert "quarantined_fixture_files" in data
+        assert "manifest_path" in data

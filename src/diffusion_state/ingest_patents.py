@@ -8,6 +8,11 @@ from diffusion_state.fetch_patents_cset import fetch_cset_patent_database
 from diffusion_state.patent_city_normalize import normalize_city, normalize_province
 from diffusion_state.patent_industry_map import map_patent_industry
 from diffusion_state.patent_taxonomy import CATEGORY_COLUMNS, classify_patent_text
+from diffusion_state.patent_raw_sources import (
+    FIXTURES_DIR,
+    list_evidence_patent_csv_files,
+    relative_source_file,
+)
 from diffusion_state.utils import PROJECT_ROOT, read_yaml, write_csv
 
 TAXONOMY_PATH = PROJECT_ROOT / "configs" / "patent_taxonomy.yml"
@@ -152,11 +157,7 @@ def _enrich_dataframe(std: pd.DataFrame, source: str, source_file: str) -> pd.Da
 
 
 def ingest_cnipa_files(patents_dir: Path) -> pd.DataFrame:
-    patterns = ["cnipa_*.csv", "cnipa_*.csv.gz", "patents_normalized*.csv"]
-    paths: list[Path] = []
-    for pat in patterns:
-        paths.extend(patents_dir.glob(pat))
-    paths = sorted({p for p in paths if p.is_file()})
+    paths = list_evidence_patent_csv_files(patents_dir)
     if not paths:
         return pd.DataFrame(columns=LONG_COLUMNS)
 
@@ -165,7 +166,10 @@ def ingest_cnipa_files(patents_dir: Path) -> pd.DataFrame:
         compression = "gzip" if path.suffix == ".gz" else None
         raw = pd.read_csv(path, compression=compression, low_memory=False)
         std = _rename_to_standard(raw, CNIPA_COLUMN_MAP)
-        frames.append(_enrich_dataframe(std, "cnipa", str(path)))
+        if "patent_id" not in std.columns and "patent_id" in raw.columns:
+            std["patent_id"] = raw["patent_id"]
+        source_file = relative_source_file(path, patents_dir)
+        frames.append(_enrich_dataframe(std, "cnipa_export", source_file))
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=LONG_COLUMNS)
 
 
@@ -182,13 +186,18 @@ def ingest_normalized_files(patents_dir: Path) -> pd.DataFrame:
 
 
 def ingest_cset_china(patents_dir: Path) -> pd.DataFrame:
-    """CSET rows are taxonomy validation only (no applicant city)."""
-    csv_path = patents_dir / "patent_database.csv"
+    """CSET rows are taxonomy validation only (no applicant city). Uses quarantined fixture path."""
+    csv_path = FIXTURES_DIR / "patent_database.csv"
     if not csv_path.exists():
+        csv_path = patents_dir / "patent_database.csv"
+    if not csv_path.exists() or csv_path.parent.name != "fixtures":
         try:
-            fetch_cset_patent_database(patents_dir)
+            fetch_cset_patent_database(FIXTURES_DIR)
+            csv_path = FIXTURES_DIR / "patent_database.csv"
         except Exception:
             return pd.DataFrame(columns=LONG_COLUMNS)
+    if not csv_path.exists():
+        return pd.DataFrame(columns=LONG_COLUMNS)
 
     usecols = [
         "Publication_country",
