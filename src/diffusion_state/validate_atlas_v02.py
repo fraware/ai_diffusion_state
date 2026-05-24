@@ -3,6 +3,7 @@ from __future__ import annotations
 import pandas as pd
 
 from diffusion_state.utils import PROJECT_ROOT
+from diffusion_state.validate_smart_factory_atlas import _count_column
 
 
 def validate_atlas_v02() -> list[str]:
@@ -35,7 +36,8 @@ def validate_atlas_v02() -> list[str]:
     if sf_path.exists() and pat_path.exists():
         sf = pd.read_csv(sf_path)
         pat = pd.read_csv(pat_path)
-        if int(sf["smart_factory_count"].sum()) != int(atlas["smart_factory_count"].sum()):
+        sf_count_col = _count_column(sf)
+        if int(sf[sf_count_col].sum()) != int(atlas["smart_factory_count"].sum()):
             errors.append("smart-factory totals mismatch between atlas and SF layer")
         if int(pat["industrial_ai_patents"].sum()) != int(atlas["industrial_ai_patents"].sum()):
             errors.append("patent totals mismatch between atlas and patent layer")

@@ -73,6 +73,5 @@ province, and address are not documented. A converter can still produce a partia
 AI patent classification and year/title/abstract/IPC work, but Atlas `patent_layer_ready` will
 remain blocked until applicant geography is joined from another source or confirmed in the SQL dump.
 
-Next: run `python scripts/61_iids_sql_to_patent_csv.py` (streaming SQL→CSV), optionally
-`python scripts/62_join_iids_patent_geography.py` with a CNIPA geography supplement, then
-`make atlas-patent-prep` → complete manifest → `make atlas-evidence-check` → `make atlas-patents`.
+Next: build a streaming SQL→CSV converter that reads only required columns and filters by year/IPC,
+then map to `data/raw/patents/opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv`.

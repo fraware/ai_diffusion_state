@@ -42,6 +42,7 @@ data/raw/*
 data/raw/patents/*
 !data/raw/patents/README.md
 !data/raw/patents/README_REAL_EXPORTS.md
+!data/raw/patents/cnipa_patent_geography_template.csv
 !data/raw/patents/patent_source_manifest.csv
 !data/raw/patents/fixtures/
 !data/raw/patents/fixtures/industrial_ai_patent_records.csv

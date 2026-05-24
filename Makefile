@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-pipeline atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-pipeline atlas-iids-pipeline-full atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
 
 PYTHON ?= python
 
@@ -160,7 +160,17 @@ atlas-iids-convert:
 atlas-iids-geo:
 	$(PYTHON) scripts/62_join_iids_patent_geography.py
 
-atlas-iids-pipeline: atlas-iids-convert atlas-iids-geo atlas-patent-prep
+atlas-iids-geo-validate:
+	$(PYTHON) scripts/63_validate_patent_geography_supplement.py
+
+atlas-iids-geo-build:
+	$(PYTHON) scripts/65_build_patent_geography_from_export.py
+
+atlas-iids-pipeline:
+	$(PYTHON) scripts/64_run_atlas_iids_pipeline.py
+
+atlas-iids-pipeline-full:
+	$(PYTHON) scripts/64_run_atlas_iids_pipeline.py --full-chain
 
 atlas-v02:
 	$(PYTHON) scripts/47_build_atlas_v02.py

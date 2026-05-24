@@ -4,7 +4,12 @@ from pathlib import Path
 
 import pandas as pd
 
-from diffusion_state.iids_geo_join import join_patent_geography
+from diffusion_state.iids_geo_join import (
+    discover_geography_supplement,
+    is_geography_template_path,
+    join_patent_geography,
+    load_geography_lookup,
+)
 from diffusion_state.iids_patent_converter import (
     IidsConvertConfig,
     build_grant_year_index,
@@ -94,6 +99,19 @@ def test_iids_row_to_phase1_mapping() -> None:
     assert phase1["publication_year"] == "2018"
     assert phase1["grant_year"] == "2020"
     assert phase1["applicant_name"] == "苏州智造科技有限公司"
+
+
+def test_geography_template_excluded_from_discovery() -> None:
+    template = PROJECT_ROOT / "data" / "raw" / "patents" / "cnipa_patent_geography_template.csv"
+    assert template.exists()
+    assert is_geography_template_path(template)
+    assert discover_geography_supplement() is None
+
+
+def test_load_geography_lookup_prefers_publication_number() -> None:
+    lookup = load_geography_lookup(FIXTURES / "iids_geography_sample.csv")
+    assert "CN2018123456A" in lookup["patent_id"].values
+    assert lookup["applicant_city"].iloc[0] == "苏州市"
 
 
 def test_join_patent_geography(tmp_path: Path) -> None:

@@ -2,6 +2,28 @@
 
 Place China patent microdata here for the Atlas industrial AI patent layer.
 
+## IIDS + geography path (Atlas Phase 2)
+
+1. Download IIDS sources: `python scripts/59_download_iids_patent_sources.py --include-sql`
+2. Convert filtered export: `make atlas-iids-convert`
+3. Build geography supplement from CNIPA/Lens (schema guide):
+   `data/raw/patents/cnipa_patent_geography_template.csv`
+4. Validate supplement: `make atlas-iids-geo-validate`
+5. Build from CNIPA/Lens export: `make atlas-iids-geo-build`
+6. Join geography: `make atlas-iids-geo`
+7. Orchestrated run: `make atlas-iids-pipeline` (or `--full-chain` after manifest)
+8. Complete manifest and run evidence chain per `docs/ATLAS_PHASE2_PATENT_EXPORT_AND_MODEL_RUNBOOK.md`
+
+Target evidence file:
+
+- `opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv`
+
+Target geography supplement (real data, not the template):
+
+- `cnipa_patent_geography_2015_2024.csv`
+
+Minimum geography acceptance after join: city fill >= 80%, 50+ cities, 500+ records.
+
 ## Required for city-industry-year panel
 
 Drop one or more files matching:
