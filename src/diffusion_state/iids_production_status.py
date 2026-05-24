@@ -123,15 +123,15 @@ def collect_production_status(*, sources_dir: Path | None = None) -> ProductionS
         nxt = "Wait for SQL finalize, then run atlas-iids-pipeline --production --skip-geo"
     elif active or (pct is not None and pct < 99.9):
         phase = "sql_download"
-        nxt = "Monitor: wsl bash scripts/wsl_iids_status.sh (do not interrupt WSL download)"
+        nxt = "Monitor: powershell -File scripts/windows_iids_external.ps1 -TargetDir D:\\iids_sources -Step status"
     elif "Phase 1 complete" in log_text:
         phase = "phase1_complete"
         nxt = "make atlas-iids-geo-build after CNIPA/Lens geography export arrives"
     else:
         phase = "not_started"
         nxt = (
-            "powershell -File scripts/wsl_start_iids_production.ps1 "
-            f"(needs >= {MIN_SQL_DOWNLOAD_GB} GB on WSL / external disk)"
+            "powershell -File scripts/windows_iids_external.ps1 -TargetDir D:\\iids_sources -Step docs "
+            "(then -Step detail). See docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md"
         )
 
     if pct is None and wsl_bytes:

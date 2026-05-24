@@ -39,9 +39,9 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from diffusion_state.iids_paths import (  # noqa: E402
     IIDS_DATASET_REPO,
-    MIN_SQL_DOWNLOAD_GB,
     resolve_iids_download_targets,
     resolve_iids_sources_dir,
+    validate_production_target_dir,
 )
 from diffusion_state.openxlab_client import download_dataset_file, login_openxlab  # noqa: E402
 
@@ -149,14 +149,12 @@ def main() -> int:
         os.environ["OPENXLAB_IIDS_SOURCES_DIR"] = str(target)
 
     wants_sql = args.include_sql or args.sql_only or args.detail_only
-    if wants_sql and not args.force_sql:
-        free = _disk_free_gb(target if target.exists() else target.parent)
-        if free < MIN_SQL_DOWNLOAD_GB:
-            print(
-                f"ERROR: {free:.0f} GB free at {target.parent}; need >= {MIN_SQL_DOWNLOAD_GB} GB for SQL.\n"
-                "Use --target-dir on an external drive, free disk space, or --force-sql to override.",
-                file=sys.stderr,
-            )
+    if wants_sql:
+        blockers = validate_production_target_dir(target)
+        if blockers and not args.force_sql:
+            print("ERROR: unsafe download target:", file=sys.stderr)
+            for issue in blockers:
+                print(f"  - {issue}", file=sys.stderr)
             return 3
 
     targets = resolve_iids_download_targets(

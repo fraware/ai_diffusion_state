@@ -7,9 +7,19 @@ Place China patent microdata here for the Atlas industrial AI patent layer.
 Keep the repo laptop (~40 GB free) as **control / paper / repo only**. Do not run full IIDS SQL
 downloads or production conversion on it.
 
-Run heavy steps on an **external SSD (256 GB+)** or a **temporary cloud VM (300 GB disk)**.
+Run heavy steps on **external SSD** (`D:\iids_sources` or `E:\iids_sources`) or a **cloud VM (300 GB disk)**.
 
-Preflight (any machine): `make atlas-iids-preflight` → `outputs/tables/table_P8_iids_machine_readiness.json`
+**Do not** download to WSL home (`/home/mateo/iids_sources`) or the repo laptop `C:` partition.
+
+Canonical playbook: `docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md`
+
+Quick start (external SSD):
+
+```powershell
+powershell -File scripts/windows_iids_external.ps1 -TargetDir D:\iids_sources -Step status
+powershell -File scripts/windows_iids_external.ps1 -TargetDir D:\iids_sources -Step docs
+powershell -File scripts/windows_iids_external.ps1 -TargetDir D:\iids_sources -Step detail
+```
 
 ## IIDS — download only what Atlas needs
 
@@ -70,8 +80,8 @@ IIDS has no city/province/address. Export keys first, then build geography **onl
 1. `make atlas-iids-export-keys` → `outputs/tables/table_P9_iids_patent_keys_for_geography.csv`
 2. Request CNIPA/Lens geography export for those publication numbers
 3. `make atlas-iids-geo-build` (from CNIPA/Lens export with `公开号` + address fields)
-2. `make atlas-iids-geo-validate`
-3. `make atlas-iids-geo`
+4. `make atlas-iids-geo-validate`
+5. `make atlas-iids-geo`
 
 Schema guide: `data/raw/patents/cnipa_patent_geography_template.csv`
 

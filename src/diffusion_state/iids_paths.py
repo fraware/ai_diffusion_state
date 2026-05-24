@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 from pathlib import Path
 
 from diffusion_state.utils import PROJECT_ROOT
@@ -13,6 +14,50 @@ PATENT_KEYS_FOR_GEO_OUTPUT = PROJECT_ROOT / "outputs" / "tables" / "table_P9_iid
 SMOKE_IIDS_DIR = PROJECT_ROOT / "outputs" / "smoke" / "iids"
 
 MIN_SQL_DOWNLOAD_GB = 150
+
+# Do not use WSL home or the repo laptop C: partition for ~136 GB SQL.
+FORBIDDEN_TARGET_MARKERS = (
+    "/home/",
+    "~/",
+    "\\wsl$\\",
+    "/mnt/c/users/",
+)
+
+
+def validate_production_target_dir(target: Path) -> list[str]:
+    """Return human-readable blockers for unsafe IIDS download targets."""
+    issues: list[str] = []
+    normalized = target.as_posix().lower()
+    if "\\" in str(target):
+        win = str(target).lower()
+        if "\\wsl$\\" in win or "\\wsl.localhost\\" in win:
+            issues.append(
+                "Do not download into WSL paths. Use an external drive such as D:\\iids_sources or E:\\iids_sources."
+            )
+    for marker in FORBIDDEN_TARGET_MARKERS:
+        if marker in normalized or marker.replace("/", "\\") in str(target).lower():
+            issues.append(
+                "Do not download to WSL home (/home/mateo/iids_sources). "
+                "Use D:\\iids_sources, E:\\iids_sources, or a cloud VM with >= 300 GB disk."
+            )
+            break
+    try:
+        free = shutil.disk_usage(target if target.exists() else target.parent).free / (1024**3)
+    except OSError:
+        free = 0.0
+    if free < MIN_SQL_DOWNLOAD_GB:
+        issues.append(
+            f"Only {free:.1f} GB free at {target}; need >= {MIN_SQL_DOWNLOAD_GB} GB for base_patent_detail.sql. "
+            "Attach external SSD (D: or E:) or use a cloud VM."
+        )
+    repo_drive = PROJECT_ROOT.drive.lower()
+    target_drive = target.drive.lower()
+    if repo_drive and target_drive == repo_drive and free < MIN_SQL_DOWNLOAD_GB:
+        issues.append(
+            "Do not run the SQL download on the repo laptop Windows partition (~38 GB). "
+            "Set OPENXLAB_IIDS_SOURCES_DIR to external storage."
+        )
+    return issues
 
 IIDS_DATASET_REPO = "Gracie/IIDS"
 
