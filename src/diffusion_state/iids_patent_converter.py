@@ -10,12 +10,15 @@ from pathlib import Path
 
 from diffusion_state.iids_sql_parser import stream_table_inserts
 from diffusion_state.parse_industrial_ai_patents import PHASE1_COLUMNS
+from diffusion_state.iids_paths import (
+    DEFAULT_IIDS_OUTPUT,
+    DEFAULT_IIDS_SOURCES_DIR,
+    resolve_iids_sources_dir,
+)
 from diffusion_state.utils import PROJECT_ROOT, read_yaml
 
-IIDS_SOURCES_DIR = PROJECT_ROOT / "data" / "raw" / "patents" / "opendatalab_iids_sources"
-DEFAULT_OUTPUT = (
-    PROJECT_ROOT / "data" / "raw" / "patents" / "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
-)
+IIDS_SOURCES_DIR = DEFAULT_IIDS_SOURCES_DIR
+DEFAULT_OUTPUT = DEFAULT_IIDS_OUTPUT
 
 DETAIL_TABLE = "base_patent_detail"
 LAW_TABLE = "base_patent_law_status"
@@ -276,7 +279,7 @@ def convert_iids_sql_to_csv(config: IidsConvertConfig) -> IidsConvertStats:
 
 
 def find_iids_sql_paths(sources_dir: Path | None = None) -> tuple[Path | None, Path | None]:
-    sources_dir = sources_dir or IIDS_SOURCES_DIR
+    sources_dir = sources_dir or resolve_iids_sources_dir()
     if not sources_dir.exists():
         return None, None
     detail = next(iter(sources_dir.rglob("base_patent_detail.sql")), None)

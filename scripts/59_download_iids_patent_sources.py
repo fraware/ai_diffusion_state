@@ -7,32 +7,38 @@ Required environment variables:
     OPENXLAB_AK
     OPENXLAB_SK
 
+Optional:
+    OPENXLAB_IIDS_SOURCES_DIR  — download target (use external drive if repo disk is small)
+    OPENXLAB_INSECURE_SSL=1    — Windows TLS workaround only
+
 Usage, PowerShell:
     $env:OPENXLAB_AK="<your access key>"
     $env:OPENXLAB_SK="<your secret key>"
     python scripts/59_download_iids_patent_sources.py
     python scripts/59_download_iids_patent_sources.py --include-sql
-
-Optional (Windows TLS issues only):
-    $env:OPENXLAB_INSECURE_SSL="1"
+    python scripts/59_download_iids_patent_sources.py --include-sql --target-dir D:\iids_sources
 
 Outputs:
-    data/raw/patents/opendatalab_iids_sources/
+    data/raw/patents/opendatalab_iids_sources/  (or --target-dir / OPENXLAB_IIDS_SOURCES_DIR)
 
 After download, run:
     python scripts/60_inspect_iids_patent_schema.py
-    python scripts/61_iids_sql_to_patent_csv.py   # when SQL is present locally
+    python scripts/61_iids_sql_to_patent_csv.py
 """
 from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TARGET = ROOT / "data" / "raw" / "patents" / "opendatalab_iids_sources"
+sys.path.insert(0, str(ROOT / "src"))
+
+from diffusion_state.iids_paths import MIN_SQL_DOWNLOAD_GB, resolve_iids_sources_dir  # noqa: E402
+
 DATASET = "Gracie/IIDS"
 
 DOC_FILES = [
@@ -96,17 +102,22 @@ def _safe_print(msg: str) -> None:
         print(msg.encode("ascii", errors="backslashreplace").decode("ascii"))
 
 
-def download_files(file_list: list[str]) -> None:
+def _disk_free_gb(path: Path) -> float:
+    usage = shutil.disk_usage(path)
+    return usage.free / (1024**3)
+
+
+def download_files(file_list: list[str], target: Path) -> None:
     from openxlab.dataset import download
 
-    TARGET.mkdir(parents=True, exist_ok=True)
+    target.mkdir(parents=True, exist_ok=True)
     for src in file_list:
-        _safe_print(f"Downloading {src} -> {TARGET}")
+        _safe_print(f"Downloading {src} -> {target}")
         try:
-            download(dataset_repo=DATASET, source_path=src, target_path=str(TARGET))
+            download(dataset_repo=DATASET, source_path=src, target_path=str(target))
         except Exception as exc:
             _safe_print(f"FAILED {src}: {exc}")
-    _safe_print(f"\nDownloaded files are under: {TARGET}")
+    _safe_print(f"\nDownloaded files are under: {target}")
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -121,6 +132,17 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Download SQL files only (skip documentation)",
     )
+    p.add_argument(
+        "--target-dir",
+        type=Path,
+        default=None,
+        help="Download directory (default: repo opendatalab_iids_sources or OPENXLAB_IIDS_SOURCES_DIR)",
+    )
+    p.add_argument(
+        "--force-sql",
+        action="store_true",
+        help="Attempt SQL download even when free disk is below the recommended minimum",
+    )
     return p
 
 
@@ -128,6 +150,21 @@ def main() -> int:
     if sys.platform == "win32":
         os.environ.setdefault("PYTHONUTF8", "1")
     args = _build_parser().parse_args()
+    target = (args.target_dir or resolve_iids_sources_dir()).resolve()
+    if args.target_dir:
+        os.environ["OPENXLAB_IIDS_SOURCES_DIR"] = str(target)
+
+    include_sql = args.include_sql or args.sql_only
+    if include_sql and not args.force_sql:
+        free = _disk_free_gb(target if target.exists() else target.parent)
+        if free < MIN_SQL_DOWNLOAD_GB:
+            print(
+                f"ERROR: {free:.0f} GB free at {target.parent}; need >= {MIN_SQL_DOWNLOAD_GB} GB for SQL.\n"
+                "Use --target-dir on an external drive, free disk space, or --force-sql to override.",
+                file=sys.stderr,
+            )
+            return 3
+
     if args.sql_only:
         targets = SQL_FILES
     elif args.include_sql:
@@ -137,10 +174,10 @@ def main() -> int:
         print("Docs-only mode (default). Pass --include-sql on a machine with ~150 GB free disk.")
     ensure_openxlab()
     login()
-    download_files(targets)
+    download_files(targets, target)
     print("\nNext command:")
     print("  python scripts/60_inspect_iids_patent_schema.py")
-    if args.include_sql or args.sql_only:
+    if include_sql:
         print("  python scripts/61_iids_sql_to_patent_csv.py")
     return 0
 

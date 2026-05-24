@@ -4,8 +4,18 @@ Place China patent microdata here for the Atlas industrial AI patent layer.
 
 ## IIDS + geography path (Atlas Phase 2)
 
+0. Preflight: `make atlas-iids-preflight` → `outputs/tables/table_P8_iids_machine_readiness.json`
+
+External drive (when repo disk < 150 GB free):
+
+```powershell
+$env:OPENXLAB_IIDS_SOURCES_DIR="D:\iids_sources"
+python scripts/59_download_iids_patent_sources.py --include-sql --target-dir D:\iids_sources
+```
+
 1. Download IIDS sources: `python scripts/59_download_iids_patent_sources.py --include-sql`
-2. Convert filtered export: `make atlas-iids-convert`
+2. Smoke (non-evidence): `make atlas-iids-smoke`
+3. Convert filtered export: `make atlas-iids-convert` (production path)
 3. Build geography supplement from CNIPA/Lens (schema guide):
    `data/raw/patents/cnipa_patent_geography_template.csv`
 4. Validate supplement: `make atlas-iids-geo-validate`

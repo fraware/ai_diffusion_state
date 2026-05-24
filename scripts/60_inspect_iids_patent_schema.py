@@ -15,8 +15,10 @@ import zipfile
 
 import pandas as pd
 
+from diffusion_state.iids_paths import resolve_iids_sources_dir
+
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "data" / "raw" / "patents" / "opendatalab_iids_sources"
+SRC = resolve_iids_sources_dir()
 OUT = ROOT / "outputs" / "tables"
 NOTE = ROOT / "docs" / "source_notes" / "iids_patent_schema_inspection.md"
 
