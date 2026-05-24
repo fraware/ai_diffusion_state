@@ -31,6 +31,9 @@ def _cnipa_or_lens_exports_present() -> bool:
     return False
 
 
+PYTHON = sys.executable
+
+
 def _run(cmd: list[str], *, label: str) -> int:
     print(f"\n=== {label} ===")
     print(" ".join(cmd))

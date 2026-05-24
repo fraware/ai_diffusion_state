@@ -68,31 +68,10 @@ def ensure_openxlab() -> None:
 
 
 def login() -> None:
-    ak = os.environ.get("OPENXLAB_AK")
-    sk = os.environ.get("OPENXLAB_SK")
-    if not ak or not sk:
-        raise SystemExit(
-            "Missing OPENXLAB_AK / OPENXLAB_SK environment variables. "
-            "Set them locally; do not commit credentials."
-        )
-    if os.environ.get("OPENXLAB_INSECURE_SSL", "").lower() in ("1", "true", "yes"):
-        import urllib3
-
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        import requests
-
-        _orig = requests.Session.request
-
-        def _request(session, method, url, **kwargs):  # noqa: ANN001
-            kwargs.setdefault("verify", False)
-            return _orig(session, method, url, **kwargs)
-
-        requests.Session.request = _request  # type: ignore[method-assign]
-        print("WARNING: OPENXLAB_INSECURE_SSL=1 — TLS certificate verification disabled for this run.")
-    import openxlab
+    from diffusion_state.openxlab_client import login_openxlab
 
     print("Logging in to OpenXLab with environment-provided credentials...")
-    openxlab.login(ak=ak, sk=sk)
+    login_openxlab()
 
 
 def _safe_print(msg: str) -> None:
