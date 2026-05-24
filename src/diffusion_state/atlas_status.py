@@ -10,7 +10,10 @@ from diffusion_state.utils import PROJECT_ROOT
 from diffusion_state.validate_atlas_v02 import validate_atlas_v02
 from diffusion_state.validate_industry_exposure_v2 import validate_industry_exposure_v2
 from diffusion_state.validate_industrial_ai_patents_phase1 import validate_industrial_ai_patents_phase1
-from diffusion_state.validate_no_fixture_patents import collect_evidence_gate_report
+from diffusion_state.validate_no_fixture_patents import (
+    collect_evidence_gate_report,
+    write_evidence_gate_report,
+)
 from diffusion_state.validate_patent_layer import validate_patent_layer
 from diffusion_state.validate_pcs_gates import validate_pcs_gates
 from diffusion_state.validate_smart_factory_atlas import validate_smart_factory_city_industry_year
@@ -49,7 +52,15 @@ def _models_built() -> bool:
     return all(p.exists() for p in required)
 
 
-def _main_result_summary() -> str:
+def _main_result_summary(evidence: dict) -> str:
+    if evidence.get("fixture_patents_detected", True):
+        ok, detail = has_publication_ready_f1()
+        note = f" (fixture data; exploratory only: {detail})" if ok else ""
+        return (
+            "Atlas software pipeline operational; patent layer is fixture-backed. "
+            "Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens exports are ingested."
+            + note
+        )
     ok, detail = has_publication_ready_f1()
     if ok:
         return f"Publication-ready F1 estimate: {detail}"
@@ -98,12 +109,7 @@ def collect_atlas_status() -> dict:
     sf_err = validate_smart_factory_city_industry_year()
     atlas_err = validate_atlas_v02()
 
-    evidence = collect_evidence_gate_report()
-    if EVIDENCE_REPORT.exists():
-        try:
-            evidence = json.loads(EVIDENCE_REPORT.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            pass
+    evidence = write_evidence_gate_report()
 
     exposure_ready = _layer_ready(EXPOSURE, exposure_err) and _layer_ready(ROBOT, exposure_err)
     patent_ready = _layer_ready(PATENTS, patent_err) and not evidence.get("fixture_patents_detected", True)
@@ -163,7 +169,7 @@ def collect_atlas_status() -> dict:
         "n_industries": n_industries,
         "years_min": years_min,
         "years_max": years_max,
-        "main_result_summary": _main_result_summary(),
+        "main_result_summary": _main_result_summary(evidence),
         "forbidden_claim_flags": _forbidden_claim_flags(),
         "layer_errors": {
             "exposure": exposure_err,

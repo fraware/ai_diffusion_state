@@ -1,0 +1,6 @@
+﻿model_name,n_obs,n_nonzero_outcome,n_cities,n_industries,n_years,n_city_industry_cells,n_singleton_fe_cells,interaction_mean,interaction_sd,interaction_nonzero_share,outcome_mean,outcome_nonzero_share,can_estimate,failure_reason
+pilot_x_ai_exposure_patents_baseline_ols_log1p,762,381,162,21,11,605,460,0.2929790026246719,0.5833866052862267,0.21391076115485563,0.5,0.5,True,
+pilot_x_ai_exposure_patents_city_industry_year_ols_log1p,762,381,162,21,11,605,460,0.2929790026246719,0.5833866052862267,0.21391076115485563,0.5,0.5,True,
+pilot_x_ai_exposure_patents_province_year_ols_log1p,762,381,162,21,11,605,460,0.2929790026246719,0.5833866052862267,0.21391076115485563,0.5,0.5,True,
+pilot_x_ai_exposure_patents_saturated_ols_log1p,762,381,162,21,11,605,460,0.2929790026246719,0.5833866052862267,0.21391076115485563,0.5,0.5,True,
+pilot_x_ai_exposure_patents_saturated_poisson,762,381,162,21,11,605,460,0.2929790026246719,0.5833866052862267,0.21391076115485563,0.5,0.5,True,

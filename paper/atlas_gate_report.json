@@ -1,23 +1,59 @@
 {
   "pcs_ready": true,
-  "atlas_ready": true,
+  "atlas_ready": false,
+  "atlas_software_ready": true,
+  "atlas_evidence_ready": false,
+  "atlas_phase1_ready": false,
+  "fixture_patents_detected": true,
+  "patent_source_status": "fixture_micro",
+  "real_patent_source_present": false,
+  "n_raw_patent_records": 288648,
+  "n_unique_patent_ids": 560,
   "exposure_layer_ready": true,
-  "patent_layer_ready": true,
+  "patent_layer_ready": false,
   "smart_factory_layer_ready": true,
   "atlas_panel_ready": true,
-  "atlas_models_ready": true,
-  "atlas_phase1_ready": true,
+  "atlas_models_built": true,
+  "atlas_models_ready": false,
+  "f1_publication_ready_detail": "fixture patent data - not evidentiary (pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
   "n_cities": 162,
   "n_industries": 21,
   "years_min": 2015,
   "years_max": 2025,
-  "main_result_summary": "Pilot-zone x AI-exposure -> industrial AI patents (OLS count): coef=-0.0150 (negative), p=n/a. Interpret as associational exploratory (saturated FE; fixture patent microdata).",
+  "main_result_summary": "Atlas software pipeline operational; patent layer is fixture-backed. Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens exports are ingested. (fixture data; exploratory only: pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
   "forbidden_claim_flags": [],
   "layer_errors": {
     "exposure": [],
     "patents": [],
     "smart_factories": [],
     "atlas_panel": []
+  },
+  "evidence_gate": {
+    "fixture_patents_detected": true,
+    "real_patent_source_present": false,
+    "n_raw_patent_records": 288648,
+    "n_unique_patent_ids": 560,
+    "n_source_files": 3,
+    "source_files": [
+      "cnipa_micro.csv",
+      "industrial_ai_patent_records.csv",
+      "patent_database.csv"
+    ],
+    "patent_source_status": "fixture_micro",
+    "fixture_signals": {
+      "sequential_patent_ids": false,
+      "sequential_patent_id_share": 0.0019400792660957292,
+      "synthetic_applicant_names": false,
+      "synthetic_applicant_share": 0.0019400792660957292,
+      "single_fixture_source_file": false,
+      "cnipa_micro_without_real_export": false,
+      "cnipa_micro_source_share": 0.0019400792660957292,
+      "systematic_title_templates": false,
+      "title_template_share": 0.0,
+      "abstract_equals_claims": true,
+      "abstract_equals_claims_share": 1.0
+    },
+    "evidence_gate_passed": false
   },
   "artifact_paths": {
     "industry_crosswalk": "data/seed/industry_crosswalk_atlas.csv",
@@ -26,6 +62,7 @@
     "patents": "data\\processed\\industrial_ai_patents_city_industry_year.csv",
     "smart_factories": "data\\processed\\smart_factory_city_industry_year.csv",
     "atlas_panel": "data\\processed\\china_ai_diffusion_atlas_city_industry_year.csv",
+    "evidence_gate_report": "paper/atlas_evidence_gate_report.json",
     "draft_atlas": "paper/draft_atlas_v1.md"
   }
 }

@@ -1,0 +1,146 @@
+﻿industry_code,industry,exposure_version,sensitivity_version,exposure_value,source_url_or_citation,not_outcome_derived
+semiconductors,semiconductors,v2_ex_ante_manual,baseline_mean_dims,1.875,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+semiconductors,semiconductors,v2_ex_ante_manual,binary_high_ge_1p5,1.0,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+semiconductors,semiconductors,v2_ex_ante_manual,rank_average,28.5,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+semiconductors,semiconductors,v2_ex_ante_manual,leave_out_machine_vision,1.8571428571428572,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+semiconductors,semiconductors,v2_ex_ante_manual,leave_out_robotics,1.8571428571428572,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+electronics,electronics,v2_ex_ante_manual,baseline_mean_dims,1.625,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+electronics,electronics,v2_ex_ante_manual,binary_high_ge_1p5,1.0,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+electronics,electronics,v2_ex_ante_manual,rank_average,24.0,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+electronics,electronics,v2_ex_ante_manual,leave_out_machine_vision,1.5714285714285714,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+electronics,electronics,v2_ex_ante_manual,leave_out_robotics,1.5714285714285714,MIIT smart manufacturing guides; OECD AI exposure mapping,True
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,v2_ex_ante_manual,baseline_mean_dims,1.625,National AI infrastructure policy; industry practice reviews,True
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,v2_ex_ante_manual,binary_high_ge_1p5,1.0,National AI infrastructure policy; industry practice reviews,True
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,v2_ex_ante_manual,rank_average,24.0,National AI infrastructure policy; industry practice reviews,True
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,v2_ex_ante_manual,leave_out_machine_vision,1.7142857142857142,National AI infrastructure policy; industry practice reviews,True
+ai_servers_and_computing_equipment,ai_servers_and_computing_equipment,v2_ex_ante_manual,leave_out_robotics,1.7142857142857142,National AI infrastructure policy; industry practice reviews,True
+batteries,batteries,v2_ex_ante_manual,baseline_mean_dims,1.875,NEV battery industry reports; MIIT guidance,True
+batteries,batteries,v2_ex_ante_manual,binary_high_ge_1p5,1.0,NEV battery industry reports; MIIT guidance,True
+batteries,batteries,v2_ex_ante_manual,rank_average,28.5,NEV battery industry reports; MIIT guidance,True
+batteries,batteries,v2_ex_ante_manual,leave_out_machine_vision,1.8571428571428572,NEV battery industry reports; MIIT guidance,True
+batteries,batteries,v2_ex_ante_manual,leave_out_robotics,1.8571428571428572,NEV battery industry reports; MIIT guidance,True
+automotive_and_nev,automotive_and_nev,v2_ex_ante_manual,baseline_mean_dims,1.75,Automotive industry 4.0 surveys; MIIT NEV policy,True
+automotive_and_nev,automotive_and_nev,v2_ex_ante_manual,binary_high_ge_1p5,1.0,Automotive industry 4.0 surveys; MIIT NEV policy,True
+automotive_and_nev,automotive_and_nev,v2_ex_ante_manual,rank_average,27.0,Automotive industry 4.0 surveys; MIIT NEV policy,True
+automotive_and_nev,automotive_and_nev,v2_ex_ante_manual,leave_out_machine_vision,1.7142857142857142,Automotive industry 4.0 surveys; MIIT NEV policy,True
+automotive_and_nev,automotive_and_nev,v2_ex_ante_manual,leave_out_robotics,1.7142857142857142,Automotive industry 4.0 surveys; MIIT NEV policy,True
+industrial_machinery,industrial_machinery,v2_ex_ante_manual,baseline_mean_dims,1.5,Industry 4.0 adoption literature,True
+industrial_machinery,industrial_machinery,v2_ex_ante_manual,binary_high_ge_1p5,1.0,Industry 4.0 adoption literature,True
+industrial_machinery,industrial_machinery,v2_ex_ante_manual,rank_average,21.0,Industry 4.0 adoption literature,True
+industrial_machinery,industrial_machinery,v2_ex_ante_manual,leave_out_machine_vision,1.4285714285714286,Industry 4.0 adoption literature,True
+industrial_machinery,industrial_machinery,v2_ex_ante_manual,leave_out_robotics,1.4285714285714286,Industry 4.0 adoption literature,True
+robotics,robotics,v2_ex_ante_manual,baseline_mean_dims,1.625,IFR robotics industry taxonomy,True
+robotics,robotics,v2_ex_ante_manual,binary_high_ge_1p5,1.0,IFR robotics industry taxonomy,True
+robotics,robotics,v2_ex_ante_manual,rank_average,24.0,IFR robotics industry taxonomy,True
+robotics,robotics,v2_ex_ante_manual,leave_out_machine_vision,1.5714285714285714,IFR robotics industry taxonomy,True
+robotics,robotics,v2_ex_ante_manual,leave_out_robotics,1.5714285714285714,IFR robotics industry taxonomy,True
+precision_instruments,precision_instruments,v2_ex_ante_manual,baseline_mean_dims,1.0,Industrial instruments sector review,True
+precision_instruments,precision_instruments,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Industrial instruments sector review,True
+precision_instruments,precision_instruments,v2_ex_ante_manual,rank_average,10.0,Industrial instruments sector review,True
+precision_instruments,precision_instruments,v2_ex_ante_manual,leave_out_machine_vision,1.0,Industrial instruments sector review,True
+precision_instruments,precision_instruments,v2_ex_ante_manual,leave_out_robotics,1.0,Industrial instruments sector review,True
+electrical_machinery,electrical_machinery,v2_ex_ante_manual,baseline_mean_dims,1.25,GB/T 4754 sector; industrial AI compatibility review,True
+electrical_machinery,electrical_machinery,v2_ex_ante_manual,binary_high_ge_1p5,0.0,GB/T 4754 sector; industrial AI compatibility review,True
+electrical_machinery,electrical_machinery,v2_ex_ante_manual,rank_average,15.5,GB/T 4754 sector; industrial AI compatibility review,True
+electrical_machinery,electrical_machinery,v2_ex_ante_manual,leave_out_machine_vision,1.2857142857142858,GB/T 4754 sector; industrial AI compatibility review,True
+electrical_machinery,electrical_machinery,v2_ex_ante_manual,leave_out_robotics,1.1428571428571428,GB/T 4754 sector; industrial AI compatibility review,True
+steel_and_metals,steel_and_metals,v2_ex_ante_manual,baseline_mean_dims,1.25,Heavy industry digitalization reports,True
+steel_and_metals,steel_and_metals,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Heavy industry digitalization reports,True
+steel_and_metals,steel_and_metals,v2_ex_ante_manual,rank_average,15.5,Heavy industry digitalization reports,True
+steel_and_metals,steel_and_metals,v2_ex_ante_manual,leave_out_machine_vision,1.2857142857142858,Heavy industry digitalization reports,True
+steel_and_metals,steel_and_metals,v2_ex_ante_manual,leave_out_robotics,1.2857142857142858,Heavy industry digitalization reports,True
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,v2_ex_ante_manual,baseline_mean_dims,1.25,Process industry AI adoption reviews,True
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Process industry AI adoption reviews,True
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,v2_ex_ante_manual,rank_average,15.5,Process industry AI adoption reviews,True
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,v2_ex_ante_manual,leave_out_machine_vision,1.2857142857142858,Process industry AI adoption reviews,True
+chemicals_and_petrochemicals,chemicals_and_petrochemicals,v2_ex_ante_manual,leave_out_robotics,1.4285714285714286,Process industry AI adoption reviews,True
+pharmaceuticals,pharmaceuticals,v2_ex_ante_manual,baseline_mean_dims,1.625,Pharma 4.0 literature,True
+pharmaceuticals,pharmaceuticals,v2_ex_ante_manual,binary_high_ge_1p5,1.0,Pharma 4.0 literature,True
+pharmaceuticals,pharmaceuticals,v2_ex_ante_manual,rank_average,24.0,Pharma 4.0 literature,True
+pharmaceuticals,pharmaceuticals,v2_ex_ante_manual,leave_out_machine_vision,1.5714285714285714,Pharma 4.0 literature,True
+pharmaceuticals,pharmaceuticals,v2_ex_ante_manual,leave_out_robotics,1.7142857142857142,Pharma 4.0 literature,True
+shipbuilding,shipbuilding,v2_ex_ante_manual,baseline_mean_dims,1.125,Shipbuilding digitization studies,True
+shipbuilding,shipbuilding,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Shipbuilding digitization studies,True
+shipbuilding,shipbuilding,v2_ex_ante_manual,rank_average,12.5,Shipbuilding digitization studies,True
+shipbuilding,shipbuilding,v2_ex_ante_manual,leave_out_machine_vision,1.1428571428571428,Shipbuilding digitization studies,True
+shipbuilding,shipbuilding,v2_ex_ante_manual,leave_out_robotics,1.1428571428571428,Shipbuilding digitization studies,True
+aerospace_components,aerospace_components,v2_ex_ante_manual,baseline_mean_dims,1.625,Aerospace digitization studies,True
+aerospace_components,aerospace_components,v2_ex_ante_manual,binary_high_ge_1p5,1.0,Aerospace digitization studies,True
+aerospace_components,aerospace_components,v2_ex_ante_manual,rank_average,24.0,Aerospace digitization studies,True
+aerospace_components,aerospace_components,v2_ex_ante_manual,leave_out_machine_vision,1.5714285714285714,Aerospace digitization studies,True
+aerospace_components,aerospace_components,v2_ex_ante_manual,leave_out_robotics,1.7142857142857142,Aerospace digitization studies,True
+solar_pv,solar_pv,v2_ex_ante_manual,baseline_mean_dims,1.375,PV manufacturing technology reviews,True
+solar_pv,solar_pv,v2_ex_ante_manual,binary_high_ge_1p5,0.0,PV manufacturing technology reviews,True
+solar_pv,solar_pv,v2_ex_ante_manual,rank_average,19.0,PV manufacturing technology reviews,True
+solar_pv,solar_pv,v2_ex_ante_manual,leave_out_machine_vision,1.2857142857142858,PV manufacturing technology reviews,True
+solar_pv,solar_pv,v2_ex_ante_manual,leave_out_robotics,1.4285714285714286,PV manufacturing technology reviews,True
+logistics_equipment,logistics_equipment,v2_ex_ante_manual,baseline_mean_dims,1.25,Intralogistics automation literature,True
+logistics_equipment,logistics_equipment,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Intralogistics automation literature,True
+logistics_equipment,logistics_equipment,v2_ex_ante_manual,rank_average,15.5,Intralogistics automation literature,True
+logistics_equipment,logistics_equipment,v2_ex_ante_manual,leave_out_machine_vision,1.2857142857142858,Intralogistics automation literature,True
+logistics_equipment,logistics_equipment,v2_ex_ante_manual,leave_out_robotics,1.1428571428571428,Intralogistics automation literature,True
+textiles,textiles,v2_ex_ante_manual,baseline_mean_dims,0.125,Textile sector technology reviews,True
+textiles,textiles,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Textile sector technology reviews,True
+textiles,textiles,v2_ex_ante_manual,rank_average,2.0,Textile sector technology reviews,True
+textiles,textiles,v2_ex_ante_manual,leave_out_machine_vision,0.14285714285714285,Textile sector technology reviews,True
+textiles,textiles,v2_ex_ante_manual,leave_out_robotics,0.14285714285714285,Textile sector technology reviews,True
+food_processing,food_processing,v2_ex_ante_manual,baseline_mean_dims,0.5,Food manufacturing digitization reviews,True
+food_processing,food_processing,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Food manufacturing digitization reviews,True
+food_processing,food_processing,v2_ex_ante_manual,rank_average,5.5,Food manufacturing digitization reviews,True
+food_processing,food_processing,v2_ex_ante_manual,leave_out_machine_vision,0.5714285714285714,Food manufacturing digitization reviews,True
+food_processing,food_processing,v2_ex_ante_manual,leave_out_robotics,0.5714285714285714,Food manufacturing digitization reviews,True
+packaging,packaging,v2_ex_ante_manual,baseline_mean_dims,0.875,Packaging OEM sector review,True
+packaging,packaging,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Packaging OEM sector review,True
+packaging,packaging,v2_ex_ante_manual,rank_average,7.5,Packaging OEM sector review,True
+packaging,packaging,v2_ex_ante_manual,leave_out_machine_vision,0.8571428571428571,Packaging OEM sector review,True
+packaging,packaging,v2_ex_ante_manual,leave_out_robotics,0.8571428571428571,Packaging OEM sector review,True
+home_appliances,home_appliances,v2_ex_ante_manual,baseline_mean_dims,1.125,Appliance industry 4.0 surveys,True
+home_appliances,home_appliances,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Appliance industry 4.0 surveys,True
+home_appliances,home_appliances,v2_ex_ante_manual,rank_average,12.5,Appliance industry 4.0 surveys,True
+home_appliances,home_appliances,v2_ex_ante_manual,leave_out_machine_vision,1.1428571428571428,Appliance industry 4.0 surveys,True
+home_appliances,home_appliances,v2_ex_ante_manual,leave_out_robotics,1.0,Appliance industry 4.0 surveys,True
+construction_machinery,construction_machinery,v2_ex_ante_manual,baseline_mean_dims,0.875,Construction equipment digitization,True
+construction_machinery,construction_machinery,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Construction equipment digitization,True
+construction_machinery,construction_machinery,v2_ex_ante_manual,rank_average,7.5,Construction equipment digitization,True
+construction_machinery,construction_machinery,v2_ex_ante_manual,leave_out_machine_vision,0.8571428571428571,Construction equipment digitization,True
+construction_machinery,construction_machinery,v2_ex_ante_manual,leave_out_robotics,0.8571428571428571,Construction equipment digitization,True
+rail_equipment,rail_equipment,v2_ex_ante_manual,baseline_mean_dims,1.0,Rail equipment industry reports,True
+rail_equipment,rail_equipment,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Rail equipment industry reports,True
+rail_equipment,rail_equipment,v2_ex_ante_manual,rank_average,10.0,Rail equipment industry reports,True
+rail_equipment,rail_equipment,v2_ex_ante_manual,leave_out_machine_vision,1.0,Rail equipment industry reports,True
+rail_equipment,rail_equipment,v2_ex_ante_manual,leave_out_robotics,1.0,Rail equipment industry reports,True
+telecommunications_equipment,telecommunications_equipment,v2_ex_ante_manual,baseline_mean_dims,1.375,SMT and telecom equipment reviews,True
+telecommunications_equipment,telecommunications_equipment,v2_ex_ante_manual,binary_high_ge_1p5,0.0,SMT and telecom equipment reviews,True
+telecommunications_equipment,telecommunications_equipment,v2_ex_ante_manual,rank_average,19.0,SMT and telecom equipment reviews,True
+telecommunications_equipment,telecommunications_equipment,v2_ex_ante_manual,leave_out_machine_vision,1.4285714285714286,SMT and telecom equipment reviews,True
+telecommunications_equipment,telecommunications_equipment,v2_ex_ante_manual,leave_out_robotics,1.4285714285714286,SMT and telecom equipment reviews,True
+optical_fiber_and_photonics,optical_fiber_and_photonics,v2_ex_ante_manual,baseline_mean_dims,1.0,Photonics manufacturing reviews,True
+optical_fiber_and_photonics,optical_fiber_and_photonics,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Photonics manufacturing reviews,True
+optical_fiber_and_photonics,optical_fiber_and_photonics,v2_ex_ante_manual,rank_average,10.0,Photonics manufacturing reviews,True
+optical_fiber_and_photonics,optical_fiber_and_photonics,v2_ex_ante_manual,leave_out_machine_vision,1.0,Photonics manufacturing reviews,True
+optical_fiber_and_photonics,optical_fiber_and_photonics,v2_ex_ante_manual,leave_out_robotics,1.1428571428571428,Photonics manufacturing reviews,True
+power_equipment,power_equipment,v2_ex_ante_manual,baseline_mean_dims,1.375,Power equipment digitization reports,True
+power_equipment,power_equipment,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Power equipment digitization reports,True
+power_equipment,power_equipment,v2_ex_ante_manual,rank_average,19.0,Power equipment digitization reports,True
+power_equipment,power_equipment,v2_ex_ante_manual,leave_out_machine_vision,1.4285714285714286,Power equipment digitization reports,True
+power_equipment,power_equipment,v2_ex_ante_manual,leave_out_robotics,1.4285714285714286,Power equipment digitization reports,True
+non_metallic_minerals,non_metallic_minerals,v2_ex_ante_manual,baseline_mean_dims,0.375,Construction materials digitization,True
+non_metallic_minerals,non_metallic_minerals,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Construction materials digitization,True
+non_metallic_minerals,non_metallic_minerals,v2_ex_ante_manual,rank_average,3.5,Construction materials digitization,True
+non_metallic_minerals,non_metallic_minerals,v2_ex_ante_manual,leave_out_machine_vision,0.42857142857142855,Construction materials digitization,True
+non_metallic_minerals,non_metallic_minerals,v2_ex_ante_manual,leave_out_robotics,0.42857142857142855,Construction materials digitization,True
+mining,mining,v2_ex_ante_manual,baseline_mean_dims,0.5,Mining automation literature,True
+mining,mining,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Mining automation literature,True
+mining,mining,v2_ex_ante_manual,rank_average,5.5,Mining automation literature,True
+mining,mining,v2_ex_ante_manual,leave_out_machine_vision,0.42857142857142855,Mining automation literature,True
+mining,mining,v2_ex_ante_manual,leave_out_robotics,0.5714285714285714,Mining automation literature,True
+paper,paper,v2_ex_ante_manual,baseline_mean_dims,0.375,Pulp and paper industry reviews,True
+paper,paper,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Pulp and paper industry reviews,True
+paper,paper,v2_ex_ante_manual,rank_average,3.5,Pulp and paper industry reviews,True
+paper,paper,v2_ex_ante_manual,leave_out_machine_vision,0.42857142857142855,Pulp and paper industry reviews,True
+paper,paper,v2_ex_ante_manual,leave_out_robotics,0.42857142857142855,Pulp and paper industry reviews,True
+furniture_wood,furniture_wood,v2_ex_ante_manual,baseline_mean_dims,0.0,Furniture sector digitization (limited),True
+furniture_wood,furniture_wood,v2_ex_ante_manual,binary_high_ge_1p5,0.0,Furniture sector digitization (limited),True
+furniture_wood,furniture_wood,v2_ex_ante_manual,rank_average,1.0,Furniture sector digitization (limited),True
+furniture_wood,furniture_wood,v2_ex_ante_manual,leave_out_machine_vision,0.0,Furniture sector digitization (limited),True
+furniture_wood,furniture_wood,v2_ex_ante_manual,leave_out_robotics,0.0,Furniture sector digitization (limited),True

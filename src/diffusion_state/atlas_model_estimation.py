@@ -276,14 +276,22 @@ def run_patent_model_suite(panel: pd.DataFrame) -> dict[str, pd.DataFrame]:
 
     all_models = pd.DataFrame(model_rows)
     f1a = all_models[all_models["model"].str.contains("baseline")].copy()
-    f1b = all_models[
-        all_models["model"].str.contains("city_industry_year|province_year")
+    f1b = all_models[all_models["model"].str.contains("city_industry_year")].copy()
+    f1c = all_models[
+        all_models["model"].str.contains("province_year")
         & ~all_models["model"].str.contains("saturated")
     ].copy()
-    f1c = all_models[all_models["model"].str.contains("saturated")].copy()
+    f1d = all_models[all_models["model"].str.contains("saturated")].copy()
     f0 = pd.DataFrame(diag_rows)
-    legacy_f1 = f1b if not f1b.empty else f1a
-    return {"F0": f0, "F1a": f1a, "F1b": f1b, "F1c": f1c, "F1_legacy": legacy_f1}
+    fe_ladder = pd.concat([f1b, f1c], ignore_index=True)
+    legacy_f1 = fe_ladder if not fe_ladder.empty else f1a
+    return {
+        "F0": f0,
+        "F1a": f1a,
+        "F1b": fe_ladder,
+        "F1c": f1d,
+        "F1_legacy": legacy_f1,
+    }
 
 
 def run_robot_complementarity_models(panel: pd.DataFrame) -> pd.DataFrame:

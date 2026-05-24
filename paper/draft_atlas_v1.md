@@ -1,7 +1,7 @@
 # China AI Diffusion Atlas v0.2: Pilot Zones, AI Exposure, and Industrial AI Patents
 
 **Draft atlas v1**  
-**Status:** Phase 1 associational panel built with `make atlas-phase1`. Patent layer uses repository fixture microdata until CNIPA export is added.  
+**Status:** Atlas **software-ready** (`atlas_software_ready = true`); **not evidence-ready** (`atlas_evidence_ready = false`; `fixture_patents_detected = true`). See `paper/atlas_evidence_gate_report.json`. Patent layer uses repository fixture microdata until real CNIPA/Lens exports are placed in `data/raw/patents/` (see `README_REAL_EXPORTS.md`).
 **PCS guard:** `make pcs` must remain green (`paper/pcs_gate_report.json`).
 
 ## Abstract

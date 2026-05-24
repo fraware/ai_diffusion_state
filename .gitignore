@@ -41,6 +41,7 @@ data/raw/*
 !data/raw/patents/
 data/raw/patents/*
 !data/raw/patents/README.md
+!data/raw/patents/README_REAL_EXPORTS.md
 data/raw/city_controls/city_controls_ci_stub.csv
 data/interim/*
 !data/interim/.gitkeep
@@ -60,7 +61,14 @@ outputs/*
 !outputs/tables/
 outputs/tables/*
 !outputs/tables/.gitkeep
+!outputs/tables/table_F0_atlas_model_diagnostics.csv
+!outputs/tables/table_F1a_pilot_x_ai_exposure_patents_baseline.csv
+!outputs/tables/table_F1b_pilot_x_ai_exposure_patents_fe_ladder.csv
+!outputs/tables/table_F1c_pilot_x_ai_exposure_patents_saturated.csv
 !outputs/tables/table_F1_pilot_x_ai_exposure_patents.csv
+!outputs/tables/table_C2_exposure_sensitivity_versions.csv
+!outputs/tables/table_SF1_smart_factory_industry_mapping_audit.csv
+!outputs/tables/table_SF2_smart_factory_city_industry_top_cells.csv
 !outputs/tables/table_F2_robot_complementarity_patents.csv
 !outputs/tables/table_F3_pilot_x_ai_exposure_smart_factories.csv
 !outputs/tables/table_F4_atlas_event_study_patents.csv
