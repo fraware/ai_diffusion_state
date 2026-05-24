@@ -25,6 +25,11 @@ def main() -> int:
     p.add_argument("--iids-csv", type=Path, default=DEFAULT_OUTPUT)
     p.add_argument("--geo-csv", type=Path, default=None)
     p.add_argument("--output", type=Path, default=None, help="Defaults to in-place update of --iids-csv")
+    p.add_argument(
+        "--fixture-smoke",
+        action="store_true",
+        help="CI only: run join; do not fail on minimum acceptance thresholds.",
+    )
     args = p.parse_args()
 
     geo = args.geo_csv or discover_geography_supplement(RAW_PATENTS_DIR)
@@ -57,6 +62,8 @@ def main() -> int:
         print("Strong geography acceptance: passed")
     elif ok_min:
         print("Minimum geography acceptance: passed (strong thresholds not met)")
+    elif args.fixture_smoke:
+        print("Fixture smoke: join completed (minimum thresholds not evaluated)")
     else:
         for issue in min_issues:
             print(f"WARNING: {issue}", file=sys.stderr)

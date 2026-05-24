@@ -64,12 +64,25 @@ def collect_readiness() -> dict:
     external = resolve_external_iids_target_dir()
     host = "external_ssd" if external else "cloud_vm"
 
+    copyback_blockers: list[str] = []
+    cb = None
+    try:
+        from diffusion_state.iids_copyback import verify_copyback_artifacts
+
+        cb = verify_copyback_artifacts()
+        copyback_blockers = list(cb.blockers)
+    except Exception:
+        pass
+
     return {
         "repo_root": str(PROJECT_ROOT),
         "iids_sources_dir": str(sources),
         "external_ssd_available": external is not None,
         "external_ssd_path": str(external) if external else "",
         "recommended_production_host": host,
+        "copyback_ready_for_geography": bool(cb and cb.ready_for_geography_procurement),
+        "copyback_ready_for_evidence": bool(cb and cb.ready_for_evidence_chain),
+        "copyback_blockers": copyback_blockers,
         "disk_free_gb_repo": round(free_repo, 1),
         "disk_free_gb_sources": round(free_sources, 1),
         "min_sql_download_gb": MIN_SQL_DOWNLOAD_GB,

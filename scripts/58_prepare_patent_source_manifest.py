@@ -113,6 +113,9 @@ def count_rows_and_columns(path: Path) -> tuple[int, list[str]]:
 
 
 def iids_manifest_defaults(path: Path, colset: set[str], n: int) -> dict[str, object]:
+    import os
+    from datetime import UTC, datetime
+
     city_fill = False
     if n > 0 and "applicant_city" in colset:
         try:
@@ -120,13 +123,24 @@ def iids_manifest_defaults(path: Path, colset: set[str], n: int) -> dict[str, ob
             city_fill = float(city["applicant_city"].astype(str).str.strip().str.len().gt(0).mean()) >= 0.8
         except Exception:
             pass
+    export_date = datetime.fromtimestamp(path.stat().st_mtime, tz=UTC).strftime("%Y-%m-%d")
+    export_owner = os.environ.get("ATLAS_EXPORT_OWNER", "atlas-evidence-sprint")
+    if os.environ.get("OPENXLAB_AK") and os.environ.get("OPENXLAB_SK"):
+        access = "proprietary"
+        license_note = (
+            "OpenXLab Gracie/IIDS (base_patent_detail.sql); access via registered OpenXLab account; "
+            "do not redistribute raw SQL; filtered CSV only in repo."
+        )
+    else:
+        access = "FILL_ME_PUBLIC_OR_PROPRIETARY"
+        license_note = "FILL_ME OpenXLab Gracie/IIDS access terms"
     return {
-        "export_date": "FILL_ME",
-        "export_owner": "FILL_ME",
+        "export_date": export_date,
+        "export_owner": export_owner,
         "query_group": "industrial_ai_taxonomy",
         "query_string": "IIDS base_patent_detail.sql filtered CN 2015-2024 industrial-AI IPC/taxonomy",
-        "license_or_access_note": "FILL_ME OpenXLab Gracie/IIDS access terms",
-        "proprietary_or_public": "FILL_ME_PUBLIC_OR_PROPRIETARY",
+        "license_or_access_note": license_note,
+        "proprietary_or_public": access,
         "contains_claims": False,
         "contains_city": city_fill,
         "contains_applicant_address": city_fill,

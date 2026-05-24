@@ -57,9 +57,13 @@ make atlas-iids-preflight
 python scripts/50_atlas_status.py --json
 ```
 
-Cloud VM (canonical production): `make atlas-iids-cloud STEP=status|docs|detail|smoke-convert|full-convert` then `make atlas-iids-cloud-copyback`. See `docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md`.
+Cloud VM (canonical production): `make atlas-iids-cloud STEP=...` then `make atlas-iids-cloud-copyback`.
 
-After copy-back + geography supplement: `make atlas-iids-control-evidence-chain`.
+After `scp` to laptop: `make atlas-iids-import-copyback ARCHIVE=atlas_iids_filtered_outputs.tar.gz` (or `scripts/import_iids_copyback.ps1`).
+
+Geography procurement: `make atlas-iids-geography-brief` then build `cnipa_patent_geography_2015_2024.csv`.
+
+Evidence chain: `make atlas-iids-control-evidence-chain` (runs verify-copyback first).
 
 Do not weaken `atlas_evidence_ready` or start procurement until evidence gates pass.
 

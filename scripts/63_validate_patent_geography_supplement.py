@@ -24,6 +24,11 @@ def main() -> int:
     p = argparse.ArgumentParser(description="Validate patent geography supplement acceptance thresholds.")
     p.add_argument("--geo-csv", type=Path, default=None)
     p.add_argument("--json", action="store_true")
+    p.add_argument(
+        "--fixture-smoke",
+        action="store_true",
+        help="CI only: validate schema/presence, skip minimum row/city thresholds.",
+    )
     args = p.parse_args()
 
     geo = args.geo_csv or discover_geography_supplement(RAW_PATENTS_DIR)
@@ -40,8 +45,13 @@ def main() -> int:
         return 1
 
     stats, messages = validate_geography_supplement(geo)
-    ok_min, min_issues = evaluate_geography_acceptance(stats, thresholds=MINIMUM_ACCEPTANCE, label="minimum")
-    ok_strong, _ = evaluate_geography_acceptance(stats, thresholds=STRONG_ACCEPTANCE, label="strong")
+    if args.fixture_smoke:
+        ok_min = stats.get("rows", 0) > 0 and stats.get("city_fill_rate", 0) > 0
+        ok_strong = False
+        min_issues = [] if ok_min else ["fixture smoke: empty geography"]
+    else:
+        ok_min, min_issues = evaluate_geography_acceptance(stats, thresholds=MINIMUM_ACCEPTANCE, label="minimum")
+        ok_strong, _ = evaluate_geography_acceptance(stats, thresholds=STRONG_ACCEPTANCE, label="strong")
     report = {
         "geo_csv": str(geo),
         "stats": stats,

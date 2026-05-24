@@ -66,6 +66,11 @@ Do NOT copy base_patent_detail.sql or $OPENXLAB_IIDS_SOURCES_DIR.
 
 On control laptop (after scp):
   tar -xzf $ARCHIVE -C <repo>
+On the control laptop:
+
+  make atlas-iids-import-copyback ARCHIVE=atlas_iids_filtered_outputs.tar.gz
+  # Windows: powershell -File scripts/import_iids_copyback.ps1 -Archive atlas_iids_filtered_outputs.tar.gz
+  make atlas-iids-geography-brief
   make atlas-iids-control-evidence-chain
 
 EOF

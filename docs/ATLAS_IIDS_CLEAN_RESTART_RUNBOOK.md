@@ -113,7 +113,9 @@ flowchart LR
 | VM download | `STEP=docs` then `STEP=detail` | `base_patent_detail.sql` on VM only |
 | VM convert | `STEP=smoke-convert` then `STEP=full-convert` | `data/raw/patents/opendatalab_iids_*.csv` |
 | VM pack | `make atlas-iids-cloud-copyback` | `atlas_iids_filtered_outputs.tar.gz` |
-| Laptop geo | CNIPA/Lens export for `iids_filtered_patent_ids_for_geography.csv` | `cnipa_patent_geography_2015_2024.csv` |
+| Laptop import | `make atlas-iids-import-copyback ARCHIVE=...` or `scripts/import_iids_copyback.ps1` | Extract + verify |
+| Laptop verify | `make atlas-iids-verify-copyback` | `table_P8c_iids_copyback_verification.json` |
+| Laptop geo brief | `make atlas-iids-geography-brief` | `docs/ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md` |
 | Laptop gates | `make atlas-iids-control-evidence-chain` | `atlas_evidence_ready=true` |
 
 Do not download all of IIDS.
