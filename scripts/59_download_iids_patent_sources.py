@@ -43,6 +43,7 @@ from diffusion_state.iids_paths import (  # noqa: E402
     resolve_iids_download_targets,
     resolve_iids_sources_dir,
 )
+from diffusion_state.openxlab_client import download_dataset_file, login_openxlab  # noqa: E402
 
 DATASET = IIDS_DATASET_REPO
 
@@ -61,9 +62,6 @@ def ensure_openxlab() -> None:
 
 
 def login() -> None:
-    from diffusion_state.openxlab_client import login_openxlab
-
-    print("Logging in to OpenXLab with environment-provided credentials...")
     login_openxlab()
 
 
@@ -79,17 +77,29 @@ def _disk_free_gb(path: Path) -> float:
     return usage.free / (1024**3)
 
 
-def download_files(file_list: list[str], target: Path) -> None:
-    from openxlab.dataset import download
-
+def download_files(file_list: list[str], target: Path) -> int:
     target.mkdir(parents=True, exist_ok=True)
+    failures = 0
     for src in file_list:
         _safe_print(f"Downloading {src} -> {target}")
         try:
-            download(dataset_repo=DATASET, source_path=src, target_path=str(target))
+            download_dataset_file(
+                dataset_repo=DATASET,
+                source_path=src,
+                target_path=target,
+                skip_download_check=True,
+            )
+        except SystemExit as exc:
+            _safe_print(f"FAILED {src}: OpenXLab exited ({exc})")
+            failures += 1
         except Exception as exc:
             _safe_print(f"FAILED {src}: {exc}")
+            failures += 1
+    if failures:
+        _safe_print(f"\n{failures} download(s) failed under: {target}")
+        return 1
     _safe_print(f"\nDownloaded files are under: {target}")
+    return 0
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -159,13 +169,13 @@ def main() -> int:
     elif not wants_sql:
         print("Docs-only mode (default). Use --detail-only on external storage for patent SQL.")
     ensure_openxlab()
-    login()
-    download_files(targets, target)
+    login_openxlab()
+    code = download_files(targets, target)
     print("\nNext command:")
     print("  python scripts/60_inspect_iids_patent_schema.py")
     if wants_sql:
         print("  python scripts/61_iids_sql_to_patent_csv.py")
-    return 0
+    return code
 
 
 if __name__ == "__main__":
