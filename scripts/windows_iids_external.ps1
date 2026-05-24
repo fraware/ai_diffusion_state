@@ -74,11 +74,23 @@ switch ($Step) {
         Invoke-Python @("scripts/67_atlas_iids_preflight.py")
         Invoke-Python @("scripts/69_iids_production_status.py")
         Write-Host ""
-        Write-Host "Next steps (external SSD only):"
-        Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step docs"
-        Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step detail"
-        Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step smoke-convert"
-        Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step full-convert"
+        if (-not (Test-Path $drive)) {
+            Write-Host "No external drive at $drive. This laptop cannot hold 136 GB SQL on C:."
+            Write-Host "Use a cloud VM (300 GB disk) — see docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md (Option B)."
+            Write-Host ""
+            Write-Host "On the VM:"
+            Write-Host "  bash scripts/cloud_iids_production.sh status"
+            Write-Host "  bash scripts/cloud_iids_production.sh docs"
+            Write-Host "  bash scripts/cloud_iids_production.sh detail"
+            Write-Host "  bash scripts/cloud_iids_production.sh smoke-convert"
+            Write-Host "  bash scripts/cloud_iids_production.sh full-convert"
+        } else {
+            Write-Host "Next steps (external SSD at $TargetDir):"
+            Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step docs"
+            Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step detail"
+            Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step smoke-convert"
+            Write-Host "  powershell -File scripts/windows_iids_external.ps1 -TargetDir $TargetDir -Step full-convert"
+        }
         Write-Host ""
         Write-Host "Runbook: docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md"
     }

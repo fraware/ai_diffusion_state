@@ -15,6 +15,7 @@ from diffusion_state.iids_geo_join import discover_geography_supplement, is_geog
 from diffusion_state.iids_paths import (  # noqa: E402
     DEFAULT_IIDS_OUTPUT,
     MIN_SQL_DOWNLOAD_GB,
+    resolve_external_iids_target_dir,
     resolve_iids_output_csv,
     resolve_iids_sources_dir,
 )
@@ -60,9 +61,15 @@ def collect_readiness() -> dict:
     free_repo = _disk_free_gb(PROJECT_ROOT)
     free_sources = _disk_free_gb(sources if sources.exists() else sources.parent)
 
+    external = resolve_external_iids_target_dir()
+    host = "external_ssd" if external else "cloud_vm"
+
     return {
         "repo_root": str(PROJECT_ROOT),
         "iids_sources_dir": str(sources),
+        "external_ssd_available": external is not None,
+        "external_ssd_path": str(external) if external else "",
+        "recommended_production_host": host,
         "disk_free_gb_repo": round(free_repo, 1),
         "disk_free_gb_sources": round(free_sources, 1),
         "min_sql_download_gb": MIN_SQL_DOWNLOAD_GB,
@@ -86,7 +93,9 @@ def collect_readiness() -> dict:
             output.exists() and _file_rows(output) >= 500 and geo and not is_geography_template_path(geo)
         ),
         "recommended_production_download": (
-            "python scripts/59_download_iids_patent_sources.py --detail-only --target-dir <external_ssd>"
+            f"bash scripts/cloud_iids_production.sh detail  # cloud VM; or --detail-only on {external}"
+            if external
+            else "bash scripts/cloud_iids_production.sh detail  # no D:/E: drive; use cloud VM with 300 GB disk"
         ),
         "recommended_next_command": _recommended_next(
             free_sources=free_sources,
@@ -98,16 +107,23 @@ def collect_readiness() -> dict:
 
 
 def _recommended_next(*, free_sources: float, detail: Path | None, output: Path, geo: Path | None) -> str:
+    external = resolve_external_iids_target_dir()
     if free_sources < MIN_SQL_DOWNLOAD_GB and (detail is None or not detail.exists()):
+        if external:
+            return (
+                f"powershell -File scripts/windows_iids_external.ps1 -TargetDir {external} -Step docs "
+                "(then -Step detail)"
+            )
         return (
-            "Production machine only: set OPENXLAB_IIDS_SOURCES_DIR to external SSD (e.g. D:\\iids_sources), "
-            "then: python scripts/59_download_iids_patent_sources.py --detail-only --target-dir D:\\iids_sources"
+            "No external SSD (D:/E:) and C: cannot hold 136 GB SQL. "
+            "Provision a cloud VM (300 GB disk) and run: bash scripts/cloud_iids_production.sh docs"
         )
     if detail is None or not detail.exists():
-        return (
-            "python scripts/59_download_iids_patent_sources.py --detail-only --target-dir <external_ssd> "
-            "&& python scripts/64_run_atlas_iids_pipeline.py --skip-geo --production"
-        )
+        if external:
+            return (
+                f"powershell -File scripts/windows_iids_external.ps1 -TargetDir {external} -Step detail"
+            )
+        return "bash scripts/cloud_iids_production.sh detail  # on cloud VM with OPENXLAB_* set"
     if not output.exists() or _file_rows(output) < 500:
         return "python scripts/64_run_atlas_iids_pipeline.py --skip-geo --production"
     if geo is None or is_geography_template_path(geo):

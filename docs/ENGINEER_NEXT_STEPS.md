@@ -47,9 +47,15 @@ make validate-submission
    - Paste numbered tables from `paper/main_tables/`
    - Author block and final citation formatting from `paper/references.bib`
 
----
+## Atlas IIDS evidence (active)
 
-## If EPS/NBS city controls arrive
+Control laptop: `git pull`, `make atlas-iids-preflight`, `python scripts/50_atlas_status.py --json`. **No 136 GB download on C:** (~30 GB free is for repo work only).
+
+Production (no external SSD): cloud VM — `docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md`, `scripts/cloud_iids_production.sh`.
+
+Do not weaken `atlas_evidence_ready` or start procurement until evidence gates pass.
+
+---
 
 ```powershell
 make purge-stub-controls

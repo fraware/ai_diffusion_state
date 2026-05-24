@@ -59,6 +59,38 @@ def validate_production_target_dir(target: Path) -> list[str]:
         )
     return issues
 
+
+def external_storage_available(*, min_free_gb: float | None = None) -> bool:
+    """True if D:, E:, or F: exists with enough free space for base_patent_detail.sql."""
+    return resolve_external_iids_target_dir(min_free_gb=min_free_gb) is not None
+
+
+def resolve_external_iids_target_dir(*, min_free_gb: float | None = None) -> Path | None:
+    """Return D:\\iids_sources or E:\\iids_sources when that drive has enough free space."""
+    threshold = MIN_SQL_DOWNLOAD_GB if min_free_gb is None else min_free_gb
+    for letter in ("D", "E", "F"):
+        root = Path(f"{letter}:/")
+        if not root.exists():
+            continue
+        try:
+            free_gb = shutil.disk_usage(root).free / (1024**3)
+        except OSError:
+            continue
+        if free_gb >= threshold:
+            return (root / "iids_sources").resolve()
+    return None
+
+
+def resolve_iids_sources_dir() -> Path:
+    override = os.environ.get("OPENXLAB_IIDS_SOURCES_DIR", "").strip()
+    if override:
+        return Path(override).expanduser().resolve()
+    external = resolve_external_iids_target_dir()
+    if external is not None:
+        return external
+    return DEFAULT_IIDS_SOURCES_DIR
+
+
 IIDS_DATASET_REPO = "Gracie/IIDS"
 
 IIDS_DOC_FILES = (
@@ -77,13 +109,6 @@ IIDS_DETAIL_SQL_FILES = ("/base_patent_detail.sql",)
 
 # Not required for Atlas patent layer:
 # entity_fund_info.sql, entity_funds_re.zip, entity_paper.sql, reference_citation_re.sql
-
-
-def resolve_iids_sources_dir() -> Path:
-    override = os.environ.get("OPENXLAB_IIDS_SOURCES_DIR", "").strip()
-    if override:
-        return Path(override).expanduser().resolve()
-    return DEFAULT_IIDS_SOURCES_DIR
 
 
 def resolve_iids_output_csv(*, production: bool = True, smoke: bool = False) -> Path:

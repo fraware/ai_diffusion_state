@@ -24,7 +24,67 @@ source_files = []
 
 This is expected until real patent exports are produced.
 
-## Key decision
+## Repo / remote verification (2026-05-22)
+
+`git push origin main` reports **Everything up-to-date**. Remote `main` is at **`1d5a1b3`** (safety scripts: WSL/C: blocks, `windows_iids_external.ps1`).
+
+Fresh check on a control laptop:
+
+| Check | Result |
+|-------|--------|
+| `Test-Path scripts\windows_iids_external.ps1` | True |
+| `--detail-only` in script 59 | Present |
+| `ForceWsl` in `wsl_start_iids_production.ps1` | Present |
+
+Latest commits on `main`:
+
+- `1d5a1b3` — Block WSL and C: IIDS downloads; add external SSD launcher script.
+- `4132573` — Add clean restart IIDS runbook after deleted partial downloads.
+
+If engineers do not see these on GitHub, run `git fetch origin` and confirm:
+
+```text
+git rev-parse origin/main
+# 1d5a1b3ea699156160e9f7547dc8c3c22e448092
+```
+
+## Control laptop disk (C:)
+
+| When | Free on C: |
+|------|------------|
+| Before temp cleanup | ~12.4 GB |
+| After temp cleanup | ~29.8 GB |
+
+Enough for `git pull`, Python, and repo work. **Do not** put the 136 GB SQL on C:. **No external SSD (D: or E:) is attached on the control laptop** — production download/convert runs on a **cloud VM** (Option B below).
+
+## Correct next steps (no download on control laptop yet)
+
+**On any engineer machine (control / repo):**
+
+```powershell
+cd <repo>
+git pull
+Test-Path scripts\windows_iids_external.ps1   # must be True
+make atlas-iids-preflight
+python scripts/50_atlas_status.py --json
+```
+
+**Production (136 GB SQL) — cloud VM only until an external SSD exists:**
+
+1. Provision Ubuntu VM, **300 GB** disk, set rotated `OPENXLAB_AK` / `OPENXLAB_SK`.
+2. `export OPENXLAB_IIDS_SOURCES_DIR=/mnt/iids_sources`
+3. Run: `docs` → `detail` → `smoke-convert` → `full-convert` via `scripts/cloud_iids_production.sh`.
+4. Copy back filtered CSV + manifest tables only (not the SQL).
+5. On the control laptop: build `cnipa_patent_geography_2015_2024.csv`, then run the evidence chain.
+
+**If an external SSD is attached later (D: or E:):**
+
+```powershell
+powershell -File scripts\windows_iids_external.ps1 -TargetDir D:\iids_sources -Step docs
+# then detail, smoke-convert, full-convert
+```
+
+Do **not** run production on C:, WSL home, or WSL paths. Do **not** start procurement or paper claims until the evidence gate passes.
 
 Do not download all of IIDS.
 
@@ -55,9 +115,11 @@ They are not required for the Atlas patent evidence layer.
 
 # Recommended production setup
 
-Use one of the following:
+**If you have no external SSD (no D: or E: drive):** use **Option B — Cloud VM** only. The repo laptop (~30 GB free on C:) is for `git pull`, preflight, and the evidence chain after you copy back filtered CSVs — not for the 136 GB SQL download.
 
-## Option A — External SSD attached to Windows
+Use one of the following when storage is available:
+
+## Option A — External SSD attached to Windows (optional)
 
 Minimum:
 
@@ -372,9 +434,23 @@ Only then can `paper/draft_atlas_v1.md` become an empirical paper draft.
 
 ---
 
-# Cloud VM alternative
+# Cloud VM production (default when no D:/E: drive)
 
-If external disk or Windows/OpenXLab remains unstable, use a cloud VM.
+If there is no external SSD, use a cloud VM. Orchestration:
+
+```bash
+export OPENXLAB_AK="YOUR_ROTATED_KEY"
+export OPENXLAB_SK="YOUR_ROTATED_SECRET"
+export OPENXLAB_IIDS_SOURCES_DIR="/mnt/iids_sources"
+export OPENXLAB_INSECURE_SSL=1
+export PYTHONUTF8=1
+
+bash scripts/cloud_iids_production.sh status
+bash scripts/cloud_iids_production.sh docs
+bash scripts/cloud_iids_production.sh detail
+bash scripts/cloud_iids_production.sh smoke-convert
+bash scripts/cloud_iids_production.sh full-convert
+```
 
 ## Setup
 
@@ -387,7 +463,9 @@ pip install -U pip
 pip install -e .[dev] || pip install pandas openpyxl statsmodels requests beautifulsoup4 openxlab
 ```
 
-## Run
+## Run (manual alternative)
+
+If you prefer raw commands instead of `cloud_iids_production.sh`:
 
 ```bash
 export OPENXLAB_AK="YOUR_ROTATED_KEY"
@@ -395,19 +473,9 @@ export OPENXLAB_SK="YOUR_ROTATED_SECRET"
 export OPENXLAB_IIDS_SOURCES_DIR="/mnt/iids_sources"
 export PYTHONUTF8=1
 
-python scripts/59_download_iids_patent_sources.py --target-dir /mnt/iids_sources
-python - <<'PY'
-from pathlib import Path
-import os
-import openxlab
-from openxlab.dataset import download
-openxlab.login(ak=os.environ["OPENXLAB_AK"], sk=os.environ["OPENXLAB_SK"])
-target = Path("/mnt/iids_sources")
-target.mkdir(parents=True, exist_ok=True)
-download(dataset_repo="Gracie/IIDS", source_path="/base_patent_detail.sql", target_path=str(target))
-PY
+python scripts/59_download_iids_patent_sources.py --detail-only --target-dir /mnt/iids_sources
 find /mnt/iids_sources -name base_patent_detail.sql
-python scripts/61_iids_sql_to_patent_csv.py --detail-sql /mnt/iids_sources/Gracie___IIDS/base_patent_detail.sql/base_patent_detail.sql
+python scripts/61_iids_sql_to_patent_csv.py --detail-sql /mnt/iids_sources/Gracie___IIDS/base_patent_detail.sql/base_patent_detail.sql --production
 python scripts/58_prepare_patent_source_manifest.py
 ```
 
@@ -440,4 +508,4 @@ commit proprietary raw SQL if license forbids it
 
 ## Bottom line
 
-The deleted partial download is not a problem. Restart clean on external disk or cloud, download only `base_patent_detail.sql`, convert it once, discard/archive the SQL, and build geography only for the filtered IIDS patent IDs.
+The deleted partial download is not a problem. Restart clean on a **cloud VM** (or external SSD when available), download only `base_patent_detail.sql`, convert once, discard/archive the SQL on the production host, and build geography only for the filtered IIDS patent IDs.
