@@ -119,3 +119,22 @@ Target end state:
 ## License and data
 
 Raw BACI and EPS/NBS city statistics require separate download or license. See `configs/sources.yml` and `.env.example`.
+
+## Atlas IIDS patent evidence (active sprint)
+
+Software is ready; **evidence is not** until real IIDS + geography exports are ingested on a **cloud VM** (not the control laptop `C:` drive).
+
+| Command | Where |
+|---------|--------|
+| `make atlas-iids-workflow` | Control laptop — phase dashboard |
+| `make atlas-iids-preflight` | Control laptop — disk/credential checks |
+| `bash scripts/cloud_vm_bootstrap.sh` | Fresh Ubuntu VM — one-shot setup |
+| `make atlas-iids-cloud STEP=...` | Cloud VM — download + convert |
+| `make atlas-iids-import-copyback ARCHIVE=...` | Control laptop — after `scp` |
+| `make atlas-iids-control-evidence-chain` | Control laptop — after geography file |
+
+Playbooks:
+
+- [IIDS clean-restart runbook](docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md)
+- [IIDS execution checklist](docs/ATLAS_IIDS_EXECUTION_CHECKLIST.md)
+- [Patent raw data README](data/raw/patents/README.md)

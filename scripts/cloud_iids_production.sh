@@ -60,11 +60,15 @@ case "$STEP" in
     _log "STEP full-convert complete"
     echo "Next: bash scripts/cloud_iids_copyback.sh"
     ;;
+  resume)
+    "$PYTHON" scripts/72_atlas_iids_workflow_status.py
+    echo "See recommended next command above."
+    ;;
   copy-pack)
     bash scripts/cloud_iids_copyback.sh "${2:-atlas_iids_filtered_outputs.tar.gz}"
     ;;
   *)
-    echo "Usage: $0 {status|docs|detail|smoke-convert|full-convert|copy-pack}" >&2
+    echo "Usage: $0 {status|docs|detail|smoke-convert|full-convert|copy-pack|resume}" >&2
     exit 2
     ;;
 esac

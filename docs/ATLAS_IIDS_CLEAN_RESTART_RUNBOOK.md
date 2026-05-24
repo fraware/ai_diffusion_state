@@ -1,5 +1,7 @@
 # Atlas IIDS Clean-Restart Runbook
 
+**Checklist:** [ATLAS_IIDS_EXECUTION_CHECKLIST.md](ATLAS_IIDS_EXECUTION_CHECKLIST.md) — run `make atlas-iids-workflow` for live status.
+
 ## Situation
 
 The previous partial OpenXLab/IIDS download has been deleted. There is no resumable cache to preserve.

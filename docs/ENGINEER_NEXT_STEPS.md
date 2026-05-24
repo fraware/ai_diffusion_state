@@ -65,6 +65,8 @@ Geography procurement: `make atlas-iids-geography-brief` then build `cnipa_paten
 
 Evidence chain: `make atlas-iids-control-evidence-chain` (runs verify-copyback first).
 
+Workflow dashboard: `make atlas-iids-workflow` — see `docs/ATLAS_IIDS_EXECUTION_CHECKLIST.md`.
+
 Do not weaken `atlas_evidence_ready` or start procurement until evidence gates pass.
 
 ---
