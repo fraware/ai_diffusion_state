@@ -24,6 +24,7 @@ REAL_EXPORT_PATTERNS = (
     re.compile(r"^cnki_industrial_ai_patents_.*\.csv$", re.I),
     re.compile(r"^cnrds_industrial_ai_patents_.*\.csv$", re.I),
     re.compile(r"^csmar_industrial_ai_patents_.*\.csv$", re.I),
+    re.compile(r"^opendatalab_iids_industrial_ai_patents_.*\.csv$", re.I),
 )
 
 MANIFEST_COLUMNS = [

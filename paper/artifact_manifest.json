@@ -99,7 +99,7 @@
       "exists": true,
       "n_rows": null,
       "n_cols": null,
-      "bytes": 44823
+      "bytes": 44824
     },
     {
       "path": "outputs/tables/table_5_controlled_adoption_models.csv",
@@ -235,7 +235,7 @@
       "exists": true,
       "n_rows": null,
       "n_cols": null,
-      "bytes": 38900
+      "bytes": 38901
     },
     {
       "path": "outputs/tables/table_15_export_relevance_by_sector.csv",

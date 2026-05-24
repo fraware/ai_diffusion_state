@@ -156,6 +156,17 @@ def _enrich_dataframe(std: pd.DataFrame, source: str, source_file: str) -> pd.Da
     return pd.DataFrame(records)
 
 
+def _source_label_for_file(path: Path) -> str:
+    name = path.name.lower()
+    if name.startswith("opendatalab_iids_"):
+        return "opendatalab_iids"
+    if name.startswith("lens_"):
+        return "lens_export"
+    if name.startswith("google_patents_"):
+        return "google_patents_export"
+    return "cnipa_export"
+
+
 def ingest_cnipa_files(patents_dir: Path) -> pd.DataFrame:
     paths = list_evidence_patent_csv_files(patents_dir)
     if not paths:
@@ -169,7 +180,7 @@ def ingest_cnipa_files(patents_dir: Path) -> pd.DataFrame:
         if "patent_id" not in std.columns and "patent_id" in raw.columns:
             std["patent_id"] = raw["patent_id"]
         source_file = relative_source_file(path, patents_dir)
-        frames.append(_enrich_dataframe(std, "cnipa_export", source_file))
+        frames.append(_enrich_dataframe(std, _source_label_for_file(path), source_file))
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=LONG_COLUMNS)
 
 
