@@ -23,8 +23,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from diffusion_state.iids_paths import resolve_iids_output_csv  # noqa: E402
 from diffusion_state.iids_patent_converter import (  # noqa: E402
-    DEFAULT_OUTPUT,
     IIDS_SOURCES_DIR,
     IidsConvertConfig,
     convert_iids_sql_to_csv,
@@ -49,8 +49,13 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--output",
         type=Path,
-        default=DEFAULT_OUTPUT,
-        help=f"Output CSV path (default: {DEFAULT_OUTPUT.relative_to(ROOT)})",
+        default=None,
+        help="Output CSV path (default: evidence path under data/raw/patents/)",
+    )
+    p.add_argument(
+        "--production",
+        action="store_true",
+        help="Write to evidence path data/raw/patents/ (same as default output)",
     )
     p.add_argument("--year-min", type=int, default=2015)
     p.add_argument("--year-max", type=int, default=2024)
@@ -70,6 +75,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = _build_parser().parse_args()
+    output = args.output or resolve_iids_output_csv(production=True)
     detail = args.detail_sql
     law = args.law_status_sql
     if detail is None or law is None:
@@ -79,7 +85,7 @@ def main() -> int:
     if detail is None or not detail.exists():
         print(
             "ERROR: base_patent_detail.sql not found.\n"
-            "  1. Run: python scripts/59_download_iids_patent_sources.py --include-sql\n"
+            "  1. Run: python scripts/59_download_iids_patent_sources.py --detail-only --target-dir <external_ssd>\n"
             "  2. Or pass --detail-sql with a local path (~136 GB download).\n"
             f"  Searched under: {IIDS_SOURCES_DIR}",
             file=sys.stderr,
@@ -89,7 +95,7 @@ def main() -> int:
     config = IidsConvertConfig(
         detail_sql=detail,
         law_status_sql=law if law and law.exists() else None,
-        output_csv=args.output,
+        output_csv=output,
         year_min=args.year_min,
         year_max=args.year_max,
         jurisdiction_cn_only=not args.all_jurisdictions,
@@ -113,7 +119,8 @@ def main() -> int:
         print("WARNING: no rows written; check filters and SQL format.", file=sys.stderr)
         return 2
     print("\nNext:")
-    print("  python scripts/62_join_iids_patent_geography.py   # if CNIPA geography supplement exists")
+    print("  python scripts/66_export_iids_patent_keys.py --production")
+    print("  python scripts/62_join_iids_patent_geography.py   # after CNIPA geography supplement exists")
     print("  make atlas-patent-prep")
     return 0
 

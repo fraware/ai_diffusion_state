@@ -468,3 +468,98 @@ forbidden_claim_flags = []
 ```
 
 Only then can `paper/draft_atlas_v1.md` become a true empirical paper draft rather than a software-pipeline draft.
+
+---
+
+# 14. IIDS low-disk production path (OpenXLab)
+
+The repo laptop (~40 GB free) is a **control / paper / repo machine**. Do not download
+`base_patent_detail.sql` (~136 GB) or other bulk IIDS files on it.
+
+## What to download
+
+| Priority | File | Notes |
+|----------|------|-------|
+| Essential | `base_patent_detail.sql` | Title, abstract, applicant, IPC/CPC, industrial-AI filter |
+| Optional | `base_patent_law_status.sql` | Grant-year enrichment only; script 61 works without it |
+| Skip | `entity_fund_info.sql`, `entity_funds_re.zip`, `entity_paper.sql`, `reference_citation_re.sql` | Not used by Atlas patent layer |
+
+## Where to run
+
+Use **external SSD (256 GB+)** or **cloud VM (300 GB disk, 8–16 vCPU, 32 GB RAM)**.
+
+Preflight on any machine:
+
+```powershell
+make atlas-iids-preflight
+python scripts/67_atlas_iids_preflight.py --json
+```
+
+## Phase 1 — Convert IIDS without geography
+
+```powershell
+$env:OPENXLAB_IIDS_SOURCES_DIR="D:\iids_sources"
+$env:OPENXLAB_AK="ROTATED_KEY"
+$env:OPENXLAB_SK="ROTATED_SECRET"
+$env:OPENXLAB_INSECURE_SSL="1"
+$env:PYTHONUTF8="1"
+
+python scripts/59_download_iids_patent_sources.py --detail-only --target-dir D:\iids_sources
+python scripts/61_iids_sql_to_patent_csv.py --detail-sql D:\iids_sources\...\base_patent_detail.sql --production
+python scripts/66_export_iids_patent_keys.py --production
+python scripts/58_prepare_patent_source_manifest.py
+```
+
+Delete or archive the SQL dump after successful conversion. Evidence gate will still fail (no city fields) — expected.
+
+Or orchestrate:
+
+```powershell
+python scripts/64_run_atlas_iids_pipeline.py --download --target-dir D:\iids_sources --skip-geo --production
+```
+
+## Phase 2 — Geography for filtered patent IDs only
+
+Do not download a full CNIPA address universe. Use `outputs/tables/table_P9_iids_patent_keys_for_geography.csv`
+to request geography-only export from CNIPA/Lens/CNKI/CSMAR for those publication numbers.
+
+Target file: `data/raw/patents/cnipa_patent_geography_2015_2024.csv`
+
+```powershell
+make atlas-iids-geo-build
+make atlas-iids-geo-validate
+make atlas-iids-geo
+```
+
+Minimum acceptance: city fill >= 80%, 500+ records, 50+ cities.
+
+## Phase 3 — Evidence chain
+
+```powershell
+make atlas-patent-prep
+make atlas-iids-manifest-merge
+python scripts/64_run_atlas_iids_pipeline.py --full-chain --production
+```
+
+Or stepwise:
+
+```powershell
+make atlas-evidence-check
+make atlas-patents
+make atlas-v02
+make atlas-models-v02
+python scripts/50_atlas_status.py --json
+```
+
+## Copy-back from cloud VM
+
+If production runs on a cloud machine, copy back only:
+
+- `data/raw/patents/opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv`
+- `data/raw/patents/cnipa_patent_geography_2015_2024.csv`
+- `data/raw/patents/patent_source_manifest.csv`
+- `data/processed/industrial_ai_patents_city_industry_year.csv`
+- `data/processed/china_ai_diffusion_atlas_city_industry_year.csv`
+- `outputs/tables/table_F*.csv`
+- `outputs/tables/table_P9_iids_patent_keys_for_geography.csv`
+- `paper/atlas_gate_report.json`

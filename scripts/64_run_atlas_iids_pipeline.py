@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from diffusion_state.iids_paths import (  # noqa: E402
     MIN_SQL_DOWNLOAD_GB,
+    build_iids_download_argv,
     resolve_iids_output_csv,
     resolve_iids_sources_dir,
 )
@@ -64,8 +65,18 @@ def _preflight(include_sql: bool, sources_dir: Path) -> list[str]:
 
 def main() -> int:
     p = argparse.ArgumentParser(description="Orchestrate Atlas IIDS patent evidence pipeline.")
-    p.add_argument("--download", action="store_true", help="Download IIDS docs + SQL via script 59")
-    p.add_argument("--docs-only", action="store_true", help="With --download, skip SQL files")
+    p.add_argument("--download", action="store_true", help="Download IIDS sources via script 59")
+    p.add_argument("--docs-only", action="store_true", help="With --download, fetch documentation only")
+    p.add_argument(
+        "--detail-only",
+        action="store_true",
+        help="With --download, fetch only base_patent_detail.sql (default when --download without --docs-only)",
+    )
+    p.add_argument(
+        "--include-law-status",
+        action="store_true",
+        help="With --download, also fetch base_patent_law_status.sql (optional grant-year enrichment)",
+    )
     p.add_argument("--target-dir", type=Path, default=None, help="IIDS download/SQL directory (external drive)")
     p.add_argument("--smoke-rows", type=int, default=0, help="If >0, run converter with --max-rows")
     p.add_argument("--detail-sql", type=Path, default=None, help="Override base_patent_detail.sql path")
@@ -99,11 +110,12 @@ def main() -> int:
     }
 
     if args.download:
-        cmd = [PYTHON, "scripts/59_download_iids_patent_sources.py", "--target-dir", str(sources_dir)]
-        if args.docs_only:
-            pass
-        else:
-            cmd.append("--include-sql")
+        cmd = build_iids_download_argv(
+            sources_dir,
+            python=PYTHON,
+            docs_only=args.docs_only,
+            include_law_status=args.include_law_status,
+        )
         code = _run(cmd, label="Download IIDS sources")
         report["steps"].append({"download": code})
         if code == 3:
@@ -128,6 +140,8 @@ def main() -> int:
 
     if not args.skip_convert:
         cmd = [PYTHON, "scripts/61_iids_sql_to_patent_csv.py", "--output", str(output_csv)]
+        if args.production:
+            cmd.append("--production")
         if args.detail_sql:
             cmd.extend(["--detail-sql", str(args.detail_sql)])
         if args.law_status_sql:
@@ -141,6 +155,18 @@ def main() -> int:
             if args.json:
                 print(json.dumps(report, indent=2))
             return code
+
+        if args.production and not smoke_mode:
+            code = _run(
+                [PYTHON, "scripts/66_export_iids_patent_keys.py", "--iids-csv", str(output_csv)],
+                label="Export patent keys for geography",
+            )
+            report["steps"].append({"export_keys": code})
+            if code != 0:
+                report["blockers"].append("patent key export failed")
+                if args.json:
+                    print(json.dumps(report, indent=2))
+                return code
 
     if smoke_mode:
         print(f"\nSmoke output (not evidence): {output_csv}")

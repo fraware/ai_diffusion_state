@@ -82,7 +82,12 @@ def collect_readiness() -> dict:
         "ready_for_convert": bool(detail and detail.exists()),
         "ready_for_geography_build": _cnipa_or_lens_exports_present(),
         "ready_for_geography_join": bool(geo and geo.exists() and not is_geography_template_path(geo)),
-        "ready_for_evidence_chain": bool(output.exists() and _file_rows(output) >= 500 and geo and not is_geography_template_path(geo)),
+        "ready_for_evidence_chain": bool(
+            output.exists() and _file_rows(output) >= 500 and geo and not is_geography_template_path(geo)
+        ),
+        "recommended_production_download": (
+            "python scripts/59_download_iids_patent_sources.py --detail-only --target-dir <external_ssd>"
+        ),
         "recommended_next_command": _recommended_next(
             free_sources=free_sources,
             detail=detail,
@@ -95,15 +100,21 @@ def collect_readiness() -> dict:
 def _recommended_next(*, free_sources: float, detail: Path | None, output: Path, geo: Path | None) -> str:
     if free_sources < MIN_SQL_DOWNLOAD_GB and (detail is None or not detail.exists()):
         return (
-            "Move to a machine with >=150 GB free (or set OPENXLAB_IIDS_SOURCES_DIR to an external drive), "
-            "then: python scripts/64_run_atlas_iids_pipeline.py --download --smoke-rows 5000 --production"
+            "Production machine only: set OPENXLAB_IIDS_SOURCES_DIR to external SSD (e.g. D:\\iids_sources), "
+            "then: python scripts/59_download_iids_patent_sources.py --detail-only --target-dir D:\\iids_sources"
         )
     if detail is None or not detail.exists():
-        return "python scripts/64_run_atlas_iids_pipeline.py --download --smoke-rows 5000 --production"
+        return (
+            "python scripts/59_download_iids_patent_sources.py --detail-only --target-dir <external_ssd> "
+            "&& python scripts/64_run_atlas_iids_pipeline.py --skip-geo --production"
+        )
     if not output.exists() or _file_rows(output) < 500:
         return "python scripts/64_run_atlas_iids_pipeline.py --skip-geo --production"
     if geo is None or is_geography_template_path(geo):
-        return "make atlas-iids-geo-build && make atlas-iids-geo-validate && make atlas-iids-geo"
+        return (
+            "make atlas-iids-export-keys && make atlas-iids-geo-build "
+            "&& make atlas-iids-geo-validate && make atlas-iids-geo"
+        )
     return "Complete patent_source_manifest.csv, then: python scripts/64_run_atlas_iids_pipeline.py --full-chain --production"
 
 
