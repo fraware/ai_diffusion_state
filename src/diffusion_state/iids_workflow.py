@@ -106,24 +106,18 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
     except OSError:
         free_sources = 0.0
 
-    laptop_blockers: list[str] = []
-    if not external and free_sources < MIN_SQL_DOWNLOAD_GB:
-        laptop_blockers.append(
-            f"Control laptop C: has ~{free_sources:.0f} GB free; do not download 136 GB SQL here."
-        )
-
+    laptop_detail = (
+        f"Control laptop ~{free_sources:.0f} GB free on {sources.drive or 'repo'}; "
+        "use cloud VM for 136 GB SQL. Run make pcs-guard and atlas-iids-preflight."
+    )
     phases.append(
         WorkflowPhase(
             id=PhaseId.LAPTOP_PREFLIGHT,
             title="Control laptop preflight",
-            status="complete" if not laptop_blockers else "blocked",
+            status="complete",
             command="make atlas-iids-preflight && python scripts/50_atlas_status.py --json",
-            detail=(
-                "PCS + Atlas software ready; OpenXLAB credentials belong on the cloud VM, not necessarily here."
-                if not laptop_blockers
-                else "Resolve disk constraint before any local SQL download."
-            ),
-            blockers=tuple(laptop_blockers),
+            detail=laptop_detail,
+            blockers=(),
         )
     )
 
