@@ -11,6 +11,10 @@ DEFAULT_IIDS_SOURCES_DIR = PROJECT_ROOT / "data" / "raw" / "patents" / "opendata
 DEFAULT_IIDS_OUTPUT = PROJECT_ROOT / "data" / "raw" / "patents" / "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
 DEFAULT_GEO_OUTPUT = PROJECT_ROOT / "data" / "raw" / "patents" / "cnipa_patent_geography_2015_2024.csv"
 PATENT_KEYS_FOR_GEO_OUTPUT = PROJECT_ROOT / "outputs" / "tables" / "table_P9_iids_patent_keys_for_geography.csv"
+# Stable alias for CNIPA/Lens procurement (same content as table_P9).
+FILTERED_PATENT_IDS_FOR_GEO_OUTPUT = (
+    PROJECT_ROOT / "data" / "raw" / "patents" / "iids_filtered_patent_ids_for_geography.csv"
+)
 SMOKE_IIDS_DIR = PROJECT_ROOT / "outputs" / "smoke" / "iids"
 
 MIN_SQL_DOWNLOAD_GB = 150

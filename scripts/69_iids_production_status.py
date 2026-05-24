@@ -24,12 +24,14 @@ def main() -> int:
         print(f"IIDS production status -> {STATUS_JSON}")
         for key in (
             "phase",
+            "production_host",
             "sql_download_pct",
             "sql_detail_size_gb",
             "download_speed",
             "eta_hours",
             "production_active",
             "iids_output_rows",
+            "disk_free_gb_sources",
             "recommended_next",
         ):
             print(f"  {key}: {report.get(key)}")

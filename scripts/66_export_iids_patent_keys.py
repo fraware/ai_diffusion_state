@@ -47,6 +47,8 @@ def main() -> int:
     print(f"Input rows: {stats.input_rows}")
     print(f"Unique patent IDs: {stats.unique_patent_ids}")
     print(f"Wrote: {stats.output_path}")
+    if stats.alias_path:
+        print(f"Alias: {stats.alias_path}")
     print("\nUse this file to request geography-only export from CNIPA/Lens/CNKI/CSMAR.")
     print("Then: make atlas-iids-geo-build")
     return 0

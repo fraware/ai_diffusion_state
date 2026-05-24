@@ -56,9 +56,32 @@ python scripts/64_run_atlas_iids_pipeline.py --target-dir D:\iids_sources --skip
 
 Script 64 supports `--target-dir`, `--production`, and defaults to `--detail-only` (not full IIDS).
 
-### Cloud VM (Strategy B)
+### Cloud VM (Strategy B — canonical when no external SSD)
 
-Run the same commands on a 300 GB VM, then copy back only:
+```bash
+export OPENXLAB_AK="..."
+export OPENXLAB_SK="..."
+export OPENXLAB_IIDS_SOURCES_DIR=/mnt/iids_sources
+
+make atlas-iids-cloud STEP=status
+make atlas-iids-cloud STEP=docs
+make atlas-iids-cloud STEP=detail
+make atlas-iids-cloud STEP=smoke-convert
+make atlas-iids-cloud STEP=full-convert
+make atlas-iids-cloud-copyback
+```
+
+Copy-back tarball to control laptop, extract, then:
+
+```powershell
+make atlas-iids-control-evidence-chain
+```
+
+Geography keys alias (same as table P9):
+
+`data/raw/patents/iids_filtered_patent_ids_for_geography.csv`
+
+### Cloud VM (manual)
 
 - `data/raw/patents/opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv`
 - `data/raw/patents/cnipa_patent_geography_2015_2024.csv`
@@ -77,7 +100,7 @@ Writes to `outputs/smoke/iids/` — does not touch the evidence path.
 
 IIDS has no city/province/address. Export keys first, then build geography **only for filtered patent IDs**:
 
-1. `make atlas-iids-export-keys` → `outputs/tables/table_P9_iids_patent_keys_for_geography.csv`
+1. `make atlas-iids-export-keys` → `outputs/tables/table_P9_iids_patent_keys_for_geography.csv` and alias `data/raw/patents/iids_filtered_patent_ids_for_geography.csv`
 2. Request CNIPA/Lens geography export for those publication numbers
 3. `make atlas-iids-geo-build` (from CNIPA/Lens export with `公开号` + address fields)
 4. `make atlas-iids-geo-validate`

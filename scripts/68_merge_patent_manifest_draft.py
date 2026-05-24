@@ -16,7 +16,7 @@ from diffusion_state.validate_patent_source_manifest import validate_patent_sour
 DRAFT = RAW_PATENTS_DIR / "patent_source_manifest_draft.csv"
 
 
-def merge_manifest(*, dry_run: bool = False) -> int:
+def merge_manifest(*, dry_run: bool = False, warn_only: bool = False) -> int:
     if not DRAFT.exists():
         print(f"ERROR: missing draft manifest {DRAFT}", file=sys.stderr)
         return 1
@@ -45,7 +45,7 @@ def merge_manifest(*, dry_run: bool = False) -> int:
         print("Manifest validation issues (expected until FILL_ME fields and files exist):")
         for issue in issues:
             print(f"- {issue}")
-        return 2
+        return 0 if warn_only else 2
     print("Manifest validation passed.")
     return 0
 
@@ -53,8 +53,13 @@ def merge_manifest(*, dry_run: bool = False) -> int:
 def main() -> int:
     p = argparse.ArgumentParser(description="Merge patent manifest draft into patent_source_manifest.csv")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument(
+        "--warn-only",
+        action="store_true",
+        help="Return 0 after merge even if manifest validation fails (cloud copy-back path).",
+    )
     args = p.parse_args()
-    return merge_manifest(dry_run=args.dry_run)
+    return merge_manifest(dry_run=args.dry_run, warn_only=args.warn_only)
 
 
 if __name__ == "__main__":

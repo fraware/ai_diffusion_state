@@ -86,6 +86,36 @@ powershell -File scripts\windows_iids_external.ps1 -TargetDir D:\iids_sources -S
 
 Do **not** run production on C:, WSL home, or WSL paths. Do **not** start procurement or paper claims until the evidence gate passes.
 
+## End-to-end workflow (cloud-first)
+
+```mermaid
+flowchart LR
+  subgraph laptop [Control laptop]
+    A[git pull + preflight]
+    H[Geography supplement]
+    I[make atlas-iids-control-evidence-chain]
+  end
+  subgraph vm [Cloud VM 300GB+]
+    B[cloud_iids_production docs]
+    C[detail SQL only]
+    D[smoke-convert]
+    E[full-convert + P9 keys]
+    F[cloud_iids_copyback tarball]
+  end
+  A --> B --> C --> D --> E --> F
+  F -->|scp small artifacts| H
+  H --> I
+```
+
+| Stage | Command | Artifact |
+|-------|---------|----------|
+| VM status | `make atlas-iids-cloud STEP=status` | P8 / P8b tables |
+| VM download | `STEP=docs` then `STEP=detail` | `base_patent_detail.sql` on VM only |
+| VM convert | `STEP=smoke-convert` then `STEP=full-convert` | `data/raw/patents/opendatalab_iids_*.csv` |
+| VM pack | `make atlas-iids-cloud-copyback` | `atlas_iids_filtered_outputs.tar.gz` |
+| Laptop geo | CNIPA/Lens export for `iids_filtered_patent_ids_for_geography.csv` | `cnipa_patent_geography_2015_2024.csv` |
+| Laptop gates | `make atlas-iids-control-evidence-chain` | `atlas_evidence_ready=true` |
+
 Do not download all of IIDS.
 
 Only the following large file is required for the patent layer:

@@ -49,16 +49,23 @@ make validate-submission
 
 ## Atlas IIDS evidence (active)
 
-Control laptop: `git pull`, `make atlas-iids-preflight`, `python scripts/50_atlas_status.py --json`. **No 136 GB download on C:** (~30 GB free is for repo work only).
+Control laptop only (no 136 GB SQL on C:):
 
-Production (no external SSD): cloud VM — `docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md`, `scripts/cloud_iids_production.sh`.
+```powershell
+git pull
+make atlas-iids-preflight
+python scripts/50_atlas_status.py --json
+```
+
+Cloud VM (canonical production): `make atlas-iids-cloud STEP=status|docs|detail|smoke-convert|full-convert` then `make atlas-iids-cloud-copyback`. See `docs/ATLAS_IIDS_CLEAN_RESTART_RUNBOOK.md`.
+
+After copy-back + geography supplement: `make atlas-iids-control-evidence-chain`.
 
 Do not weaken `atlas_evidence_ready` or start procurement until evidence gates pass.
 
 ---
 
-```powershell
-make purge-stub-controls
+## If EPS/NBS city controls arrive
 python scripts/06a_validate_city_controls_raw.py
 make city-controls
 make panel

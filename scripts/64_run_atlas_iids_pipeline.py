@@ -90,6 +90,11 @@ def main() -> int:
         help="Write evidence CSV to data/raw/patents/ (required for evidence chain)",
     )
     p.add_argument("--full-chain", action="store_true", help="Run evidence-check, atlas-patents, models, status")
+    p.add_argument(
+        "--merge-manifest",
+        action="store_true",
+        help="Merge patent_source_manifest_draft.csv after manifest prep (warn-only)",
+    )
     p.add_argument("--json", action="store_true")
     args = p.parse_args()
 
@@ -175,6 +180,12 @@ def main() -> int:
     elif args.production:
         code = _run([PYTHON, "scripts/58_prepare_patent_source_manifest.py"], label="Prepare patent manifest draft")
         report["steps"].append({"manifest_prep": code})
+        if args.merge_manifest or args.full_chain:
+            code = _run(
+                [PYTHON, "scripts/68_merge_patent_manifest_draft.py", "--warn-only"],
+                label="Merge patent manifest draft",
+            )
+            report["steps"].append({"manifest_merge": code})
 
     if not args.skip_geo and args.production:
         if args.cnipa_export or _cnipa_or_lens_exports_present():
