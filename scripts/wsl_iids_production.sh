@@ -10,14 +10,16 @@ LOG="${REPO}/outputs/logs/iids_wsl_production.log"
 mkdir -p "${REPO}/outputs/logs" "${IIDS_DIR}"
 
 cd "${REPO}"
-if [[ ! -d "${VENV}" ]]; then
+if [[ ! -x "${VENV}/bin/python" ]]; then
   python3 -m venv "${VENV}"
 fi
 # shellcheck disable=SC1091
 source "${VENV}/bin/activate"
 PYTHON="${VENV}/bin/python"
-pip install -q -U pip openxlab pandas pyarrow
-pip install -q -e ".[dev]"
+if ! "${PYTHON}" -c "import openxlab, pandas" 2>/dev/null; then
+  pip install -q -U pip "requests~=2.28.2" openxlab pandas pyarrow
+  pip install -q -e ".[dev]"
+fi
 
 export OPENXLAB_IIDS_SOURCES_DIR="${IIDS_DIR}"
 export OPENXLAB_INSECURE_SSL="${OPENXLAB_INSECURE_SSL:-1}"
@@ -74,4 +76,5 @@ echo "Converting: ${DETAIL_SQL}"
 "${PYTHON}" scripts/68_merge_patent_manifest_draft.py
 
 echo "=== Phase 1 complete $(date -Is) ==="
+"${PYTHON}" scripts/69_iids_production_status.py --json || true
 echo "Next: build cnipa_patent_geography_2015_2024.csv from CNIPA/Lens export using table_P9 keys"

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Quick status for the WSL IIDS download (run from Windows: wsl bash scripts/wsl_iids_status.sh)
 set -euo pipefail
+REPO="/mnt/c/Users/mateo/ai_diffusion_state"
 IIDS_DIR="${HOME}/iids_sources"
 LOG="/mnt/c/Users/mateo/ai_diffusion_state/outputs/logs/iids_wsl_production.log"
 echo "=== IIDS WSL download status $(date -Is) ==="
@@ -15,4 +16,7 @@ fi
 if [[ -f "${LOG}" ]]; then
   echo "--- log tail ---"
   tail -n 3 "${LOG}" || true
+fi
+if [[ -x "${REPO}/.venv-wsl/bin/python" ]]; then
+  "${REPO}/.venv-wsl/bin/python" "${REPO}/scripts/69_iids_production_status.py" 2>/dev/null || true
 fi
