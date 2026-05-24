@@ -18,11 +18,12 @@ FIXTURE_BASENAMES = frozenset(
 )
 
 REAL_EXPORT_PATTERNS = (
-    re.compile(r"^cnipa_industrial_ai.*\.csv$", re.I),
-    re.compile(r"^lens_industrial_ai.*\.csv$", re.I),
-    re.compile(r"^google_patents_industrial_ai.*\.csv$", re.I),
-    re.compile(r"^cnki_.*\.csv$", re.I),
-    re.compile(r"^csmar_.*\.csv$", re.I),
+    re.compile(r"^cnipa_industrial_ai_patents_.*\.csv$", re.I),
+    re.compile(r"^lens_industrial_ai_patents_.*\.csv$", re.I),
+    re.compile(r"^google_patents_industrial_ai_patents_.*\.csv$", re.I),
+    re.compile(r"^cnki_industrial_ai_patents_.*\.csv$", re.I),
+    re.compile(r"^cnrds_industrial_ai_patents_.*\.csv$", re.I),
+    re.compile(r"^csmar_industrial_ai_patents_.*\.csv$", re.I),
 )
 
 MANIFEST_COLUMNS = [

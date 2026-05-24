@@ -34,6 +34,9 @@ The Atlas **software** pipeline accepts patent microdata here. The **evidence ga
 ## After placing files
 
 ```powershell
+make atlas-patent-prep
+# Review outputs/tables/table_P0_patent_export_schema_diagnostics.csv
+# Complete data/raw/patents/patent_source_manifest_draft.csv -> patent_source_manifest.csv
 make atlas-patents
 make atlas-evidence-check
 make atlas-v02

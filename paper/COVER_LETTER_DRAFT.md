@@ -14,7 +14,7 @@ We submit our manuscript on China's hub-centered industrial AI adoption architec
 
 **Robustness.** Appendix Table I reports partial 2024 public city controls (Table I OLS count: pilot_zone coef=1.58, p=0.020, N=51, R2=0.52 (appendix only; not EPS-equivalent)). Strict EPS/NBS controlled specifications remain unavailable by design until licensed city economic controls are ingested.
 
-**Replication.** Engineering gates: PCS ready=True, submission package ready=True. Replication package: `paper/submission_bundle/` (or `paper/submission_bundle.zip`) with manifest `paper/SUBMISSION_MANIFEST.json`. Rebuild: `make pcs` at git commit `49a6b6c-dirty` (working tree has uncommitted changes).
+**Replication.** Engineering gates: PCS ready=True, submission package ready=True. Replication package: `paper/submission_bundle/` (or `paper/submission_bundle.zip`) with manifest `paper/SUBMISSION_MANIFEST.json`. Rebuild: `make pcs` at git commit `ea0cd37-dirty` (working tree has uncommitted changes).
 
 We believe the paper fits [JOURNAL NAME] because it offers a measurement framework for industrial AI diffusion distinct from frontier-model capability rankings.
 
@@ -22,4 +22,4 @@ Sincerely,
 
 [Author names and affiliations]
 
-Git commit: `49a6b6c-dirty` (working tree has uncommitted changes)
+Git commit: `ea0cd37-dirty` (working tree has uncommitted changes)

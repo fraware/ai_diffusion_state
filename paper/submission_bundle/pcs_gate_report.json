@@ -125,7 +125,7 @@
     {
       "name": "submission_zip",
       "passed": true,
-      "detail": "submission_bundle.zip (208,878 bytes)",
+      "detail": "submission_bundle.zip (208,870 bytes)",
       "severity": "warn"
     }
   ],

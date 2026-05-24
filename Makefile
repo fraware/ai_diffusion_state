@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-manifest atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
 
 PYTHON ?= python
 
@@ -150,6 +150,9 @@ atlas-evidence-check:
 
 atlas-patent-manifest:
 	$(PYTHON) scripts/57_validate_patent_source_manifest.py
+
+atlas-patent-prep:
+	$(PYTHON) scripts/58_prepare_patent_source_manifest.py
 
 atlas-v02:
 	$(PYTHON) scripts/47_build_atlas_v02.py

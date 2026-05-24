@@ -1,6 +1,6 @@
 # Submission readiness (PCS measurement paper)
 
-**Git revision:** `49a6b6c-dirty`  
+**Git revision:** `ea0cd37-dirty`  
 **PCS gates ready:** `True`  
 **Submission package ready:** `True`  
 **Geo evidence:** official=102, rule_based=357, external=50
@@ -19,7 +19,7 @@ Regenerate: `make submission-checklist` (includes this file and `paper/SUBMISSIO
 | Strict Table 5 (EPS/NBS) | Blocked by design |
 | Submission draft + embedded tables | `paper/draft_v1_submission.md` |
 | Cover letter draft | `paper/COVER_LETTER_DRAFT.md` (commit hash present) |
-| Portal upload archive | `paper/submission_bundle.zip` (208,878 bytes; `make submission-zip`) |
+| Portal upload archive | `paper/submission_bundle.zip` (208,870 bytes; `make submission-zip`) |
 | SHA256 manifest | `paper/SUBMISSION_MANIFEST.json` |
 | Language + claim compliance | `make validate-submission` |
 

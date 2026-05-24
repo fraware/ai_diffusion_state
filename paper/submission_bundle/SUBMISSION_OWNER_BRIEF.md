@@ -1,7 +1,7 @@
 # PCS submission owner brief (one page)
 
 **Purpose:** Upload the measurement paper without re-running the pipeline.  
-**Git revision:** `49a6b6c-dirty`  
+**Git revision:** `ea0cd37-dirty`  
 **PCS ready:** `True` | **Submission ready:** `True`
 
 ## Upload these files
