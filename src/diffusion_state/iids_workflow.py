@@ -76,9 +76,18 @@ def _sql_rows(path: Path) -> int:
         return max(sum(1 for _ in csv.reader(f)) - 1, 0)
 
 
+def _is_control_laptop(sources: Path) -> bool:
+    """True when this machine is the repo laptop, not the cloud production host."""
+    norm = sources.as_posix().lower()
+    if norm.startswith("/mnt/iids") or norm == "/mnt/iids_sources":
+        return False
+    if "/home/" in norm and "iids_sources" in norm:
+        return False
+    return True
+
+
 def collect_workflow_phases() -> list[WorkflowPhase]:
     phases: list[WorkflowPhase] = []
-    blockers_global: list[str] = []
 
     repo_ok = _repo_scripts_ready()
     phases.append(
@@ -123,16 +132,28 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
 
     cloud_complete = iids_rows >= 500
     cloud_active = bool(detail and detail.exists() and sql_gb > 1) or cloud_complete
+    control_laptop = _is_control_laptop(sources)
     cloud_cmd = (
         "make atlas-iids-cloud-copyback  # after full-convert on VM"
         if cloud_complete
-        else "make atlas-iids-cloud STEP=detail  # on 300 GB+ Ubuntu VM in tmux"
+        else (
+            "docs/ATLAS_IIDS_CLOUD_VM_ENGINEER_INSTRUCTIONS.md  # provision VM, then tmux + make atlas-iids-cloud"
+            if control_laptop
+            else "make atlas-iids-cloud STEP=detail  # on 300 GB+ Ubuntu VM in tmux"
+        )
     )
     cloud_blockers: list[str] = []
-    if not creds:
-        cloud_blockers.append("OPENXLAB credentials required on cloud VM")
-    if not cloud_complete and not cloud_active:
-        cloud_blockers.append("Production not started on cloud VM")
+    if cloud_complete:
+        pass
+    elif control_laptop:
+        cloud_blockers.append(
+            "Provision Ubuntu VM (500 GB) and run production there — not on this laptop"
+        )
+    else:
+        if not creds:
+            cloud_blockers.append("export OPENXLAB_AK and OPENXLAB_SK on this VM before STEP=detail")
+        if not cloud_active:
+            cloud_blockers.append("Run: make atlas-iids-cloud STEP=docs then STEP=detail")
 
     phases.append(
         WorkflowPhase(
@@ -150,14 +171,19 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
     )
 
     copyback = verify_copyback_artifacts()
+    copyback_waiting = control_laptop and not cloud_complete
     phases.append(
         WorkflowPhase(
             id=PhaseId.COPYBACK_IMPORTED,
             title="Copy-back on control laptop",
             status="complete" if copyback.ready_for_geography_procurement else "pending",
             command="make atlas-iids-import-copyback ARCHIVE=atlas_iids_filtered_outputs.tar.gz",
-            detail=f"IIDS rows: {copyback.iids_rows}; keys: {copyback.unique_patent_ids}.",
-            blockers=tuple(copyback.blockers),
+            detail=(
+                "Waiting for VM tarball (atlas_iids_filtered_outputs.tar.gz) after full-convert."
+                if copyback_waiting
+                else f"IIDS rows: {copyback.iids_rows}; keys: {copyback.unique_patent_ids}."
+            ),
+            blockers=() if copyback_waiting else tuple(copyback.blockers),
         )
     )
 
@@ -183,15 +209,19 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
         )
     )
 
-    manifest_ok = MANIFEST_PATH.exists() and copyback.manifest_fill_me_count == 0
     evidence_ready = copyback.ready_for_evidence_chain and geo_ok and manifest_ok
-    evidence_blockers = list(copyback.blockers)
-    if not geo_ok:
-        evidence_blockers.append("Geography supplement missing or template-only")
-    if copyback.manifest_fill_me_count:
-        evidence_blockers.append(
-            f"Resolve {copyback.manifest_fill_me_count} FILL_ME field(s) in manifest draft"
-        )
+    evidence_blockers: list[str] = []
+    if not cloud_complete:
+        evidence_detail = "Waiting for cloud production, copy-back, and geography file."
+    else:
+        evidence_detail = "Runs geo join, manifest merge, atlas-evidence-check, patents, models."
+        evidence_blockers = list(copyback.blockers)
+        if not geo_ok:
+            evidence_blockers.append("Geography supplement missing or template-only")
+        if copyback.manifest_fill_me_count:
+            evidence_blockers.append(
+                f"Resolve {copyback.manifest_fill_me_count} FILL_ME field(s) in manifest draft"
+            )
 
     phases.append(
         WorkflowPhase(
@@ -199,7 +229,7 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
             title="Atlas evidence chain",
             status="complete" if evidence_ready else ("active" if geo_ok else "pending"),
             command="make atlas-iids-control-evidence-chain",
-            detail="Runs geo join, manifest merge, atlas-evidence-check, patents, models.",
+            detail=evidence_detail,
             blockers=tuple(evidence_blockers) if not evidence_ready else (),
         )
     )
@@ -218,8 +248,12 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
             title="Atlas empirical ready",
             status="complete" if empirical else "pending",
             command="python scripts/50_atlas_status.py --json --require-evidence",
-            detail="atlas_evidence_ready=true; draft_atlas_v1.md may use real patent tables.",
-            blockers=() if empirical else ("Complete evidence chain first",),
+            detail=(
+                "atlas_evidence_ready=true; draft_atlas_v1.md may use real patent tables."
+                if cloud_complete or not control_laptop
+                else "Waiting for full evidence chain after geography import."
+            ),
+            blockers=() if empirical or not cloud_complete else ("Complete evidence chain first",),
         )
     )
 
@@ -228,6 +262,11 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
 
 def collect_workflow_report() -> dict:
     phases = collect_workflow_phases()
+    sources = resolve_iids_sources_dir()
+    control_laptop = _is_control_laptop(sources)
+    repo_ok = _repo_scripts_ready()
+    iids_rows = _sql_rows(DEFAULT_IIDS_OUTPUT)
+    cloud_complete = iids_rows >= 500
     active = next((p for p in phases if p.status == "active"), None)
     blocked = [p for p in phases if p.status == "blocked"]
     complete = [p for p in phases if p.status == "complete"]
@@ -235,6 +274,8 @@ def collect_workflow_report() -> dict:
 
     return {
         "generated_at": datetime.now(tz=UTC).isoformat(),
+        "run_context": "control_laptop" if control_laptop else "cloud_vm",
+        "control_laptop_ready": control_laptop and repo_ok and not cloud_complete,
         "canonical_host": "cloud_vm",
         "phases_complete": len(complete),
         "phases_total": len(phases),

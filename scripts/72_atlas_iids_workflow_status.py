@@ -18,6 +18,8 @@ _STATUS_ICON = {
     "pending": "[ ]",
 }
 
+_ENGINEER_DOC = "docs/ATLAS_IIDS_CLOUD_VM_ENGINEER_INSTRUCTIONS.md"
+
 
 def main() -> int:
     p = argparse.ArgumentParser(description="Atlas IIDS workflow phase dashboard.")
@@ -32,8 +34,16 @@ def main() -> int:
 
     print(f"IIDS workflow -> {WORKFLOW_JSON}")
     print(f"Progress: {report['phases_complete']}/{report['phases_total']} phases complete")
+    print(f"Run context: {report.get('run_context', 'unknown')}")
     print(f"Canonical production host: {report['canonical_host']}")
-    print()
+
+    if report.get("control_laptop_ready"):
+        print()
+        print("=== Control laptop: OK (nothing to fix on this machine) ===")
+        print("Pending items below run on a cloud VM, then copy-back here.")
+        print(f"Start here: {_ENGINEER_DOC}")
+        print()
+
     for phase in report["phases"]:
         icon = _STATUS_ICON.get(phase["status"], "[ ]")
         print(f"{icon} {phase['title']} ({phase['id']})")
@@ -41,8 +51,12 @@ def main() -> int:
         if phase["blockers"]:
             for b in phase["blockers"]:
                 print(f"      ! {b}")
+
     print()
-    print(f"Next: {report['next_command']}")
+    if report.get("control_laptop_ready"):
+        print(f"Human next action: {_ENGINEER_DOC}")
+    else:
+        print(f"Next: {report['next_command']}")
 
     if args.strict and report["blocked_phase_ids"]:
         return 2

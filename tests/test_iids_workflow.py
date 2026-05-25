@@ -15,5 +15,6 @@ def test_workflow_includes_all_phases() -> None:
 def test_workflow_report_has_next_command() -> None:
     report = collect_workflow_report()
     assert report["phases_total"] >= 6
-    assert report["next_command"]
+    assert report["next_command"] or report.get("control_laptop_ready")
+    assert report["run_context"] in ("control_laptop", "cloud_vm")
     assert "phases" in report
