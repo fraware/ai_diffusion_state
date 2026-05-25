@@ -213,9 +213,6 @@ atlas-iids-workflow-strict:
 atlas-iids-cloud-bootstrap:
 	bash scripts/cloud_vm_bootstrap.sh
 
-atlas-iids-gcp-disk:
-	@echo "Run on VM with sudo: sudo bash scripts/gcp_setup_iids_data_disk.sh"
-
 atlas-iids-cloud-copyback:
 	bash scripts/cloud_iids_copyback.sh
 

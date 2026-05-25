@@ -128,8 +128,7 @@ Software is ready; **evidence is not** until real IIDS + geography exports are i
 |---------|--------|
 | `make atlas-iids-workflow` | Control laptop — phase dashboard |
 | `make atlas-iids-preflight` | Control laptop — disk/credential checks |
-| `make atlas-iids-cloud-bootstrap` | Fresh VM — `cloud_vm_bootstrap.sh` |
-| GCP setup | [docs/ATLAS_IIDS_GCP_VM_SETUP.md](docs/ATLAS_IIDS_GCP_VM_SETUP.md) |
+| `bash scripts/cloud_vm_bootstrap.sh` | Fresh Ubuntu VM — one-shot setup |
 | `make atlas-iids-cloud STEP=...` | Cloud VM — download + convert |
 | `make atlas-iids-import-copyback ARCHIVE=...` | Control laptop — after `scp` |
 | `make atlas-iids-control-evidence-chain` | Control laptop — after geography file |
