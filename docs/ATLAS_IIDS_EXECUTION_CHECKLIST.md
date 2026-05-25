@@ -6,13 +6,13 @@ Run `make atlas-iids-workflow` at any time for live phase status.
 
 ## Phase 0 — Repository (control laptop)
 
-- [ ] `git pull` and confirm `git rev-parse HEAD` is current (`bf6ae19` or later)
+- [ ] `git pull` and confirm `git rev-parse HEAD` is **`566c78c` or later**
 - [ ] `make pcs-guard` passes
 - [ ] `make atlas-iids-workflow` shows repo tooling complete
 
 ## Phase 1 — Cloud VM provision
 
-- [ ] Ubuntu 22.04 or 24.04, **300 GB disk minimum** (500 GB safer)
+- [ ] Ubuntu 22.04 or 24.04, **500 GB disk** (300 GB minimum; prefer 500 GB)
 - [ ] 8–16 vCPU, 32 GB RAM preferred
 - [ ] Rotated `OPENXLAB_AK` / `OPENXLAB_SK` (not committed)
 - [ ] `bash scripts/cloud_vm_bootstrap.sh` on the VM
@@ -42,6 +42,7 @@ make atlas-iids-cloud-copyback
 ```powershell
 git pull
 powershell -File scripts/import_iids_copyback.ps1 -Archive atlas_iids_filtered_outputs.tar.gz
+# Or: -TarballPath "C:\path\to\atlas_iids_filtered_outputs.tar.gz"
 make atlas-iids-verify-copyback
 make atlas-iids-geography-brief
 ```

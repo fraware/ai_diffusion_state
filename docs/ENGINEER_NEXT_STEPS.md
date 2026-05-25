@@ -49,23 +49,18 @@ make validate-submission
 
 ## Atlas IIDS evidence (active)
 
-Control laptop only (no 136 GB SQL on C:):
+**Engineers:** [Cloud VM instructions](ATLAS_IIDS_CLOUD_VM_ENGINEER_INSTRUCTIONS.md) — provision VM and run production now. No new repo features unless production fails.
+
+Control laptop only:
 
 ```powershell
 git pull
+make atlas-iids-workflow
 make atlas-iids-preflight
 python scripts/50_atlas_status.py --json
 ```
 
-Cloud VM (canonical production): `make atlas-iids-cloud STEP=...` then `make atlas-iids-cloud-copyback`.
-
-After `scp` to laptop: `make atlas-iids-import-copyback ARCHIVE=atlas_iids_filtered_outputs.tar.gz` (or `scripts/import_iids_copyback.ps1`).
-
-Geography procurement: `make atlas-iids-geography-brief` then build `cnipa_patent_geography_2015_2024.csv`.
-
-Evidence chain: `make atlas-iids-control-evidence-chain` (runs verify-copyback first).
-
-Workflow dashboard: `make atlas-iids-workflow` — see `docs/ATLAS_IIDS_EXECUTION_CHECKLIST.md`.
+After VM copy-back: `import_iids_copyback.ps1` → `make atlas-iids-geography-brief` → obtain `cnipa_patent_geography_2015_2024.csv` → `make atlas-iids-control-evidence-chain`.
 
 Do not weaken `atlas_evidence_ready` or start procurement until evidence gates pass.
 

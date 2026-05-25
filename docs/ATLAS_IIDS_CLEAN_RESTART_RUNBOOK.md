@@ -1,6 +1,6 @@
 # Atlas IIDS Clean-Restart Runbook
 
-**Checklist:** [ATLAS_IIDS_EXECUTION_CHECKLIST.md](ATLAS_IIDS_EXECUTION_CHECKLIST.md) — run `make atlas-iids-workflow` for live status.
+**Checklist:** [ATLAS_IIDS_EXECUTION_CHECKLIST.md](ATLAS_IIDS_EXECUTION_CHECKLIST.md) | **Engineers start here:** [ATLAS_IIDS_CLOUD_VM_ENGINEER_INSTRUCTIONS.md](ATLAS_IIDS_CLOUD_VM_ENGINEER_INSTRUCTIONS.md)
 
 ## Situation
 

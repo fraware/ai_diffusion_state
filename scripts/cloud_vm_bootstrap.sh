@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-shot bootstrap for a fresh Ubuntu 22.04/24.04 cloud VM (300 GB+ disk).
+# One-shot bootstrap for a fresh Ubuntu 22.04/24.04 cloud VM (500 GB disk preferred; 300 GB minimum).
 set -euo pipefail
 
 REPO_URL="${REPO_URL:-https://github.com/fraware/ai_diffusion_state.git}"

@@ -1,11 +1,16 @@
 # Extract cloud VM tarball into repo root and verify copy-back artifacts.
 param(
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true, ParameterSetName = "Archive")]
     [string]$Archive,
+    [Parameter(Mandatory = $true, ParameterSetName = "TarballPath")]
+    [string]$TarballPath,
     [switch]$SkipVerify
 )
 
 $ErrorActionPreference = "Stop"
+if ($PSCmdlet.ParameterSetName -eq "TarballPath") {
+    $Archive = $TarballPath
+}
 $Repo = Split-Path -Parent $PSScriptRoot
 Set-Location $Repo
 
