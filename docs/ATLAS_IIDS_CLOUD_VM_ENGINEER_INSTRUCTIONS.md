@@ -6,6 +6,8 @@
 
 Confirm repo: `git rev-parse HEAD` must be **`566c78c` or later**.
 
+**Google Cloud:** see [ATLAS_IIDS_GCP_VM_SETUP.md](ATLAS_IIDS_GCP_VM_SETUP.md) (attach 500 GB disk; do not use a 10 GB boot disk for SQL).
+
 ---
 
 ## 1. Provision the cloud VM (today)
