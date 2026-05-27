@@ -1,8 +1,23 @@
-# The Diffusion State
+<div align="center">
+
+<pre>
+###############################################################################################
+#                                                                                             #
+#          _    ___   ____  _  __  __           _               ____  _        _              #
+#         / \  |_ _| |  _ \(_)/ _|/ _|_   _ ___(_) ___  _ __   / ___|| |_ __ _| |_ ___        #
+#        / _ \  | |  | | | | | |_| |_| | | / __| |/ _ \| '_ \  \___ \| __/ _` | __/ _ \       #
+#       / ___ \ | |  | |_| | |  _|  _| |_| \__ \ | (_) | | | |  ___) | || (_| | ||  __/       #
+#      /_/   \_\___| |____/|_|_| |_|  \__,_|___/_|\___/|_| |_| |____/ \__\__,_|\__\___|       #
+#                                                                                             #
+#                                                                                             #
+###############################################################################################
+</pre>
 
 **China's AI Industrialization Model and the Next Productivity Shock**
 
 Empirical pipeline for an NBER Economics of AI (China) brief measuring whether China's AI diffusion system—pilot zones, smart-factory adoption, industrial AI projects, and export upgrading—forms a coherent institutional chain.
+
+</div>
 
 ## Core empirical chain
 
