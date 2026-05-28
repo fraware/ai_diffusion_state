@@ -34,6 +34,11 @@ src/diffusion_state.egg-info/
 # Regenerate with make submission-zip (included in make pcs)
 paper/submission_bundle.zip
 
+# IIDS copy-back archives (multi-GB; transfer outside git)
+atlas_iids_filtered_outputs.tar.gz
+atlas_iids_filtered_outputs.tar.gz.sha256
+*.tar.gz.sha256
+
 # Generated pipeline outputs (rebuild with make seed / make build)
 data/raw/*
 !data/raw/.gitkeep
