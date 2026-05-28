@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-geo-key-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate atlas-iids-geography-preflight atlas-iids-pipeline atlas-iids-pipeline-full atlas-iids-preflight atlas-iids-smoke atlas-iids-manifest-merge atlas-iids-download-detail atlas-iids-export-keys atlas-iids-wsl-production atlas-iids-production-status atlas-iids-external-status atlas-iids-cloud atlas-iids-cloud-bootstrap atlas-iids-workflow atlas-iids-workflow-strict atlas-iids-cloud-copyback atlas-iids-verify-copyback atlas-iids-import-copyback atlas-iids-geography-brief atlas-iids-control-post-copyback atlas-iids-control-evidence-chain atlas-iids-geo-fixture-smoke atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-geo-key-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate atlas-iids-geography-preflight atlas-iids-require-geography atlas-iids-pipeline atlas-iids-pipeline-full atlas-iids-preflight atlas-iids-smoke atlas-iids-manifest-merge atlas-iids-download-detail atlas-iids-export-keys atlas-iids-wsl-production atlas-iids-production-status atlas-iids-external-status atlas-iids-cloud atlas-iids-cloud-bootstrap atlas-iids-workflow atlas-iids-workflow-strict atlas-iids-cloud-copyback atlas-iids-verify-copyback atlas-iids-import-copyback atlas-iids-geography-brief atlas-iids-control-post-copyback atlas-iids-control-evidence-chain atlas-iids-geo-fixture-smoke atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
 
 PYTHON ?= python
 
@@ -241,10 +241,13 @@ atlas-iids-geo-coverage-validate:
 atlas-iids-geography-preflight:
 	$(PYTHON) scripts/77_atlas_iids_geography_preflight.py
 
+atlas-iids-require-geography:
+	$(PYTHON) scripts/78_require_iids_geography_ready.py
+
 atlas-iids-control-post-copyback: atlas-iids-verify-copyback atlas-patent-prep atlas-iids-manifest-merge
 
-# Control laptop: after copy-back tarball + cnipa_patent_geography_2015_2024.csv
-atlas-iids-control-evidence-chain: atlas-iids-verify-copyback atlas-iids-geo-coverage-validate atlas-iids-geo-validate atlas-iids-geo atlas-patent-prep atlas-iids-manifest-merge atlas-evidence-check atlas-patents atlas-v02 atlas-models-v02 atlas-status
+# Control laptop: after cnipa_patent_geography_2015_2024.csv passes coverage validation
+atlas-iids-control-evidence-chain: atlas-iids-geography-preflight atlas-iids-require-geography atlas-iids-verify-copyback atlas-iids-geo-coverage-validate atlas-iids-geo-validate atlas-iids-geo atlas-patent-prep atlas-iids-manifest-merge atlas-evidence-check atlas-patents atlas-v02 atlas-models-v02 atlas-status
 
 atlas-iids-geo-fixture-smoke:
 	$(PYTHON) scripts/run_iids_geo_fixture_smoke.py

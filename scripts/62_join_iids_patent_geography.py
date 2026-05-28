@@ -9,13 +9,18 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from diffusion_state.iids_geo_join import (  # noqa: E402
-    MINIMUM_ACCEPTANCE,
+    KEY_COVERAGE_MIN_RATE,
+    MIN_CITY_FILL,
+    MIN_PROVINCE_FILL,
     STRONG_ACCEPTANCE,
     discover_geography_supplement,
     evaluate_geography_acceptance,
     is_geography_template_path,
     join_patent_geography,
+    production_key_coverage_thresholds,
 )
+from diffusion_state.iids_geo_stream import measure_geography_key_coverage  # noqa: E402
+from diffusion_state.iids_paths import FILTERED_PATENT_IDS_FOR_GEO_OUTPUT  # noqa: E402
 from diffusion_state.iids_patent_converter import DEFAULT_OUTPUT  # noqa: E402
 from diffusion_state.patent_raw_sources import RAW_PATENTS_DIR  # noqa: E402
 
@@ -50,12 +55,29 @@ def main() -> int:
 
     output = args.output or args.iids_csv
     _, stats = join_patent_geography(args.iids_csv, geo, output)
-    ok_min, min_issues = evaluate_geography_acceptance(stats, thresholds=MINIMUM_ACCEPTANCE, label="minimum")
+    if FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.exists():
+        stats = measure_geography_key_coverage(output, FILTERED_PATENT_IDS_FOR_GEO_OUTPUT)
+        thresholds = production_key_coverage_thresholds(int(stats.get("n_keys", 0)))
+        label = "iids_keys_post_join"
+    else:
+        from diffusion_state.iids_geo_join import MINIMUM_ACCEPTANCE
+
+        thresholds = MINIMUM_ACCEPTANCE
+        label = "minimum"
+    ok_min, min_issues = evaluate_geography_acceptance(
+        stats,
+        thresholds=thresholds,
+        label=label,
+        min_province_fill=MIN_PROVINCE_FILL,
+        min_key_match_rate=KEY_COVERAGE_MIN_RATE if FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.exists() else None,
+    )
     ok_strong, _ = evaluate_geography_acceptance(stats, thresholds=STRONG_ACCEPTANCE, label="strong")
     print(f"Joined geography from {geo.name}")
     print(
         f"rows={stats['rows']} city_fill={stats['city_fill_rate']:.1%} "
-        f"({stats['rows_with_city']} rows) unique_cities={stats['unique_cities']}"
+        f"province_fill={stats.get('province_fill_rate', 0):.1%} "
+        f"key_match={stats.get('key_match_rate', 1):.1%} "
+        f"unique_cities={stats['unique_cities']}"
     )
     print(f"Wrote: {output}")
     if ok_strong:

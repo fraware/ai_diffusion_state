@@ -17,6 +17,7 @@ from diffusion_state.validate_no_fixture_patents import (
 from diffusion_state.validate_patent_layer import validate_patent_layer
 from diffusion_state.validate_pcs_gates import validate_pcs_gates
 from diffusion_state.iids_geography_gate import collect_iids_geography_gate
+from diffusion_state.validate_atlas_paper_claims import collect_premature_patent_claim_flags
 from diffusion_state.validate_smart_factory_atlas import validate_smart_factory_city_industry_year
 
 ATLAS_PANEL = PROJECT_ROOT / "data" / "processed" / "china_ai_diffusion_atlas_city_industry_year.csv"
@@ -86,7 +87,7 @@ def _main_result_summary(evidence: dict) -> str:
     )
 
 
-def _forbidden_claim_flags() -> list[str]:
+def _forbidden_claim_flags(*, geography_gate: dict | None = None) -> list[str]:
     flags: list[str] = []
     draft = PROJECT_ROOT / "paper" / "draft_atlas_v1.md"
     if draft.exists():
@@ -100,7 +101,8 @@ def _forbidden_claim_flags() -> list[str]:
         for phrase, flag in checks:
             if phrase in text and f"not {phrase.split()[0]}" not in text:
                 flags.append(flag)
-    return flags
+    flags.extend(collect_premature_patent_claim_flags(geography_gate=geography_gate))
+    return sorted(set(flags))
 
 
 def collect_atlas_status() -> dict:
@@ -157,7 +159,7 @@ def collect_atlas_status() -> dict:
             evidence.get("real_patent_source_present", False),
             patent_ready,
             models_ready,
-            not _forbidden_claim_flags(),
+            not _forbidden_claim_flags(geography_gate=iids_geo),
             (not real_iids_evidence or bool(iids_geo.get("iids_geography_ready"))),
             bool(iids_geo.get("ready_for_evidence_chain")) if real_iids_evidence else True,
         ]
@@ -188,7 +190,8 @@ def collect_atlas_status() -> dict:
         "years_min": years_min,
         "years_max": years_max,
         "main_result_summary": _main_result_summary(evidence),
-        "forbidden_claim_flags": _forbidden_claim_flags(),
+        "forbidden_claim_flags": _forbidden_claim_flags(geography_gate=iids_geo),
+        "premature_patent_claim_flags": collect_premature_patent_claim_flags(geography_gate=iids_geo),
         "layer_errors": {
             "exposure": exposure_err,
             "patents": patent_err,

@@ -20,6 +20,7 @@ BATCH_DIR = ROOT / "data" / "interim" / "iids_geo_key_batches"
 EXPORT_DIR = ROOT / "data" / "interim" / "iids_geo_exports"
 RAW_GEO = ROOT / "data" / "raw" / "patents" / "cnipa_patent_geography_2015_2024_raw.csv"
 BRIEF = ROOT / "docs" / "ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md"
+STATUS_JSON = ROOT / "outputs" / "tables" / "table_P10_iids_geography_procurement_status.json"
 
 
 def _count_batches() -> int:
@@ -71,10 +72,14 @@ def main() -> int:
         "next_commands": _next_commands(gate, coverage_ok),
     }
 
+    STATUS_JSON.parent.mkdir(parents=True, exist_ok=True)
+    STATUS_JSON.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
     if args.json:
         print(json.dumps(report, indent=2))
     else:
         _print_human(report, coverage_detail)
+        print(f"\nWrote {STATUS_JSON.relative_to(ROOT)}")
 
     if args.require_ready:
         return 0 if gate.get("ready_for_evidence_chain") else 1
