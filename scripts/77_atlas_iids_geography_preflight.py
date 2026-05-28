@@ -101,7 +101,11 @@ def _next_commands(gate: dict, coverage_ok: bool | None) -> list[str]:
     if RAW_GEO.exists():
         return ["make atlas-iids-geo-normalize", "make atlas-iids-geo-coverage-validate"]
     if _count_exports() > 0:
-        return ["make atlas-iids-geo-concat", "make atlas-iids-geo-normalize"]
+        return [
+            "make atlas-iids-geo-validate-batches",
+            "make atlas-iids-geo-concat",
+            "make atlas-iids-geo-normalize",
+        ]
     if _count_batches() > 0:
         return [
             "Export geography per batch into data/interim/iids_geo_exports/",

@@ -39,8 +39,16 @@ iids_geo_export_batch_001.csv … iids_geo_export_batch_017.csv
 ```
 
 ```powershell
+make atlas-iids-geo-validate-batches
 make atlas-iids-geo-concat
 make atlas-iids-geo-normalize
+```
+
+Or skip the monolithic raw file and normalize directly from batch exports (SQLite dedupe, 4M-safe):
+
+```powershell
+make atlas-iids-geo-validate-batches
+python scripts/74_normalize_patent_geography_export.py --from-exports-dir data/interim/iids_geo_exports
 ```
 
 Set `geo_match_confidence=exact_publication_number` for publication-number lookup, or `applicant_registry_match` for name-based fallback (do not mix labels).

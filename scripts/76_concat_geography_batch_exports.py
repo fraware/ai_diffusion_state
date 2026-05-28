@@ -2,36 +2,16 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from diffusion_state.iids_geography_batch import concat_geography_batches  # noqa: E402
+
 DEFAULT_INDIR = ROOT / "data" / "interim" / "iids_geo_exports"
 RAW_DEFAULT = ROOT / "data" / "raw" / "patents" / "cnipa_patent_geography_2015_2024_raw.csv"
-
-
-def concat_exports(indir: Path, output: Path, pattern: str = "*.csv") -> int:
-    files = sorted(indir.glob(pattern))
-    if not files:
-        raise FileNotFoundError(f"No CSV files matching {pattern} in {indir}")
-
-    output.parent.mkdir(parents=True, exist_ok=True)
-    rows_written = 0
-    writer = None
-    with output.open("w", encoding="utf-8-sig", newline="") as f_out:
-        for fp in files:
-            with fp.open("r", encoding="utf-8-sig", errors="replace", newline="") as f_in:
-                reader = csv.DictReader(f_in)
-                if not reader.fieldnames:
-                    continue
-                if writer is None:
-                    writer = csv.DictWriter(f_out, fieldnames=reader.fieldnames)
-                    writer.writeheader()
-                for row in reader:
-                    writer.writerow(row)
-                    rows_written += 1
-    return rows_written
 
 
 def main() -> int:
@@ -48,7 +28,7 @@ def main() -> int:
         print(f"ERROR: refusing to overwrite {args.output}", file=sys.stderr)
         return 2
     try:
-        n = concat_exports(args.indir, args.output, pattern=args.pattern)
+        n = concat_geography_batches(args.indir, args.output, pattern=args.pattern)
     except FileNotFoundError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
