@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Literal
 
 from diffusion_state.iids_copyback import verify_copyback_artifacts
+from diffusion_state.iids_geography_gate import collect_iids_geography_gate
 from diffusion_state.iids_geo_join import discover_geography_supplement, is_geography_template_path
 from diffusion_state.iids_paths import (
     DEFAULT_IIDS_OUTPUT,
@@ -187,14 +188,12 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
         )
     )
 
+    geo_gate = collect_iids_geography_gate()
     geo = discover_geography_supplement(RAW_PATENTS_DIR)
-    geo_ok = bool(geo and geo.exists() and not is_geography_template_path(geo))
-    geo_blockers: list[str] = []
+    geo_ok = bool(geo_gate.get("iids_geography_ready"))
+    geo_blockers: list[str] = list(geo_gate.get("geography_validation_issues") or [])
     if copyback.ready_for_geography_procurement and not geo_ok:
-        geo_blockers.append(
-            "Build data/raw/patents/cnipa_patent_geography_2015_2024.csv from "
-            f"{FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.name}"
-        )
+        geo_blockers.append(geo_gate.get("recommended_next", "Build cnipa_patent_geography_2015_2024.csv"))
     elif geo and is_geography_template_path(geo):
         geo_blockers.append("Replace geography template with real CNIPA/Lens export")
 
@@ -203,22 +202,29 @@ def collect_workflow_phases() -> list[WorkflowPhase]:
             id=PhaseId.GEOGRAPHY_PROCUREMENT,
             title="Geography supplement (CNIPA/Lens)",
             status="complete" if geo_ok else ("active" if copyback.ready_for_geography_procurement else "pending"),
-            command="make atlas-iids-geography-brief && make atlas-iids-geo-build",
-            detail=str(geo) if geo_ok else "Targeted export for filtered patent IDs only.",
+            command="make atlas-iids-geography-preflight",
+            detail=(
+                f"city={geo_gate.get('geography_city_fill_rate')} "
+                f"province={geo_gate.get('geography_province_fill_rate')} "
+                f"key_match={geo_gate.get('geography_key_match_rate')}"
+                if geo
+                else "Targeted export for 4,014,104 filtered patent IDs."
+            ),
             blockers=tuple(geo_blockers),
         )
     )
 
-    evidence_ready = copyback.ready_for_evidence_chain and geo_ok and manifest_ok
+    manifest_ok = copyback.manifest_fill_me_count == 0
+    evidence_ready = bool(geo_gate.get("ready_for_evidence_chain")) and manifest_ok
     evidence_blockers: list[str] = []
     if not cloud_complete:
         evidence_detail = "Waiting for cloud production, copy-back, and geography file."
     else:
         evidence_detail = "Runs geo join, manifest merge, atlas-evidence-check, patents, models."
         evidence_blockers = list(copyback.blockers)
-        if not geo_ok:
-            evidence_blockers.append("Geography supplement missing or template-only")
-        if copyback.manifest_fill_me_count:
+        if not geo_gate.get("ready_for_evidence_chain"):
+            evidence_blockers.append(geo_gate.get("recommended_next", "Geography gate not ready"))
+        if not manifest_ok:
             evidence_blockers.append(
                 f"Resolve {copyback.manifest_fill_me_count} FILL_ME field(s) in manifest draft"
             )

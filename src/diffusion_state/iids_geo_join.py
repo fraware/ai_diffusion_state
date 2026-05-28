@@ -382,7 +382,15 @@ def build_geography_from_export(
     out = out.drop_duplicates(subset=["patent_id"], keep="first")
 
     if iids_csv and iids_csv.exists():
-        keys = pd.read_csv(iids_csv, usecols=["patent_id"], encoding="utf-8-sig")["patent_id"].astype(str)
-        out = out[out["patent_id"].isin(set(keys.str.strip()))]
+        from diffusion_state.iids_paths import FILTERED_PATENT_IDS_FOR_GEO_OUTPUT
+        from diffusion_state.iids_geo_stream import load_patent_id_key_set
+
+        keys_path = (
+            FILTERED_PATENT_IDS_FOR_GEO_OUTPUT
+            if FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.exists()
+            else iids_csv
+        )
+        key_set = load_patent_id_key_set(keys_path)
+        out = out[out["patent_id"].isin(key_set)]
 
     return out[GEO_OUTPUT_COLUMNS]

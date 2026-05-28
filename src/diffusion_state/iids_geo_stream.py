@@ -19,6 +19,20 @@ STREAMING_IIDS_BYTES = 50 * 1024 * 1024
 GEO_LOOKUP_COLUMNS = ("applicant_city", "applicant_province", "applicant_address")
 
 
+def load_patent_id_key_set(keys_csv: Path) -> set[str]:
+    """Stream unique patent_id values from the filtered IIDS key list."""
+    keys: set[str] = set()
+    with keys_csv.open("r", encoding="utf-8-sig", errors="replace", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            patent_id = _non_empty_str(row.get("patent_id", "")) or _non_empty_str(
+                row.get("publication_number", "")
+            )
+            if patent_id:
+                keys.add(patent_id)
+    return keys
+
+
 def should_stream_patent_csv(path: Path) -> bool:
     return path.exists() and path.stat().st_size >= STREAMING_IIDS_BYTES
 

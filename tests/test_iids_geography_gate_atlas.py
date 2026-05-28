@@ -54,7 +54,10 @@ def _write_geography(path: Path, patent_ids: list[str], *, city: str = "杭州�
     ).to_csv(path, index=False)
 
 
-def test_geography_gate_blocks_evidence_when_geo_missing(tmp_path: Path) -> None:
+def test_f1_geography_missing_blocks_evidence_readiness(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """F1: IIDS export + keys present, geography file missing."""
     iids = tmp_path / "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
     keys = tmp_path / "iids_filtered_patent_ids_for_geography.csv"
     geo = tmp_path / "cnipa_patent_geography_2015_2024.csv"
@@ -64,10 +67,59 @@ def test_geography_gate_blocks_evidence_when_geo_missing(tmp_path: Path) -> None
     gate = collect_iids_geography_gate(iids_csv=iids, keys_csv=keys, geography_csv=geo)
     assert gate["iids_patent_export_ready"] is True
     assert gate["iids_geography_ready"] is False
+    assert gate["ready_for_geography_procurement"] is True
+    assert gate["ready_for_evidence_chain"] is False
+
+    monkeypatch.setattr(
+        "diffusion_state.atlas_status.write_evidence_gate_report",
+        lambda: {
+            "fixture_patents_detected": False,
+            "real_patent_source_present": True,
+            "patent_source_status": "real_multi_source",
+        },
+    )
+    monkeypatch.setattr(
+        "diffusion_state.atlas_status.collect_iids_geography_gate",
+        lambda: gate,
+    )
+    status = collect_atlas_status()
+    assert status["atlas_evidence_ready"] is False
+    assert status["atlas_ready"] is False
+
+
+def test_f2_low_coverage_blocks_evidence_readiness(tmp_path: Path) -> None:
+    """F2: Geography file exists but city/province fill and key match are below thresholds."""
+    iids = tmp_path / "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
+    keys = tmp_path / "iids_filtered_patent_ids_for_geography.csv"
+    geo = tmp_path / "cnipa_patent_geography_2015_2024.csv"
+    key_ids = [f"CN2018{i:04d}A" for i in range(20)]
+    _write_iids(iids, n=20)
+    _write_keys(keys, key_ids)
+    # Only half the keys appear in geography; only half of those have city/province.
+    geo_ids = key_ids[:10]
+    pd.DataFrame(
+        {
+            "patent_id": geo_ids,
+            "applicant_city": ["苏州市"] * 5 + [""] * 5,
+            "applicant_province": ["江苏省"] * 5 + [""] * 5,
+            "applicant_address": ["a"] * 10,
+            "geo_source": ["cnipa_test"] * 10,
+            "geo_match_confidence": ["exact_publication_number"] * 10,
+            "geo_notes": [""] * 10,
+        }
+    ).to_csv(geo, index=False)
+
+    gate = collect_iids_geography_gate(iids_csv=iids, keys_csv=keys, geography_csv=geo)
+    assert gate["geography_present"] is True
+    assert gate["geography_key_match_rate"] < 0.95
+    assert gate["geography_city_fill_rate"] < 0.80
+    assert gate["geography_province_fill_rate"] < 0.80
+    assert gate["iids_geography_ready"] is False
     assert gate["ready_for_evidence_chain"] is False
 
 
-def test_geography_gate_passes_with_fill(tmp_path: Path) -> None:
+def test_f3_sufficient_coverage_enables_evidence_chain(tmp_path: Path) -> None:
+    """F3: Geography meets city/province fill and key-match thresholds."""
     iids = tmp_path / "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
     keys = tmp_path / "iids_filtered_patent_ids_for_geography.csv"
     geo = tmp_path / "cnipa_patent_geography_2015_2024.csv"
@@ -80,6 +132,27 @@ def test_geography_gate_passes_with_fill(tmp_path: Path) -> None:
     assert gate["iids_geography_ready"] is True
     assert gate["ready_for_evidence_chain"] is True
     assert gate["geography_city_fill_rate"] >= 0.8
+    assert gate["geography_province_fill_rate"] >= 0.8
+    assert gate["geography_key_match_rate"] >= 0.95
+
+
+def test_f4_streaming_key_export_preserves_header(tmp_path: Path) -> None:
+    """F4: Canonical key header for geography procurement."""
+    iids = tmp_path / "iids.csv"
+    out = tmp_path / "keys.csv"
+    pd.DataFrame(
+        {
+            "patent_id": ["CN2018123456A"],
+            "applicant_name": ["Acme"],
+            "patent_title": ["Robot"],
+            "application_year": ["2018"],
+            "publication_year": ["2019"],
+            "search_keyword": ["robotics"],
+        }
+    ).to_csv(iids, index=False)
+    export_patent_keys_for_geography(iids, out, alias_csv=None)
+    header = out.read_text(encoding="utf-8-sig").splitlines()[0]
+    assert header == ",".join(KEY_COLUMNS)
 
 
 def test_atlas_status_blocks_evidence_without_geography(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -131,24 +204,6 @@ def test_atlas_status_allows_evidence_with_geography(monkeypatch: pytest.MonkeyP
     status = collect_atlas_status()
     assert status["iids_geography_ready"] is True
     assert status["ready_for_evidence_chain"] is True
-
-
-def test_patent_keys_header_exact(tmp_path: Path) -> None:
-    iids = tmp_path / "iids.csv"
-    out = tmp_path / "keys.csv"
-    pd.DataFrame(
-        {
-            "patent_id": ["CN2018123456A"],
-            "applicant_name": ["Acme"],
-            "patent_title": ["Robot"],
-            "application_year": ["2018"],
-            "publication_year": ["2019"],
-            "search_keyword": ["robotics"],
-        }
-    ).to_csv(iids, index=False)
-    export_patent_keys_for_geography(iids, out, alias_csv=None)
-    header = out.read_text(encoding="utf-8-sig").splitlines()[0]
-    assert header == ",".join(KEY_COLUMNS)
 
 
 def test_patent_keys_streaming_no_pandas_full_load(tmp_path: Path) -> None:

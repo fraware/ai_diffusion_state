@@ -34,10 +34,20 @@ src/diffusion_state.egg-info/
 # Regenerate with make submission-zip (included in make pcs)
 paper/submission_bundle.zip
 
-# IIDS copy-back archives (multi-GB; transfer outside git)
+# IIDS copy-back archives and large proprietary patent artifacts (transfer outside git)
 atlas_iids_filtered_outputs.tar.gz
 atlas_iids_filtered_outputs.tar.gz.sha256
 *.tar.gz.sha256
+base_patent_detail.sql
+base_patent_law_status.sql
+data/raw/patents/opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv
+data/raw/patents/iids_filtered_patent_ids_for_geography.csv
+data/raw/patents/cnipa_patent_geography_2015_2024.csv
+data/raw/patents/cnipa_patent_geography_2015_2024_raw.csv
+data/interim/iids_geo_key_batches/
+data/interim/iids_geo_exports/
+outputs/tables/table_P9_iids_patent_keys_for_geography.csv
+outputs/tables/table_P8c_iids_copyback_verification.json
 
 # Generated pipeline outputs (rebuild with make seed / make build)
 data/raw/*
