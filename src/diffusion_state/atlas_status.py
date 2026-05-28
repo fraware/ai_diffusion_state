@@ -54,7 +54,12 @@ def _models_built() -> bool:
     return all(p.exists() for p in required)
 
 
-def _main_result_summary(evidence: dict) -> str:
+def _main_result_summary(evidence: dict, *, geography_gate: dict | None = None) -> str:
+    geo = geography_gate or {}
+    real_iids = bool(
+        evidence.get("real_patent_source_present")
+        and not evidence.get("fixture_patents_detected", True)
+    )
     if evidence.get("fixture_patents_detected", True):
         ok, detail = has_publication_ready_f1()
         note = f" (exploratory on stale/fixture panel only: {detail})" if ok else ""
@@ -65,9 +70,23 @@ def _main_result_summary(evidence: dict) -> str:
             f"exports are ingested per docs/ATLAS_PHASE2_PATENT_EXPORT_AND_MODEL_RUNBOOK.md."
             + note
         )
+    if real_iids and not geo.get("ready_for_evidence_chain"):
+        n_patents = evidence.get("n_unique_patent_ids")
+        n_str = f"{n_patents:,} " if n_patents else ""
+        return (
+            f"IIDS patent export ready ({n_str}filtered CN patents). "
+            "Geography file missing or below coverage thresholds. "
+            f"Next: {geo.get('recommended_next', 'build cnipa_patent_geography_2015_2024.csv')}. "
+            "Do not claim publication-ready F1 or pilot-zone patent associations until "
+            "ready_for_evidence_chain is true."
+        )
     ok, detail = has_publication_ready_f1()
-    if ok:
+    if ok and geo.get("ready_for_evidence_chain", not real_iids):
         return f"Publication-ready F1 estimate: {detail}"
+    if ok:
+        return (
+            f"Exploratory F1 on software-built panel (not publication-ready without geography): {detail}"
+        )
     if not F1.exists():
         return "Atlas models not run."
     f1 = pd.read_csv(F1)
@@ -189,7 +208,7 @@ def collect_atlas_status() -> dict:
         "n_industries": n_industries,
         "years_min": years_min,
         "years_max": years_max,
-        "main_result_summary": _main_result_summary(evidence),
+        "main_result_summary": _main_result_summary(evidence, geography_gate=iids_geo),
         "forbidden_claim_flags": _forbidden_claim_flags(geography_gate=iids_geo),
         "premature_patent_claim_flags": collect_premature_patent_claim_flags(geography_gate=iids_geo),
         "layer_errors": {

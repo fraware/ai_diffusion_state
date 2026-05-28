@@ -68,6 +68,17 @@ def main() -> int:
         print(f"\nWrote {shown}")
 
     if args.require_evidence:
+        if not report["atlas_evidence_ready"]:
+            print(
+                "\nEvidence chain blocked. Run: make atlas-iids-geography-preflight",
+                file=sys.stderr,
+            )
+            if not report.get("iids_geography_ready"):
+                print(
+                    "Missing: data/raw/patents/cnipa_patent_geography_2015_2024.csv "
+                    "(see docs/ATLAS_IIDS_GEOGRAPHY_ENGINEER_RUNBOOK.md)",
+                    file=sys.stderr,
+                )
         return 0 if report["atlas_evidence_ready"] else 1
     return 0 if report["atlas_software_ready"] else 1
 

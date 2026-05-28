@@ -18,6 +18,7 @@ from diffusion_state.iids_paths import (  # noqa: E402
 
 BATCH_DIR = ROOT / "data" / "interim" / "iids_geo_key_batches"
 EXPORT_DIR = ROOT / "data" / "interim" / "iids_geo_exports"
+EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 RAW_GEO = ROOT / "data" / "raw" / "patents" / "cnipa_patent_geography_2015_2024_raw.csv"
 BRIEF = ROOT / "docs" / "ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md"
 STATUS_JSON = ROOT / "outputs" / "tables" / "table_P10_iids_geography_procurement_status.json"
