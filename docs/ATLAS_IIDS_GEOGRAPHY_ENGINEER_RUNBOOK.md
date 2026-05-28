@@ -1,5 +1,9 @@
 # Atlas IIDS geography engineer runbook
 
+## Priority 0 — freeze extraction
+
+Do not reopen Hetzner / OpenXLab SQL work unless the imported IIDS CSV is corrupted. Extraction is complete: 4,014,104 filtered patents and keys. The only blocker is `data/raw/patents/cnipa_patent_geography_2015_2024.csv`.
+
 Control-laptop sequence from filtered IIDS export through publication-ready Atlas evidence.
 
 ## Current gate (run first)
@@ -26,12 +30,20 @@ patent_id,applicant_city,applicant_province,applicant_address,geo_source,geo_mat
 
 **Batch export:**
 
+17 key batches live under `data/interim/iids_geo_key_batches/` (regenerate only if header/row count is wrong: `make atlas-iids-geo-key-batches`).
+
+Export each batch to `data/interim/iids_geo_exports/` using names:
+
+```text
+iids_geo_export_batch_001.csv … iids_geo_export_batch_017.csv
+```
+
 ```powershell
-make atlas-iids-geo-key-batches
-# export each batch from CNIPA/Lens → data/interim/iids_geo_exports/
 make atlas-iids-geo-concat
 make atlas-iids-geo-normalize
 ```
+
+Set `geo_match_confidence=exact_publication_number` for publication-number lookup, or `applicant_registry_match` for name-based fallback (do not mix labels).
 
 ## Engineer B — Coverage validation
 
