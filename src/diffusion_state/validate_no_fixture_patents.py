@@ -4,6 +4,7 @@ import re
 
 import pandas as pd
 
+from diffusion_state.iids_geography_gate import collect_iids_geography_gate
 from diffusion_state.patent_raw_sources import (
     FIXTURES_DIR,
     MANIFEST_PATH,
@@ -146,6 +147,8 @@ def collect_evidence_gate_report() -> dict:
     n_unique = int(df["patent_id"].nunique()) if n_raw and "patent_id" in df.columns else 0
 
     real_patent_source_present = bool(evidence_paths) and not fixture_detected
+    iids_geo = collect_iids_geography_gate()
+    iids_geography_ready = bool(iids_geo.get("iids_geography_ready"))
 
     if not evidence_paths:
         patent_source_status = "missing_real_exports"
@@ -165,7 +168,15 @@ def collect_evidence_gate_report() -> dict:
         "patent_source_status": patent_source_status,
         "manifest_path": str(MANIFEST_PATH.relative_to(PROJECT_ROOT)),
         "fixture_signals": signals,
-        "evidence_gate_passed": bool(not fixture_detected and real_patent_source_present),
+        "iids_geography_gate": iids_geo,
+        "iids_geography_ready": iids_geography_ready,
+        "ready_for_geography_procurement": bool(iids_geo.get("ready_for_geography_procurement")),
+        "ready_for_evidence_chain": bool(iids_geo.get("ready_for_evidence_chain")),
+        "evidence_gate_passed": bool(
+            not fixture_detected
+            and real_patent_source_present
+            and (not real_patent_source_present or iids_geography_ready)
+        ),
     }
 
 
@@ -199,7 +210,13 @@ def validate_no_fixture_patents() -> tuple[bool, list[str]]:
         )
     geo_ready = report.get("fixture_signals", {}).get("geography_ready", True)
     iids_share = float(report.get("fixture_signals", {}).get("iids_source_share", 0.0))
-    if report["real_patent_source_present"] and iids_share > 0 and not geo_ready:
+    iids_geo = report.get("iids_geography_gate") or {}
+    if report["real_patent_source_present"] and not report.get("iids_geography_ready"):
+        issues.append(
+            "cnipa_patent_geography_2015_2024.csv missing or below city/province fill threshold; "
+            f"recommended_next={iids_geo.get('recommended_next', 'build geography file')}"
+        )
+    elif report["real_patent_source_present"] and iids_share > 0 and not geo_ready:
         fill = float(report.get("fixture_signals", {}).get("applicant_city_fill_rate", 0.0))
         issues.append(
             f"IIDS export applicant_city fill {fill:.1%} below {MIN_CITY_FILL_FOR_EVIDENCE:.0%}; "

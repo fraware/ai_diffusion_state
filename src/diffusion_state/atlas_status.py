@@ -16,6 +16,7 @@ from diffusion_state.validate_no_fixture_patents import (
 )
 from diffusion_state.validate_patent_layer import validate_patent_layer
 from diffusion_state.validate_pcs_gates import validate_pcs_gates
+from diffusion_state.iids_geography_gate import collect_iids_geography_gate
 from diffusion_state.validate_smart_factory_atlas import validate_smart_factory_city_industry_year
 
 ATLAS_PANEL = PROJECT_ROOT / "data" / "processed" / "china_ai_diffusion_atlas_city_industry_year.csv"
@@ -112,9 +113,16 @@ def collect_atlas_status() -> dict:
     atlas_err = validate_atlas_v02()
 
     evidence = write_evidence_gate_report()
+    iids_geo = collect_iids_geography_gate()
+    real_iids_evidence = bool(
+        evidence.get("real_patent_source_present")
+        and not evidence.get("fixture_patents_detected", True)
+    )
 
     exposure_ready = _layer_ready(EXPOSURE, exposure_err) and _layer_ready(ROBOT, exposure_err)
     patent_ready = _layer_ready(PATENTS, patent_err) and not evidence.get("fixture_patents_detected", True)
+    if real_iids_evidence:
+        patent_ready = patent_ready and bool(iids_geo.get("iids_geography_ready"))
     sf_ready = _layer_ready(SMART_SF, sf_err)
     panel_ready = _layer_ready(ATLAS_PANEL, atlas_err)
     models_built = _models_built()
@@ -126,6 +134,12 @@ def collect_atlas_status() -> dict:
     elif evidence.get("fixture_patents_detected", True):
         models_ready = False
         f1_detail = f"fixture patent data - not evidentiary ({f1_detail})"
+    elif real_iids_evidence and not iids_geo.get("iids_geography_ready"):
+        models_ready = False
+        f1_detail = (
+            "IIDS patent geography missing or below fill threshold - not publication-ready "
+            f"({f1_detail})"
+        )
 
     n_cities = n_industries = years_min = years_max = None
     if ATLAS_PANEL.exists():
@@ -144,10 +158,12 @@ def collect_atlas_status() -> dict:
             patent_ready,
             models_ready,
             not _forbidden_claim_flags(),
+            (not real_iids_evidence or bool(iids_geo.get("iids_geography_ready"))),
+            bool(iids_geo.get("ready_for_evidence_chain")) if real_iids_evidence else True,
         ]
     )
     atlas_ready = atlas_software_ready and atlas_evidence_ready
-    atlas_phase1_ready = atlas_ready
+    atlas_phase1_ready = atlas_software_ready if real_iids_evidence and not iids_geo.get("iids_geography_ready") else atlas_ready
 
     return {
         "pcs_ready": pcs,
@@ -180,6 +196,15 @@ def collect_atlas_status() -> dict:
             "atlas_panel": atlas_err,
         },
         "evidence_gate": evidence,
+        "iids_geography_gate": iids_geo,
+        "iids_patent_export_ready": iids_geo.get("iids_patent_export_ready"),
+        "iids_geography_ready": iids_geo.get("iids_geography_ready"),
+        "ready_for_geography_procurement": iids_geo.get("ready_for_geography_procurement"),
+        "ready_for_evidence_chain": iids_geo.get("ready_for_evidence_chain"),
+        "recommended_next": iids_geo.get("recommended_next"),
+        "patent_layer_ready_without_geography": bool(
+            _layer_ready(PATENTS, patent_err) and not evidence.get("fixture_patents_detected", True)
+        ),
         "artifact_paths": {
             "industry_crosswalk": "data/seed/industry_crosswalk_atlas.csv",
             "exposure": str(EXPOSURE.relative_to(PROJECT_ROOT)),

@@ -11,12 +11,17 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from diffusion_state.iids_geo_join import (  # noqa: E402
     MINIMUM_ACCEPTANCE,
+    MIN_PROVINCE_FILL,
+    KEY_COVERAGE_MIN_RATE,
     STRONG_ACCEPTANCE,
     discover_geography_supplement,
     evaluate_geography_acceptance,
     is_geography_template_path,
+    production_key_coverage_thresholds,
     validate_geography_supplement,
 )
+from diffusion_state.iids_geo_stream import measure_geography_key_coverage  # noqa: E402
+from diffusion_state.iids_paths import FILTERED_PATENT_IDS_FOR_GEO_OUTPUT  # noqa: E402
 from diffusion_state.patent_raw_sources import RAW_PATENTS_DIR  # noqa: E402
 
 
@@ -45,12 +50,27 @@ def main() -> int:
         return 1
 
     stats, messages = validate_geography_supplement(geo)
+    if FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.exists() and not args.fixture_smoke:
+        stats = measure_geography_key_coverage(geo, FILTERED_PATENT_IDS_FOR_GEO_OUTPUT)
+        messages = [f"Validated against IIDS keys: {FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.name}"]
     if args.fixture_smoke:
         ok_min = stats.get("rows", 0) > 0 and stats.get("city_fill_rate", 0) > 0
         ok_strong = False
         min_issues = [] if ok_min else ["fixture smoke: empty geography"]
     else:
-        ok_min, min_issues = evaluate_geography_acceptance(stats, thresholds=MINIMUM_ACCEPTANCE, label="minimum")
+        n_keys = int(stats.get("n_keys", stats.get("rows", 0)))
+        thresholds = (
+            production_key_coverage_thresholds(n_keys)
+            if n_keys >= 10_000
+            else MINIMUM_ACCEPTANCE
+        )
+        ok_min, min_issues = evaluate_geography_acceptance(
+            stats,
+            thresholds=thresholds,
+            label="minimum",
+            min_province_fill=MIN_PROVINCE_FILL,
+            min_key_match_rate=KEY_COVERAGE_MIN_RATE if n_keys >= 10_000 else None,
+        )
         ok_strong, _ = evaluate_geography_acceptance(stats, thresholds=STRONG_ACCEPTANCE, label="strong")
     report = {
         "geo_csv": str(geo),

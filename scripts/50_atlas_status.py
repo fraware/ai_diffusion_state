@@ -41,8 +41,14 @@ def main() -> int:
         "atlas_phase1_ready",
         "fixture_patents_detected",
         "patent_source_status",
+        "iids_patent_export_ready",
+        "iids_geography_ready",
+        "ready_for_geography_procurement",
+        "ready_for_evidence_chain",
         "patent_layer_ready",
+        "patent_layer_ready_without_geography",
         "atlas_models_ready",
+        "recommended_next",
     ):
         print(f"  {key}: {report[key]}")
     print(
@@ -54,7 +60,12 @@ def main() -> int:
         print(f"  f1_detail: {report['f1_publication_ready_detail']}")
 
     if args.json:
-        print(f"\nWrote {Path(args.json).relative_to(ROOT)}")
+        out_path = Path(args.json)
+        try:
+            shown = out_path.relative_to(ROOT)
+        except ValueError:
+            shown = out_path
+        print(f"\nWrote {shown}")
 
     if args.require_evidence:
         return 0 if report["atlas_evidence_ready"] else 1

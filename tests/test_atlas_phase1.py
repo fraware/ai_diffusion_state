@@ -35,11 +35,14 @@ def test_atlas_software_ready_after_build() -> None:
     assert status["n_industries"] and status["n_industries"] >= 10
 
 
-def test_atlas_not_evidence_ready_with_fixtures() -> None:
+def test_atlas_not_evidence_ready_before_geography() -> None:
     status = collect_atlas_status()
-    assert status["fixture_patents_detected"] is True
     assert status["atlas_evidence_ready"] is False
-    assert status["atlas_phase1_ready"] is False
+    if status["fixture_patents_detected"]:
+        assert status["atlas_phase1_ready"] is False
+    else:
+        assert status["iids_geography_ready"] is False
+        assert status["patent_layer_ready"] is False
 
 
 def test_f1_tables_include_estimator_status() -> None:

@@ -139,10 +139,16 @@ def verify_copyback_artifacts() -> CopybackVerification:
 
     unique_ids = 0
     if FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.exists():
-        import pandas as pd
-
-        keys = pd.read_csv(FILTERED_PATENT_IDS_FOR_GEO_OUTPUT, usecols=["patent_id"])
-        unique_ids = int(keys["patent_id"].astype(str).str.strip().nunique())
+        seen: set[str] = set()
+        with FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.open(
+            "r", encoding="utf-8-sig", errors="replace", newline=""
+        ) as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                pid = str(row.get("patent_id", "")).strip()
+                if pid:
+                    seen.add(pid)
+        unique_ids = len(seen)
         if unique_ids < MIN_UNIQUE_PATENT_IDS:
             blockers.append(f"Only {unique_ids} unique patent IDs in geography keys file")
 

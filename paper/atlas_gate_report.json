@@ -3,10 +3,10 @@
   "atlas_ready": false,
   "atlas_software_ready": true,
   "atlas_evidence_ready": false,
-  "atlas_phase1_ready": false,
-  "fixture_patents_detected": true,
-  "patent_source_status": "missing_real_exports",
-  "real_patent_source_present": false,
+  "atlas_phase1_ready": true,
+  "fixture_patents_detected": false,
+  "patent_source_status": "real_multi_source",
+  "real_patent_source_present": true,
   "n_raw_patent_records": 0,
   "n_unique_patent_ids": 0,
   "exposure_layer_ready": true,
@@ -15,12 +15,12 @@
   "atlas_panel_ready": true,
   "atlas_models_built": true,
   "atlas_models_ready": false,
-  "f1_publication_ready_detail": "fixture patent data - not evidentiary (pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
+  "f1_publication_ready_detail": "IIDS patent geography missing or below fill threshold - not publication-ready (pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
   "n_cities": 162,
   "n_industries": 21,
   "years_min": 2015,
   "years_max": 2025,
-  "main_result_summary": "Atlas software pipeline operational; no manifest-backed real patent exports in evidence path (missing_real_exports). Do not claim pilot-zone x AI-exposure patent association until real CNIPA/Lens exports are ingested per docs/ATLAS_PHASE2_PATENT_EXPORT_AND_MODEL_RUNBOOK.md. (exploratory on stale/fixture panel only: pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116)",
+  "main_result_summary": "Publication-ready F1 estimate: pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116",
   "forbidden_claim_flags": [],
   "layer_errors": {
     "exposure": [],
@@ -29,19 +29,21 @@
     "atlas_panel": []
   },
   "evidence_gate": {
-    "fixture_patents_detected": true,
-    "real_patent_source_present": false,
+    "fixture_patents_detected": false,
+    "real_patent_source_present": true,
     "n_raw_patent_records": 0,
     "n_unique_patent_ids": 0,
-    "n_source_files": 0,
-    "source_files": [],
+    "n_source_files": 1,
+    "source_files": [
+      "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
+    ],
     "quarantined_fixture_files": [
       "fixtures/cnipa_micro.csv",
       "fixtures/industrial_ai_patent_records.csv",
       "fixtures/patent_database.csv",
       "patent_source_manifest.csv"
     ],
-    "patent_source_status": "missing_real_exports",
+    "patent_source_status": "real_multi_source",
     "manifest_path": "data\\raw\\patents\\patent_source_manifest.csv",
     "fixture_signals": {
       "sequential_patent_ids": false,
@@ -56,8 +58,61 @@
       "abstract_equals_claims": false,
       "abstract_equals_claims_share": 0.0
     },
+    "iids_geography_gate": {
+      "iids_patent_export_ready": true,
+      "iids_geography_keys_ready": true,
+      "iids_geography_ready": false,
+      "geography_present": false,
+      "geography_is_template": false,
+      "geography_contract_ok": false,
+      "geography_city_fill_rate": 0.0,
+      "geography_province_fill_rate": 0.0,
+      "geography_rows": 0,
+      "geography_fill_threshold": 0.8,
+      "ready_for_geography_procurement": true,
+      "ready_for_evidence_chain": false,
+      "real_iids_patent_export_present": true,
+      "recommended_next": "build data/raw/patents/cnipa_patent_geography_2015_2024.csv",
+      "geography_validation_issues": [],
+      "artifact_paths": {
+        "iids_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv",
+        "keys_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\iids_filtered_patent_ids_for_geography.csv",
+        "geography_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\cnipa_patent_geography_2015_2024.csv"
+      }
+    },
+    "iids_geography_ready": false,
+    "ready_for_geography_procurement": true,
+    "ready_for_evidence_chain": false,
     "evidence_gate_passed": false
   },
+  "iids_geography_gate": {
+    "iids_patent_export_ready": true,
+    "iids_geography_keys_ready": true,
+    "iids_geography_ready": false,
+    "geography_present": false,
+    "geography_is_template": false,
+    "geography_contract_ok": false,
+    "geography_city_fill_rate": 0.0,
+    "geography_province_fill_rate": 0.0,
+    "geography_rows": 0,
+    "geography_fill_threshold": 0.8,
+    "ready_for_geography_procurement": true,
+    "ready_for_evidence_chain": false,
+    "real_iids_patent_export_present": true,
+    "recommended_next": "build data/raw/patents/cnipa_patent_geography_2015_2024.csv",
+    "geography_validation_issues": [],
+    "artifact_paths": {
+      "iids_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv",
+      "keys_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\iids_filtered_patent_ids_for_geography.csv",
+      "geography_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\cnipa_patent_geography_2015_2024.csv"
+    }
+  },
+  "iids_patent_export_ready": true,
+  "iids_geography_ready": false,
+  "ready_for_geography_procurement": true,
+  "ready_for_evidence_chain": false,
+  "recommended_next": "build data/raw/patents/cnipa_patent_geography_2015_2024.csv",
+  "patent_layer_ready_without_geography": true,
   "artifact_paths": {
     "industry_crosswalk": "data/seed/industry_crosswalk_atlas.csv",
     "exposure": "data\\processed\\industry_ai_exposure_ex_ante_v2.csv",

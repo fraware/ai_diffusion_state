@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -9,23 +10,36 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import pandas as pd
-
 from diffusion_state.iids_paths import FILTERED_PATENT_IDS_FOR_GEO_OUTPUT, PATENT_KEYS_FOR_GEO_OUTPUT  # noqa: E402
 
 OUT_MD = ROOT / "docs" / "ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md"
+BATCH_DIR = ROOT / "data" / "interim" / "iids_geo_key_batches"
+
+
+def _summarize_keys(keys_csv: Path) -> tuple[int, int, int]:
+    n = 0
+    year_min = 9999
+    year_max = 0
+    with keys_csv.open("r", encoding="utf-8-sig", errors="replace", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            n += 1
+            try:
+                y = int(str(row.get("application_year", "")).strip())
+            except ValueError:
+                continue
+            year_min = min(year_min, y)
+            year_max = max(year_max, y)
+    if n == 0:
+        return 0, 0, 0
+    if year_min == 9999:
+        year_min = 0
+    return n, year_min, year_max
 
 
 def build_brief(keys_csv: Path) -> str:
-    df = pd.read_csv(keys_csv, low_memory=False)
-    n = len(df)
-    years = (
-        pd.to_numeric(df.get("application_year", pd.Series(dtype=float)), errors="coerce")
-        .dropna()
-        .astype(int)
-    )
-    year_min = int(years.min()) if not years.empty else ""
-    year_max = int(years.max()) if not years.empty else ""
+    n, year_min, year_max = _summarize_keys(keys_csv)
+    batch_count = len(list(BATCH_DIR.glob("iids_geo_keys_batch_*.csv"))) if BATCH_DIR.exists() else 0
     ts = datetime.now(tz=UTC).strftime("%Y-%m-%d %H:%M UTC")
 
     return f"""# Atlas IIDS geography procurement brief
@@ -36,12 +50,13 @@ Source keys file: `{keys_csv.relative_to(ROOT).as_posix()}`
 
 ## Request
 
-Export **address metadata only** for the patent IDs in the keys file. Do not download a full patent universe.
+Export **address metadata only** for the publication numbers in the keys file. Do not download a full patent universe.
 
 | Metric | Value |
 |--------|-------|
 | Unique patent IDs | {n:,} |
 | Application years | {year_min}–{year_max} |
+| Pre-chunked batch files | {batch_count} (`data/interim/iids_geo_key_batches/`) |
 
 ## Required output file
 
@@ -51,37 +66,57 @@ Place on the control laptop:
 data/raw/patents/cnipa_patent_geography_2015_2024.csv
 ```
 
-## Required columns
+Intermediate concatenated export (do not treat as final until normalized):
+
+```text
+data/raw/patents/cnipa_patent_geography_2015_2024_raw.csv
+```
+
+## Required columns (normalized contract)
 
 ```text
 patent_id
-publication_number
-applicant_name
 applicant_city
 applicant_province
 applicant_address
-geography_source
-geography_source_url
-city_mapping_confidence
-notes
+geo_source
+geo_match_confidence
+geo_notes
+```
+
+Minimum raw-source columns from Chinese exports:
+
+```text
+公开公告号 / 公开号 / 申请公布号 / patent_id
+申请人城市 / applicant_city
+申请人省份 / applicant_province
+申请人地址 / applicant_address
 ```
 
 ## Minimum acceptance (Atlas gate)
 
+Measured **on the IIDS key list** after join by publication number:
+
 - City fill rate >= 80%
+- Province fill rate >= 80%
+- Key match rate >= 95% (geography row for each filtered patent ID)
 - >= 50 unique cities
-- >= 500 retained industrial-AI records after join with IIDS export
 
-## Acceptable sources
+## Preferred sources (in order)
 
-- CNIPA export (publication number + applicant address)
-- Lens export (publication number + applicant address/city)
-- CNKI / CNRDS / CSMAR patent metadata with address fields
+1. CNIPA / Incopat / Patsnap / CNRDS / CSMAR keyed by publication number
+2. Lens / Google Patents bulk export with applicant address fields
+3. Applicant-address parsing from bibliographic records
+4. Applicant-name registry matching (flag separately; lower confidence)
 
 ## After delivery
 
 ```powershell
-make atlas-iids-geo-build
+make atlas-iids-geo-key-batches          # if batches not yet built
+# place batch exports -> data/interim/iids_geo_exports/
+make atlas-iids-geo-concat               # -> cnipa_patent_geography_2015_2024_raw.csv
+make atlas-iids-geo-normalize            # -> cnipa_patent_geography_2015_2024.csv
+make atlas-iids-geo-coverage-validate
 make atlas-iids-geo-validate
 make atlas-iids-geo
 make atlas-iids-control-evidence-chain
@@ -109,8 +144,9 @@ def main() -> int:
     brief = build_brief(keys)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(brief, encoding="utf-8")
+    n, _, _ = _summarize_keys(keys)
     print(f"Wrote {args.output}")
-    print(f"  patent IDs: {pd.read_csv(keys).shape[0]:,}")
+    print(f"  patent IDs: {n:,}")
     return 0
 
 

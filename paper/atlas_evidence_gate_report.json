@@ -1,17 +1,19 @@
 {
-  "fixture_patents_detected": true,
-  "real_patent_source_present": false,
+  "fixture_patents_detected": false,
+  "real_patent_source_present": true,
   "n_raw_patent_records": 0,
   "n_unique_patent_ids": 0,
-  "n_source_files": 0,
-  "source_files": [],
+  "n_source_files": 1,
+  "source_files": [
+    "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
+  ],
   "quarantined_fixture_files": [
     "fixtures/cnipa_micro.csv",
     "fixtures/industrial_ai_patent_records.csv",
     "fixtures/patent_database.csv",
     "patent_source_manifest.csv"
   ],
-  "patent_source_status": "missing_real_exports",
+  "patent_source_status": "real_multi_source",
   "manifest_path": "data\\raw\\patents\\patent_source_manifest.csv",
   "fixture_signals": {
     "sequential_patent_ids": false,
@@ -26,5 +28,33 @@
     "abstract_equals_claims": false,
     "abstract_equals_claims_share": 0.0
   },
+  "iids_geography_gate": {
+    "iids_patent_export_ready": true,
+    "iids_geography_keys_ready": true,
+    "iids_geography_ready": false,
+    "geography_present": false,
+    "geography_is_template": false,
+    "geography_contract_ok": false,
+    "geography_city_fill_rate": 0.0,
+    "geography_province_fill_rate": 0.0,
+    "geography_key_match_rate": 0.0,
+    "geography_rows": 0,
+    "geography_key_rows_expected": 4014104,
+    "geography_fill_threshold": 0.8,
+    "geography_key_coverage": {},
+    "ready_for_geography_procurement": true,
+    "ready_for_evidence_chain": false,
+    "real_iids_patent_export_present": true,
+    "recommended_next": "Export geography per docs/ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md; make atlas-iids-geo-key-batches; build cnipa_patent_geography_2015_2024.csv",
+    "geography_validation_issues": [],
+    "artifact_paths": {
+      "iids_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv",
+      "keys_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\iids_filtered_patent_ids_for_geography.csv",
+      "geography_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\cnipa_patent_geography_2015_2024.csv"
+    }
+  },
+  "iids_geography_ready": false,
+  "ready_for_geography_procurement": true,
+  "ready_for_evidence_chain": false,
   "evidence_gate_passed": false
 }
