@@ -49,20 +49,19 @@ make validate-submission
 
 ## Atlas IIDS evidence (active)
 
-**Engineers:** [Cloud VM instructions](ATLAS_IIDS_CLOUD_VM_ENGINEER_INSTRUCTIONS.md) — provision VM and run production now. No new repo features unless production fails.
+**Critical path:** geography batch exports (Engineer A). See [ATLAS_IIDS_GEO_PROGRAM_STATUS.md](ATLAS_IIDS_GEO_PROGRAM_STATUS.md) and [ATLAS_IIDS_GEOGRAPHY_ENGINEER_RUNBOOK.md](ATLAS_IIDS_GEOGRAPHY_ENGINEER_RUNBOOK.md).
 
-Control laptop only:
+Control laptop:
 
 ```powershell
 git pull
-make atlas-iids-workflow
-make atlas-iids-preflight
+make atlas-iids-geography-preflight
 python scripts/50_atlas_status.py --json
 ```
 
-After VM copy-back: `import_iids_copyback.ps1` → `make atlas-iids-geography-brief` → obtain `cnipa_patent_geography_2015_2024.csv` → `make atlas-iids-control-evidence-chain`.
+Sequence: Engineer A places 17 batch exports → Engineer B pilot (batch 001) → full concat/normalize/coverage → Engineer C `make atlas-iids-control-evidence-chain` → Engineer D regenerates paper from new tables only.
 
-Do not weaken `atlas_evidence_ready` or start procurement until evidence gates pass.
+Do not weaken `atlas_evidence_ready` or claim publication-ready patent/F1 results until `ready_for_evidence_chain` is true.
 
 ---
 

@@ -221,8 +221,11 @@ def collect_atlas_status() -> dict:
         "iids_geography_gate": iids_geo,
         "iids_patent_export_ready": iids_geo.get("iids_patent_export_ready"),
         "iids_geography_ready": iids_geo.get("iids_geography_ready"),
+        "exact_geography_ready": iids_geo.get("exact_geography_ready"),
+        "tiered_geography_ready": iids_geo.get("tiered_geography_ready"),
         "ready_for_geography_procurement": iids_geo.get("ready_for_geography_procurement"),
         "ready_for_evidence_chain": iids_geo.get("ready_for_evidence_chain"),
+        "ready_for_tiered_evidence_chain": iids_geo.get("ready_for_tiered_evidence_chain"),
         "recommended_next": iids_geo.get("recommended_next"),
         "patent_layer_ready_without_geography": bool(
             _layer_ready(PATENTS, patent_err) and not evidence.get("fixture_patents_detected", True)

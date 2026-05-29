@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-geo-key-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate atlas-iids-geography-preflight atlas-iids-require-geography atlas-iids-geo-validate-batches atlas-iids-pipeline atlas-iids-pipeline-full atlas-iids-preflight atlas-iids-smoke atlas-iids-manifest-merge atlas-iids-download-detail atlas-iids-export-keys atlas-iids-wsl-production atlas-iids-production-status atlas-iids-external-status atlas-iids-cloud atlas-iids-cloud-bootstrap atlas-iids-workflow atlas-iids-workflow-strict atlas-iids-cloud-copyback atlas-iids-verify-copyback atlas-iids-import-copyback atlas-iids-geography-brief atlas-iids-control-post-copyback atlas-iids-control-evidence-chain atlas-iids-geo-fixture-smoke atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-geo-key-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate atlas-iids-geography-preflight atlas-iids-require-geography atlas-iids-geo-validate-batches atlas-iids-geo-inspect atlas-iids-pipeline atlas-iids-pipeline-full atlas-iids-preflight atlas-iids-smoke atlas-iids-manifest-merge atlas-iids-download-detail atlas-iids-export-keys atlas-iids-wsl-production atlas-iids-production-status atlas-iids-external-status atlas-iids-cloud atlas-iids-cloud-bootstrap atlas-iids-workflow atlas-iids-workflow-strict atlas-iids-cloud-copyback atlas-iids-verify-copyback atlas-iids-import-copyback atlas-iids-geography-brief atlas-iids-control-post-copyback atlas-iids-control-evidence-chain atlas-iids-geo-fixture-smoke atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
 
 PYTHON ?= python
 
@@ -239,7 +239,36 @@ atlas-iids-geo-coverage-validate:
 	$(PYTHON) scripts/75_validate_geography_coverage.py
 
 atlas-iids-geo-validate-batches:
-	$(PYTHON) scripts/79_validate_geography_batch_exports.py
+	$(PYTHON) scripts/81_validate_geography_batch_exports.py
+
+atlas-iids-geo-inspect:
+	$(PYTHON) scripts/80_inspect_normalized_geography.py
+
+atlas-iids-lens-smoke-keys:
+	$(PYTHON) scripts/create_lens_smoke_keys.py
+
+atlas-iids-lens-smoke:
+	$(PYTHON) scripts/79_lens_geography_export.py --input data/interim/iids_geo_key_batches/iids_geo_keys_smoke_025.csv --output data/interim/iids_geo_exports/iids_geo_export_smoke_025.csv --chunk-size 10 --sleep 1.0
+
+atlas-iids-lens-inspect:
+	$(PYTHON) scripts/82_inspect_lens_geography_export.py --smoke
+
+atlas-iids-applicant-concentration:
+	$(PYTHON) scripts/87_report_iids_applicant_concentration.py
+
+atlas-iids-name-geography:
+	$(PYTHON) scripts/85_build_applicant_name_geography.py
+
+atlas-iids-name-geography-coverage:
+	$(PYTHON) scripts/88_report_tiered_geography_coverage.py
+
+atlas-iids-top-applicant-map-seed:
+	$(PYTHON) scripts/89_seed_top_applicant_city_map.py
+
+atlas-iids-tiered-geography-merge:
+	$(PYTHON) scripts/86_merge_tiered_patent_geography.py
+
+atlas-iids-tiered-geography: atlas-iids-applicant-concentration atlas-iids-name-geography atlas-iids-top-applicant-map-seed atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate
 
 atlas-iids-geography-preflight:
 	$(PYTHON) scripts/77_atlas_iids_geography_preflight.py

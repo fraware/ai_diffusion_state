@@ -20,8 +20,13 @@
   "n_industries": 21,
   "years_min": 2015,
   "years_max": 2025,
-  "main_result_summary": "Publication-ready F1 estimate: pilot_x_ai_exposure_patents_baseline_ols_log1p: coef=-0.0207, p=0.116",
-  "forbidden_claim_flags": [],
+  "main_result_summary": "IIDS patent export ready (filtered CN patents). Geography file missing or below coverage thresholds. Next: Export geography per docs/ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md; make atlas-iids-geo-key-batches; build cnipa_patent_geography_2015_2024.csv. Do not claim publication-ready F1 or pilot-zone patent associations until ready_for_evidence_chain is true.",
+  "forbidden_claim_flags": [
+    "geography_not_ready"
+  ],
+  "premature_patent_claim_flags": [
+    "geography_not_ready"
+  ],
   "layer_errors": {
     "exposure": [],
     "patents": [],

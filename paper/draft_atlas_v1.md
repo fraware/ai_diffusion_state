@@ -1,12 +1,12 @@
 # China AI Diffusion Atlas v0.2: Pilot Zones, AI Exposure, and Industrial AI Patents
 
 **Draft atlas v1**  
-**Status:** Atlas **software-ready** (`atlas_software_ready = true`); **not evidence-ready** (`atlas_evidence_ready = false`; `fixture_patents_detected = true`). See `paper/atlas_evidence_gate_report.json`. Patent layer uses repository fixture microdata until real CNIPA/Lens exports are placed in `data/raw/patents/` (see `README_REAL_EXPORTS.md`).
+**Status:** Atlas **software-ready** (`atlas_software_ready = true`); **not evidence-ready** (`atlas_evidence_ready = false`; `ready_for_evidence_chain = false`). See `paper/atlas_evidence_gate_report.json`. A real OpenXLab IIDS-derived patent export (4,014,104 filtered CN records) is on the control laptop; **geography merge is pending** (`cnipa_patent_geography_2015_2024.csv`). Do not report patent F1 coefficients until `ready_for_evidence_chain` is true.
 **PCS guard:** `make pcs` must remain green (`paper/pcs_gate_report.json`).
 
 ## Abstract
 
-This draft tests the true-vision design: whether national AI pilot-zone designation is associated with stronger industrial AI diffusion in industries classified ex ante as AI-exposed, using industrial AI patenting and MIIT excellence-level smart-factory recognition as complementary outcome layers. The Atlas v0.2 panel merges 17 pilot-zone units, 29-industry ex ante exposure scores, city-industry-year industrial AI patents (2015–2025), and smart-factory counts (2024–2025). On the current fixture-backed patent sample with saturated fixed effects, the pilot-zone × AI-exposure interaction for industrial AI patents is negative and imprecisely estimated. Smart-factory recognition remains concentrated in pilot and hub cities. The honest Phase 1 conclusion is methodological: the Atlas pipeline is operational; the empirical sign and precision of the patent interaction must be re-estimated on full CNIPA microdata before any policy claim.
+This draft specifies the true-vision design: national AI pilot-zone designation, ex ante industry AI exposure, city-industry-year industrial AI patents (2015–2025), and MIIT excellence-level smart-factory recognition (2024–2025) as complementary outcome layers. The control laptop holds a filtered OpenXLab IIDS-derived CN industrial-AI patent layer with **4,014,104** publication-number keys and a 17-batch geography procurement plan; applicant geography is **not yet merged**, so patent interaction models are **not evidentiary** in this draft. Smart-factory descriptive patterns follow the PCS hub architecture (pilot and hub concentration). After geography passes coverage gates and the evidence chain runs, patent F1 results must be taken **only** from regenerated `outputs/tables/`—not from fixture or pre-geography runs.
 
 ## 1. Design
 
@@ -47,25 +47,25 @@ Models are reported in `outputs/tables/table_F1`–`F4` with claim tier `associa
 
 **Event study (F4):** `years_since_pilot × ai_exposure` for k ∈ {-4,…,4}, k = -1 omitted (pilot cities only).
 
-## 4. Current results (fixture patent sample)
+## 4. Current results (pre-geography)
 
-Rebuild: `make atlas-phase1` then `python scripts/50_atlas_status.py --json`.
+Rebuild status: `make atlas-iids-geography-preflight` then `python scripts/50_atlas_status.py --json`.
 
-On the committed fixture build, F1 OLS count gives a small **negative** `post_x_exposure` coefficient with undefined clustered standard errors under dense fixed effects. This is **not** evidence against pilot zones; it reflects fixture sample size, FE saturation, and the absence of full CNIPA coverage.
+**Patent F1 (F1 models):** Not reported here. Geography merge and `make atlas-iids-control-evidence-chain` must complete with `ready_for_evidence_chain = true` before any pilot-zone × AI-exposure patent coefficient is cited. Pre-geography gate diagnostics in `paper/atlas_gate_report.json` are internal warnings only.
 
 **Supported (descriptive):**
 
 - Smart-factory recognition concentrates in pilot-zone and high-capacity cities (PCS Table C).
 - Ex ante high-exposure industries differ from low-exposure industries in the taxonomy.
 
-**Not supported (Phase 1 fixture):**
+**Not yet testable on patents (geography pending):**
 
-- Post-pilot increase in industrial AI patenting in AI-exposed industries.
-- Robot-complementarity amplification of a positive patent response.
+- Post-pilot industrial AI patenting in AI-exposed industries (await IIDS geography merge and evidence chain).
+- Robot-complementarity amplification of a patent response (same).
 
 ## 5. Next empirical step
 
-Replace `data/raw/patents/industrial_ai_patent_records.csv` with a full 2015–2024 CNIPA search export for priority industries and cities. Re-run `make atlas-patents atlas-v02 atlas-models-v02`. Do not change exposure scores using smart-factory outcomes.
+Deliver and normalize `data/raw/patents/cnipa_patent_geography_2015_2024.csv` per `docs/ATLAS_IIDS_GEO_VENDOR_HANDOFF.md` (batch exports → `make atlas-iids-geo-coverage-validate`). Then `make atlas-iids-control-evidence-chain`, `make atlas-v02`, `make atlas-models-v02`. Do not change exposure scores using smart-factory outcomes.
 
 ## 6. What this draft does not claim
 

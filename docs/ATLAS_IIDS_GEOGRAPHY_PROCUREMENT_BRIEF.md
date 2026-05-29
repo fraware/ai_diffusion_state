@@ -1,6 +1,6 @@
 # Atlas IIDS geography procurement brief
 
-Generated: 2026-05-28 16:43 UTC
+Generated: 2026-05-28 19:37 UTC
 
 Source keys file: `data/raw/patents/iids_filtered_patent_ids_for_geography.csv`
 

@@ -129,11 +129,41 @@ def test_f3_sufficient_coverage_enables_evidence_chain(tmp_path: Path) -> None:
     _write_geography(geo, ids)
 
     gate = collect_iids_geography_gate(iids_csv=iids, keys_csv=keys, geography_csv=geo)
+    assert gate["exact_geography_ready"] is True
     assert gate["iids_geography_ready"] is True
     assert gate["ready_for_evidence_chain"] is True
+    assert gate["tiered_geography_ready"] is True
     assert gate["geography_city_fill_rate"] >= 0.8
     assert gate["geography_province_fill_rate"] >= 0.8
     assert gate["geography_key_match_rate"] >= 0.95
+
+
+def test_f3b_tiered_only_does_not_set_exact_ready(tmp_path: Path) -> None:
+    """Tiered confidence can pass tiered gate but not exact / strict iids_geography_ready."""
+    iids = tmp_path / "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
+    keys = tmp_path / "iids_filtered_patent_ids_for_geography.csv"
+    geo = tmp_path / "cnipa_patent_geography_2015_2024.csv"
+    ids = [f"CN2018{i:04d}A" for i in range(10)]
+    _write_iids(iids, n=10)
+    _write_keys(keys, ids)
+    pd.DataFrame(
+        {
+            "patent_id": ids,
+            "applicant_city": ["Shenzhen"] * len(ids),
+            "applicant_province": ["Guangdong"] * len(ids),
+            "applicant_address": ["addr"] * len(ids),
+            "geo_source": ["gazetteer"] * len(ids),
+            "geo_match_confidence": ["applicant_name_city_token"] * len(ids),
+            "geo_notes": [""] * len(ids),
+        }
+    ).to_csv(geo, index=False)
+
+    gate = collect_iids_geography_gate(iids_csv=iids, keys_csv=keys, geography_csv=geo)
+    assert gate["tiered_geography_ready"] is True
+    assert gate["exact_geography_ready"] is False
+    assert gate["iids_geography_ready"] is False
+    assert gate["ready_for_tiered_evidence_chain"] is True
+    assert gate["ready_for_evidence_chain"] is False
 
 
 def test_f4_streaming_key_export_preserves_header(tmp_path: Path) -> None:
