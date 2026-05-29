@@ -51,6 +51,7 @@ data/raw/patents/cnipa_patent_geography_2015_2024_raw.csv
 data/raw/patents/cnipa_patent_geography_2015_2024_applicant_name_inferred.csv
 data/interim/iids_geo_key_batches/
 data/interim/iids_geo_exports/
+data/interim/iids_geo_procurement_priority_unresolved.csv
 outputs/tables/table_P9_iids_patent_keys_for_geography.csv
 outputs/debug/
 outputs/tables/table_P8c_iids_copyback_verification.json
@@ -101,6 +102,10 @@ outputs/tables/*
 !outputs/tables/table_E1_atlas_coverage.csv
 !outputs/tables/table_E2_atlas_missingness.csv
 !outputs/tables/table_E3_diffusion_index_components.csv
+!outputs/tables/table_P14_tiered_geography_coverage_by_confidence.csv
+!outputs/tables/table_P17_tiered_geography_tier_breakdown.csv
+!outputs/tables/table_P17_tiered_robustness_audit.csv
+!outputs/tables/table_P17_tiered_robustness_audit.json
 !outputs/figures/
 outputs/figures/*
 !outputs/figures/.gitkeep

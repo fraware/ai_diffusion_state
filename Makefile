@@ -268,14 +268,20 @@ atlas-iids-top-applicant-map-seed:
 atlas-iids-tiered-geography-merge:
 	$(PYTHON) scripts/86_merge_tiered_patent_geography.py
 
-# DEPRECATED (frozen): manual top-applicant mapping — see docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md
-atlas-iids-manual-mapping-incremental:
-	@echo "SKIP: manual mapping frozen at 65.4%% tiered fill. Use make atlas-iids-tiered-extension or external geo."
+# Frozen tiered geography (65.4%%): routine = atlas-iids-tiered-extension — docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md
+define ATLAS_IIDS_DEPRECATED_GEO_SPRINT
+	@echo "DEPRECATED (frozen at 65.4%% tiered fill): this sprint target is no longer runnable."
+	@echo "  Use: make atlas-iids-tiered-extension"
+	@echo "  External 80%% gate: make atlas-iids-external-geo-prepare"
+	@echo "  Doc:  docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md"
 	@exit 1
+endef
+
+atlas-iids-manual-mapping-incremental:
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
 
 atlas-iids-manual-mapping-priority:
-	@echo "SKIP: manual mapping frozen. Run make atlas-iids-unresolved-patterns only if procurement-driven."
-	@exit 1
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
 
 atlas-iids-apply-curated-map:
 	$(PYTHON) scripts/93_apply_curated_top_applicant_mappings.py --min-priority high
@@ -292,7 +298,9 @@ atlas-iids-apply-curated-map-all:
 atlas-iids-extend-top-applicant-map-5k:
 	$(PYTHON) scripts/94_extend_top_applicant_city_map.py --top-n 5000
 
-atlas-iids-tiered-geography-phase-d: atlas-iids-extend-top-applicant-map atlas-iids-apply-curated-map-all atlas-iids-tiered-geography-phase-c
+# DEPRECATED: phase D–G sprints frozen — do not run for routine work
+atlas-iids-tiered-geography-phase-d:
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
 
 atlas-iids-seed-map-region-anchors:
 	$(PYTHON) scripts/96_seed_map_from_region_anchors.py
@@ -306,9 +314,11 @@ atlas-iids-build-p12-alias-registry-all:
 atlas-iids-unresolved-patterns:
 	$(PYTHON) scripts/98_report_unresolved_applicant_patterns.py
 
-atlas-iids-tiered-geography-phase-f: atlas-iids-extend-top-applicant-map-5k atlas-iids-apply-curated-map-all atlas-iids-seed-map-region-anchors atlas-iids-build-p12-alias-registry atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental atlas-iids-tiered-coverage-by-confidence atlas-iids-geography-preflight
+atlas-iids-tiered-geography-phase-f:
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
 
-atlas-iids-tiered-geography-phase-g: atlas-iids-build-p12-alias-registry-all atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental atlas-iids-tiered-coverage-by-confidence atlas-iids-geography-preflight atlas-iids-unresolved-patterns
+atlas-iids-tiered-geography-phase-g:
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
 
 atlas-iids-require-tiered-robustness:
 	$(PYTHON) scripts/78_require_tiered_robustness_ready.py
@@ -333,6 +343,10 @@ atlas-iids-tiered-robustness-audit: atlas-iids-tiered-coverage-tables
 atlas-iids-rebuild-atlas-panel:
 	$(PYTHON) scripts/47_build_atlas_v02.py
 
+# Fast frozen-layer check (P14/P17 + guards; skips 4M-row panel rebuild)
+atlas-iids-frozen-verify: atlas-iids-require-tiered-robustness atlas-iids-tiered-coverage-tables atlas-paper-claim-guard
+	$(PYTHON) scripts/50_atlas_status.py --json --tiered-extension
+
 atlas-iids-tiered-extension: atlas-iids-geography-preflight atlas-iids-require-tiered-robustness atlas-iids-streaming-patent-panel atlas-iids-validate-tiered-panel atlas-iids-tiered-coverage-tables atlas-iids-rebuild-atlas-panel atlas-patent-prep atlas-iids-manifest-merge atlas-paper-claim-guard
 	$(PYTHON) scripts/50_atlas_status.py --json --tiered-extension
 
@@ -351,9 +365,14 @@ atlas-iids-tiered-robustness-patent-layer: atlas-iids-geography-preflight atlas-
 atlas-iids-tiered-coverage-by-confidence:
 	$(PYTHON) scripts/91_report_tiered_geography_by_confidence.py
 
-atlas-iids-tiered-geography-phase-c: atlas-iids-apply-curated-map atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental atlas-iids-tiered-coverage-by-confidence atlas-iids-geography-preflight
+atlas-iids-tiered-geography-phase-c:
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
 
-atlas-iids-tiered-geography: atlas-iids-applicant-concentration atlas-iids-name-geography atlas-iids-top-applicant-map-seed atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental
+atlas-iids-tiered-geography:
+	$(ATLAS_IIDS_DEPRECATED_GEO_SPRINT)
+
+atlas-iids-procurement-priority-unresolved:
+	$(PYTHON) scripts/104_export_procurement_priority_unresolved.py
 
 atlas-iids-geography-preflight:
 	$(PYTHON) scripts/77_atlas_iids_geography_preflight.py

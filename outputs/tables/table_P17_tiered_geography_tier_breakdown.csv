@@ -1,0 +1,5 @@
+﻿geo_match_confidence,rows,share,city_fill,province_fill,n_keys_total,overall_city_fill_rate
+official_headquarters_page,1762981,0.439197,1.0,1.0,4014104,0.6536
+unresolved,1390664,0.346444,0.0,0.0,4014104,0.6536
+university_location,485363,0.120914,1.0,1.0,4014104,0.6536
+applicant_name_city_token,375096,0.093445,1.0,1.0,4014104,0.6536

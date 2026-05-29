@@ -1,37 +1,7 @@
 {
-  "fixture_patents_detected": false,
-  "real_patent_source_present": true,
-  "n_raw_patent_records": 4014104,
-  "n_unique_patent_ids": 4014104,
-  "n_source_files": 1,
-  "source_files": [
-    "opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
-  ],
-  "quarantined_fixture_files": [
-    "fixtures/cnipa_micro.csv",
-    "fixtures/industrial_ai_patent_records.csv",
-    "fixtures/patent_database.csv",
-    "patent_source_manifest.csv"
-  ],
-  "patent_source_status": "real_multi_source",
-  "manifest_path": "data\\raw\\patents\\patent_source_manifest.csv",
-  "fixture_signals": {
-    "sequential_patent_ids": false,
-    "sequential_patent_id_share": 0.0,
-    "synthetic_applicant_names": false,
-    "synthetic_applicant_share": 0.0,
-    "single_fixture_source_file": false,
-    "cnipa_micro_without_real_export": false,
-    "cnipa_micro_source_share": 0.0,
-    "systematic_title_templates": false,
-    "title_template_share": 0.0,
-    "abstract_equals_claims": false,
-    "abstract_equals_claims_share": 1.0,
-    "iids_source_share": 1.0,
-    "applicant_city_fill_rate": 0.6535555630845639,
-    "geography_ready": false
-  },
-  "iids_geography_gate": {
+  "tiered_extension_ready": true,
+  "publication_f1_blocked": true,
+  "geo_gate": {
     "iids_patent_export_ready": true,
     "iids_geography_keys_ready": true,
     "iids_geography_ready": false,
@@ -86,8 +56,41 @@
       "geography_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\cnipa_patent_geography_2015_2024.csv"
     }
   },
-  "iids_geography_ready": false,
-  "ready_for_geography_procurement": true,
-  "ready_for_evidence_chain": false,
-  "evidence_gate_passed": false
+  "panel_issues": [],
+  "geo_issues": [],
+  "p14_tiers": [
+    {
+      "geo_match_confidence": "official_headquarters_page",
+      "rows": 1762981,
+      "share": 0.439197,
+      "city_fill": 1.0,
+      "province_fill": 1.0
+    },
+    {
+      "geo_match_confidence": "unresolved",
+      "rows": 1390664,
+      "share": 0.346444,
+      "city_fill": 0.0,
+      "province_fill": 0.0
+    },
+    {
+      "geo_match_confidence": "university_location",
+      "rows": 485363,
+      "share": 0.120914,
+      "city_fill": 1.0,
+      "province_fill": 1.0
+    },
+    {
+      "geo_match_confidence": "applicant_name_city_token",
+      "rows": 375096,
+      "share": 0.093445,
+      "city_fill": 1.0,
+      "province_fill": 1.0
+    }
+  ],
+  "artifacts": {
+    "p14_csv": "C:\\Users\\mateo\\ai_diffusion_state\\outputs\\tables\\table_P14_tiered_geography_coverage_by_confidence.csv",
+    "p17_tier_breakdown_csv": "C:\\Users\\mateo\\ai_diffusion_state\\outputs\\tables\\table_P17_tiered_geography_tier_breakdown.csv",
+    "p17_audit_csv": "C:\\Users\\mateo\\ai_diffusion_state\\outputs\\tables\\table_P17_tiered_robustness_audit.csv"
+  }
 }

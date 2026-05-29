@@ -232,16 +232,16 @@ def collect_iids_geography_gate(
         )
     elif tiered_robustness_ready and not tiered_geography_ready:
         recommended_next = (
-            f"Tiered robustness at {city_fill:.1%} ({TIERED_ROBUSTNESS_MIN_FILL:.0%}+ met). "
-            "Diagnostics: make atlas-iids-tiered-extension (P17 audit, streaming panel). "
-            f"80% gate: import CNIPA/Incopat batches to data/interim/iids_geo_exports/ "
-            "or SQL re-convert with abstract/IPC; then make atlas-iids-control-evidence-chain."
+            f"Tiered robustness frozen at {city_fill:.1%} ({TIERED_ROBUSTNESS_MIN_FILL:.0%}+). "
+            "Diagnostics: make atlas-iids-frozen-verify. "
+            "Procurement: make atlas-iids-procurement-priority-unresolved then "
+            "make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain."
         )
     elif tiered_geography_ready and not iids_geography_ready:
         recommended_next = (
-            "Tiered geography meets coverage; use ready_for_tiered_evidence_chain. "
-            "Do not claim exact publication-number geography. "
-            "Curate data/seed/top_applicant_city_map.csv to raise tier quality."
+            "Tiered geography meets 80% tiered gate (ready_for_tiered_evidence_chain). "
+            "Exact chain still requires external exact_publication_number* geography. "
+            "Do not claim exact publication-number geocoding."
         )
     elif not tiered_geography_ready:
         recommended_next = (
