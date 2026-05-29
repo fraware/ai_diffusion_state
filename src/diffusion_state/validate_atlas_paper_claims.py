@@ -21,7 +21,14 @@ PATENT_EMPIRICAL_CLAIMS = (
     ("pilot zones associated with stronger industrial ai patenting", "premature_pilot_patent_association"),
     ("pilot-zone x ai-exposure", "premature_pilot_patent_association"),
     ("pilot zone x ai exposure", "premature_pilot_patent_association"),
+    ("pilot-zone × ai-exposure", "premature_pilot_patent_association"),
+    ("pilot-zone x patent causal", "premature_pilot_patent_association"),
+    ("pilot zones caused stronger industrial ai patenting", "premature_pilot_patent_association"),
+    ("pilot zones cause stronger industrial ai patenting", "premature_pilot_patent_association"),
     ("stronger industrial ai patenting in ai-exposed industries", "premature_pilot_patent_association"),
+    ("strict eps/nbs controls pass", "premature_eps_controls_claim"),
+    ("strict eps/nbs control pass", "premature_eps_controls_claim"),
+    ("eps/nbs controls pass", "premature_eps_controls_claim"),
     ("exact publication-number geocoding", "premature_exact_geocoding_claim"),
     ("exact publication number geocoding", "premature_exact_geocoding_claim"),
     ("exact applicant-address geocoding", "premature_exact_geocoding_claim"),
@@ -73,6 +80,7 @@ def collect_draft_patent_claim_violations(
         return []
 
     text = draft_path.read_text(encoding="utf-8").lower()
+    text = text.replace("×", "x").replace("–", "-").replace("—", "-")
     for ch in "*_`":
         text = text.replace(ch, "")
     flags: list[str] = []

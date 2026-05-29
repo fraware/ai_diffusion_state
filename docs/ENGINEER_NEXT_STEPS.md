@@ -20,6 +20,19 @@ Reads `paper/pcs_gate_report.json`.
 
 ---
 
+## Engineer handoff (PCS + frozen tiered patent — active)
+
+Full checklist: [ENGINEER_HANDOFF_PACKET.md](ENGINEER_HANDOFF_PACKET.md). Artifact map: `paper/FINAL_ARTIFACT_INVENTORY.md`.
+
+```powershell
+git pull origin main
+make pcs-paper-owner
+make validate-submission
+make atlas-iids-frozen-verify
+make atlas-paper-claim-guard
+make engineer-handoff-verify
+```
+
 ## Paper owner (active)
 
 1. Draft from `paper/draft_v1.md` using **only** `paper/main_tables/` (Tables A–I).

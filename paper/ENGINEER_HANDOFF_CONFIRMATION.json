@@ -1,0 +1,27 @@
+{
+  "all_pass": true,
+  "pcs_pass": true,
+  "atlas_tiered_pass": true,
+  "claim_guard_pass": true,
+  "issues": [],
+  "sections": {
+    "pcs": {
+      "ready": true,
+      "submission_ready": true,
+      "main_tables_dir": true
+    },
+    "atlas_tiered": {
+      "ready_for_evidence_chain": true,
+      "iids_geography_ready": true,
+      "exact_geography_ready": true,
+      "ready_for_tiered_evidence_chain": true,
+      "ready_for_tiered_robustness_patent_layer": true,
+      "atlas_tiered_extension_ready": true
+    },
+    "claim_guard": {
+      "violations": [],
+      "pass": true
+    },
+    "claim_guard_script_exit": 0
+  }
+}

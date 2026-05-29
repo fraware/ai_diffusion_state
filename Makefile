@@ -270,10 +270,10 @@ atlas-iids-tiered-geography-merge:
 
 # Frozen tiered geography (65.4%%): routine = atlas-iids-tiered-extension — docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md
 define ATLAS_IIDS_DEPRECATED_GEO_SPRINT
-	@echo "DEPRECATED (frozen at 65.4%% tiered fill): this sprint target is no longer runnable."
-	@echo "  Use: make atlas-iids-tiered-extension"
-	@echo "  External 80%% gate: make atlas-iids-external-geo-prepare"
-	@echo "  Doc:  docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md"
+	@echo "Manual mapping / phase geography sprints are frozen."
+	@echo "Use make atlas-iids-tiered-extension for the robustness layer."
+	@echo "Use external CNIPA/Incopat geography for the 80%% evidence gate."
+	@echo "See docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md"
 	@exit 1
 endef
 
@@ -352,6 +352,9 @@ atlas-iids-tiered-extension: atlas-iids-geography-preflight atlas-iids-require-t
 
 atlas-paper-claim-guard:
 	$(PYTHON) scripts/103_validate_atlas_paper_claims.py
+
+engineer-handoff-verify:
+	$(PYTHON) scripts/106_engineer_handoff_verify.py
 
 atlas-iids-external-geo-prepare:
 	$(PYTHON) scripts/102_prepare_external_geo_import.py
