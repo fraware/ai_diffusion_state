@@ -10,6 +10,7 @@ from diffusion_state.utils import PROJECT_ROOT
 DRAFT_PATHS = (
     PROJECT_ROOT / "paper" / "draft_v1.md",
     PROJECT_ROOT / "paper" / "draft_v1_submission.md",
+    PROJECT_ROOT / "paper" / "draft_v1_appendix.md",
 )
 
 # Phrases that imply claims marked not_supported in claim_table_map.csv
@@ -34,6 +35,9 @@ REQUIRED_DISCLAIMERS: tuple[tuple[str, str], ...] = (
     (r"102.*official|official_location_exact", "official geo count"),
     (r"50.*external|external_evidence_verified", "external verification count"),
     (r"Table I|appendix.*not EPS|not EPS-equivalent", "Table I appendix framing"),
+    (r"65\.4%|65\.36", "tiered patent fill rate disclosed"),
+    (r"not exact.*geocod|exact publication-number|exact_geography_ready:\s*false", "exact geocoding blocked"),
+    (r"publication-ready patent F1.*blocked|F1.*remain blocked|ready_for_evidence_chain:\s*false", "patent F1 blocked"),
 )
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 from pathlib import Path
 
@@ -8,6 +9,7 @@ from diffusion_state.build_paper_tables import tables_markdown_section
 from diffusion_state.utils import PROJECT_ROOT
 
 DRAFT_IN = PROJECT_ROOT / "paper" / "draft_v1.md"
+DRAFT_APPENDIX = PROJECT_ROOT / "paper" / "draft_v1_appendix.md"
 DRAFT_OUT = PROJECT_ROOT / "paper" / "draft_v1_submission.md"
 DRAFT_TEX = PROJECT_ROOT / "paper" / "draft_v1.tex"
 CITATION_MAP = PROJECT_ROOT / "paper" / "citation_map.csv"
@@ -26,7 +28,9 @@ def _references_section() -> str:
     if not rows:
         return ""
     lines = ["## References (BibTeX keys)", ""]
-    lines.append("Use `paper/references.bib` with the keys below. Map draft claims via `paper/citation_map.csv`.")
+    lines.append(
+        "Use `paper/references.bib` with the keys below. Map draft claims via `paper/citation_map.csv`."
+    )
     lines.append("")
     for row in rows:
         lines.append(f"- **{row['section_or_claim']}**: `@{row['bib_key']}` — {row.get('note', '')}")
@@ -34,38 +38,51 @@ def _references_section() -> str:
     return "\n".join(lines)
 
 
-def _figures_section() -> str:
-    import json
-
+def _figures_section(*, main_text_only: bool) -> str:
     if not FIGURE_MANIFEST.exists():
         return ""
     data = json.loads(FIGURE_MANIFEST.read_text(encoding="utf-8"))
-    lines = ["## Figures", ""]
+    heading = "## Figures" if main_text_only else "## Appendix figures"
+    lines = [heading, ""]
     fig_num = 0
     for fig in data.get("figures", []):
-        if not fig.get("main_text"):
+        if fig.get("main_text") != main_text_only:
             continue
         if fig.get("status") != "copied":
             continue
         fig_num += 1
         rel = fig["paper_path"].replace("paper/", "")
-        lines.append(f"### Figure {fig_num}")
+        label = "Figure" if main_text_only else "Appendix figure"
+        lines.append(f"### {label} {fig_num}")
         lines.append("")
         lines.append(f"![{fig['caption']}]({rel})")
         lines.append("")
         lines.append(f"*{fig['caption']}*")
         lines.append("")
-        lines.append(f"Source artifact: `{fig['source_path']}`. Claim: `{fig['claim_id']}`.")
+        lines.append(f"Source: `{fig['source_path']}`. Claim: `{fig['claim_id']}`.")
         lines.append("")
-    return "\n".join(lines)
+    return "\n".join(lines) if fig_num else ""
+
+
+def _appendix_section() -> str:
+    if not DRAFT_APPENDIX.exists():
+        return ""
+    body = DRAFT_APPENDIX.read_text(encoding="utf-8")
+    # Drop duplicate top-level title for embedding
+    body = re.sub(r"^# Appendix[^\n]*\n+", "", body, count=1)
+    return "\n\n---\n\n# Appendix material\n\n" + body.strip() + "\n"
 
 
 def _strip_submission_tail(text: str) -> str:
     """Remove checklist sections replaced by export (tables, figures, owner TODOs)."""
-    text = re.sub(r"\n## Tables to use in this draft\n[\s\S]*?(?=\n## )", "\n", text, count=1)
-    text = re.sub(r"\n## Engineering status[\s\S]*?(?=\n## Paper owner|\Z)", "\n", text, count=1)
-    text = re.sub(r"\n## Paper owner[\s\S]*?(?=\n## |\Z)", "\n", text, count=1)
-    text = re.sub(r"\n## Drafting TODOs\n[\s\S]*$", "", text, count=1)
+    for heading in (
+        r"## Figures\n[\s\S]*?(?=\n## )",
+        r"## Tables to use in this draft\n[\s\S]*?(?=\n## )",
+        r"## Engineering status[\s\S]*?(?=\n## Paper owner|\Z)",
+        r"## Paper owner[\s\S]*?(?=\n## |\Z)",
+        r"## Drafting TODOs\n[\s\S]*$",
+    ):
+        text = re.sub(rf"\n{heading}", "\n", text, count=1)
     return text.rstrip()
 
 
@@ -80,54 +97,71 @@ def export_draft_submission() -> tuple[Path, Path | None]:
         + "\n\n"
         + tables_markdown_section()
         + "\n"
-        + _figures_section()
+        + _figures_section(main_text_only=True)
+        + "\n"
+        + _appendix_section()
+        + "\n"
+        + _figures_section(main_text_only=False)
         + "\n"
         + _references_section()
         + "\n## Submission package (engineering)\n\n"
-        + "- Figures synced: `make paper-figures`\n"
-        + "- Gates: `make pcs`\n"
-        + "- Submission validation: `make validate-submission`\n"
+        + "- Regenerate: `make paper-draft-export`\n"
+        + "- Gates: `make validate-submission`\n"
         + "- BibTeX: `paper/references.bib`\n"
     )
     DRAFT_OUT.write_text(submission, encoding="utf-8")
 
-    tex_path = _write_minimal_latex(submission)
+    tex_path = _write_minimal_latex()
     return DRAFT_OUT, tex_path
 
 
-def _write_minimal_latex(markdown_body: str) -> Path | None:
-    """Minimal LaTeX scaffold for journal conversion (pandoc-friendly)."""
-    title_match = re.search(r"^# (.+)$", markdown_body, re.MULTILINE)
-    title = title_match.group(1) if title_match else "Diffusion State Draft"
-    tex = r"""\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{natbib}
-\bibliographystyle{apalike}
-\title{""" + title.replace("&", r"\&") + r"""}
-\author{Research draft --- \texttt{paper/draft\_v1\_submission.md}}
-\date{\today}
-\begin{document}
+def _write_minimal_latex() -> Path | None:
+    """LaTeX scaffold with current main-text figures from manifest."""
+    title = "The Diffusion State"
+    if DRAFT_IN.exists():
+        m = re.search(r"^# (.+)$", DRAFT_IN.read_text(encoding="utf-8"), re.MULTILINE)
+        if m:
+            title = m.group(1)
+
+    fig_blocks: list[str] = []
+    if FIGURE_MANIFEST.exists():
+        data = json.loads(FIGURE_MANIFEST.read_text(encoding="utf-8"))
+        n = 0
+        for fig in data.get("figures", []):
+            if not fig.get("main_text") or fig.get("status") != "copied":
+                continue
+            n += 1
+            rel = fig["paper_path"].replace("paper/", "")
+            cap = fig.get("caption", "").replace("_", r"\_")
+            fig_blocks.append(
+                f"\\begin{{figure}}[ht]\n"
+                f"  \\centering\n"
+                f"  \\includegraphics[width=0.92\\linewidth]{{{rel}}}\n"
+                f"  \\caption{{{cap}}}\n"
+                f"\\end{{figure}}"
+            )
+
+    figures_tex = "\n".join(fig_blocks) if fig_blocks else "% Run make paper-figures"
+
+    tex = rf"""\documentclass[11pt]{{article}}
+\usepackage[margin=1in]{{geometry}}
+\usepackage{{graphicx}}
+\usepackage{{hyperref}}
+\usepackage{{natbib}}
+\bibliographystyle{{apalike}}
+\title{{{title.replace("&", r"\&")}}}
+\author{{Research draft --- \texttt{{paper/draft\_v1\_submission.md}}}}
+\date{{\today}}
+\begin{{document}}
 \maketitle
-\begin{abstract}
-See markdown submission draft for full text. Build with: \texttt{make export-submission}.
-\end{abstract}
-\section*{Note}
-This file is a conversion scaffold. Import \texttt{paper/draft\_v1\_submission.md} via Pandoc or paste section text here.
-\section{Figures}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figures/fig_1_timing_diagnostic_pilot_zones.png}
-  \caption{Timing diagnostic (not a pre-trend test).}
-\end{figure}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figures/fig_2_city_typology_smart_factory_counts.png}
-  \caption{Smart-factory projects by diffusion-state city type.}
-\end{figure}
-\bibliography{references}
-\end{document}
+\begin{{abstract}}
+See \texttt{{paper/draft\_v1\_submission.md}} for full text (Pass 1--6 + appendix).
+\end{{abstract}}
+\section*{{Note}}
+Import \texttt{{paper/draft\_v1\_submission.md}} via Pandoc or paste section text here.
+{figures_tex}
+\bibliography{{references}}
+\end{{document}}
 """
     DRAFT_TEX.write_text(tex, encoding="utf-8")
     return DRAFT_TEX

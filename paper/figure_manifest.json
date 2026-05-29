@@ -1,21 +1,39 @@
 {
   "figures": [
     {
-      "paper_path": "paper/figures/fig_1_timing_diagnostic_pilot_zones.png",
-      "source_path": "outputs/figures/fig_timing_diagnostic_pilot_zones.png",
-      "claim_id": "fig_timing_diagnostic",
-      "caption": "Timing diagnostic: pilot-zone coefficients by event time (listed smart-factory counts; pre-2024 zeros). Not a pre-trend test.",
+      "paper_path": "paper/figures/fig_1_diffusion_state_architecture.png",
+      "source_path": "outputs/figures/fig_diffusion_state_architecture.png",
+      "claim_id": "fig_diffusion_architecture",
+      "caption": "Conceptual architecture: from frontier AI capability to sectoral and export-relevant industrial adoption.",
       "main_text": true,
       "required": true,
       "status": "copied"
     },
     {
-      "paper_path": "paper/figures/fig_2_city_typology_smart_factory_counts.png",
+      "paper_path": "paper/figures/fig_2_hub_attenuation_pilot_coefficients.png",
+      "source_path": "outputs/figures/fig_hub_attenuation_pilot_coefficients.png",
+      "claim_id": "fig_hub_attenuation",
+      "caption": "Pilot-zone coefficient on listed smart-factory counts under hub-exclusion rules (95% CI).",
+      "main_text": true,
+      "required": true,
+      "status": "copied"
+    },
+    {
+      "paper_path": "paper/figures/fig_3_city_typology_smart_factory_counts.png",
       "source_path": "outputs/figures/fig_city_typology_smart_factory_counts.png",
       "claim_id": "fig_city_typology",
       "caption": "Listed smart-factory projects by ex ante diffusion-state city type (2024\u20132025, resolved cities).",
       "main_text": true,
       "required": true,
+      "status": "copied"
+    },
+    {
+      "paper_path": "paper/figures/fig_A2_timing_diagnostic_pilot_zones.png",
+      "source_path": "outputs/figures/fig_timing_diagnostic_pilot_zones.png",
+      "claim_id": "fig_timing_diagnostic",
+      "caption": "Timing diagnostic: pilot-zone coefficients by event time (listed smart-factory counts; pre-2024 zeros). Not a pre-trend test.",
+      "main_text": false,
+      "required": false,
       "status": "copied"
     },
     {

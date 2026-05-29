@@ -1,136 +1,191 @@
 # The Diffusion State: AI Pilot Zones, Smart Factories, and the Hub Architecture of China’s Industrial AI Adoption
 
 **Draft v1**  
-**Status:** Research draft grounded in `paper/main_tables/`, `paper/results_memo.md`, `paper/red_team_memo.md`, `paper/reviewer_results_snapshot.md`, and `paper/claim_table_map.csv`.  
+**Status:** Passes 1–6 draft (abstract through conclusion). Grounded in `paper/main_tables/`, `paper/claim_table_map.csv`, `paper/results_memo.md`, `paper/red_team_memo.md`. Figures: `paper/figure_manifest.json`.  
 **Core thesis:** China’s AI diffusion state is visible as a hub-centered industrial adoption architecture. Pilot-zone designation marks part of this architecture, but the evidence does not establish a uniform average treatment effect across treated cities.
 
 ## Abstract
 
-Most comparisons of artificial intelligence in China and the United States focus on frontier models, private investment, compute, and leading laboratories. This paper studies a different unit of economic analysis: the institutional architecture through which AI capabilities are translated into industrial adoption. I develop the concept of the AI diffusion state to describe a system in which national policy designations, municipal capacity, manufacturing ecosystems, smart-factory recognition, and sectoral upgrading operate as a connected adoption infrastructure. The empirical setting is China’s National New Generation AI Innovation and Development Pilot Zones and the Ministry of Industry and Information Technology’s 2024 and 2025 excellence-level smart-factory lists.
+**Frontier capability** asks who can build the most powerful AI—models, compute, labs, and private investment. **Diffusion capacity** asks who can embed AI into production. Those are different economic objects. This paper introduces a measurement architecture for China’s industrial **diffusion capacity** and documents how adoption appears in institutions, cities, sectors, and export-relevant manufacturing—not in frontier-model leaderboards alone.
 
-The paper constructs a reproducible dataset linking 17 AI pilot-zone units and 509 MIIT excellence-level smart-factory projects. All 509 projects are assigned to cities, with location assignments classified into official-location exact rows, rule-based city inferences, and externally verified rows. A stratified audit evaluates city-resolution quality, and 50 project-city assignments are supported by non-list external evidence. The resulting measurement framework shows that listed smart-factory recognition is highly concentrated in pilot-zone and high-capacity hub cities. Pilot-zone cities account for 192 listed projects across 16 cities, with a mean of 12.00 projects per city, compared with 317 projects across 143 non-pilot cities, with a mean of 2.22 projects per city.
+The empirical setting links 17 National New Generation AI Innovation and Development Pilot Zone units with 509 Ministry of Industry and Information Technology excellence-level smart-factory projects (2024–2025 lists). Every project is assigned to a city under an evidence-classified procedure: 102 official-location exact rows, 357 rule-based text inferences, and 50 external-evidence verified rows, with a 70-row stratified audit (20/20 official confirmations; 20 confirmed and 30 insufficient-evidence rule-based rows). Listed recognition is concentrated in pilot-zone and high-capacity hub cities: 192 projects across 16 pilot-zone cities (mean 12.00 per city) versus 317 projects across 143 non-pilot cities (mean 2.22 per city).
 
-Hub-exclusion results qualify the interpretation. The baseline pilot-zone association remains positive and statistically significant, but it attenuates when major hubs and direct-admin municipalities are removed. Dropping Beijing, Shanghai, Shenzhen, and Hangzhou reduces the pilot-zone coefficient from 4.55 to 3.67. Dropping direct-admin municipalities reduces it to 2.90, and dropping the top five smart-factory cities reduces it to 2.95. These patterns support a hub-centered diffusion interpretation. Pilot-zone designation marks part of China’s industrial AI adoption architecture, yet the evidence does not identify a causal treatment effect of designation itself. As appendix robustness, a partial public-controls specification using China City Statistical Yearbook tables obtained through ChinaUTC shows that the pilot-zone association remains positive in OLS count and log-count models in a limited 2024 cross-section, while the Poisson specification is not statistically significant. The paper contributes a measurement architecture for AI diffusion and a more precise account of how China’s industrial AI strategy appears in city, sector, and institutional space.
+The central pattern is **hub attenuation**, not a flat pilot-zone treatment. The baseline pilot-zone association is 4.55 (p < 0.001) but falls to 3.67 when Beijing, Shanghai, Shenzhen, and Hangzhou are excluded, to 2.90 when direct-admin municipalities are excluded, and to 2.95 when the top five smart-factory cities are excluded—remaining positive yet materially weaker. That supports a hub-centered **diffusion-state** interpretation: national designation operates through municipal implementation capacity and industrial ecosystems. The paper does not claim that pilot zones caused adoption or estimate an average treatment effect. Appendix robustness includes partial ChinaUTC public controls (51 cities; OLS count and log-count significant, Poisson not) and a frozen tiered patent-geography layer (~65% city fill) that is explicitly not exact publication-number geocoding. Strict EPS/NBS production controls remain blocked.
 
 ## 1. Introduction
 
-The global AI competition is often described through the language of frontier capability. The standard comparison asks which country produces the most capable models, attracts the largest private investment, controls the most advanced compute, and houses the strongest laboratories. Those metrics matter, yet they capture only one part of the economic transformation produced by artificial intelligence. AI becomes economically significant when capability diffuses into production, logistics, administration, engineering, and industrial coordination. A model frontier can move quickly while the adoption frontier moves slowly. A state can lag in one dimension of capability and still build a powerful advantage in the machinery of diffusion.
+The global debate over artificial intelligence is organized around **frontier capability**: which economy trains the strongest models, secures the most advanced chips, and attracts the largest private AI investment. That debate matters. It is also incomplete. AI becomes economically consequential when it **diffuses** into production systems—plants, logistics, quality control, scheduling, engineering workflows, and industrial coordination. The model frontier can advance quickly while the adoption frontier moves slowly. An economy can trail on headline model benchmarks yet still compete through the institutions that convert capability into recognized industrial practice.
 
-This paper studies that second frontier. It asks whether China’s AI strategy can be understood as a diffusion-state project, where the relevant economic object is neither the frontier model alone nor the individual firm alone, but the institutional system linking national designations, local governments, manufacturing ecosystems, smart-factory recognition, industrial software, and export-relevant sectors. The central claim is empirical and conceptual. China’s AI diffusion state is visible as a hub-centered industrial adoption architecture. Pilot-zone designation marks part of this architecture, but the evidence does not establish a uniform average treatment effect across treated cities.
+This paper studies that second frontier in China. It is a **measurement and political-economy** study of how AI capability is converted into industrial adoption—not a patent-geography paper, a causal pilot-zone evaluation, a census of all smart factories, or a frontier-model competition account. The object of analysis is the **diffusion state**: the institutional architecture that moves a general-purpose technology from strategic priority into factories, sectors, and export-relevant supply chains.
 
-The empirical setting combines two policy and industrial layers. The first is China’s National New Generation AI Innovation and Development Pilot Zones, coded here as 17 city or county-level units designated between 2019 and 2021. The second is the Ministry of Industry and Information Technology’s excellence-level smart-factory recognition system, observed through the 2024 and 2025 public lists. The project constructs a reproducible city-level and city-industry-level measurement pipeline that links these two layers. The resulting dataset includes 509 listed smart-factory projects, all assigned to cities through an evidence-classified location procedure.
+China offers a disciplined empirical window because two public layers can be linked reproducibly. National **AI pilot zones** (17 designated city or county-level units, 2019–2021) mark places selected for AI development and application capacity—they are institutional markers, not randomly assigned treatments. **MIIT excellence-level smart-factory lists** (509 projects on the 2024 and 2025 registers) mark administrative recognition of advanced manufacturing adoption, not the full universe of Chinese smart factories. Linking the two layers reveals where adoption is visible in policy space: pilot-zone cities hold 192 listed projects across 16 cities (mean 12.00 per city) versus 317 projects across 143 non-pilot cities (mean 2.22 per city). The baseline city-year association is 4.55 (p < 0.001).
 
-The data reveal a strong descriptive concentration. Pilot-zone cities account for 192 listed smart-factory projects across 16 cities, while non-pilot cities account for 317 projects across 143 cities. The mean listed project count is 12.00 per pilot-zone city and 2.22 per non-pilot city. The baseline pilot-zone coefficient in city-year adoption models is 4.55, with p < 0.001. These facts show that the pilot-zone map and the smart-factory recognition map overlap substantially.
+The paper’s interpretive contribution is that overlap alone is misleading without **hub architecture**. Excluding Beijing, Shanghai, Shenzhen, and Hangzhou lowers the coefficient to 3.67; excluding direct-admin municipalities to 2.90; excluding the top five smart-factory cities to 2.95. Associations stay positive but attenuate sharply—consistent with diffusion through municipal scale, administrative status, and industrial ecosystems rather than a uniform pilot shock. Sectoral ex ante exposure and export-relevant descriptives show where AI is complementary to production; they do not claim productivity or export causal effects.
 
-The more important result comes from asking where the association weakens. When Beijing, Shanghai, Shenzhen, and Hangzhou are removed, the pilot-zone coefficient falls to 3.67. When direct-admin municipalities are removed, it falls to 2.90. When the top five smart-factory cities are removed, it falls to 2.95. These estimates remain positive and statistically significant, yet the attenuation is economically meaningful. The pattern suggests that pilot-zone status is entangled with municipal capacity, direct-admin administrative power, and industrial hub structure. China’s diffusion state appears less like a flat policy treatment and more like a hub-and-spoke architecture.
+### Contribution
 
-This distinction matters for the economics of AI. If the main policy question is framed as frontier-model leadership, the analysis naturally focuses on labs, foundation-model benchmarks, private investment, chips, and compute controls. If the question is framed as industrial diffusion, the analysis shifts toward adoption institutions, public recognition systems, local implementation capacity, city-level industrial structure, and sectoral complementarities. The economic consequences of AI may depend as much on this diffusion layer as on the model frontier itself.
+This paper contributes an operational **measurement architecture for AI diffusion capacity**: reproducible linkage of pilot zones, smart-factory recognition, evidence-classified city resolution, hub-exclusion diagnostics, ex ante industry heterogeneity, and export-relevant sector tables—mapped to claim tiers and frozen engineering gates. Conceptually, it separates frontier capability from diffusion capacity and shows that China’s visible industrial AI adoption is **hub-centered**. Empirically, it documents concentration and attenuation patterns the design can support while blocking causal, productivity, and strict controlled claims the design cannot.
 
-The contribution of this paper is therefore threefold. First, it introduces an operational measurement framework for China’s industrial AI diffusion by linking AI pilot zones and smart-factory recognition. Second, it distinguishes pilot-zone overlap from hub-centered diffusion architecture, using hub-exclusion and typology evidence to qualify the interpretation. Third, it connects the geography of adoption to sectoral and export relevance while keeping causal claims appropriately limited. The paper does not estimate a causal average treatment effect of pilot-zone designation. It measures an adoption architecture and shows that the architecture is spatially concentrated.
+### Roadmap
 
-## 2. Institutional background
+Section 2 develops the diffusion-state concept and five-layer framework (national designation through sectoral compatibility). Section 3 describes institutional background. Section 4 presents data and measurement, including evidence classes and the stratified audit. Sections 5–8 present overlap, hub attenuation, sectoral selectivity, and export relevance. Section 9 reports appendix robustness—public ChinaUTC controls and tiered patent geography—without elevating blocked EPS/NBS or exact-geocoding claims. Sections 10–11 state limits and conclude on measuring diffusion capacity through cities, sectors, institutions, and standards—not frontier models alone.
 
-China’s AI policy combines national planning, local experimentation, industrial upgrading, and administrative recognition. The National New Generation AI Innovation and Development Pilot Zones are one layer of this system. They designate cities and localities as experimental and implementation environments for AI development and application. These zones are not randomly assigned. They are chosen from places with existing research capacity, industrial depth, platform firms, local administrative capability, or strategic industrial relevance. Treating them as a clean policy shock would overstate what the data can support. Treating them as markers of a broader institutional architecture is more appropriate.
+## 2. Conceptual framework: the diffusion state
 
-The smart-factory recognition system is another layer. MIIT’s excellence-level smart-factory lists identify projects that exemplify advanced smart-manufacturing adoption. These lists do not measure the complete stock of Chinese smart factories. They measure official recognition of particular projects. That limitation is important, but it also makes the lists analytically useful. Official recognition is itself part of the diffusion system. It signals standards, showcases implementation models, and links firm-level adoption to administrative and industrial-policy frameworks.
+**Diffusion capacity** is the ability to embed general-purpose AI into production—not the ability to train the largest model. The **diffusion state** is the institutional architecture that performs that embedding: it links frontier capability to factories, sectors, and tradable industry through stacked policy and administrative layers. This paper measures one observable slice of that architecture in China; it does not reduce the diffusion state to patent counts, model benchmarks, or a single policy treatment.
 
-Together, AI pilot zones and smart-factory recognition provide a window into the industrialization of AI. Pilot zones mark places selected for AI development and application capacity. Smart-factory projects mark recognized adoption in production environments. The overlap between the two is not a causal design by itself, but it is an observable signature of diffusion-state architecture.
+The framework organizes adoption into **five layers**, each necessary but insufficient on its own (Figure 1):
 
-This paper uses that overlap carefully. It does not claim that pilot-zone designation caused firms to build smart factories. It asks whether listed smart-factory adoption is concentrated in the same geography as AI pilot-zone status and whether that concentration is better interpreted as a binary pilot effect or as a hub-centered architecture. The answer is the second. Pilot status matters descriptively, yet hub structure is central.
+1. **National designation** — strategic selection of places for AI development and application (here: 17 AI pilot-zone units, 2019–2021).
+2. **Municipal implementation capacity** — local government scale, administrative status, and ability to run industrial programs.
+3. **Industrial ecosystems** — depth of manufacturing clusters, engineering labor, parks, and automation complements.
+4. **Administrative recognition** — public registers that certify exemplar adoption (here: MIIT excellence-level smart-factory lists, 509 projects in 2024–2025).
+5. **Sectoral compatibility** — technological fit between AI tools and production processes (machine vision, predictive maintenance, digital twins, robotics, semiconductors, batteries, automotive, chemicals, pharmaceuticals, and related process industries).
 
-## 2.1 Related literature
+Frontier capability enters at the top of the stack; export-relevant manufacturing sits at the bottom. Pilot zones mark layer 1; smart-factory lists mark layer 4. **Hub architecture** is how layers 2–3 concentrate adoption in a subset of cities—so overlap between layers 1 and 4 is expected but not interpretable as a uniform treatment effect.
 
-This paper connects four literatures without claiming to close any of them empirically. First, the economics of general-purpose technologies emphasizes implementation lags: capability can advance faster than measurable productivity because adoption requires organizational and infrastructural complements [@brynjolfsson2021productivity; @bloom2020diffusion]. Second, automation and task-based frameworks highlight how robotics, vision systems, and process software reshape production rather than uniformly displacing labor [@acemoglu2014robots; @ifr2023worldrobotics]. Third, the China-shock and industrial-policy literatures show that Chinese manufacturing upgrading is spatially concentrated and institutionally mediated rather than evenly distributed across cities [@autor2013china]. Fourth, the global AI debate—often framed through frontier models and national capability rankings—understates the industrial adoption layer that policy lists, recognition systems, and city-level implementation make visible [@masi2024aiindex].
+### Why China
 
-The contribution here is measurement architecture. The paper does not estimate a causal treatment effect of pilot-zone designation. It operationalizes a diffusion-state object: national AI pilot zones, MIIT excellence-level smart-factory recognition, evidence-classified city assignment, hub typologies, ex ante industry exposure, and export-relevant sector descriptives. That design follows the evidentiary hierarchy in `paper/claim_table_map.csv` and keeps appendix controls (Table I; [@chinautc2024]) separate from strict EPS/NBS specifications.
+China combines a visible national AI program, city-level designation, and a recent administrative recognition register dense enough to link in a reproducible pipeline. That makes it a disciplined case for **measurement and political economy**: where adoption is visible in policy space, how it clusters, and what a hub-centered architecture implies for interpreting designation. The design generalizes as a template—designation, recognition, evidence-classified geography, hub diagnostics, sectoral exposure—even when other countries lack identical institutions.
 
-## 3. Data and measurement
+### Contribution to policy debate
 
-The empirical pipeline links four layers: AI pilot zones, MIIT excellence-level smart-factory projects, city-resolution evidence, and sectoral/export relevance. All paper-facing claims are mapped to reproducible artifacts in the repository. The claim table distinguishes measured facts, validated descriptive claims, baseline associations, coarse robustness checks, suggestive mechanisms, blocked controlled specifications, and unsupported causal claims.
+Industrial and technology policy often tracks frontier capability; this paper argues that **diffusion capacity** deserves parallel measurement: institutions, cities, sectors, procurement, parks, firms, and standards that convert models into production. For AI geopolitics, the relevant question is not only who leads on benchmarks but who can operationalize capability in manufacturing systems at scale.
 
-The pilot-zone table contains 17 AI pilot-zone units designated between 2019 and 2021 [@cset2020pilotzones; @xinhua2021seventeenzones]. The smart-factory project table contains 509 MIIT excellence-level projects, with 235 projects from the 2024 list and 274 projects from the 2025 list [@miit2024smartfactory; @miit2025smartfactory]. These projects form the main adoption measure. The unit is official listed recognition, not all smart-factory activity in China.
+### Related literature
 
-City assignment is a major measurement task. The smart-factory lists and reposts do not always provide clean project-level city addresses. The pipeline assigns all 509 projects to cities and classifies each assignment by evidence quality. In the current build, 102 projects are `official_location_exact`, 357 are `rule_based_text_inference`, and 50 are `external_evidence_verified`. The external class requires non-list evidence, such as company sites, annual reports, local-government documents, industrial-park pages, or registry records. The distinction matters because rule-based geocoding and external verification have different evidentiary strength.
+The framework connects to general-purpose-technology implementation lags [@brynjolfsson2021productivity; @bloom2020diffusion], task-based automation in production [@acemoglu2014robots; @ifr2023worldrobotics], spatially concentrated Chinese industrial upgrading [@autor2013china], and frontier-centric AI rankings that understate adoption infrastructure [@masi2024aiindex]. The empirical contribution is **measurement architecture**, not closure of any causal literature.
 
-A stratified audit evaluates the city-resolution procedure. The audit covers 70 rows, including 20 official-location rows and 50 rule-based rows. The official-location sample is fully confirmed, with 20 out of 20 confirmed. The rule-based sample has 20 confirmed rows and 30 rows marked insufficient evidence. There are no incorrect rows in the audit sample. This result supports the reliability of official-location assignments and identifies the weaker status of some rule-based inferences. It does not turn the entire register into externally audited geocoding. The paper therefore reports evidence classes and audit results separately.
+## 3. Institutional background
 
-The resulting city-level dataset covers 159 resolved cities with listed projects and a 160-city adoption panel including pilot and smart-factory universe cities. Pre-2024 years in the panel are zero-filled for smart-factory counts because the public excellence-level lists begin in 2024. Event-time figures therefore serve only as timing diagnostics, not as pre-trend validation.
+National AI pilot zones designate cities and localities as environments for AI development and application. Designation is **not random**: authorities select units with prior research capacity, industrial depth, platform firms, or strategic relevance. Pilot zones are therefore **institutional markers** of the diffusion state’s first layer—not instruments for a clean average treatment effect.
 
-The dataset also links smart-factory projects to industry classifications and ex ante AI-exposure categories. The preferred industry heterogeneity specification uses ex ante technological compatibility with industrial AI. Tag-derived exposure based on observed project descriptions is treated as descriptive only. This distinction prevents the outcome measure from defining the exposure measure.
+MIIT excellence-level smart-factory lists identify projects that exemplify advanced smart-manufacturing adoption on public 2024 and 2025 registers. The lists measure **official recognition**, not the full stock of Chinese smart factories. That boundary is analytically productive: recognition is part of the diffusion system—standards, showcases, and links between firm-level adoption and industrial policy.
 
-Finally, the export relevance tables connect smart-factory sectors to China’s export basket. These tables are descriptive. They show whether smart-factory recognition is concentrated in sectors relevant to China’s advanced manufacturing export structure. They do not estimate causal export effects.
+The paper asks whether layers 1 and 4 overlap in geography and whether that overlap is better read as a flat pilot shock or as **hub-mediated diffusion**. The evidence supports the second reading.
 
-## 4. Descriptive overlap between pilot zones and smart factories
+## 4. Data and measurement
 
-The first empirical result is a large descriptive overlap between AI pilot-zone geography and smart-factory recognition. Among resolved cities, pilot-zone cities account for 192 listed smart-factory projects across 16 cities. Non-pilot cities account for 317 projects across 143 cities. The mean count is 12.00 projects per pilot-zone city and 2.22 projects per non-pilot city. The difference is 9.78 projects per city.
+The pipeline links pilot zones, smart-factory projects, evidence-classified city resolution, sectoral exposure, and export-relevant descriptives. Every claim maps to a reproducible artifact via `paper/claim_table_map.csv`.
 
-This fact establishes the starting point. Listed smart-factory recognition is not evenly distributed across the city system. It is concentrated in places that also appear in the AI pilot-zone map. The top listed cities further show the importance of major hubs. Shanghai has 30 projects and is a pilot city. Chongqing has 22 and is a pilot city. Beijing has 19 and is a pilot city. Tianjin has 17 and is a pilot city. Qingdao has 14 and is a non-pilot city. The geography is concentrated, but the concentration is not exhausted by the pilot binary.
+### Claim-tier hierarchy
 
-Baseline adoption models support the same descriptive pattern. In the city-year adoption panel, the pilot-zone coefficient is 4.55 with p < 0.001. The sample contains 320 city-years and 160 cities. This coefficient should be interpreted with care. It is an association between pilot-zone status and listed project counts in a constructed adoption universe. It is not a causal estimate of policy designation. The pilot-zone variable is correlated with pre-existing city capacity, industrial structure, administrative status, and innovation ecosystems.
+| Tier | Role in this paper |
+|------|-------------------|
+| Measured | Parsed pilot zones and smart-factory registers |
+| Validated descriptive | Overlap, typology, export relevance, geo evidence classes |
+| Baseline association | Pilot-zone coefficient in city-year models (uncontrolled) |
+| Robust association | Hub exclusions; ex ante typology |
+| Suggestive mechanism | Ex ante industry AI exposure |
+| Partial public controls | Table I appendix only; not EPS-equivalent |
+| Blocked | Strict EPS/NBS Table 5 (missing FDI, fixed-asset investment in public bundle) |
+| Not supported | Causal ATE of pilot zones; productivity or export effects |
 
-The overlap nevertheless matters. It suggests that China’s AI industrialization model has a spatial structure. AI policy designation and smart-manufacturing recognition are aligned in a specific set of cities. The next empirical question is whether that alignment reflects a simple pilot-zone contrast or a more concentrated hub architecture.
+### Core counts
 
-## 5. Hub architecture and attenuation
+- **17** AI pilot-zone units (2019–2021) [@cset2020pilotzones; @xinhua2021seventeenzones].
+- **509** MIIT excellence-level projects (235 from 2024 list, 274 from 2025) [@miit2024smartfactory; @miit2025smartfactory].
+- **Outcome unit:** listed recognition, not total smart-factory activity.
 
-Hub-exclusion robustness is the central empirical device in the paper. It asks what happens to the pilot-zone association when the most prominent hubs are removed. The goal is not to eliminate all selection bias. The goal is to distinguish a flat pilot-zone interpretation from a hub-centered interpretation.
+### City-resolution evidence classes
 
-In the full analysis universe, the pilot-zone coefficient is 4.55, with p < 0.001. When Beijing, Shanghai, Shenzhen, and Hangzhou are removed, the coefficient falls to 3.67. This is approximately 81 percent of the full-sample coefficient. When Guangzhou is also removed, the coefficient is 3.73, approximately 82 percent of the full-sample coefficient. When all direct-admin municipalities are removed, the coefficient falls to 2.90, approximately 64 percent of the full-sample coefficient. When the top five smart-factory cities are removed, it falls to 2.95, approximately 65 percent of the full-sample coefficient. The coefficient remains positive and statistically significant in these exclusions, but the attenuation is substantial.
+All 509 projects receive a city assignment classified as:
 
-This pattern is the main evidence for the hub-centered interpretation. A flat pilot-zone story would imply that the association is broadly similar across treated cities. A pure mega-city story would imply that the association disappears once the largest hubs are removed. The results sit between those extremes. Pilot-zone cities retain a positive association, yet a large share of the baseline relationship is mediated by high-capacity cities, direct-admin municipalities, and major industrial hubs.
+| Class | Count | Role |
+|-------|------:|------|
+| Official-location exact | 102 | List or repost states project city |
+| Rule-based text inference | 357 | Parsed from text when address incomplete |
+| External-evidence verified | 50 | Confirmed via company site, annual report, government page, park, or registry |
 
-The city typology tables provide the descriptive counterpart to the exclusions. Cities are classified into frontier municipality hubs, pilot industrial hubs, pilot non-hubs, non-pilot industrial hubs, and non-pilot low-adoption cities. This typology better matches the observed geography than the pilot/non-pilot binary alone. Diffusion is clustered by institutional and industrial capacity. Pilot zones are one layer of that clustering, while direct administrative status, industrial depth, and manufacturing ecosystems form another.
+A **70-row stratified audit** (20 official, 50 rule-based) finds 20/20 official confirmations, 20 confirmed rule-based rows, 30 insufficient-evidence rule-based rows, and no incorrect rows in the audit sample. Rule-based rows are reported with weaker status; the full register is not externally audited.
 
-The ex ante city typology is important because it avoids defining hub status entirely from smart-factory outcomes. It uses pre-existing city attributes such as pilot designation, direct-admin status, and mega-hub flags. Where real controls are unavailable, the typology avoids GDP-based capacity labels unless the source is valid. This preserves the distinction between descriptive outcome clusters and ex ante capacity categories.
+### Panels and limitations
 
-The interpretation is therefore precise. China’s AI diffusion state appears as a hub-and-spoke adoption system. National designation is meaningful, but it operates through places with administrative power, industrial assets, and the capacity to absorb and showcase AI-enabled manufacturing. The pilot-zone map is part of the architecture. It is not a clean treatment assignment.
+The adoption panel covers **160 cities** and **320 city-years**; pre-2024 smart-factory counts are zero-filled because public excellence lists begin in 2024—event-time plots are **timing diagnostics only**, not pre-trend tests (Appendix Figure A2). Industry heterogeneity uses **ex ante** AI-exposure categories, not tags derived from project text, so the outcome does not define exposure. Export tables are **strategic relevance** descriptives, not export-effect estimates.
 
-## 6. Industry heterogeneity and industrial AI exposure
+## 5. Descriptive overlap
 
-The diffusion-state concept also has a sectoral dimension. AI adoption in manufacturing is not equally useful across all activities. Industrial AI is especially relevant where production involves machine vision, quality inspection, predictive maintenance, digital twins, intelligent scheduling, industrial robotics, smart logistics, semiconductor manufacturing, battery production, automotive production, industrial machinery, chemicals, pharmaceuticals, and other process-intensive sectors.
+The empirical puzzle is **concentration**: listed recognition is not spread evenly across China’s city system.
 
-The paper therefore uses ex ante industry AI exposure to study whether listed adoption is concentrated in sectors where AI is technologically complementary to production. The preferred city-industry specifications rely on ex ante exposure classifications rather than tags derived from the project descriptions. This reduces the risk of building the exposure variable from the outcome itself.
+Among resolved cities, pilot-zone cities hold **192** projects across **16** cities (mean **12.00** per city). Non-pilot cities hold **317** projects across **143** cities (mean **2.22** per city)—a gap of **9.78** projects per city. Top cities illustrate hub concentration within the overlap: Shanghai (30, pilot), Chongqing (22, pilot), Beijing (19, pilot), Tianjin (17, pilot), Qingdao (14, non-pilot).
 
-The industry results should be interpreted as suggestive mechanism evidence. They are not a standalone causal design. They help explain why the diffusion state might operate through particular cities and sectors. High-capacity cities matter because they host industries where AI-enabled production systems can be absorbed, demonstrated, and scaled. The hub architecture is therefore not only geographic. It is also industrial.
+The baseline city-year association is **4.55** (p < 0.001; Table C). That coefficient is an association in the constructed adoption universe, not a causal effect of designation. It establishes that layers 1 and 4 align in policy space. It does not yet identify **how** that alignment is structured—flat pilot contrast or hub architecture.
 
-This sectoral view sharpens the paper’s theoretical contribution. AI diffusion is not simply the spread of software across firms. In industrial settings, diffusion depends on compatibility between AI capabilities and production systems. Cities with dense manufacturing ecosystems, skilled engineering labor, industrial parks, local implementation capacity, and existing automation infrastructure may be better positioned to turn AI capability into recognized smart-factory adoption.
+## 6. Hub architecture and attenuation
 
-## 7. Export relevance
+**Hub attenuation** is the paper’s central empirical result (Figure 2; Table D). The question is how the pilot-zone coefficient moves when high-capacity cities are removed.
 
-The export tables provide a descriptive link between smart-factory recognition and China’s advanced manufacturing position. The paper does not claim that smart-factory recognition caused export upgrading. It asks whether the sectors represented in the smart-factory lists are strategically relevant to China’s export basket.
+| Exclusion rule | Coefficient | Share of full sample |
+|--------------|------------:|---------------------:|
+| Full sample | 4.55 | 100% |
+| Drop Beijing, Shanghai, Shenzhen, Hangzhou | 3.67 | 81% |
+| Drop direct-admin municipalities | 2.90 | 64% |
+| Drop top five smart-factory cities | 2.95 | 65% |
 
-This distinction is essential. Export growth depends on many factors, including global demand, exchange rates, trade policy, supply chains, firm competitiveness, and industrial composition. The current design does not isolate the causal effect of listed smart-factory recognition on export performance. The export analysis should therefore be read as strategic relevance, not as an effect estimate.
+Coefficients stay positive and significant, but **attenuation is large**. A flat pilot-zone story predicts similar associations across treated cities; a pure mega-city story predicts collapse once hubs exit. The data sit between: pilot status matters descriptively, yet a substantial share of the baseline association runs through municipal scale, direct-administrative status, and industrial hubs.
 
-The relevance claim is still useful. If smart-factory recognition is concentrated in sectors such as electronics, batteries, machinery, automotive components, steel, chemicals, pharmaceuticals, shipbuilding, and AI servers, then the diffusion architecture is connected to tradable industrial capacity. That connection helps explain why AI adoption is an economic and geopolitical issue. The diffusion state is not only about domestic modernization. It is also about competitiveness in sectors that matter for global manufacturing.
+Ex ante city typologies (Tables E, E ex ante; Figure 3) reinforce this: adoption clusters in frontier municipality hubs, pilot industrial hubs, and non-pilot industrial hubs—not in a simple pilot/non-pilot split. Typology labels use pre-existing attributes (pilot status, direct-admin status, mega-hub flags), not outcomes from the smart-factory counts themselves.
 
-The paper’s export section should therefore remain descriptive. It establishes that the industrial AI adoption layer overlaps with sectors of strategic export importance. It does not estimate productivity gains or export effects.
+**Interpretation:** China’s visible industrial AI adoption is a **hub-and-spoke diffusion state**. National designation is meaningful because it operates where implementation capacity and ecosystems already exist.
 
-## 8. Appendix robustness: partial public controls
+## 7. Sectoral selectivity
 
-Strict EPS/NBS controlled models remain unavailable because the public ChinaUTC bundle lacks FDI and fixed-asset investment. The paper therefore reports a separate appendix robustness specification using partial public China City Statistical Yearbook controls. This specification is not equivalent to the intended EPS/NBS production-control design.
+Diffusion is **sectorally selective** because AI complements some production processes more than others. Ex ante industry exposure (Table F) tests whether listed projects concentrate in sectors with high technological compatibility—machine vision, quality inspection, predictive maintenance, digital twins, scheduling, robotics, logistics, semiconductors, batteries, automotive, machinery, chemicals, pharmaceuticals, and related process industries.
 
-The appendix model uses a 2024 ChinaUTC public-control subset with 51 complete city observations. Controls include GDP, population, secondary-industry structure, foreign trade, telecom, and industrial-output proxies. In this limited cross-section, pilot-zone status remains positively associated with listed smart-factory counts in OLS count and log-count specifications. The OLS count coefficient is +1.58 with p = 0.020. The OLS log-count coefficient is +0.50 with p = 0.018. The Poisson count coefficient is +0.23 with p = 0.43.
+Preferred specifications use ex ante classifications; description-based tags are descriptive only. Results are **suggestive mechanism** evidence: they explain why hub cities host recognizable adoption but do not identify causal sectoral treatment effects. Diffusion capacity is industrial, not merely geographic.
 
-This pattern is consistent with the main interpretation, but it should not be promoted to the central controlled result. The OLS estimates suggest that the pilot-zone association is not entirely explained by GDP, population, industrial structure, foreign trade, telecom, and industrial-output proxies in the limited public-control sample. The non-significant Poisson estimate, the small sample, the single-year design, and the missing FDI and fixed-asset investment variables all limit the result.
+## 8. Export relevance
 
-The appropriate paper language is narrow. As appendix robustness, the pilot-zone association remains positive in a limited 2024 public-controls cross-section. The result is significant in OLS count and log-count models, while the Poisson specification is not statistically significant. This is not evidence that strict EPS/NBS controlled models pass, and it is not evidence of a causal treatment effect.
+Export tables (Tables G, H) ask whether recognized sectors overlap China’s **advanced manufacturing export basket**—strategic relevance, not export causation. Global demand, trade policy, exchange rates, and firm competitiveness also shape exports; this design does not isolate effects of MIIT recognition on export growth.
 
-## 9. What the paper does not claim
+The descriptive finding still matters politically: if recognition clusters in electronics, batteries, machinery, automotive, steel, chemicals, pharmaceuticals, shipbuilding, and AI servers, the diffusion state connects to **tradable industrial capacity**. Industrial AI adoption is therefore a competitiveness question, not only a domestic modernization story.
 
-The paper makes several deliberate non-claims. It does not claim that pilot zones caused smart-factory adoption. It does not estimate an average treatment effect across treated cities. It does not claim that AI diffusion caused productivity growth. It does not claim that smart-factory recognition caused export upgrading. It does not treat MIIT excellence-level recognition as the complete universe of Chinese smart factories. It does not treat rule-based geocoding as external verification.
+## 9. Robustness and extensions
 
-These limits are not weaknesses to hide. They define the contribution. The paper offers a measurement architecture for observing industrial AI diffusion in China. It shows that listed adoption is concentrated in pilot-zone and high-capacity hub cities. It documents that the pilot-zone association attenuates when key hubs are removed. It classifies city-resolution evidence and audits a stratified sample. It connects the adoption geography to ex ante industry exposure and export relevance. Those contributions are credible without causal overreach.
+### 9.1 Hub exclusions and typology
 
-A stronger causal paper would require a different design. It would need either a credible quasi-experimental source of pilot-zone variation, richer pre-treatment city controls, firm-level adoption timing, or a policy discontinuity that separates designation from underlying capacity. The present paper takes a different path. It treats AI diffusion as a measurable institutional architecture and studies its geography.
+Section 6 reports the main hub-attenuation and typology evidence. Province-year checks and balance diagnostics in the appendix remain **descriptive or controls-dependent**; they do not upgrade the causal tier.
 
-## 10. Conclusion
+### 9.2 Public ChinaUTC controls (appendix only)
 
-The AI-China debate often begins with the frontier model. That starting point misses an important economic layer. AI capability becomes industrial power only when it diffuses into production systems, logistics, engineering workflows, quality control, and firm-level operations. China’s AI strategy should therefore be studied not only as a race for model capability, but also as a diffusion-state project.
+Strict **EPS/NBS Table 5** models remain **blocked**—the public ChinaUTC bundle lacks FDI and fixed-asset investment required for the intended production-control design.
 
-This paper builds a reproducible measurement pipeline for that project. It links national AI pilot zones, MIIT excellence-level smart-factory recognition, city-resolution evidence classes, hub typologies, ex ante industry exposure, and export relevance. The evidence shows that listed smart-factory adoption is concentrated in pilot-zone and high-capacity hub cities. Pilot-zone cities have far more listed projects per city than non-pilot cities. Yet the association weakens when major hubs and direct-admin municipalities are removed, which points toward a hub-centered architecture rather than a uniform treatment effect.
+**Table I** reports a partial 2024 cross-section (51 complete cities) with GDP, population, secondary-industry structure, foreign trade, telecom, and industrial-output proxies [@chinautc2024]. Pilot-zone status stays positive in **OLS count** (+1.58, p = 0.020) and **OLS log-count** (+0.50, p = 0.018) specifications; **Poisson** (+0.23, p = 0.43) is not significant. Language must stay narrow: appendix robustness only—not EPS-equivalent, not a causal treatment effect, not a main-text controlled result.
 
-The result is a more precise account of China’s AI industrialization model. The diffusion state does not appear as an evenly distributed national program. It appears as a spatially concentrated architecture built around administrative capacity, municipal scale, industrial ecosystems, and strategically relevant sectors. Pilot zones are visible markers of that architecture. They are not, in the current evidence, isolated causal instruments.
+### 9.3 Tiered patent Atlas (appendix only)
 
-The policy implication is straightforward. Countries competing in AI should measure more than frontier capability. They should measure diffusion capacity: the institutions, cities, sectors, procurement systems, industrial parks, firms, and standards that convert AI capability into production. The next productivity shock may depend less on which political economy produces the single most capable model and more on which political economy can embed increasingly capable models into the industrial base fastest.
+As a **robustness extension**, the repository links an industrial-AI patent corpus (4,014,104 OpenXLab IIDS keys) to a **tiered** applicant-geography layer frozen at **65.4%** city fill. Exact publication-number applicant-address geocoding is **not** available (`exact_geography_ready: false`; `ready_for_evidence_chain: false`). Locations follow a fixed priority stack: headquarters-page matches (~44% of keys), university locations (~12%), applicant-name city tokens (~9%), and an explicit unresolved stratum (~35%). **Publication-ready patent F1** and pilot-zone × patent causal claims remain blocked.
+
+Appendix Tables P14 and P17 report coverage by confidence tier and audit summary (`paper/appendix_tables/`). Patent geography supports **robustness diagnostics only**—not main identification and not exact geocoding. Methods language follows `paper/tiered_patent_geography_methods_snippet.md`.
+
+## 10. What the paper does not claim
+
+The paper does **not** claim that:
+
+- pilot zones **caused** smart-factory adoption or an average treatment effect across treated cities;
+- AI diffusion **caused** productivity growth;
+- MIIT recognition **caused** export upgrading;
+- excellence-level lists are a **complete census** of Chinese smart factories;
+- rule-based city assignment is **full external verification**;
+- partial ChinaUTC controls **replace** blocked EPS/NBS specifications;
+- tiered patent geography is **exact address geocoding** or evidence-chain-ready identification.
+
+These limits define the contribution: a credible **measurement architecture** for diffusion capacity under transparent claim tiers.
+
+## 11. Conclusion
+
+Frontier capability and diffusion capacity are different economic objects. China’s industrial AI strategy is visible in the **overlap** between national pilot designation and MIIT smart-factory recognition, but the deeper pattern is **hub architecture**: associations attenuate when Beijing, Shanghai, Shenzhen, Hangzhou, direct-admin municipalities, and top adoption cities are excluded. Sectoral and export-relevant descriptives show where AI fits production; they do not substitute for causal designs the data cannot support.
+
+The policy implication is to **measure diffusion capacity**—institutions, cities, sectors, procurement systems, industrial parks, firms, and standards—not frontier models alone. The next wave of AI’s economic impact may depend less on which economy trains the single best model and more on which economy embeds capability into the industrial base fastest. That is the diffusion state this paper makes measurable.
+
+## Figures
+
+| Figure | File | Role |
+|--------|------|------|
+| 1 | `fig_1_diffusion_state_architecture.png` | Five-layer conceptual framework |
+| 2 | `fig_2_hub_attenuation_pilot_coefficients.png` | Hub-exclusion coefficient plot (main result) |
+| 3 | `fig_3_city_typology_smart_factory_counts.png` | Ex ante city typology |
+| A2 | `fig_A2_timing_diagnostic_pilot_zones.png` | Timing diagnostic (appendix) |
 
 ## Tables to use in this draft
 

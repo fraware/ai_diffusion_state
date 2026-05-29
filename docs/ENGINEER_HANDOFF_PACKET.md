@@ -1,7 +1,7 @@
 # Engineer handoff packet (PCS + frozen tiered patent layer)
 
-Paper owners can proceed with writing while engineers refresh artifacts below.  
-**Do not:** manual top-applicant mapping, Lens batches, weaken exact-geography gates, or force tiered fill to 80% by inference.
+Paper owners can proceed with writing while engineers send a one-time **[evidence-freeze note](ENGINEER_EVIDENCE_FREEZE_NOTE.md)** (15 confirmations + attachments).  
+**Stop routine work on:** manual mapping, Lens, new inference rules, Hetzner/OpenXLab reruns, deprecated phases, new patent claims, new infrastructure. Tiered geography is frozen at ~65.36% (robustness only).
 
 ---
 

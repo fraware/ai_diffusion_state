@@ -19,22 +19,27 @@ FORBIDDEN_MAIN_TEXT = [
 
 
 def _negated_context(text: str, start: int, end: int) -> bool:
-    window = text[max(0, start - 50) : end + 50].lower()
+    window = text[max(0, start - 220) : end + 80].lower()
     return any(
         p in window
         for p in (
             "not ",
+            "not**",
+            "**not",
             "does not",
             "do not",
             "did not",
             "cannot",
             "does not claim",
+            "do not claim",
             "do not estimate",
             "not establish",
             "not identify",
             "not a causal",
+            "not claim",
             "rather than",
             "not evidence",
+            "without ",
         )
     )
 

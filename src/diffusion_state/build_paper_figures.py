@@ -24,18 +24,33 @@ class PaperFigure:
 
 PCS_FIGURES: tuple[PaperFigure, ...] = (
     PaperFigure(
-        "fig_timing_diagnostic_pilot_zones.png",
-        "fig_1_timing_diagnostic_pilot_zones.png",
-        "fig_timing_diagnostic",
-        "Timing diagnostic: pilot-zone coefficients by event time (listed smart-factory counts; pre-2024 zeros). Not a pre-trend test.",
+        "fig_diffusion_state_architecture.png",
+        "fig_1_diffusion_state_architecture.png",
+        "fig_diffusion_architecture",
+        "Conceptual architecture: from frontier AI capability to sectoral and export-relevant industrial adoption.",
+        True,
+    ),
+    PaperFigure(
+        "fig_hub_attenuation_pilot_coefficients.png",
+        "fig_2_hub_attenuation_pilot_coefficients.png",
+        "fig_hub_attenuation",
+        "Pilot-zone coefficient on listed smart-factory counts under hub-exclusion rules (95% CI).",
         True,
     ),
     PaperFigure(
         "fig_city_typology_smart_factory_counts.png",
-        "fig_2_city_typology_smart_factory_counts.png",
+        "fig_3_city_typology_smart_factory_counts.png",
         "fig_city_typology",
         "Listed smart-factory projects by ex ante diffusion-state city type (2024–2025, resolved cities).",
         True,
+    ),
+    PaperFigure(
+        "fig_timing_diagnostic_pilot_zones.png",
+        "fig_A2_timing_diagnostic_pilot_zones.png",
+        "fig_timing_diagnostic",
+        "Timing diagnostic: pilot-zone coefficients by event time (listed smart-factory counts; pre-2024 zeros). Not a pre-trend test.",
+        False,
+        required=False,
     ),
     PaperFigure(
         "fig_balance_standardized_differences.png",
@@ -51,6 +66,16 @@ PCS_FIGURES: tuple[PaperFigure, ...] = (
 def _ensure_output_figures() -> None:
     """Regenerate PCS figures if missing (requires analysis panel)."""
     OUTPUT_FIGURES.mkdir(parents=True, exist_ok=True)
+    arch = OUTPUT_FIGURES / "fig_diffusion_state_architecture.png"
+    if not arch.exists():
+        from diffusion_state.build_diffusion_architecture_figure import build_diffusion_architecture_figure
+
+        build_diffusion_architecture_figure()
+    hub = OUTPUT_FIGURES / "fig_hub_attenuation_pilot_coefficients.png"
+    if not hub.exists():
+        from diffusion_state.build_hub_attenuation_figure import build_hub_attenuation_figure
+
+        build_hub_attenuation_figure()
     timing = OUTPUT_FIGURES / "fig_timing_diagnostic_pilot_zones.png"
     if not timing.exists():
         from diffusion_state.run_models import run_baseline_models

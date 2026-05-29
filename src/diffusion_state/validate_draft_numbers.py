@@ -21,6 +21,15 @@ class DraftNumberCheck:
     optional: bool = False
 
 
+@dataclass(frozen=True)
+class DraftNumberCheckAny:
+    """Pass if any pattern matches expected value."""
+
+    label: str
+    expected: float
+    patterns: tuple[str, ...]
+
+
 def _near(a: float, b: float, tol: float = TOLERANCE) -> bool:
     if pd.isna(a) or pd.isna(b):
         return False
@@ -34,8 +43,8 @@ def _extract_float(text: str, pattern: str) -> float | None:
     return float(m.group(1))
 
 
-def build_expected_checks() -> list[DraftNumberCheck]:
-    checks: list[DraftNumberCheck] = []
+def build_expected_checks() -> list[DraftNumberCheck | DraftNumberCheckAny]:
+    checks: list[DraftNumberCheck | DraftNumberCheckAny] = []
 
     t1 = _read_table("table_1_dataset_summary.csv")
     if t1 is not None:
@@ -53,19 +62,23 @@ def build_expected_checks() -> list[DraftNumberCheck]:
         sf = t1[ds == "smart_factories_clean"]
         if not sf.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "smart_factory_projects",
                     float(sf.iloc[0]["observations"]),
-                    r"(\d+)\s+MIIT excellence-level smart-factory projects",
+                    (
+                        r"(\d+)\s+MIIT excellence-level smart-factory projects",
+                        r"with \*\*(\d+)\*\* MIIT excellence-level projects",
+                        r"\*\*(\d+)\*\* MIIT excellence-level projects",
+                    ),
                 )
             )
 
     official, rule_based, external = _geo_class_counts()
     checks.extend(
         [
-            DraftNumberCheck("geo_official", official, r"(\d+)\s+projects are `official_location_exact`"),
-            DraftNumberCheck("geo_rule_based", rule_based, r"(\d+)\s+are `rule_based_text_inference`"),
-            DraftNumberCheck("geo_external", external, r"(\d+)\s+are `external_evidence_verified`"),
+            DraftNumberCheckAny("geo_official", official, (r"Official-location exact \| (\d+) \|", r"(\d+)\s+official-location exact")),
+            DraftNumberCheckAny("geo_rule_based", rule_based, (r"Rule-based text inference \| (\d+) \|", r"(\d+)\s+rule-based")),
+            DraftNumberCheckAny("geo_external", external, (r"External-evidence verified \| (\d+) \|", r"(\d+)\s+external-evidence verified")),
         ]
     )
 
@@ -77,32 +90,40 @@ def build_expected_checks() -> list[DraftNumberCheck]:
         mean_col = "mean_projects_per_city" if "mean_projects_per_city" in ov.columns else "mean_per_city"
         if not pilot.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "pilot_projects",
                     float(pilot.iloc[0][proj_col]),
-                    r"pilot-zone cities account for (\d+) listed",
+                    (r"pilot-zone cities hold \*\*(\d+)\*\*", r"pilot-zone cities account for (\d+) listed"),
                 )
             )
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "pilot_mean",
                     float(pilot.iloc[0][mean_col]),
-                    r"(\d+\.\d+)\s+per pilot-zone city",
+                    (
+                        r"16 pilot-zone cities \(mean (\d+\.\d+) per city\)",
+                        r"16 cities \(mean \*\*(\d+\.\d+)\*\* per city\)",
+                        r"(\d+\.\d+)\s+per pilot-zone city",
+                    ),
                 )
             )
         if not nonp.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "nonpilot_projects",
                     float(nonp.iloc[0][proj_col]),
-                    r"non-pilot cities account for (\d+) projects",
+                    (r"[Nn]on-pilot cities hold \*\*(\d+)\*\*", r"non-pilot cities account for (\d+) projects"),
                 )
             )
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "nonpilot_mean",
                     float(nonp.iloc[0][mean_col]),
-                    r"(\d+\.\d+)\s+per non-pilot city",
+                    (
+                        r"143 non-pilot cities \(mean (\d+\.\d+) per city\)",
+                        r"143 cities \(mean \*\*(\d+\.\d+)\*\* per city\)",
+                        r"(\d+\.\d+)\s+per non-pilot city",
+                    ),
                 )
             )
 
@@ -114,10 +135,10 @@ def build_expected_checks() -> list[DraftNumberCheck]:
         ]
         if not m1.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "baseline_pilot_coef",
                     float(m1.iloc[0]["coef"]),
-                    r"pilot-zone coefficient is (\d+\.\d+)",
+                    (r"\| Full sample \| (\d+\.\d+) \|", r"association is \*\*(\d+\.\d+)\*\*", r"coefficient is (\d+\.\d+)"),
                 )
             )
 
@@ -145,45 +166,63 @@ def build_expected_checks() -> list[DraftNumberCheck]:
         ]
         if not base.empty and not bj.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "hub_drop_bjshzh",
                     float(bj.iloc[0]["coef"]),
-                    r"Beijing, Shanghai, Shenzhen, and Hangzhou are removed, the (?:pilot-zone )?coefficient falls to (\d+\.\d+)",
+                    (
+                        r"\| Drop Beijing, Shanghai, Shenzhen, and Hangzhou \| (\d+\.\d+) \|",
+                        r"to (\d+\.\d+) when Beijing, Shanghai, Shenzhen, and Hangzhou",
+                    ),
                 )
             )
         if not base.empty and not da.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "hub_drop_direct_admin",
                     float(da.iloc[0]["coef"]),
-                    r"direct-admin municipalities are removed, the coefficient falls to (\d+\.\d+)",
+                    (
+                        r"\| Drop direct-admin municipalities \| (\d+\.\d+) \|",
+                        r"to (\d+\.\d+) when direct-admin municipalities",
+                    ),
                 )
             )
         if not base.empty and not t5.empty:
             checks.append(
-                DraftNumberCheck(
+                DraftNumberCheckAny(
                     "hub_drop_top5_sf",
                     float(t5.iloc[0]["coef"]),
-                    r"top five smart-factory cities are removed, it falls to (\d+\.\d+)",
+                    (
+                        r"\| Drop top five smart-factory cities \| (\d+\.\d+) \|",
+                        r"to (\d+\.\d+) when the top five smart-factory cities",
+                    ),
                 )
             )
 
     t5b = _read_table("table_5b_public_fallback_controls.csv")
     if t5b is not None:
-        for model_suffix, pattern in [
-            ("5b", r"OLS count coefficient is \+(\d+\.\d+)"),
-            ("5c", r"OLS log-count coefficient is \+(\d+\.\d+)"),
-        ]:
+        table_i_patterns: dict[str, tuple[str, ...]] = {
+            "5b": (
+                r"OLS count coefficient is \+(\d+\.\d+)",
+                r"\*\*OLS count\*\* \(\+(\d+\.\d+)",
+                r"OLS count \| \+(\d+\.\d+) \|",
+            ),
+            "5c": (
+                r"OLS log-count coefficient is \+(\d+\.\d+)",
+                r"\*\*OLS log-count\*\* \(\+(\d+\.\d+)",
+                r"OLS log-count \| \+(\d+\.\d+) \|",
+            ),
+        }
+        for model_suffix, patterns in table_i_patterns.items():
             sub = t5b[
                 (t5b["term"] == "pilot_zone")
                 & (t5b["model"].astype(str).str.contains(model_suffix, na=False))
             ]
             if not sub.empty:
                 checks.append(
-                    DraftNumberCheck(
+                    DraftNumberCheckAny(
                         f"table_i_{model_suffix}",
                         float(sub.iloc[0]["coef"]),
-                        pattern,
+                        patterns,
                     )
                 )
 
@@ -200,6 +239,20 @@ def validate_draft_numbers(draft_path: Path | None = None) -> tuple[bool, list[s
     checks = build_expected_checks()
 
     for check in checks:
+        if isinstance(check, DraftNumberCheckAny):
+            found = None
+            for pattern in check.patterns:
+                found = _extract_float(text, pattern)
+                if found is not None:
+                    break
+            if found is None:
+                issues.append(f"{check.label}: no matching phrase in draft")
+                continue
+            if not _near(found, check.expected):
+                issues.append(
+                    f"{check.label}: draft has {found}, tables imply {check.expected:.4f}"
+                )
+            continue
         found = _extract_float(text, check.pattern)
         if found is None:
             if not check.optional:

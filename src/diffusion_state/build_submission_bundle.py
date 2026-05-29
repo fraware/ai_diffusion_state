@@ -14,6 +14,7 @@ MANIFEST_JSON = PROJECT_ROOT / "paper" / "SUBMISSION_MANIFEST.json"
 
 BUNDLE_PATHS: tuple[str, ...] = (
     "paper/draft_v1.md",
+    "paper/draft_v1_appendix.md",
     "paper/draft_v1_submission.md",
     "paper/draft_v1.tex",
     "paper/references.bib",
