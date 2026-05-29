@@ -374,6 +374,12 @@ atlas-iids-tiered-geography:
 atlas-iids-procurement-priority-unresolved:
 	$(PYTHON) scripts/104_export_procurement_priority_unresolved.py
 
+atlas-iids-procurement-pack-status:
+	$(PYTHON) scripts/105_write_procurement_pack_status.py
+
+atlas-iids-procurement-pack: atlas-iids-external-geo-prepare atlas-iids-procurement-pack-status
+	@echo "Next: make atlas-iids-procurement-priority-unresolved (long run, ~900k rows)"
+
 atlas-iids-geography-preflight:
 	$(PYTHON) scripts/77_atlas_iids_geography_preflight.py
 

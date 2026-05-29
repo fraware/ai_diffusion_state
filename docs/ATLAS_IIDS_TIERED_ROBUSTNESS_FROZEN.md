@@ -70,13 +70,18 @@ Paper methods text: `paper/tiered_patent_geography_methods_snippet.md`
 
 Target **+751k** keyed cities (~**80%** of 4,014,104).
 
-**Vendor file (high-yield subset, not all 4M):**
+**Procurement pack (vendor handoff):**
 
 ```powershell
+make atlas-iids-procurement-pack
 make atlas-iids-procurement-priority-unresolved
 ```
 
-Writes `data/interim/iids_geo_procurement_priority_unresolved.csv` (~750k–900k unresolved patents from high-volume applicants). Gitignored.
+- Status: `outputs/tables/table_P18_procurement_pack_status.json`
+- Vendor CSV: `data/interim/iids_geo_procurement_priority_unresolved.csv` (~750k–900k rows, gitignored)
+- Drop zone: `docs/ATLAS_IIDS_EXTERNAL_GEO_DROPZONE.md`
+
+Gate scans are cached at `outputs/tables/table_P11_iids_geography_gate_snapshot.json` (invalidate with `ATLAS_IIDS_GATE_NO_CACHE=1`).
 
 **After batches land:**
 

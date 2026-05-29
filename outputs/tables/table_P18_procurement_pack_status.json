@@ -1,0 +1,21 @@
+{
+  "frozen_tiered_city_fill_rate": 0.6536,
+  "tiered_robustness_ready": true,
+  "ready_for_evidence_chain": false,
+  "exact_geography_ready": false,
+  "n_keys": 4014104,
+  "n_city_on_keys": 2623440,
+  "n_unresolved_on_geo_file": 1390664,
+  "cities_needed_for_80pct_gate": 587843,
+  "external_batch_exports_present": 0,
+  "external_batch_exports_expected": 17,
+  "procurement_priority_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\interim\\iids_geo_procurement_priority_unresolved.csv",
+  "procurement_priority_csv_exists": false,
+  "recommended_next": "Tiered robustness frozen at 65.4% (60%+). Diagnostics: make atlas-iids-frozen-verify. Procurement: make atlas-iids-procurement-priority-unresolved then make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain.",
+  "commands": [
+    "make atlas-iids-frozen-verify",
+    "make atlas-iids-procurement-priority-unresolved",
+    "make atlas-iids-external-geo-pipeline",
+    "make atlas-iids-control-evidence-chain"
+  ]
+}

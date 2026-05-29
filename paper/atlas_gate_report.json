@@ -20,11 +20,13 @@
   "n_industries": 34,
   "years_min": 2015,
   "years_max": 2025,
-  "main_result_summary": "IIDS tiered robustness extension operational (4,014,104 patents, 65.4% tiered city fill on keys). Patent-layer diagnostics and appendix tables are allowed with tier reporting (P14/P17). Publication F1 and pilot-zone patent claims remain blocked until ready_for_evidence_chain (80% geography). Next: Tiered robustness layer at 65.4% (target 60%+). Run make atlas-iids-tiered-robustness-patent-layer for diagnostics; procure external geography for 80% gate or make atlas-iids-tiered-geography-phase-g..",
+  "main_result_summary": "IIDS tiered robustness extension operational (4,014,104 patents, 65.4% tiered city fill on keys). Patent-layer diagnostics and appendix tables are allowed with tier reporting (P14/P17). Publication F1 and pilot-zone patent claims remain blocked until ready_for_evidence_chain (80% geography). Next: Tiered robustness frozen at 65.4% (60%+). Diagnostics: make atlas-iids-frozen-verify. Procurement: make atlas-iids-procurement-priority-unresolved then make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain..",
   "forbidden_claim_flags": [
+    "evidence_chain_not_ready",
     "geography_not_ready"
   ],
   "premature_patent_claim_flags": [
+    "evidence_chain_not_ready",
     "geography_not_ready"
   ],
   "layer_errors": {
@@ -113,7 +115,7 @@
       "ready_for_geography_procurement": true,
       "ready_for_evidence_chain": false,
       "real_iids_patent_export_present": true,
-      "recommended_next": "Tiered robustness layer at 65.4% (target 60%+). Run make atlas-iids-tiered-robustness-patent-layer for diagnostics; procure external geography for 80% gate or make atlas-iids-tiered-geography-phase-g.",
+      "recommended_next": "Tiered robustness frozen at 65.4% (60%+). Diagnostics: make atlas-iids-frozen-verify. Procurement: make atlas-iids-procurement-priority-unresolved then make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain.",
       "geography_validation_issues": [],
       "artifact_paths": {
         "iids_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv",
@@ -173,7 +175,7 @@
     "ready_for_geography_procurement": true,
     "ready_for_evidence_chain": false,
     "real_iids_patent_export_present": true,
-    "recommended_next": "Tiered robustness layer at 65.4% (target 60%+). Run make atlas-iids-tiered-robustness-patent-layer for diagnostics; procure external geography for 80% gate or make atlas-iids-tiered-geography-phase-g.",
+    "recommended_next": "Tiered robustness frozen at 65.4% (60%+). Diagnostics: make atlas-iids-frozen-verify. Procurement: make atlas-iids-procurement-priority-unresolved then make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain.",
     "geography_validation_issues": [],
     "artifact_paths": {
       "iids_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv",
@@ -192,7 +194,7 @@
   "ready_for_tiered_robustness_patent_layer": true,
   "atlas_tiered_extension_ready": true,
   "patent_layer_tiered_ready": true,
-  "recommended_next": "Tiered robustness layer at 65.4% (target 60%+). Run make atlas-iids-tiered-robustness-patent-layer for diagnostics; procure external geography for 80% gate or make atlas-iids-tiered-geography-phase-g.",
+  "recommended_next": "Tiered robustness frozen at 65.4% (60%+). Diagnostics: make atlas-iids-frozen-verify. Procurement: make atlas-iids-procurement-priority-unresolved then make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain.",
   "patent_layer_ready_without_geography": true,
   "artifact_paths": {
     "industry_crosswalk": "data/seed/industry_crosswalk_atlas.csv",

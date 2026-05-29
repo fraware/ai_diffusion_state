@@ -1,0 +1,65 @@
+{
+  "fingerprint": {
+    "iids_mtime": 1780071674.0288644,
+    "keys_mtime": 1779984467.6713402,
+    "geo_mtime": 1780069781.7892025,
+    "min_city_fill": 0.8,
+    "min_province_fill": 0.8,
+    "min_key_match_rate": 0.95
+  },
+  "gate": {
+    "iids_patent_export_ready": true,
+    "iids_geography_keys_ready": true,
+    "iids_geography_ready": false,
+    "exact_geography_ready": false,
+    "tiered_geography_ready": false,
+    "ready_for_tiered_evidence_chain": false,
+    "tiered_robustness_ready": true,
+    "ready_for_tiered_robustness_patent_layer": true,
+    "tiered_robustness_fill_threshold": 0.6,
+    "geography_tier_stats": {
+      "n_keys": 4014104,
+      "n_city_on_keys": 2623440,
+      "n_exact_city_on_keys": 0,
+      "n_tiered_city_on_keys": 2623440,
+      "exact_city_share_on_keys": 0.0,
+      "tiered_city_share_on_keys": 0.6536,
+      "tier_counts": {
+        "official_headquarters_page": 1762981,
+        "unresolved": 1390664,
+        "university_location": 485363,
+        "applicant_name_city_token": 375096
+      }
+    },
+    "geography_present": true,
+    "geography_is_template": false,
+    "geography_contract_ok": true,
+    "geography_city_fill_rate": 0.6536,
+    "geography_province_fill_rate": 0.6536,
+    "geography_key_match_rate": 1.0,
+    "geography_rows": 4014103,
+    "geography_key_rows_expected": 4014104,
+    "geography_fill_threshold": 0.8,
+    "geography_key_coverage": {
+      "rows": 4014104,
+      "rows_with_city": 2623440,
+      "rows_with_province": 2623440,
+      "unique_cities": 83,
+      "city_fill_rate": 0.6536,
+      "province_fill_rate": 0.6536,
+      "key_match_rate": 1.0,
+      "n_keys": 4014104,
+      "n_matched": 4014104
+    },
+    "ready_for_geography_procurement": true,
+    "ready_for_evidence_chain": false,
+    "real_iids_patent_export_present": true,
+    "recommended_next": "Tiered robustness frozen at 65.4% (60%+). Diagnostics: make atlas-iids-frozen-verify. Procurement: make atlas-iids-procurement-priority-unresolved then make atlas-iids-external-geo-pipeline; evidence: make atlas-iids-control-evidence-chain.",
+    "geography_validation_issues": [],
+    "artifact_paths": {
+      "iids_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv",
+      "keys_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\iids_filtered_patent_ids_for_geography.csv",
+      "geography_csv": "C:\\Users\\mateo\\ai_diffusion_state\\data\\raw\\patents\\cnipa_patent_geography_2015_2024.csv"
+    }
+  }
+}

@@ -19,6 +19,11 @@ from diffusion_state.iids_paths import (
     DEFAULT_IIDS_OUTPUT,
     FILTERED_PATENT_IDS_FOR_GEO_OUTPUT,
 )
+from diffusion_state.iids_geography_gate_snapshot import (
+    load_cached_gate,
+    snapshot_inputs_fingerprint,
+    write_cached_gate,
+)
 from diffusion_state.patent_raw_sources import is_real_export_filename
 
 DEFAULT_CITY_PROVINCE_THRESHOLD = MIN_CITY_FILL
@@ -122,11 +127,24 @@ def collect_iids_geography_gate(
     min_city_fill: float = DEFAULT_CITY_PROVINCE_THRESHOLD,
     min_province_fill: float = MIN_PROVINCE_FILL,
     min_key_match_rate: float = KEY_COVERAGE_MIN_RATE,
+    use_cache: bool = True,
 ) -> dict:
     """Return IIDS geography procurement / evidence readiness flags."""
     iids_csv = iids_csv or DEFAULT_IIDS_OUTPUT
     keys_csv = keys_csv or FILTERED_PATENT_IDS_FOR_GEO_OUTPUT
     geography_csv = geography_csv or DEFAULT_GEO_OUTPUT
+    fingerprint = snapshot_inputs_fingerprint(
+        iids_csv=iids_csv,
+        keys_csv=keys_csv,
+        geography_csv=geography_csv,
+        min_city_fill=min_city_fill,
+        min_province_fill=min_province_fill,
+        min_key_match_rate=min_key_match_rate,
+    )
+    if use_cache:
+        cached = load_cached_gate(fingerprint)
+        if cached is not None:
+            return cached
     iids_present = _file_nonempty(iids_csv) and is_real_export_filename(iids_csv.name)
     keys_present = _file_nonempty(keys_csv)
     n_keys_expected = _count_csv_rows(keys_csv) if keys_present else 0
@@ -252,7 +270,7 @@ def collect_iids_geography_gate(
     else:
         recommended_next = "make atlas-iids-control-evidence-chain"
 
-    return {
+    result = {
         "iids_patent_export_ready": iids_patent_export_ready,
         "iids_geography_keys_ready": keys_present,
         "iids_geography_ready": iids_geography_ready,
@@ -284,3 +302,6 @@ def collect_iids_geography_gate(
             "geography_csv": str(geography_csv),
         },
     }
+    if use_cache:
+        write_cached_gate(fingerprint, result)
+    return result

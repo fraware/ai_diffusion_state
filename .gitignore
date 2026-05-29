@@ -106,6 +106,8 @@ outputs/tables/*
 !outputs/tables/table_P17_tiered_geography_tier_breakdown.csv
 !outputs/tables/table_P17_tiered_robustness_audit.csv
 !outputs/tables/table_P17_tiered_robustness_audit.json
+!outputs/tables/table_P11_iids_geography_gate_snapshot.json
+!outputs/tables/table_P18_procurement_pack_status.json
 !outputs/figures/
 outputs/figures/*
 !outputs/figures/.gitkeep

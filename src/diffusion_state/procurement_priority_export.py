@@ -73,6 +73,11 @@ def export_procurement_priority(
             app = str(row.get("applicant_name") or "")
             first = first_applicant_name(app) or "(blank)"
             counts[first] += 1
+            if n_scanned % 500_000 == 0:
+                print(
+                    {"pass": "count_applicants", "rows": n_scanned, "unresolved_hits": sum(counts.values())},
+                    flush=True,
+                )
 
     priority_apps = select_priority_applicants(counts, target_patents=target_rows)
     output_csv.parent.mkdir(parents=True, exist_ok=True)
@@ -108,6 +113,8 @@ def export_procurement_priority(
                 }
             )
             n_written += 1
+            if n_written % 250_000 == 0:
+                print({"pass": "write", "written": n_written}, flush=True)
 
     return {
         "rows_scanned": n_scanned,
