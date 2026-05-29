@@ -33,6 +33,12 @@ make atlas-paper-claim-guard
 make engineer-handoff-verify
 ```
 
+**Paper owner one-shot (PCS + tiered appendix + guards):**
+
+```powershell
+make paper-owner-handoff
+```
+
 ## Paper owner (active)
 
 1. Draft from `paper/draft_v1.md` using **only** `paper/main_tables/` (Tables A–I).

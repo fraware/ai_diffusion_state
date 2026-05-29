@@ -9,6 +9,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from diffusion_state.engineer_handoff_expectations import (  # noqa: E402
+    ATLAS_TOP_FLAGS_EXPECTED,
+    GEO_GATE_FLAGS_EXPECTED,
+    evaluate_atlas_tiered_handoff,
+)
 from diffusion_state.validate_atlas_paper_claims import collect_draft_patent_claim_violations  # noqa: E402
 
 PCS_REPORT = ROOT / "paper" / "pcs_gate_report.json"
@@ -33,16 +38,6 @@ ATLAS_ARTIFACTS = [
     "outputs/tables/table_P17_tiered_robustness_audit.csv",
     "data/processed/industrial_ai_patents_city_industry_year.csv",
 ]
-
-TIERED_FLAGS_EXPECTED = {
-    "ready_for_evidence_chain": False,
-    "iids_geography_ready": False,
-    "exact_geography_ready": False,
-    "ready_for_tiered_evidence_chain": False,
-    "ready_for_tiered_robustness_patent_layer": True,
-    "atlas_tiered_extension_ready": True,
-}
-
 
 def _load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -83,18 +78,24 @@ def main() -> int:
     else:
         atlas = _load_json(ATLAS_REPORT)
         geo = atlas.get("iids_geography_gate") or {}
-        flag_checks = {k: geo.get(k) == v for k, v in TIERED_FLAGS_EXPECTED.items()}
-        flag_checks["atlas_tiered_extension_ready"] = (
-            atlas.get("atlas_tiered_extension_ready") is True
-        )
-        atlas_ok = all(flag_checks.values())
-        for k, ok in flag_checks.items():
-            if not ok:
-                issues.append(f"atlas flag {k}: got {atlas.get(k) or geo.get(k)}")
+        checks_passed, gate_values = evaluate_atlas_tiered_handoff(atlas)
+        atlas_ok = all(checks_passed.values())
+        for k, v in GEO_GATE_FLAGS_EXPECTED.items():
+            if geo.get(k) != v:
+                issues.append(f"atlas iids_geography_gate.{k}: expected {v}, got {geo.get(k)}")
+        for k, v in ATLAS_TOP_FLAGS_EXPECTED.items():
+            if atlas.get(k) != v:
+                issues.append(f"atlas {k}: expected {v}, got {atlas.get(k)}")
         missing_atlas = [p for p in ATLAS_ARTIFACTS if p != "paper/atlas_gate_report.json" and not (ROOT / p).exists()]
         if missing_atlas:
             issues.append(f"Atlas artifacts missing: {missing_atlas}")
-        sections["atlas_tiered"] = flag_checks
+        appendix_dir = ROOT / "paper/appendix_tables"
+        if not appendix_dir.exists():
+            issues.append("missing paper/appendix_tables/ (run make paper-tiered-appendix-sync)")
+        sections["atlas_tiered"] = {
+            "gate_values": gate_values,
+            "checks_passed": checks_passed,
+        }
 
     # --- Claim guard ---
     claim_ok = False

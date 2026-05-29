@@ -1,4 +1,4 @@
-.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-geo-key-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate atlas-iids-geography-preflight atlas-iids-require-geography atlas-iids-geo-validate-batches atlas-iids-geo-inspect atlas-iids-pipeline atlas-iids-pipeline-full atlas-iids-preflight atlas-iids-smoke atlas-iids-manifest-merge atlas-iids-download-detail atlas-iids-export-keys atlas-iids-wsl-production atlas-iids-production-status atlas-iids-external-status atlas-iids-cloud atlas-iids-cloud-bootstrap atlas-iids-workflow atlas-iids-workflow-strict atlas-iids-cloud-copyback atlas-iids-verify-copyback atlas-iids-import-copyback atlas-iids-geography-brief atlas-iids-control-post-copyback atlas-iids-control-evidence-chain atlas-iids-geo-fixture-smoke atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx
+.PHONY: setup seed fetch build parse baci panel analysis paper validate-sprint outputs test all clean geo-audit purge-stub-controls production-check public-fallback-controls patents atlas-exposure atlas-patents atlas-patent-prep atlas-patent-manifest atlas-iids-convert atlas-iids-geo atlas-iids-geo-validate atlas-iids-geo-build atlas-iids-geo-key-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate atlas-iids-geography-preflight atlas-iids-require-geography atlas-iids-geo-validate-batches atlas-iids-geo-inspect atlas-iids-pipeline atlas-iids-pipeline-full atlas-iids-preflight atlas-iids-smoke atlas-iids-manifest-merge atlas-iids-download-detail atlas-iids-export-keys atlas-iids-wsl-production atlas-iids-production-status atlas-iids-external-status atlas-iids-cloud atlas-iids-cloud-bootstrap atlas-iids-workflow atlas-iids-workflow-strict atlas-iids-cloud-copyback atlas-iids-verify-copyback atlas-iids-import-copyback atlas-iids-geography-brief atlas-iids-control-post-copyback atlas-iids-control-evidence-chain atlas-iids-geo-fixture-smoke atlas-smartfactories atlas-sf-audit atlas-v02 atlas-models-v02 atlas-evidence-check atlas-status atlas-phase1 paper-figures paper-tables export-submission submission-bundle submission-zip submission-checklist validate-submission pcs-guard pcs-paper-owner cover-letter submission-docx engineer-handoff-verify paper-tiered-appendix-sync paper-owner-handoff
 
 PYTHON ?= python
 
@@ -352,6 +352,11 @@ atlas-iids-tiered-extension: atlas-iids-geography-preflight atlas-iids-require-t
 
 atlas-paper-claim-guard:
 	$(PYTHON) scripts/103_validate_atlas_paper_claims.py
+
+paper-tiered-appendix-sync:
+	$(PYTHON) scripts/107_publish_tiered_appendix_tables.py
+
+paper-owner-handoff: pcs-paper-owner submission-zip atlas-iids-frozen-verify paper-tiered-appendix-sync atlas-paper-claim-guard engineer-handoff-verify
 
 engineer-handoff-verify:
 	$(PYTHON) scripts/106_engineer_handoff_verify.py

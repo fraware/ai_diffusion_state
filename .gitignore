@@ -109,6 +109,8 @@ outputs/tables/*
 !outputs/tables/table_P11_iids_geography_gate_snapshot.json
 !outputs/tables/table_P18_procurement_pack_status.json
 !paper/ENGINEER_HANDOFF_CONFIRMATION.json
+!paper/appendix_tables/
+!paper/appendix_tables/**
 !outputs/figures/
 outputs/figures/*
 !outputs/figures/.gitkeep

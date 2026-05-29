@@ -11,12 +11,22 @@
       "main_tables_dir": true
     },
     "atlas_tiered": {
-      "ready_for_evidence_chain": true,
-      "iids_geography_ready": true,
-      "exact_geography_ready": true,
-      "ready_for_tiered_evidence_chain": true,
-      "ready_for_tiered_robustness_patent_layer": true,
-      "atlas_tiered_extension_ready": true
+      "gate_values": {
+        "ready_for_evidence_chain": false,
+        "iids_geography_ready": false,
+        "exact_geography_ready": false,
+        "ready_for_tiered_evidence_chain": false,
+        "ready_for_tiered_robustness_patent_layer": true,
+        "atlas_tiered_extension_ready": true
+      },
+      "checks_passed": {
+        "ready_for_evidence_chain": true,
+        "iids_geography_ready": true,
+        "exact_geography_ready": true,
+        "ready_for_tiered_evidence_chain": true,
+        "ready_for_tiered_robustness_patent_layer": true,
+        "atlas_tiered_extension_ready": true
+      }
     },
     "claim_guard": {
       "violations": [],

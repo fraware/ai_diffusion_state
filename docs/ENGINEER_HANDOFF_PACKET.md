@@ -73,8 +73,11 @@ make atlas-iids-tiered-extension
 | `outputs/tables/table_P17_tiered_geography_tier_breakdown.csv` |
 | `outputs/tables/table_P17_tiered_robustness_audit.csv` |
 | `data/processed/industrial_ai_patents_city_industry_year.csv` |
+| `paper/appendix_tables/` (via `make paper-tiered-appendix-sync`) |
 
 **Purpose:** freeze patent Atlas as **robustness only** (65.4% tiered city fill; not exact geocoding).
+
+`paper/ENGINEER_HANDOFF_CONFIRMATION.json` uses **`gate_values`** (actual flags) and **`checks_passed`** (expected match). Do not confuse `checks_passed.atlas_tiered_extension_ready: true` with “extension not ready”—it means the check passed.
 
 ---
 
@@ -118,10 +121,11 @@ Routine command: `make atlas-iids-tiered-extension`
 ## One-command verification (engineers)
 
 ```powershell
-make engineer-handoff-verify
+make paper-owner-handoff
 ```
 
-Writes `paper/ENGINEER_HANDOFF_CONFIRMATION.json` and prints pass/fail for sections 1–3.
+Or stepwise: `make engineer-handoff-verify` (checks only).  
+Writes `paper/ENGINEER_HANDOFF_CONFIRMATION.json` with explicit gate values + pass/fail.
 
 ---
 

@@ -42,4 +42,6 @@ jobs:
       - run: make atlas-iids-smoke
       - run: make atlas-iids-geo-fixture-smoke
       - run: python scripts/55_validate_no_fixture_patents.py --json
+      - run: make paper-tiered-appendix-sync
+      - run: make engineer-handoff-verify
       - run: pytest -q

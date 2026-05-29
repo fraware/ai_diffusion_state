@@ -54,8 +54,11 @@ Markdown mirrors: `paper/tables_md/table_*.md`
 | P17 audit | `outputs/tables/table_P17_tiered_robustness_audit.csv` (+ `.json`) | Extension gate summary |
 | Panel | `data/processed/industrial_ai_patents_city_industry_year.csv` | Streaming city–industry–year (65% geo subset) |
 | Gate | `paper/atlas_gate_report.json` | `atlas_tiered_extension_ready`; evidence chain **false** |
+| Paper copies | `paper/appendix_tables/` | `make paper-tiered-appendix-sync` |
 
 Build: `make atlas-iids-frozen-verify` or `make atlas-iids-tiered-extension`.
+
+Paper owner entry: `paper/PAPER_OWNER_START.md`, `paper/REVIEWER_DEFENSE_OUTLINE.md`.
 
 ---
 
