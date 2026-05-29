@@ -136,6 +136,10 @@ def join_patent_geography_streaming(
     cities: set[str] = set()
 
     output_csv.parent.mkdir(parents=True, exist_ok=True)
+    # Never write in-place on Windows: opening the same path for write truncates the read handle.
+    in_place = output_csv.resolve() == iids_csv.resolve()
+    write_path = output_csv.with_suffix(output_csv.suffix + ".join_tmp") if in_place else output_csv
+
     with iids_csv.open("r", encoding="utf-8-sig", errors="replace", newline="") as f_in:
         reader = csv.DictReader(f_in)
         if not reader.fieldnames:
@@ -145,7 +149,7 @@ def join_patent_geography_streaming(
             if col not in fieldnames:
                 fieldnames.append(col)
 
-        with output_csv.open("w", encoding="utf-8-sig", newline="") as f_out:
+        with write_path.open("w", encoding="utf-8-sig", newline="") as f_out:
             writer = csv.DictWriter(f_out, fieldnames=fieldnames, extrasaction="ignore")
             writer.writeheader()
             for row in reader:
@@ -169,6 +173,9 @@ def join_patent_geography_streaming(
                     n_province += 1
                 out_row = {col: row.get(col, "") for col in fieldnames}
                 writer.writerow(out_row)
+
+    if in_place:
+        write_path.replace(output_csv)
 
     return summarize_geography_from_counts(
         n_keys=n_rows,

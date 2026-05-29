@@ -73,6 +73,16 @@ def _main_result_summary(evidence: dict, *, geography_gate: dict | None = None) 
     if real_iids and not geo.get("ready_for_evidence_chain"):
         n_patents = evidence.get("n_unique_patent_ids")
         n_str = f"{n_patents:,} " if n_patents else ""
+        fill = float(geo.get("geography_city_fill_rate") or 0.0)
+        if geo.get("tiered_robustness_ready"):
+            return (
+                f"IIDS tiered robustness extension operational ({n_str}patents, "
+                f"{fill:.1%} tiered city fill on keys). "
+                "Patent-layer diagnostics and appendix tables are allowed with tier reporting (P14/P17). "
+                "Publication F1 and pilot-zone patent claims remain blocked until "
+                "ready_for_evidence_chain (80% geography). "
+                f"Next: {geo.get('recommended_next', 'procure external CNIPA/Incopat geography batches')}."
+            )
         return (
             f"IIDS patent export ready ({n_str}filtered CN patents). "
             "Geography file missing or below coverage thresholds. "
@@ -126,10 +136,6 @@ def _forbidden_claim_flags(*, geography_gate: dict | None = None) -> list[str]:
 
 def collect_atlas_status() -> dict:
     exposure_err = validate_industry_exposure_v2()
-    patent_err = validate_industrial_ai_patents_phase1()
-    pat_ok, _ = validate_patent_layer()
-    if not pat_ok:
-        patent_err = patent_err + ["legacy patent layer validation failed"]
     sf_err = validate_smart_factory_city_industry_year()
     atlas_err = validate_atlas_v02()
 
@@ -140,10 +146,34 @@ def collect_atlas_status() -> dict:
         and not evidence.get("fixture_patents_detected", True)
     )
 
+    tiered_extension_ready = False
+    patent_err: list[str] = []
+    if real_iids_evidence and bool(iids_geo.get("tiered_robustness_ready")):
+        from diffusion_state.validate_tiered_robustness import (
+            validate_industrial_ai_patents_phase1_tiered,
+            validate_tiered_robustness_geography,
+            validate_tiered_robustness_panel,
+        )
+
+        p_ok, _ = validate_tiered_robustness_panel()
+        patent_err = validate_industrial_ai_patents_phase1_tiered()
+        g_ok, _ = validate_tiered_robustness_geography(iids_geo)
+        tiered_extension_ready = p_ok and g_ok and not patent_err
+    else:
+        patent_err = validate_industrial_ai_patents_phase1()
+        pat_ok, _ = validate_patent_layer()
+        if not pat_ok:
+            patent_err = patent_err + ["legacy patent layer validation failed"]
+
     exposure_ready = _layer_ready(EXPOSURE, exposure_err) and _layer_ready(ROBOT, exposure_err)
     patent_ready = _layer_ready(PATENTS, patent_err) and not evidence.get("fixture_patents_detected", True)
     if real_iids_evidence:
         patent_ready = patent_ready and bool(iids_geo.get("iids_geography_ready"))
+    patent_tiered_ready = bool(
+        tiered_extension_ready
+        and _layer_ready(PATENTS, patent_err)
+        and not evidence.get("fixture_patents_detected", True)
+    )
     sf_ready = _layer_ready(SMART_SF, sf_err)
     panel_ready = _layer_ready(ATLAS_PANEL, atlas_err)
     models_built = _models_built()
@@ -184,7 +214,19 @@ def collect_atlas_status() -> dict:
         ]
     )
     atlas_ready = atlas_software_ready and atlas_evidence_ready
-    atlas_phase1_ready = atlas_software_ready if real_iids_evidence and not iids_geo.get("iids_geography_ready") else atlas_ready
+    if real_iids_evidence and not iids_geo.get("iids_geography_ready"):
+        tiered_software = all(
+            [
+                exposure_ready,
+                patent_tiered_ready,
+                sf_ready,
+                panel_ready,
+                models_built,
+            ]
+        )
+        atlas_phase1_ready = tiered_software
+    else:
+        atlas_phase1_ready = atlas_ready
 
     return {
         "pcs_ready": pcs,
@@ -226,8 +268,16 @@ def collect_atlas_status() -> dict:
         "ready_for_geography_procurement": iids_geo.get("ready_for_geography_procurement"),
         "ready_for_evidence_chain": iids_geo.get("ready_for_evidence_chain"),
         "ready_for_tiered_evidence_chain": iids_geo.get("ready_for_tiered_evidence_chain"),
+        "tiered_robustness_ready": iids_geo.get("tiered_robustness_ready"),
+        "ready_for_tiered_robustness_patent_layer": iids_geo.get(
+            "ready_for_tiered_robustness_patent_layer"
+        ),
+        "atlas_tiered_extension_ready": tiered_extension_ready,
+        "patent_layer_tiered_ready": patent_tiered_ready,
         "recommended_next": iids_geo.get("recommended_next"),
-        "patent_layer_ready_without_geography": bool(
+        "patent_layer_ready_without_geography": patent_tiered_ready
+        if real_iids_evidence and bool(iids_geo.get("tiered_robustness_ready"))
+        else bool(
             _layer_ready(PATENTS, patent_err) and not evidence.get("fixture_patents_detected", True)
         ),
         "artifact_paths": {

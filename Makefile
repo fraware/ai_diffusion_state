@@ -268,7 +268,92 @@ atlas-iids-top-applicant-map-seed:
 atlas-iids-tiered-geography-merge:
 	$(PYTHON) scripts/86_merge_tiered_patent_geography.py
 
-atlas-iids-tiered-geography: atlas-iids-applicant-concentration atlas-iids-name-geography atlas-iids-top-applicant-map-seed atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate
+# DEPRECATED (frozen): manual top-applicant mapping — see docs/ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md
+atlas-iids-manual-mapping-incremental:
+	@echo "SKIP: manual mapping frozen at 65.4%% tiered fill. Use make atlas-iids-tiered-extension or external geo."
+	@exit 1
+
+atlas-iids-manual-mapping-priority:
+	@echo "SKIP: manual mapping frozen. Run make atlas-iids-unresolved-patterns only if procurement-driven."
+	@exit 1
+
+atlas-iids-apply-curated-map:
+	$(PYTHON) scripts/93_apply_curated_top_applicant_mappings.py --min-priority high
+
+atlas-iids-apply-curated-map-medium:
+	$(PYTHON) scripts/93_apply_curated_top_applicant_mappings.py --min-priority medium
+
+atlas-iids-extend-top-applicant-map:
+	$(PYTHON) scripts/94_extend_top_applicant_city_map.py --top-n 2000
+
+atlas-iids-apply-curated-map-all:
+	$(PYTHON) scripts/93_apply_curated_top_applicant_mappings.py --scope map
+
+atlas-iids-extend-top-applicant-map-5k:
+	$(PYTHON) scripts/94_extend_top_applicant_city_map.py --top-n 5000
+
+atlas-iids-tiered-geography-phase-d: atlas-iids-extend-top-applicant-map atlas-iids-apply-curated-map-all atlas-iids-tiered-geography-phase-c
+
+atlas-iids-seed-map-region-anchors:
+	$(PYTHON) scripts/96_seed_map_from_region_anchors.py
+
+atlas-iids-build-p12-alias-registry:
+	$(PYTHON) scripts/97_build_p12_region_anchor_alias_registry.py --top-n 25000
+
+atlas-iids-build-p12-alias-registry-all:
+	$(PYTHON) scripts/97_build_p12_region_anchor_alias_registry.py --top-n 0
+
+atlas-iids-unresolved-patterns:
+	$(PYTHON) scripts/98_report_unresolved_applicant_patterns.py
+
+atlas-iids-tiered-geography-phase-f: atlas-iids-extend-top-applicant-map-5k atlas-iids-apply-curated-map-all atlas-iids-seed-map-region-anchors atlas-iids-build-p12-alias-registry atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental atlas-iids-tiered-coverage-by-confidence atlas-iids-geography-preflight
+
+atlas-iids-tiered-geography-phase-g: atlas-iids-build-p12-alias-registry-all atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental atlas-iids-tiered-coverage-by-confidence atlas-iids-geography-preflight atlas-iids-unresolved-patterns
+
+atlas-iids-require-tiered-robustness:
+	$(PYTHON) scripts/78_require_tiered_robustness_ready.py
+
+atlas-iids-geo-tiered-robustness:
+	$(PYTHON) scripts/62_join_iids_patent_geography.py --tiered-robustness
+
+atlas-iids-reconstruct-export:
+	$(PYTHON) scripts/99_reconstruct_iids_export_from_p9.py
+
+atlas-iids-streaming-patent-panel:
+	$(PYTHON) scripts/100_build_iids_streaming_patent_panel.py
+
+atlas-iids-validate-tiered-panel:
+	$(PYTHON) scripts/44_validate_industrial_ai_patents.py --tiered-robustness
+
+atlas-iids-tiered-coverage-tables:
+	$(PYTHON) scripts/101_write_tiered_robustness_audit.py
+
+atlas-iids-tiered-robustness-audit: atlas-iids-tiered-coverage-tables
+
+atlas-iids-rebuild-atlas-panel:
+	$(PYTHON) scripts/47_build_atlas_v02.py
+
+atlas-iids-tiered-extension: atlas-iids-geography-preflight atlas-iids-require-tiered-robustness atlas-iids-streaming-patent-panel atlas-iids-validate-tiered-panel atlas-iids-tiered-coverage-tables atlas-iids-rebuild-atlas-panel atlas-patent-prep atlas-iids-manifest-merge atlas-paper-claim-guard
+	$(PYTHON) scripts/50_atlas_status.py --json --tiered-extension
+
+atlas-paper-claim-guard:
+	$(PYTHON) scripts/103_validate_atlas_paper_claims.py
+
+atlas-iids-external-geo-prepare:
+	$(PYTHON) scripts/102_prepare_external_geo_import.py
+
+atlas-iids-external-geo-pipeline: atlas-iids-external-geo-prepare atlas-iids-geo-validate-batches atlas-iids-geo-concat atlas-iids-geo-normalize atlas-iids-geo-coverage-validate
+
+atlas-iids-recover-and-robustness: atlas-iids-reconstruct-export atlas-iids-tiered-extension
+
+atlas-iids-tiered-robustness-patent-layer: atlas-iids-geography-preflight atlas-iids-require-tiered-robustness atlas-iids-geo-tiered-robustness atlas-patent-prep atlas-iids-manifest-merge atlas-status
+
+atlas-iids-tiered-coverage-by-confidence:
+	$(PYTHON) scripts/91_report_tiered_geography_by_confidence.py
+
+atlas-iids-tiered-geography-phase-c: atlas-iids-apply-curated-map atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental atlas-iids-tiered-coverage-by-confidence atlas-iids-geography-preflight
+
+atlas-iids-tiered-geography: atlas-iids-applicant-concentration atlas-iids-name-geography atlas-iids-top-applicant-map-seed atlas-iids-tiered-geography-merge atlas-iids-geo-coverage-validate atlas-iids-manual-mapping-incremental
 
 atlas-iids-geography-preflight:
 	$(PYTHON) scripts/77_atlas_iids_geography_preflight.py

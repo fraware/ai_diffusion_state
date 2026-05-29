@@ -4,6 +4,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+from diffusion_state.applicant_name_parsing import first_applicant_name, iter_applicant_names
+
 
 @dataclass(frozen=True)
 class CityEntry:
@@ -55,6 +57,10 @@ CITY_GAZETTEER: tuple[CityEntry, ...] = (
     _entry("Nantong", "Jiangsu", ("南通市", "南通"), ("NANTONG",)),
     _entry("Xuzhou", "Jiangsu", ("徐州市", "徐州"), ("XUZHOU",)),
     _entry("Yangzhou", "Jiangsu", ("扬州市", "扬州"), ("YANGZHOU",)),
+    _entry("Huai'an", "Jiangsu", ("淮安市", "淮安"), ("HUAIAN", "HUAIAN")),
+    _entry("Yancheng", "Jiangsu", ("盐城市", "盐城"), ("YANCHENG",)),
+    _entry("Kunshan", "Jiangsu", ("昆山市", "昆山"), ("KUNSHAN",)),
+    _entry("Jingzhou", "Hubei", ("荆州市", "荆州"), ("JINGZHOU",)),
     _entry("Zhenjiang", "Jiangsu", ("镇江市", "镇江"), ("ZHENJIANG",)),
     _entry("Taizhou", "Jiangsu", ("泰州市", "泰州")),
     _entry("Wuhan", "Hubei", ("武汉市", "武汉"), ("WUHAN",)),
@@ -120,13 +126,6 @@ _EN_MATCHES: list[tuple[str, CityEntry]] = sorted(
 
 # Ambiguous short tokens — require word boundary / not used alone.
 _AMBIGUOUS_ZH = frozenset({"朝阳", "通州", "和平", "长安", "城中", "城东"})
-
-
-def first_applicant_name(raw: str) -> str:
-    text = str(raw or "").strip()
-    if not text:
-        return ""
-    return text.split(";")[0].split("|")[0].split(",")[0].strip()
 
 
 def match_city_from_applicant_name(applicant_name: str) -> CityEntry | None:

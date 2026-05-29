@@ -59,7 +59,11 @@ make atlas-iids-geography-preflight
 python scripts/50_atlas_status.py --json
 ```
 
-Sequence: Engineer A places 17 batch exports → Engineer B pilot (batch 001) → full concat/normalize/coverage → Engineer C `make atlas-iids-control-evidence-chain` → Engineer D regenerates paper from new tables only.
+Sequence: Engineer A places 17 batch exports → Engineer B pilot (batch 001) → full concat/normalize/coverage → Engineer C `make atlas-iids-control-evidence-chain` (requires **80%** geography) → Engineer D regenerates paper from new tables only.
+
+**Frozen tiered robustness (65.4% fill):** `make atlas-iids-tiered-extension` — reproducible P14/P17, streaming panel, claim guard. **Stop** manual top-applicant mapping sprints. See [ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md](ATLAS_IIDS_TIERED_ROBUSTNESS_FROZEN.md).
+
+**External geo (80% gate):** `make atlas-iids-external-geo-prepare` → place batches → `make atlas-iids-external-geo-pipeline` → `make atlas-iids-control-evidence-chain` → `python scripts/50_atlas_status.py --json --require-evidence`.
 
 Do not weaken `atlas_evidence_ready` or claim publication-ready patent/F1 results until `ready_for_evidence_chain` is true.
 

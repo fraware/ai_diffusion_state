@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 
 import pandas as pd
 
@@ -10,6 +11,7 @@ CROSSWALK_PATH = PROJECT_ROOT / "data" / "seed" / "industry_crosswalk_atlas.csv"
 INDUSTRY_MAPPING_PATH = PROJECT_ROOT / "configs" / "industry_mapping.yml"
 
 
+@lru_cache(maxsize=1)
 def load_industry_crosswalk() -> pd.DataFrame:
     if not CROSSWALK_PATH.exists():
         raise FileNotFoundError(f"Atlas industry crosswalk missing: {CROSSWALK_PATH}")

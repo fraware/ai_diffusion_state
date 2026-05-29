@@ -25,6 +25,11 @@ def main() -> int:
         action="store_true",
         help="Exit 1 unless atlas_evidence_ready is true",
     )
+    parser.add_argument(
+        "--tiered-extension",
+        action="store_true",
+        help="Exit 0 when atlas_tiered_extension_ready (60%% tiered path, not publication F1)",
+    )
     args = parser.parse_args()
 
     if args.json:
@@ -46,7 +51,9 @@ def main() -> int:
         "ready_for_geography_procurement",
         "ready_for_evidence_chain",
         "patent_layer_ready",
+        "patent_layer_tiered_ready",
         "patent_layer_ready_without_geography",
+        "atlas_tiered_extension_ready",
         "atlas_models_ready",
         "recommended_next",
     ):
@@ -80,6 +87,8 @@ def main() -> int:
                     file=sys.stderr,
                 )
         return 0 if report["atlas_evidence_ready"] else 1
+    if args.tiered_extension:
+        return 0 if report.get("atlas_tiered_extension_ready") else 1
     return 0 if report["atlas_software_ready"] else 1
 
 

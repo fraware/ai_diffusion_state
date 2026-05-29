@@ -7,6 +7,7 @@ from pathlib import Path
 from diffusion_state.iids_geo_join import (
     MIN_CITY_FILL,
     MIN_PROVINCE_FILL,
+    TIERED_ROBUSTNESS_MIN_FILL,
     KEY_COVERAGE_MIN_RATE,
     is_geography_template_path,
     load_geography_lookup,
@@ -209,6 +210,16 @@ def collect_iids_geography_gate(
     ready_for_tiered_evidence_chain = bool(
         iids_patent_export_ready and keys_present and tiered_geography_ready
     )
+    tiered_robustness_ready = bool(
+        iids_patent_export_ready
+        and keys_present
+        and city_fill >= TIERED_ROBUSTNESS_MIN_FILL
+        and province_fill >= TIERED_ROBUSTNESS_MIN_FILL
+        and key_match_rate >= min_key_match_rate
+    )
+    ready_for_tiered_robustness_patent_layer = bool(
+        iids_patent_export_ready and keys_present and tiered_robustness_ready
+    )
 
     if not iids_patent_export_ready:
         recommended_next = "Import opendatalab_iids_industrial_ai_patents_2015_2024_part1.csv"
@@ -218,6 +229,13 @@ def collect_iids_geography_gate(
         recommended_next = (
             "Export geography per docs/ATLAS_IIDS_GEOGRAPHY_PROCUREMENT_BRIEF.md; "
             "make atlas-iids-geo-key-batches; build cnipa_patent_geography_2015_2024.csv"
+        )
+    elif tiered_robustness_ready and not tiered_geography_ready:
+        recommended_next = (
+            f"Tiered robustness at {city_fill:.1%} ({TIERED_ROBUSTNESS_MIN_FILL:.0%}+ met). "
+            "Diagnostics: make atlas-iids-tiered-extension (P17 audit, streaming panel). "
+            f"80% gate: import CNIPA/Incopat batches to data/interim/iids_geo_exports/ "
+            "or SQL re-convert with abstract/IPC; then make atlas-iids-control-evidence-chain."
         )
     elif tiered_geography_ready and not iids_geography_ready:
         recommended_next = (
@@ -241,6 +259,9 @@ def collect_iids_geography_gate(
         "exact_geography_ready": exact_geography_ready,
         "tiered_geography_ready": tiered_geography_ready,
         "ready_for_tiered_evidence_chain": ready_for_tiered_evidence_chain,
+        "tiered_robustness_ready": tiered_robustness_ready,
+        "ready_for_tiered_robustness_patent_layer": ready_for_tiered_robustness_patent_layer,
+        "tiered_robustness_fill_threshold": TIERED_ROBUSTNESS_MIN_FILL,
         "geography_tier_stats": tier_stats,
         "geography_present": geo_present,
         "geography_is_template": geo_is_template,

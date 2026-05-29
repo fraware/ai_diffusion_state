@@ -22,6 +22,9 @@
 | `iids_geography_keys_ready` | true (4,014,104 keys; 17 batches) |
 | `iids_geography_ready` | false |
 | `ready_for_evidence_chain` | false |
+| `tiered_robustness_ready` | true (65.4% city fill) |
+| `ready_for_tiered_robustness_patent_layer` | true |
+| `tiered_geography_ready` (80%) | false |
 | `atlas_evidence_ready` | false |
 | `patent_layer_ready` | false |
 

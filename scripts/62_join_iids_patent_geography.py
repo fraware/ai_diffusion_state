@@ -12,6 +12,7 @@ from diffusion_state.iids_geo_join import (  # noqa: E402
     KEY_COVERAGE_MIN_RATE,
     MIN_CITY_FILL,
     MIN_PROVINCE_FILL,
+    TIERED_ROBUSTNESS_MIN_FILL,
     STRONG_ACCEPTANCE,
     discover_geography_supplement,
     evaluate_geography_acceptance,
@@ -35,6 +36,11 @@ def main() -> int:
         action="store_true",
         help="CI only: run join; do not fail on minimum acceptance thresholds.",
     )
+    p.add_argument(
+        "--tiered-robustness",
+        action="store_true",
+        help="Use 60%% tiered robustness thresholds (not 80%% publication gate).",
+    )
     args = p.parse_args()
 
     geo = args.geo_csv or discover_geography_supplement(RAW_PATENTS_DIR)
@@ -54,11 +60,30 @@ def main() -> int:
         return 1
 
     output = args.output or args.iids_csv
+    input_rows = sum(1 for _ in open(args.iids_csv, encoding="utf-8-sig", errors="replace")) - 1
     _, stats = join_patent_geography(args.iids_csv, geo, output)
+    out_rows = int(stats.get("rows", 0))
+    if out_rows < max(500, int(input_rows * 0.95)):
+        print(
+            f"ERROR: join output rows {out_rows} << input {input_rows} — aborting.",
+            file=sys.stderr,
+        )
+        return 1
     if FILTERED_PATENT_IDS_FOR_GEO_OUTPUT.exists():
-        stats = measure_geography_key_coverage(output, FILTERED_PATENT_IDS_FOR_GEO_OUTPUT)
-        thresholds = production_key_coverage_thresholds(int(stats.get("n_keys", 0)))
-        label = "iids_keys_post_join"
+        stats = measure_geography_key_coverage(geo, FILTERED_PATENT_IDS_FOR_GEO_OUTPUT)
+        if args.tiered_robustness:
+            from diffusion_state.iids_geo_join import GeographyThresholds
+
+            thresholds = GeographyThresholds(
+                city_fill=TIERED_ROBUSTNESS_MIN_FILL,
+                rows=max(500, int(stats.get("n_keys", 0) * KEY_COVERAGE_MIN_RATE)),
+                cities=50,
+                industries=None,
+            )
+            label = "iids_keys_tiered_robustness"
+        else:
+            thresholds = production_key_coverage_thresholds(int(stats.get("n_keys", 0)))
+            label = "iids_keys_post_join"
     else:
         from diffusion_state.iids_geo_join import MINIMUM_ACCEPTANCE
 

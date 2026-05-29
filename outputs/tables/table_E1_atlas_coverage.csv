@@ -1,8 +1,8 @@
 ﻿metric,value
-n_rows,762
-n_cities,162
-n_industries,21
+n_rows,8861
+n_cities,170
+n_industries,34
 year_min,2015
 year_max,2025
 total_smart_factories,509
-total_industrial_ai_patents,381
+total_industrial_ai_patents,2606525

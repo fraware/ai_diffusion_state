@@ -34,6 +34,9 @@ src/diffusion_state.egg-info/
 # Regenerate with make submission-zip (included in make pcs)
 paper/submission_bundle.zip
 
+# Generated P12 region-anchor alias registry (~15MB; rebuild via make atlas-iids-build-p12-alias-registry)
+data/seed/p12_region_anchor_aliases.json
+
 # IIDS copy-back archives and large proprietary patent artifacts (transfer outside git)
 atlas_iids_filtered_outputs.tar.gz
 atlas_iids_filtered_outputs.tar.gz.sha256

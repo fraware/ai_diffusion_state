@@ -31,6 +31,8 @@ GEO_PROVINCE_COLUMNS = ("applicant_province", "province", "申请人省份")
 GEO_ADDRESS_COLUMNS = ("applicant_address", "address", "申请人地址")
 
 MIN_CITY_FILL = 0.80
+# Tiered robustness extension (paper appendix / diagnostics only — not exact geography).
+TIERED_ROBUSTNESS_MIN_FILL = 0.60
 STRONG_CITY_FILL = 0.90
 MIN_PROVINCE_FILL = 0.80
 MIN_ROWS = 500
