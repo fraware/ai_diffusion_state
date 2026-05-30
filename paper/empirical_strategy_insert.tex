@@ -1,0 +1,38 @@
+% Empirical strategy insert for paper/draft_v1.tex.
+% Recommended placement: immediately after Section \ref{sec:data} and before Section \ref{sec:overlap}.
+
+\section{Empirical strategy}
+\label{sec:empirical_strategy}
+
+The empirical strategy is designed to characterize an adoption architecture rather than to estimate a causal treatment effect of pilot-zone designation. The main outcome is the number of listed excellence-level smart-factory projects in city $c$ and year $t$, denoted $Y_{ct}$. The main explanatory variable is an indicator $Pilot_c$ equal to one when a city belongs to a National New Generation AI Innovation and Development Pilot Zone. The baseline association is estimated with ordinary least squares in count form,
+\begin{equation}
+Y_{ct} = \alpha + \beta Pilot_c + \lambda_t + \varepsilon_{ct},
+\label{eq:baseline_count}
+\end{equation}
+where $\lambda_t$ denotes year effects for the public smart-factory list years. The coefficient $\beta$ measures the average difference in listed smart-factory counts between pilot-zone and non-pilot cities within the observed administrative recognition window.
+
+The log-count specification examines whether the association is robust to the skewed distribution of recognized projects across cities. The estimating equation is
+\begin{equation}
+\log(1 + Y_{ct}) = \alpha + \beta Pilot_c + \lambda_t + \varepsilon_{ct}.
+\label{eq:baseline_log}
+\end{equation}
+This specification reduces the influence of the largest adoption hubs while preserving zeros. The paper interprets $\beta$ in this specification as an association between pilot-zone status and the transformed intensity of recognized adoption, not as a treatment effect.
+
+The hub-exclusion design tests whether the baseline association is carried by cities with exceptional implementation capacity. Let $S_k$ denote a sample restriction that removes a prespecified set of hubs, such as Beijing, Shanghai, Shenzhen, Hangzhou, direct-admin municipalities, or the top smart-factory cities. For each restriction, the paper estimates
+\begin{equation}
+Y_{ct} = \alpha_k + \beta_k Pilot_c + \lambda_t + \varepsilon_{ct}, \qquad c \notin S_k.
+\label{eq:hub_exclusion}
+\end{equation}
+The sequence of coefficients $\{\beta_k\}$ is the key empirical object. A stable coefficient across restrictions would be more consistent with a broad pilot-zone association across designated cities. An attenuating coefficient indicates that the full-sample association depends on the largest and most capable implementation hubs.
+
+The hub-exclusion coefficients are interpreted as architecture diagnostics. They do not identify mediation effects in a formal causal sense, because hub status, administrative rank, industrial structure, and pilot-zone designation are jointly determined by prior economic capacity. Their value is descriptive and diagnostic. They show whether the observed policy-adoption alignment is distributed broadly across designated cities or concentrated in places with unusually dense complements for AI-enabled industrial upgrading.
+
+The city-typology analysis provides a second diagnostic for spatial concentration. Cities are classified ex ante by pilot-zone status, administrative status, and major-hub indicators before using listed smart-factory outcomes. The paper then compares recognized adoption across these categories. This design reduces the risk of defining hubs solely from the outcome and allows the analysis to distinguish pilot-zone hubs, non-pilot industrial hubs, direct-admin municipalities, and lower-intensity adoption cities.
+
+The sectoral analysis links the city-level architecture to the production economics of AI adoption. Let $Exposure_i$ denote an ex ante industry-level measure of AI-production compatibility for industry $i$. The paper aggregates smart-factory projects by city, year, and industry exposure category, then examines whether recognized adoption is more common in sectors where AI-enabled systems have plausible production complementarities. The sectoral analysis is mechanism evidence. It shows whether adoption appears in industries where machine vision, predictive maintenance, robotics, logistics, digital twins, process control, and automated inspection are technologically meaningful.
+
+The export-relevance analysis adds strategic context without changing the empirical claim tier. Smart-factory sectors are matched to export-relevant manufacturing categories using public trade data and industry mappings. The resulting tables ask whether recognized adoption appears in sectors connected to China’s manufacturing position in global markets. The analysis is descriptive because export performance is affected by demand, prices, exchange rates, firm capabilities, supply-chain organization, and preexisting industrial specialization.
+
+The appendix reports two robustness extensions that remain outside the main identification layer. The public-control exercise uses a restricted 2024 cross-section with available city covariates from the ChinaUTC public pathway. This design includes GDP, population, secondary-industry structure, and limited proxies for foreign trade, telecom, and industrial output, while leaving the strict EPS/NBS specification blocked because FDI and fixed-asset investment are unavailable in the public bundle. The tiered patent Atlas uses IIDS industrial-AI patent records with a coverage-qualified applicant-geography layer. It is reported by geography-confidence tier and is not used for publication-ready patent F1 estimates.
+
+The identifying assumption required for the paper’s main claim is deliberately weak. The paper does not require pilot-zone designation to be as-if random. It requires only that listed smart-factory recognition, when resolved to cities and reported with evidence tiers, provides an informative administrative trace of recognized industrial AI adoption. The results are therefore interpreted as evidence about the geography and institutional architecture of diffusion, with causal evaluation of pilot-zone designation left to future work with stronger counterfactual designs and richer controls.
